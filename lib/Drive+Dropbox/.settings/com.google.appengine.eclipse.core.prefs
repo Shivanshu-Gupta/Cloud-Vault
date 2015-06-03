@@ -1,0 +1,4 @@
+eclipse.preferences.version=1
+googleCloudSqlEnabled=false
+localDevMySqlEnabled=true
+validationExclusions=src/main/java/com/google/api/services/samples/drive/cmdline/Main.java|src/main/java/com/google/api/services/samples/drive/cmdline/Table.java|src/main/java/com/google/api/services/samples/drive/cmdline/FolderCloud.java|src/main/java/com/google/api/services/samples/drive/cmdline/Dropbox.java|src/main/java/com/google/api/services/samples/drive/cmdline/DriveSample.java|src/main/java/com/google/api/services/samples/drive/cmdline/GoogleDrive.java

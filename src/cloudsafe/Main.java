@@ -455,11 +455,11 @@ public class Main {
 			clouds.add(cloud);
 			cloudMetaData.add(Pair.of("dropbox", cloud.metadata()));
 			break;
-		// case "2":
-		// cloud = new GoogleDrive();
-		// clouds.add(cloud);
-		// cloudMetaData.add(Pair.of("googledrive", cloud.metadata()));
-		// break;
+		case "2":
+			cloud = new GoogleDrive();
+			clouds.add(cloud);
+			cloudMetaData.add(Pair.of("googledrive", cloud.metadata()));
+			break;
 		case "3":
 			cloud = new FolderCloud();
 			clouds.add(cloud);
@@ -536,9 +536,9 @@ public class Main {
 				case "dropbox":
 					clouds.add(new Dropbox(metadata.second));
 					break;
-				// case "google drive":
-				// clouds.add(new GoogleDrive());
-				// break;
+				case "googledrive":
+					clouds.add(new GoogleDrive());
+					break;
 				// case "onedrive" : clouds.add(new Dropbox());
 				// break;
 				// case "box" : clouds.add(new Dropbox());

@@ -34,7 +34,7 @@ public class Dropbox implements Cloud {
 	private static HttpRequestor getProxy() {
 
 		// if ("true".equals(System.getProperty("proxy", "false"))) {
-		String ip = "proxy61.iitd.ernet.in";
+		String ip = "proxy62.iitd.ernet.in";
 		int port = 3128;
 
 		final String authUser = "bb5130008";

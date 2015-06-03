@@ -7,13 +7,5 @@
 	<classpathentry kind="lib" path="lib/dropbox-core-sdk-1.7.7.jar"/>
 	<classpathentry kind="lib" path="lib/httpcore-4.3-beta1.jar"/>
 	<classpathentry kind="lib" path="lib/commons-io-2.4.jar"/>
-	<classpathentry kind="lib" path="lib/google/google-api-client-1.19.0.jar"/>
-	<classpathentry kind="lib" path="lib/google/google-api-services-drive-v2-rev135-1.19.0.jar"/>
-	<classpathentry kind="lib" path="lib/google/google-http-client-1.19.0.jar"/>
-	<classpathentry kind="lib" path="lib/google/google-http-client-jackson2-1.19.0.jar"/>
-	<classpathentry kind="lib" path="lib/google/google-oauth-client-1.19.0.jar"/>
-	<classpathentry kind="lib" path="lib/google/google-oauth-client-java6-1.19.0.jar"/>
-	<classpathentry kind="lib" path="lib/google/google-oauth-client-jetty-1.19.0.jar"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/Drive+Dropbox"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

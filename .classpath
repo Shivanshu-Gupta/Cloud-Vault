@@ -1,77 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
 	<classpathentry kind="src" path="src"/>
-	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.7"/>
 	<classpathentry kind="lib" path="lib/openrq-3.3.2.jar"/>
 	<classpathentry kind="lib" path="lib/jackson-core-2.2.4.jar"/>
 	<classpathentry kind="lib" path="lib/dropbox-core-sdk-1.7.7.jar"/>
 	<classpathentry kind="lib" path="lib/httpcore-4.3-beta1.jar"/>
 	<classpathentry kind="lib" path="lib/commons-io-2.4.jar"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/Drive+Dropbox"/>
-	<classpathentry kind="lib" path="/home/noman-ubuntu/.m2/repository/com/google/oauth-client/google-oauth-client/1.19.0/google-oauth-client-1.19.0.jar" sourcepath="/home/noman-ubuntu/.m2/repository/com/google/oauth-client/google-oauth-client/1.19.0/google-oauth-client-1.19.0-sources.jar">
-		<attributes>
-			<attribute name="maven.pomderived" value="true"/>
-			<attribute name="javadoc_location" value="jar:file:/home/noman-ubuntu/.m2/repository/com/google/oauth-client/google-oauth-client/1.19.0/google-oauth-client-1.19.0-javadoc.jar!/"/>
-			<attribute name="maven.groupId" value="com.google.oauth-client"/>
-			<attribute name="maven.artifactId" value="google-oauth-client"/>
-			<attribute name="maven.version" value="1.19.0"/>
-			<attribute name="maven.scope" value="compile"/>
-		</attributes>
-	</classpathentry>
-	<classpathentry kind="lib" path="/home/noman-ubuntu/.m2/repository/com/google/oauth-client/google-oauth-client-java6/1.19.0/google-oauth-client-java6-1.19.0.jar">
-		<attributes>
-			<attribute name="maven.pomderived" value="true"/>
-			<attribute name="maven.groupId" value="com.google.oauth-client"/>
-			<attribute name="maven.artifactId" value="google-oauth-client-java6"/>
-			<attribute name="maven.version" value="1.19.0"/>
-			<attribute name="maven.scope" value="compile"/>
-		</attributes>
-	</classpathentry>
-	<classpathentry kind="lib" path="/home/noman-ubuntu/.m2/repository/com/google/api-client/google-api-client/1.19.0/google-api-client-1.19.0.jar" sourcepath="/home/noman-ubuntu/.m2/repository/com/google/api-client/google-api-client/1.19.0/google-api-client-1.19.0-sources.jar">
-		<attributes>
-			<attribute name="maven.pomderived" value="true"/>
-			<attribute name="javadoc_location" value="jar:file:/home/noman-ubuntu/.m2/repository/com/google/api-client/google-api-client/1.19.0/google-api-client-1.19.0-javadoc.jar!/"/>
-			<attribute name="maven.groupId" value="com.google.api-client"/>
-			<attribute name="maven.artifactId" value="google-api-client"/>
-			<attribute name="maven.version" value="1.19.0"/>
-			<attribute name="maven.scope" value="compile"/>
-		</attributes>
-	</classpathentry>
-	<classpathentry kind="lib" path="/home/noman-ubuntu/.m2/repository/com/google/oauth-client/google-oauth-client-jetty/1.19.0/google-oauth-client-jetty-1.19.0.jar">
-		<attributes>
-			<attribute name="maven.pomderived" value="true"/>
-			<attribute name="maven.groupId" value="com.google.oauth-client"/>
-			<attribute name="maven.artifactId" value="google-oauth-client-jetty"/>
-			<attribute name="maven.version" value="1.19.0"/>
-			<attribute name="maven.scope" value="compile"/>
-		</attributes>
-	</classpathentry>
-	<classpathentry kind="lib" path="/home/noman-ubuntu/.m2/repository/com/google/http-client/google-http-client/1.19.0/google-http-client-1.19.0.jar">
-		<attributes>
-			<attribute name="maven.pomderived" value="true"/>
-			<attribute name="maven.groupId" value="com.google.http-client"/>
-			<attribute name="maven.artifactId" value="google-http-client"/>
-			<attribute name="maven.version" value="1.19.0"/>
-			<attribute name="maven.scope" value="compile"/>
-		</attributes>
-	</classpathentry>
-	<classpathentry kind="lib" path="/home/noman-ubuntu/.m2/repository/com/google/http-client/google-http-client-jackson2/1.19.0/google-http-client-jackson2-1.19.0.jar">
-		<attributes>
-			<attribute name="maven.pomderived" value="true"/>
-			<attribute name="maven.groupId" value="com.google.http-client"/>
-			<attribute name="maven.artifactId" value="google-http-client-jackson2"/>
-			<attribute name="maven.version" value="1.19.0"/>
-			<attribute name="maven.scope" value="compile"/>
-		</attributes>
-	</classpathentry>
-	<classpathentry kind="lib" path="/home/noman-ubuntu/.m2/repository/com/google/apis/google-api-services-drive/v2-rev135-1.19.0/google-api-services-drive-v2-rev135-1.19.0.jar">
-		<attributes>
-			<attribute name="maven.pomderived" value="true"/>
-			<attribute name="maven.groupId" value="com.google.apis"/>
-			<attribute name="maven.artifactId" value="google-api-services-drive"/>
-			<attribute name="maven.version" value="v2-rev135-1.19.0"/>
-			<attribute name="maven.scope" value="compile"/>
-		</attributes>
-	</classpathentry>
+	<classpathentry kind="lib" path="lib/commons-codec-1.3.jar" sourcepath="lib/commons-codec-1.3-sources.jar"/>
+	<classpathentry kind="lib" path="lib/commons-logging-1.1.1.jar" sourcepath="lib/commons-logging-1.1.1-sources.jar"/>
+	<classpathentry kind="lib" path="lib/google-oauth-client-java6-1.19.0.jar"/>
+	<classpathentry kind="lib" path="lib/google-oauth-client-jetty-1.19.0.jar"/>
+	<classpathentry kind="lib" path="lib/guava-jdk5-13.0.jar" sourcepath="lib/guava-jdk5-13.0-sources.jar"/>
+	<classpathentry kind="lib" path="lib/httpclient-4.0.1.jar" sourcepath="lib/httpclient-4.0.1-sources.jar"/>
+	<classpathentry kind="lib" path="lib/httpcore-4.0.1.jar" sourcepath="lib/httpcore-4.0.1-sources.jar"/>
+	<classpathentry kind="lib" path="lib/jetty-util-6.1.26.jar"/>
+	<classpathentry kind="lib" path="lib/jetty-6.1.26.jar"/>
+	<classpathentry kind="lib" path="lib/servlet-api-2.5-20081211.jar"/>
+	<classpathentry kind="con" path="com.google.gdt.eclipse.managedapis.MANAGED_API_CONTAINER/drive-v2r171lv1.18.0-rc"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.8"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

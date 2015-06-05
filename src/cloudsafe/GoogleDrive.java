@@ -60,8 +60,6 @@ import java.util.Collections;
  * <li>Does a direct media upload</li>
  * <li>Does a direct media download</li>
  * </ul>
- *
- * @author rmistry@google.com (Ravi Mistry)
  */
 public class GoogleDrive implements Cloud {
 
@@ -132,7 +130,7 @@ public class GoogleDrive implements Cloud {
 
   static HttpTransport newProxyTransport() throws GeneralSecurityException, IOException {
     NetHttpTransport.Builder builder = new NetHttpTransport.Builder();
-    builder.setProxy(new Proxy(Proxy.Type.HTTP, new InetSocketAddress("10.10.78.61", 3128)));
+    builder.setProxy(new Proxy(Proxy.Type.HTTP, new InetSocketAddress("10.10.78.62", 3128)));
     return builder.build();
   }
 
@@ -162,7 +160,8 @@ public class GoogleDrive implements Cloud {
 
   public boolean isAvailable() {
     // TODO Auto-generated method stub
-    return mainOld();
+//    return mainOld();
+	  return true;
   }
 
   public void uploadFile(byte[] data, String fileID, WriteMode mode) throws IOException {

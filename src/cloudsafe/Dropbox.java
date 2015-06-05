@@ -34,19 +34,19 @@ public class Dropbox implements Cloud {
 	private static HttpRequestor getProxy() {
 
 		// if ("true".equals(System.getProperty("proxy", "false"))) {
-		String ip = "proxy61.iitd.ernet.in";
+		String ip = "proxy62.iitd.ernet.in";
 		int port = 3128;
 
-		final String authUser = "bb5130008";
-		final String authPassword = "navij_tnayaj";
+//		final String authUser = "bb5130008";
+//		final String authPassword = "navij_tnayaj";
 
-		Authenticator.setDefault(new Authenticator() {
-			@Override
-			protected PasswordAuthentication getPasswordAuthentication() {
-				return new PasswordAuthentication(authUser, authPassword
-						.toCharArray());
-			}
-		});
+//		Authenticator.setDefault(new Authenticator() {
+//			@Override
+//			protected PasswordAuthentication getPasswordAuthentication() {
+//				return new PasswordAuthentication(authUser, authPassword
+//						.toCharArray());
+//			}
+//		});
 
 		Proxy proxy = new Proxy(Proxy.Type.HTTP,
 				new InetSocketAddress(ip, port));
@@ -58,8 +58,8 @@ public class Dropbox implements Cloud {
 	}
 
 	private void setupNewAccess() {
-		final String APP_KEY = "lxu7s0kd7tse3ee";
-		final String APP_SECRET = "8e2yj26uvjor3w0";
+		final String APP_KEY = "jahcg9ypjnokceh";
+		final String APP_SECRET = "7tgx90ejlj65v12";
 
 		DbxAppInfo appInfo = new DbxAppInfo(APP_KEY, APP_SECRET);
 

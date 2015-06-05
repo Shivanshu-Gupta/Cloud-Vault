@@ -9,13 +9,6 @@ import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-//import static java.nio.file.StandardOpenOption.*; //for READ, WRITE etc
-
-
-
-
-
-
 import org.apache.commons.io.input.CloseShieldInputStream;
 
 import cloudsafe.util.Pair;
@@ -30,9 +23,10 @@ import cloudsafe.database.FileMetadata;;
  */
 public class Main {
 	VaultClient client;
-	static String vaultPath;
-	final static String cloudMetadataPath = "temp/cloudmetadata.ser";
+	static String vaultPath = "trials/Cloud Vault";
+	static String dataFilesPath = "trials/temp";
 
+	String cloudMetadataPath = dataFilesPath + "/cloudmetadata.ser";
 	static ArrayList<Cloud> clouds = new ArrayList<Cloud>();
 	static ArrayList<Pair<String, String>> cloudMetaData = new ArrayList<Pair<String, String>>();
 
@@ -54,21 +48,27 @@ public class Main {
 					.println("Invalid choice! Enter drive number as choice: ");
 			choice = in.nextInt();
 		}
+		String meta;
 		switch (choice) {
 		case 1:
-			client.addCloud(CloudType.DROPBOX);
+			meta = client.addCloud(CloudType.DROPBOX);
+			cloudMetaData.add(Pair.of("dropbox", meta));
 			break;
 		case 2:
-			client.addCloud(CloudType.GOOGLEDRIVE);
+			meta = client.addCloud(CloudType.GOOGLEDRIVE);
+			cloudMetaData.add(Pair.of("googledrive", meta));
 			break;
 		case 3:
-			client.addCloud(CloudType.ONEDRIVE);
+			meta = client.addCloud(CloudType.ONEDRIVE);
+			cloudMetaData.add(Pair.of("onedrive", meta));
 			break;
 		case 4:
-			client.addCloud(CloudType.BOX);
+			meta = client.addCloud(CloudType.BOX);
+			cloudMetaData.add(Pair.of("box", meta));
 			break;
 		case 5:
-			client.addCloud(CloudType.FOLDER);
+			meta = client.addCloud(CloudType.FOLDER);
+			cloudMetaData.add(Pair.of("folder", meta));
 			break;
 		}
 		in.close();
@@ -95,29 +95,18 @@ public class Main {
 		
 		// save the meta data
 		try {
-			FileOutputStream fileOut = new FileOutputStream(
-					cloudMetadataPath.toString());
+			Files.createDirectories(Paths.get(dataFilesPath));
+			FileOutputStream fileOut = new FileOutputStream(cloudMetadataPath);
 			ObjectOutputStream out = new ObjectOutputStream(fileOut);
 			out.writeObject(cloudMetaData);
 			out.close();
 			fileOut.close();
 			System.out.println("Serialized data is saved in cloudmetadata.ser");
+			Files.createDirectories(Paths.get(vaultPath));
 		} catch (IOException i) {
 			i.printStackTrace();
 		}
-
-		boolean newUser = true;
-		for (int i = 0; i < clouds.size(); i++) {
-			if (clouds.get(i).searchFile("table.ser(table)")) {
-				System.out.println("Found table.ser");
-				newUser = false;
-				break;
-			}
-		}
-		if (newUser)
-			client.createNewTable();
-		else
-			client.downloadTable();
+		client.setupTable();
 	}
 
 	private void handleUpload() {
@@ -129,7 +118,7 @@ public class Main {
 			System.out.println("File not found");
 			return;
 		}
-		client.downloadTable();
+//		client.downloadTable();
 		client.uploadFile(filePath);
 	}
 
@@ -193,14 +182,14 @@ public class Main {
 		Scanner in = new Scanner(System.in);
 		String s;
 		try {
-			if (Files.exists(Paths.get(cloudMetadataPath))) {
-				client = new VaultClient(4, 1, cloudMetadataPath);
+			if (Files.exists(Paths.get(vaultPath))) {
+				client = new VaultClient(vaultPath, false);
 			} else {
 				System.out
 						.println("It seems this is the first time you are using Cloud Vault on this device.");
 				System.out
 						.println("We will now setup access to your Cloud Vault.");
-				client = new VaultClient(4, 1);
+				client = new VaultClient(vaultPath, true);
 				newSetup();
 			}
 

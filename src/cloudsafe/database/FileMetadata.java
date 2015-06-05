@@ -76,7 +76,7 @@ public final class FileMetadata implements Serializable {
 
 	@Override
 	public String toString() {
-		return String.format("%-50s%-10d%-10ld%-40s", fileName, version,
+		return String.format("%-50s%-10d%-10d%-40s", fileName, version,
 				fileSize, timestamp.toString());
 	}
 }

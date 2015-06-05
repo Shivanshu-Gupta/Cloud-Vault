@@ -15,13 +15,8 @@ import java.util.List;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-//import static java.nio.file.StandardOpenOption.*; //for READ, WRITE etc
-
-
-
-
-
 import org.apache.http.util.*;
+
 import net.fec.openrq.OpenRQ;
 import net.fec.openrq.ArrayDataDecoder;
 import net.fec.openrq.ArrayDataEncoder;
@@ -42,65 +37,61 @@ import cloudsafe.database.*;
  */
 public class VaultClient {
 
-	static String vaultPath;
-	
-	static long databaseSize;
-	static String databasePath = "temp/table.ser";
-	final static String databaseSizePath = "temp/tablesize.txt";
-	
-	String cloudMetadataPath = "temp/cloudmetadata.ser";
-	int cloudNum; // Co
-	int cloudDanger; // Cd
+	String vaultPath;
+	static String dataFilesPath = "trials/temp";
+	String cloudMetadataPath = dataFilesPath + "/cloudmetadata.ser";
+	int cloudNum = 4; // Co
+	int cloudDanger = 1; // Cd
 	final static int overHead = 4; // epsilon
-
+	
 	static ArrayList<Cloud> clouds = new ArrayList<Cloud>();
 	static ArrayList<Pair<String, String>> cloudMetaData = new ArrayList<Pair<String, String>>();
 	static Table table;
-
-	public VaultClient(int cloudNum, int cloudDanger){
-		this.cloudNum = cloudNum;
-		this.cloudDanger = cloudDanger;
-	}
 	
-	@SuppressWarnings("unchecked")
-	public VaultClient(int cloudNum, int cloudDanger, String cloudMetadataPath){
-		this.cloudNum = cloudNum;
-		this.cloudDanger = cloudDanger;
-		this.cloudMetadataPath = cloudMetadataPath;
-		try {
-			FileInputStream fileIn = new FileInputStream(
-					cloudMetadataPath.toString());
-			ObjectInputStream in = new ObjectInputStream(fileIn);
-			cloudMetaData = (ArrayList<Pair<String, String>>) in.readObject();
+	static long databaseSize;
+	static String databasePath = dataFilesPath + "/table.ser";
+	final static String databaseSizePath = dataFilesPath + "/tablesize.txt";
 
-			for (Pair<String, String> metadata : cloudMetaData) {
-				switch (metadata.first) {
-				case "dropbox":
-					clouds.add(new Dropbox(metadata.second));
-					break;
-				case "googledrive":
-					clouds.add(new GoogleDrive());
-					break;
-				// case "onedrive" : clouds.add(new Dropbox());
-				// break;
-				// case "box" : clouds.add(new Dropbox());
-				// break;
-				case "folder":
-					clouds.add(new FolderCloud(metadata.second));
-					break;
+	@SuppressWarnings("unchecked")
+	public VaultClient(String vaultPath, boolean newDevice){
+		this.vaultPath = vaultPath;
+		if(!newDevice)
+		{
+			try {
+				FileInputStream fileIn = new FileInputStream(cloudMetadataPath);
+				ObjectInputStream in = new ObjectInputStream(fileIn);
+				cloudMetaData = (ArrayList<Pair<String, String>>) in.readObject();
+	
+				for (Pair<String, String> metadata : cloudMetaData) {
+					System.out.println("adding cloud: " + metadata.first);
+					switch (metadata.first) {
+					case "dropbox":
+						clouds.add(new Dropbox(metadata.second));
+						break;
+					case "googledrive":
+						clouds.add(new GoogleDrive());
+						break;
+					// case "onedrive" : clouds.add(new Dropbox());
+					// break;
+					// case "box" : clouds.add(new Dropbox());
+					// break;
+					case "folder":
+						clouds.add(new FolderCloud(metadata.second));
+						break;
+					}
 				}
+				in.close();
+				fileIn.close();
+			} catch (IOException x) {
+				System.out.println("IOException: " + x);
+				x.printStackTrace();
+			} catch (ClassNotFoundException cfe) {
+				System.out.println("ClassNotFoundException: " + cfe);
+				cfe.printStackTrace();
 			}
-			in.close();
-			fileIn.close();
-		} catch (IOException x) {
-			System.out.println("IOException: " + x);
-			x.printStackTrace();
-		} catch (ClassNotFoundException cfe) {
-			System.out.println("ClassNotFoundException: " + cfe);
-			cfe.printStackTrace();
+			// download and populate the table
+			downloadTable();
 		}
-		// download and populate the table
-		downloadTable();
 	}
 	
 	private Pair<FECParameters, Integer> getParams(long fileSize) {
@@ -235,10 +226,6 @@ public class VaultClient {
 		String cloudFileName = null;
 		String writePath = null;
 		long fileSize = 0;
-		if(!table.hasFileVersion(localFileName, version))
-		{
-			throw new FileNotFoundException();
-		}
 		switch(localFileName)
 		{
 		case "table.ser" : 
@@ -256,7 +243,11 @@ public class VaultClient {
 			break;
 //		case "tablesize.txt" : 
 //			cloudFileName = localFileName; break;
-		default : 
+		default :
+			downloadTable();
+			if(!table.hasFileVersion(localFileName, version)){
+				throw new FileNotFoundException();
+			}
 			cloudFileName = localFileName + " (" + Integer.toString(version) + ")";
 			fileSize = table.fileSize(localFileName, version);
 			writePath = vaultPath + "/" + localFileName;
@@ -265,7 +256,7 @@ public class VaultClient {
 	}
 	
 	public void download(String cloudFileName, String writePath, long fileSize) {
-		System.out.println("Downloading: ");
+		System.out.println("Downloading: " + cloudFileName);
 		Pair<FECParameters, Integer> params = getParams(fileSize);
 		FECParameters fecParams = params.first;
 		int symSize = fecParams.symbolSize();
@@ -281,9 +272,9 @@ public class VaultClient {
 			// reading in all the packets into a byte[][]
 			List<byte[]> packetList = new ArrayList<byte[]>();
 			while (blockID < blockCount) {
+				blockFileName = cloudFileName + "_" + blockID;
 				for (int i = 0; i < clouds.size(); i++) {
 					Cloud cloud = clouds.get(i);
-					blockFileName = cloudFileName + "_" + blockID;
 					if (cloud.isAvailable() && cloud.searchFile(blockFileName)) {
 						blockdata = cloud.downloadFile(blockFileName);
 						packetCount = blockdata.length / packetlength;
@@ -300,7 +291,7 @@ public class VaultClient {
 
 			packetID = 0;
 			packetCount = packetList.size();
-			System.out.println("Packets available after cloud outage : "
+			System.out.println("Packets available: "
 					+ packetCount);
 			while (!dataDecoder.isDataDecoded() && packetID < packetList.size()) {
 				byte[] packet = packetList.get(packetID);
@@ -326,6 +317,14 @@ public class VaultClient {
 		}
 	}
 	
+	public void setupTable()
+	{
+		if (checkIfNewUser())
+			createNewTable();
+		else
+			downloadTable();
+	}
+	
 	public void createNewTable() {
 		try {
 			table = new Table();
@@ -348,8 +347,8 @@ public class VaultClient {
 		table = new Table(databasePath);
 	}
 
-	public void addCloud(CloudType type) {
-		Cloud cloud;
+	public String addCloud(CloudType type) {
+		Cloud cloud = null;
 		switch (type) {
 		case DROPBOX:
 			cloud = new Dropbox();
@@ -377,14 +376,30 @@ public class VaultClient {
 			cloudMetaData.add(Pair.of("folder", cloud.metadata()));
 			break;
 		}
+		return cloud.metadata();
 	}
-
+	
+	public boolean checkIfNewUser()
+	{
+		boolean newUser = true;
+		for (int i = 0; i < clouds.size(); i++) {
+			if (clouds.get(i).searchFile("table.ser")) {
+				System.out.println("Found table.ser");
+				newUser = false;
+				break;
+			}
+		}
+		return newUser;
+	}
+	
 	public Object[] getFileList(){
+		downloadTable();
 		return table.getFileList();
 	}
 	
 	public ArrayList<FileMetadata> getFileHistory(String fileName) throws FileNotFoundException
-	{ 
+	{
+		downloadTable();
 		try {
 			return table.getFileHistory(fileName);
 		} catch (FileNotFoundException e) {

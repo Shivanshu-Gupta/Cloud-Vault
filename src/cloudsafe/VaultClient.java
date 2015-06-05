@@ -31,6 +31,7 @@ import cloudsafe.cloud.Cloud;
 import cloudsafe.cloud.CloudType;
 import cloudsafe.cloud.WriteMode;
 import cloudsafe.database.*;
+import cloudsafe.exceptions.AuthenticationException;
 
 /**
  * The entry point for the CloudSafe Application.
@@ -347,7 +348,7 @@ public class VaultClient {
 		table = new Table(databasePath);
 	}
 
-	public String addCloud(CloudType type) {
+	public String addCloud(CloudType type) throws AuthenticationException {
 		Cloud cloud = null;
 		switch (type) {
 		case DROPBOX:
@@ -376,6 +377,7 @@ public class VaultClient {
 			cloudMetaData.add(Pair.of("folder", cloud.metadata()));
 			break;
 		}
+		cloudNum = clouds.size();
 		return cloud.metadata();
 	}
 	

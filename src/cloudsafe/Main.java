@@ -15,7 +15,8 @@ import cloudsafe.util.Pair;
 import cloudsafe.VaultClient;
 import cloudsafe.cloud.Cloud;
 import cloudsafe.cloud.CloudType;
-import cloudsafe.database.FileMetadata;;
+import cloudsafe.database.FileMetadata;
+import cloudsafe.exceptions.AuthenticationException;
 
 
 /**
@@ -49,27 +50,31 @@ public class Main {
 			choice = in.nextInt();
 		}
 		String meta;
-		switch (choice) {
-		case 1:
-			meta = client.addCloud(CloudType.DROPBOX);
-			cloudMetaData.add(Pair.of("dropbox", meta));
-			break;
-		case 2:
-			meta = client.addCloud(CloudType.GOOGLEDRIVE);
-			cloudMetaData.add(Pair.of("googledrive", meta));
-			break;
-		case 3:
-			meta = client.addCloud(CloudType.ONEDRIVE);
-			cloudMetaData.add(Pair.of("onedrive", meta));
-			break;
-		case 4:
-			meta = client.addCloud(CloudType.BOX);
-			cloudMetaData.add(Pair.of("box", meta));
-			break;
-		case 5:
-			meta = client.addCloud(CloudType.FOLDER);
-			cloudMetaData.add(Pair.of("folder", meta));
-			break;
+		try {
+			switch (choice) {
+			case 1:
+				meta = client.addCloud(CloudType.DROPBOX);
+				cloudMetaData.add(Pair.of("dropbox", meta));
+				break;
+			case 2:
+				meta = client.addCloud(CloudType.GOOGLEDRIVE);
+				cloudMetaData.add(Pair.of("googledrive", meta));
+				break;
+			case 3:
+				meta = client.addCloud(CloudType.ONEDRIVE);
+				cloudMetaData.add(Pair.of("onedrive", meta));
+				break;
+			case 4:
+				meta = client.addCloud(CloudType.BOX);
+				cloudMetaData.add(Pair.of("box", meta));
+				break;
+			case 5:
+				meta = client.addCloud(CloudType.FOLDER);
+				cloudMetaData.add(Pair.of("folder", meta));
+				break;
+			}
+		} catch (AuthenticationException e) {
+			System.out.println("AuthenticationException: " + e.getMessage());
 		}
 		in.close();
 	}
@@ -155,7 +160,7 @@ public class Main {
 		System.out.println("Enter the number corresponding to your choice: ");
 		Scanner in = new Scanner(new CloseShieldInputStream(System.in));
 		int choice = in.nextInt();
-		if (choice < 1 || 5 < choice) {
+		if (choice < 1 || 6 < choice) {
 			System.out.println("Invalid choice.");
 			System.out.println("You have the following options: ");
 			choice = showMenu();

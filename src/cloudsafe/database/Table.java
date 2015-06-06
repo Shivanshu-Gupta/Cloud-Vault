@@ -3,12 +3,14 @@ package cloudsafe.database;
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
+
 import cloudsafe.database.FileMetadata;
 import cloudsafe.util.Pair;
 
@@ -16,25 +18,9 @@ import java.util.Date;
 
 public class Table {
 	private static HashMap<String, Pair<ArrayList<FileMetadata>, Boolean>> table;
-	private final static String tablePath = "trials/table.ser";
-	private static int tableFileSize;
-
+	
 	public Table() {
-		try {
-			table = new HashMap<String, Pair<ArrayList<FileMetadata>, Boolean>>();
-			FileOutputStream fileOut = new FileOutputStream(tablePath);
-			ObjectOutputStream out = new ObjectOutputStream(fileOut);
-			out.writeObject(table);
-			out.flush();
-			out.close();
-			fileOut.flush();
-			fileOut.close();
-			File tableFile = new File(tablePath);
-			tableFileSize = (int) tableFile.length();
-		} catch (IOException x) {
-			System.out.println("IOException: " + x);
-			x.printStackTrace();
-		}
+		table = new HashMap<String, Pair<ArrayList<FileMetadata>, Boolean>>();
 	}
 
 	@SuppressWarnings("unchecked")
@@ -73,19 +59,11 @@ public class Table {
 		}
 	}
 
-	public final int tableFileSize() {
-		return tableFileSize;
-	}
-
-	public final String tableFilePath() {
-		return tablePath;
-	}
-
 	public final int fileCount() {
 		return table.size();
 	}
 
-	public final int addNewFile(String fileName, Integer fileSize) {
+	public final int addNewFile(String fileName, long fileSize) {
 		int version = 1;
 		ArrayList<FileMetadata> fileVersions;
 		if (!table.containsKey(fileName) || table.get(fileName) == null) {
@@ -129,8 +107,8 @@ public class Table {
 		return contains;
 	}
 
-	public final Integer fileSize(String fileName, Date timestamp) {
-		int fileSize = 0;
+	public final long fileSize(String fileName, Date timestamp) {
+		long fileSize = 0;
 		ArrayList<FileMetadata> fileVersions = table.get(fileName).first;
 		for (int i = 0; i < fileVersions.size(); i++) {
 			if (timestamp.equals(fileVersions.get(i).timestamp())) {
@@ -141,8 +119,8 @@ public class Table {
 		return fileSize;
 	}
 
-	public final Integer fileSize(String fileName, int version) {
-		int fileSize = 0;
+	public final long fileSize(String fileName, int version) {
+		long fileSize = 0;
 		ArrayList<FileMetadata> fileVersions = table.get(fileName).first;
 		fileSize = fileVersions.get(version - 1).fileSize();
 		System.out.println(fileSize);
@@ -157,7 +135,7 @@ public class Table {
 		table.put(fileName, Pair.of(table.get(fileName).first, false));
 	}
 
-	public final int updateTable(String databasePath) {
+	public final int writeToFile(String databasePath) {
 		int tableFileSize = 0;
 		try {
 			FileOutputStream fileOut = new FileOutputStream(databasePath);
@@ -187,7 +165,20 @@ public class Table {
 			}
 		}
 	}
-
+	
+	public Object[] getFileList(){
+		return table.keySet().toArray();
+	}
+	
+	public ArrayList<FileMetadata> getFileHistory(String fileName) throws FileNotFoundException 
+	{
+		if (!table.containsKey(fileName) || table.get(fileName) == null) {
+			throw new FileNotFoundException();
+		} else {
+			return table.get(fileName).first;
+		}
+	}
+	
 	public void printTable() {
 		Object[] fileNames = table.keySet().toArray();
 		for (Object fileName : fileNames) {

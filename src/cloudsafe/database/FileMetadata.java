@@ -8,10 +8,10 @@ public final class FileMetadata implements Serializable {
 
 	String fileName;
 	int version;
-	int fileSize;
+	long fileSize;
 	Date timestamp;
 
-	public FileMetadata(String fileName, int version, int fileSize) {
+	public FileMetadata(String fileName, int version, long fileSize) {
 		this.fileName = fileName;
 		this.version = version;
 		this.fileSize = fileSize;
@@ -26,7 +26,7 @@ public final class FileMetadata implements Serializable {
 		return version;
 	}
 
-	public int fileSize() {
+	public long fileSize() {
 		return fileSize;
 	}
 
@@ -69,7 +69,7 @@ public final class FileMetadata implements Serializable {
 		if (this.fileName != null) {
 			hash = 37 * hash + this.fileName.hashCode();
 			hash = 37 * hash + this.version;
-			hash = 37 * hash + this.fileSize;
+			hash = 37 * hash + (int)this.fileSize;
 		}
 		return hash;
 	}

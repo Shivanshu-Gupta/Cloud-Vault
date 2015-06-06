@@ -60,8 +60,6 @@ import java.util.Collections;
  * <li>Does a direct media upload</li>
  * <li>Does a direct media download</li>
  * </ul>
- *
- * @author rmistry@google.com (Ravi Mistry)
  */
 public class GoogleDrive implements Cloud {
 
@@ -70,7 +68,7 @@ public class GoogleDrive implements Cloud {
    * blank, the application will log a warning. Suggested format is "MyCompany-ProductName/1.0".
    */
   private static final String APPLICATION_NAME = "CloudSafe";
-  private static final String assistingFolder = "trials/googledrive";
+  static final String assistingFolder = "trials/googledrive";
   private static final String DIR_FOR_DOWNLOADS = assistingFolder;
 
   /** Directory to store user credentials. */
@@ -162,7 +160,8 @@ public class GoogleDrive implements Cloud {
 
   public boolean isAvailable() {
     // TODO Auto-generated method stub
-    return mainOld();
+//    return mainOld();
+	  return true;
   }
 
   public void uploadFile(byte[] data, String fileID, WriteMode mode) throws IOException {

@@ -17,6 +17,17 @@
 	<classpathentry kind="lib" path="lib/jetty-6.1.26.jar"/>
 	<classpathentry kind="lib" path="lib/servlet-api-2.5-20081211.jar"/>
 	<classpathentry kind="lib" path="lib/javax.servlet-3.0.jar"/>
+	<classpathentry kind="lib" path="lib/BoxJavaFxOAuth.jar"/>
+	<classpathentry kind="lib" path="lib/BoxJavaLibraryV2.jar"/>
+	<classpathentry kind="lib" path="lib/com.fasterxml.jackson.core.jar"/>
+	<classpathentry kind="lib" path="lib/com.fasterxml.jackson.databind.jar"/>
+	<classpathentry kind="lib" path="lib/common-lang3.jar"/>
+	<classpathentry kind="lib" path="lib/commons-logging-1.2.jar"/>
+	<classpathentry kind="lib" path="lib/httpclient-4.2.5.jar"/>
+	<classpathentry kind="lib" path="lib/httpcore-4.2.4.jar"/>
+	<classpathentry kind="lib" path="lib/httpmime-4.3.jar"/>
+	<classpathentry kind="lib" path="lib/jackson-annotations-2.1.2.jar"/>
+	<classpathentry kind="lib" path="lib/org.apache.commons.io.jar"/>
 	<classpathentry kind="con" path="com.google.gdt.eclipse.managedapis.MANAGED_API_CONTAINER/drive-v2r171lv1.18.0-rc"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.8"/>
 	<classpathentry kind="output" path="bin"/>

@@ -11,6 +11,10 @@ import java.util.Scanner;
 
 import org.apache.commons.io.input.CloseShieldInputStream;
 
+import com.box.boxjavalibv2.exceptions.AuthFatalFailureException;
+import com.box.boxjavalibv2.exceptions.BoxServerException;
+import com.box.restclientv2.exceptions.BoxRestException;
+
 import cloudsafe.util.Pair;
 import cloudsafe.VaultClient;
 import cloudsafe.cloud.Cloud;
@@ -75,6 +79,9 @@ public class Main {
 			}
 		} catch (AuthenticationException e) {
 			System.out.println("AuthenticationException: " + e.getMessage());
+		} catch (BoxRestException | BoxServerException | AuthFatalFailureException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 		in.close();
 	}

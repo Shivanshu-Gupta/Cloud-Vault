@@ -68,7 +68,7 @@ public class GoogleDrive implements Cloud {
    * blank, the application will log a warning. Suggested format is "MyCompany-ProductName/1.0".
    */
   private static final String APPLICATION_NAME = "CloudSafe";
-  private static final String assistingFolder = "trials/googledrive";
+  static final String assistingFolder = "trials/googledrive";
   private static final String DIR_FOR_DOWNLOADS = assistingFolder;
 
   /** Directory to store user credentials. */
@@ -130,7 +130,7 @@ public class GoogleDrive implements Cloud {
 
   static HttpTransport newProxyTransport() throws GeneralSecurityException, IOException {
     NetHttpTransport.Builder builder = new NetHttpTransport.Builder();
-    builder.setProxy(new Proxy(Proxy.Type.HTTP, new InetSocketAddress("10.10.78.62", 3128)));
+    builder.setProxy(new Proxy(Proxy.Type.HTTP, new InetSocketAddress("10.10.78.61", 3128)));
     return builder.build();
   }
 

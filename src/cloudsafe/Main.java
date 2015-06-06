@@ -20,7 +20,7 @@ import cloudsafe.exceptions.AuthenticationException;
 
 
 /**
- * The entry point for the CloudSafe Application.
+ * The entry point for the CloudVault Application.
  */
 public class Main {
 	VaultClient client;

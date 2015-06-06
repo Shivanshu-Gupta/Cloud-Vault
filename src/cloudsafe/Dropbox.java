@@ -13,8 +13,8 @@ import java.net.URISyntaxException;
 import java.util.List;
 import java.util.Locale;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletRequestWrapper;
+//import javax.servlet.http.HttpServletRequest;
+//import javax.servlet.http.HttpServletRequestWrapper;
 import javax.swing.JOptionPane;
 
 import cloudsafe.cloud.Cloud;
@@ -140,10 +140,10 @@ public class Dropbox implements Cloud {
 		DbxRequestConfig config;
 		HttpRequestor requ = getProxy();
 		if (requ != null)
-			config = new DbxRequestConfig("CloudSafe/1.0", Locale.getDefault()
+			config = new DbxRequestConfig("CloudVault/1.0", Locale.getDefault()
 					.toString(), requ);
 		else
-			config = new DbxRequestConfig("CloudSafe/1.0", Locale.getDefault()
+			config = new DbxRequestConfig("CloudVault/1.0", Locale.getDefault()
 					.toString());
 		try {
 
@@ -176,10 +176,10 @@ public class Dropbox implements Cloud {
 		ByteArrayInputStream inputStream = new ByteArrayInputStream(data);
 		try {
 			if (mode == WriteMode.ADD) {
-				client.uploadFile("/CloudSafe/" + fileID, DbxWriteMode.add(),
+				client.uploadFile("/CloudVault/" + fileID, DbxWriteMode.add(),
 						data.length, inputStream);
 			} else if (mode == WriteMode.OVERWRITE) {
-				client.uploadFile("/CloudSafe/" + fileID, DbxWriteMode.force(),
+				client.uploadFile("/CloudVault/" + fileID, DbxWriteMode.force(),
 						data.length, inputStream);
 			}
 		} catch (DbxException.NetworkIO | DbxException.ServerError
@@ -201,10 +201,10 @@ public class Dropbox implements Cloud {
 		FileInputStream inputStream = new FileInputStream(inputFile);
 		try {
 			if (mode == WriteMode.ADD) {
-				client.uploadFile("/CloudSafe/" + fileID, DbxWriteMode.add(),
+				client.uploadFile("/CloudVault/" + fileID, DbxWriteMode.add(),
 						inputFile.length(), inputStream);
 			} else if (mode == WriteMode.OVERWRITE) {
-				client.uploadFile("/CloudSafe/" + fileID, DbxWriteMode.force(),
+				client.uploadFile("/CloudVault/" + fileID, DbxWriteMode.force(),
 						inputFile.length(), inputStream);
 			}
 		} catch (DbxException.NetworkIO | DbxException.ServerError
@@ -222,7 +222,7 @@ public class Dropbox implements Cloud {
 	public byte[] downloadFile(String fileID) throws IOException {
 		ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
 		try {
-			client.getFile("/CloudSafe/" + fileID, null, outputStream);
+			client.getFile("/CloudVault/" + fileID, null, outputStream);
 		} catch (DbxException.NetworkIO | DbxException.ServerError
 				| DbxException.ProtocolError dbe) {
 			available = false;
@@ -239,7 +239,7 @@ public class Dropbox implements Cloud {
 	public void downloadFile(String filename, String fileID) throws IOException {
 		FileOutputStream outputStream = new FileOutputStream(filename);
 		try {
-			client.getFile("/CloudSafe/" + fileID, null, outputStream);
+			client.getFile("/CloudVault/" + fileID, null, outputStream);
 		} catch (DbxException.NetworkIO | DbxException.ServerError
 				| DbxException.ProtocolError dbe) {
 			available = false;
@@ -255,7 +255,7 @@ public class Dropbox implements Cloud {
 	public boolean searchFile(String fileID) {
 		try {
 			List<DbxEntry> matchList = client.searchFileAndFolderNames(
-					"/CloudSafe", fileID);
+					"/CloudVault", fileID);
 			if (matchList == null || matchList.size() == 0)
 				return false;
 			else

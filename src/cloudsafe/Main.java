@@ -6,6 +6,8 @@ import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+import javax.swing.SwingUtilities;
+
 import org.apache.commons.io.input.CloseShieldInputStream;
 
 import cloudsafe.util.Pair;
@@ -68,7 +70,8 @@ public class Main {
 		System.out.println("3. Sync with Vault");
 		System.out.println("4. Show Files in Vault");
 		System.out.println("5. Show File History");
-		System.out.println("6. Exit");
+		System.out.println("6. Changes Settings");
+		System.out.println("7. Exit");
 		System.out.println("What do you want to do? ");
 
 		System.out.println("Enter the number corresponding to your choice: ");
@@ -98,17 +101,22 @@ public class Main {
 		Scanner in = new Scanner(System.in);
 		String s;
 		try {
-			if (Files.exists(Paths.get(vaultPath))) {
-				client = new VaultClient(vaultPath, false);
-			} else {
+			if (!Files.exists(Paths.get(vaultPath))) {
 				System.out
 						.println("It seems this is the first time you are using Cloud Vault on this device.");
 				System.out
 						.println("We will now setup access to your Cloud Vault.");
-				client = new VaultClient(vaultPath, true);
+				
+				SwingUtilities.invokeLater(new Runnable() {
+					@Override
+					public void run() {
+						new Settings(vaultConfigPath);
+					}
+				});
 				Setup cloudVaultSetup = new Setup();
-				cloudVaultSetup.confCloudAccess();
+				cloudVaultSetup.configureCloudAccess();
 			}
+			client = new VaultClient(vaultPath, false);
 
 			int choice;
 			do {
@@ -145,6 +153,13 @@ public class Main {
 					}
 					break;
 				case 6:
+					SwingUtilities.invokeLater(new Runnable() {
+						@Override
+						public void run() {
+							new Settings(vaultConfigPath);
+						}
+					});
+				case 7:
 					System.exit(0);
 				}
 				System.out.println("Continue (Yes/No)? ");

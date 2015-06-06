@@ -6,14 +6,20 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.InputStream;
 import java.io.ObjectInputStream;
 import java.io.IOException;
+import java.net.Authenticator;
+import java.net.InetSocketAddress;
+import java.net.PasswordAuthentication;
+import java.net.Proxy;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.Files;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Properties;
 
 import org.apache.http.util.*;
 
@@ -34,10 +40,11 @@ import cloudsafe.Dropbox;
 import cloudsafe.Box;
 import cloudsafe.GoogleDrive;
 import cloudsafe.cloud.Cloud;
-import cloudsafe.cloud.CloudType;
+//import cloudsafe.cloud.CloudType;
 import cloudsafe.cloud.WriteMode;
 import cloudsafe.database.*;
-import cloudsafe.exceptions.AuthenticationException;
+
+//import cloudsafe.exceptions.AuthenticationException;
 
 /**
  * The entry point for the CloudSafe Application.
@@ -50,38 +57,40 @@ public class VaultClient {
 	int cloudNum = 4; // Co
 	int cloudDanger = 1; // Cd
 	final static int overHead = 4; // epsilon
-	
+	Proxy proxy = new Proxy(Proxy.Type.HTTP, null);
 	static ArrayList<Cloud> clouds = new ArrayList<Cloud>();
 	static ArrayList<Pair<String, String>> cloudMetaData = new ArrayList<Pair<String, String>>();
 	static Table table;
-	
+
 	static long databaseSize;
 	static String databasePath = vaultConfigPath + "/table.ser";
 	final static String databaseSizePath = vaultConfigPath + "/tablesize.txt";
 
 	@SuppressWarnings("unchecked")
-	public VaultClient(String vaultPath, boolean newDevice){
+	public VaultClient(String vaultPath, boolean newDevice) {
 		this.vaultPath = vaultPath;
-		if(!newDevice)
-		{
+		proxy = getProxy();
+
+		if (!newDevice) {
 			try {
 				FileInputStream fileIn = new FileInputStream(cloudMetadataPath);
 				ObjectInputStream in = new ObjectInputStream(fileIn);
-				cloudMetaData = (ArrayList<Pair<String, String>>) in.readObject();
-	
+				cloudMetaData = (ArrayList<Pair<String, String>>) in
+						.readObject();
+
 				for (Pair<String, String> metadata : cloudMetaData) {
 					System.out.println("adding cloud: " + metadata.first);
 					switch (metadata.first) {
 					case "dropbox":
-						clouds.add(new Dropbox(metadata.second));
+						clouds.add(new Dropbox(metadata.second, proxy));
 						break;
 					case "googledrive":
-						clouds.add(new GoogleDrive());
+						clouds.add(new GoogleDrive(proxy));
 						break;
 					// case "onedrive" : clouds.add(new Dropbox());
 					// break;
-					case "box" : 
-						clouds.add(new Box());
+					case "box":
+						clouds.add(new Box(proxy));
 						break;
 					case "folder":
 						clouds.add(new FolderCloud(metadata.second));
@@ -96,7 +105,8 @@ public class VaultClient {
 			} catch (ClassNotFoundException cfe) {
 				System.out.println("ClassNotFoundException: " + cfe);
 				cfe.printStackTrace();
-			} catch (BoxRestException  | BoxServerException | AuthFatalFailureException e){
+			} catch (BoxRestException | BoxServerException
+					| AuthFatalFailureException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
@@ -104,7 +114,39 @@ public class VaultClient {
 			downloadTable();
 		}
 	}
-	
+
+	private Proxy getProxy() {
+		Proxy proxy = Proxy.NO_PROXY;
+		try {
+			Properties proxySettings = new Properties();
+			File configFile = new File(vaultConfigPath + "/config.properties");
+			InputStream inputStream = new FileInputStream(configFile);
+			proxySettings.load(inputStream);
+			inputStream.close();
+			if (proxySettings.getProperty("requireproxy").equals("yes")) {
+				String host = proxySettings.getProperty("proxyhost");
+				int port = Integer.parseInt(proxySettings
+						.getProperty("proxyport"));
+				String authUser = proxySettings.getProperty("proxyuser");
+				String authPass = proxySettings.getProperty("proxypass");
+				Authenticator.setDefault(new Authenticator() {
+					@Override
+					protected PasswordAuthentication getPasswordAuthentication() {
+						return new PasswordAuthentication(authUser, authPass
+								.toCharArray());
+					}
+				});
+				proxy = new Proxy(Proxy.Type.HTTP, new InetSocketAddress(host,
+						port));
+			}
+		} catch (FileNotFoundException e1) {
+			e1.printStackTrace();
+		} catch (IOException e1) {
+			e1.printStackTrace();
+		}
+		return proxy;
+	}
+
 	private Pair<FECParameters, Integer> getParams(long fileSize) {
 		Pair<FECParameters, Integer> params = null;
 		try {
@@ -112,8 +154,8 @@ public class VaultClient {
 					/ (float) overHead)); // symbol header length = 8, T =
 											// sqrt(D * delta / epsilon)
 			int blockCount = 1;
-			FECParameters fecParams = FECParameters.newParameters(fileSize, symSize,
-					blockCount);
+			FECParameters fecParams = FECParameters.newParameters(fileSize,
+					symSize, blockCount);
 
 			int k = (int) Math.ceil((float) fileSize / (float) symSize);
 			// System.out.println("k = " + k);
@@ -134,11 +176,11 @@ public class VaultClient {
 		}
 		return params;
 	}
-	public void updateTableSizeFile(long tableSize)
-	{
+
+	public void updateTableSizeFile(long tableSize) {
 		try {
-			DataOutputStream out = new DataOutputStream(
-					new FileOutputStream(databaseSizePath));
+			DataOutputStream out = new DataOutputStream(new FileOutputStream(
+					databaseSizePath));
 			out.writeLong(databaseSize);
 			out.flush();
 			out.close();
@@ -146,28 +188,34 @@ public class VaultClient {
 			e.printStackTrace();
 		}
 	}
-	public void upload(String localFilePath)
-	{
+
+	public void upload(String localFilePath) {
 		Path path = Paths.get(localFilePath);
 		File file = new File(localFilePath);
 		long fileSize = file.length();
 		String localFileName = path.getFileName().toString();
 		String cloudFileName = null;
-		switch(localFileName)
-		{
-		case "table.ser" : cloudFileName = localFileName; break;
-		case "tablesize.txt" : cloudFileName = localFileName; break;
-		default : int version = table.addNewFile(localFileName, fileSize);
-				cloudFileName = localFileName + " (" + Integer.toString(version) + ")";
-				databaseSize = table.writeToFile(databasePath);
-				updateTableSizeFile(databaseSize);
-				upload(databaseSizePath);
-				upload(databasePath);
+		switch (localFileName) {
+		case "table.ser":
+			cloudFileName = localFileName;
+			break;
+		case "tablesize.txt":
+			cloudFileName = localFileName;
+			break;
+		default:
+			int version = table.addNewFile(localFileName, fileSize);
+			cloudFileName = localFileName + " (" + Integer.toString(version)
+					+ ")";
+			databaseSize = table.writeToFile(databasePath);
+			updateTableSizeFile(databaseSize);
+			upload(databaseSizePath);
+			upload(databasePath);
 		}
 		uploadFile(localFilePath, cloudFileName);
 	}
+
 	public void uploadFile(String localFilePath, String cloudFilePath) {
-//		System.out.println("Upload: ");
+		// System.out.println("Upload: ");
 		try {
 			Path path = Paths.get(localFilePath);
 			byte[] data = Files.readAllBytes(path);
@@ -178,7 +226,7 @@ public class VaultClient {
 			int symSize = fecParams.symbolSize();
 			int k = (int) Math.ceil((float) fileSize / (float) symSize);
 			int r = params.second;
-			
+
 			ArrayDataEncoder dataEncoder = OpenRQ.newEncoder(data, fecParams);
 			System.out.println("dataEncoder created");
 			System.out.println("data length: " + dataEncoder.dataLength());
@@ -231,16 +279,15 @@ public class VaultClient {
 			e.printStackTrace();
 		}
 	}
-	
-	public void download(String localFileName, int version) throws FileNotFoundException
-	{
+
+	public void download(String localFileName, int version)
+			throws FileNotFoundException {
 		String cloudFileName = null;
 		String writePath = null;
 		long fileSize = 0;
-		switch(localFileName)
-		{
-		case "table.ser" : 
-			cloudFileName = localFileName; 
+		switch (localFileName) {
+		case "table.ser":
+			cloudFileName = localFileName;
 			downloadFile("tablesize.txt", databaseSizePath, 8);
 			try (DataInputStream in = new DataInputStream(new FileInputStream(
 					databaseSizePath))) {
@@ -252,21 +299,23 @@ public class VaultClient {
 			fileSize = databaseSize;
 			writePath = databasePath;
 			break;
-//		case "tablesize.txt" : 
-//			cloudFileName = localFileName; break;
-		default :
+		// case "tablesize.txt" :
+		// cloudFileName = localFileName; break;
+		default:
 			downloadTable();
-			if(!table.hasFileVersion(localFileName, version)){
+			if (!table.hasFileVersion(localFileName, version)) {
 				throw new FileNotFoundException();
 			}
-			cloudFileName = localFileName + " (" + Integer.toString(version) + ")";
+			cloudFileName = localFileName + " (" + Integer.toString(version)
+					+ ")";
 			fileSize = table.fileSize(localFileName, version);
 			writePath = vaultPath + "/" + localFileName;
 		}
 		downloadFile(cloudFileName, writePath, fileSize);
 	}
-	
-	public void downloadFile(String cloudFileName, String writePath, long fileSize) {
+
+	public void downloadFile(String cloudFileName, String writePath,
+			long fileSize) {
 		System.out.println("Downloading: " + cloudFileName);
 		Pair<FECParameters, Integer> params = getParams(fileSize);
 		FECParameters fecParams = params.first;
@@ -302,8 +351,7 @@ public class VaultClient {
 
 			packetID = 0;
 			packetCount = packetList.size();
-			System.out.println("Packets available: "
-					+ packetCount);
+			System.out.println("Packets available: " + packetCount);
 			while (!dataDecoder.isDataDecoded() && packetID < packetList.size()) {
 				byte[] packet = packetList.get(packetID);
 				EncodingPacket encPack = dataDecoder.parsePacket(packet, true)
@@ -327,15 +375,14 @@ public class VaultClient {
 			e.printStackTrace();
 		}
 	}
-	
-	public void setupTable()
-	{
+
+	public void setupTable() {
 		if (checkIfNewUser())
 			createNewTable();
 		else
 			downloadTable();
 	}
-	
+
 	public void createNewTable() {
 		try {
 			table = new Table();
@@ -358,41 +405,41 @@ public class VaultClient {
 		table = new Table(databasePath);
 	}
 
-	public String addCloud(CloudType type) throws AuthenticationException, BoxRestException, BoxServerException, AuthFatalFailureException {
-		Cloud cloud = null;
-		switch (type) {
-		case DROPBOX:
-			cloud = new Dropbox();
-			clouds.add(cloud);
-			cloudMetaData.add(Pair.of("dropbox", cloud.metadata()));
-			break;
-		case GOOGLEDRIVE:
-			cloud = new GoogleDrive();
-			clouds.add(cloud);
-			cloudMetaData.add(Pair.of("googledrive", cloud.metadata()));
-			break;
-		case ONEDRIVE:
-			cloud = new FolderCloud();
-			clouds.add(cloud);
-			cloudMetaData.add(Pair.of("folder", cloud.metadata()));
-			break;
-		case BOX:
-			cloud = new Box();
-			clouds.add(cloud);
-			cloudMetaData.add(Pair.of("box", cloud.metadata()));
-			break;
-		case FOLDER:
-			cloud = new FolderCloud();
-			clouds.add(cloud);
-			cloudMetaData.add(Pair.of("folder", cloud.metadata()));
-			break;
-		}
-		cloudNum = clouds.size();
-		return cloud.metadata();
-	}
-	
-	public boolean checkIfNewUser()
-	{
+	// public String addCloud(CloudType type) throws AuthenticationException,
+	// BoxRestException, BoxServerException, AuthFatalFailureException {
+	// Cloud cloud = null;
+	// switch (type) {
+	// case DROPBOX:
+	// cloud = new Dropbox(proxy);
+	// clouds.add(cloud);
+	// cloudMetaData.add(Pair.of("dropbox", cloud.metadata()));
+	// break;
+	// case GOOGLEDRIVE:
+	// cloud = new GoogleDrive(proxy);
+	// clouds.add(cloud);
+	// cloudMetaData.add(Pair.of("googledrive", cloud.metadata()));
+	// break;
+	// case ONEDRIVE:
+	// cloud = new FolderCloud();
+	// clouds.add(cloud);
+	// cloudMetaData.add(Pair.of("folder", cloud.metadata()));
+	// break;
+	// case BOX:
+	// cloud = new Box(proxy);
+	// clouds.add(cloud);
+	// cloudMetaData.add(Pair.of("box", cloud.metadata()));
+	// break;
+	// case FOLDER:
+	// cloud = new FolderCloud();
+	// clouds.add(cloud);
+	// cloudMetaData.add(Pair.of("folder", cloud.metadata()));
+	// break;
+	// }
+	// cloudNum = clouds.size();
+	// return cloud.metadata();
+	// }
+
+	public boolean checkIfNewUser() {
 		boolean newUser = true;
 		for (int i = 0; i < clouds.size(); i++) {
 			if (clouds.get(i).searchFile("table.ser")) {
@@ -403,14 +450,14 @@ public class VaultClient {
 		}
 		return newUser;
 	}
-	
-	public Object[] getFileList(){
+
+	public Object[] getFileList() {
 		downloadTable();
 		return table.getFileList();
 	}
-	
-	public ArrayList<FileMetadata> getFileHistory(String fileName) throws FileNotFoundException
-	{
+
+	public ArrayList<FileMetadata> getFileHistory(String fileName)
+			throws FileNotFoundException {
 		downloadTable();
 		try {
 			return table.getFileHistory(fileName);
@@ -418,7 +465,7 @@ public class VaultClient {
 			throw new FileNotFoundException();
 		}
 	}
-	
+
 	public void sync() {
 
 	}

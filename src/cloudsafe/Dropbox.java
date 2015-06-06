@@ -6,7 +6,6 @@ import com.dropbox.core.http.StandardHttpRequestor;
 
 import java.awt.Desktop;
 import java.io.*;
-import java.net.InetSocketAddress;
 import java.net.Proxy;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -31,16 +30,13 @@ public class Dropbox implements Cloud {
 	String accessToken = null;
 	Boolean available = true;
 
-	public Dropbox() throws AuthenticationException {
+	public Dropbox(Proxy proxy) throws AuthenticationException {
 		DbxAppInfo appInfo = new DbxAppInfo(APP_KEY, APP_SECRET);
 		DbxRequestConfig config;
-		HttpRequestor requ = getProxy();
-		if (requ != null)
-			config = new DbxRequestConfig("CloudVault/1.0", Locale.getDefault()
-					.toString(), requ);
-		else
-			config = new DbxRequestConfig("CloudVault/1.0", Locale.getDefault()
-					.toString());
+		// HttpRequestor requ = getProxy();
+		HttpRequestor requ = new StandardHttpRequestor(proxy);
+		config = new DbxRequestConfig("CloudVault/1.0", Locale.getDefault()
+				.toString(), requ);
 
 		DbxWebAuthNoRedirect webAuth = new DbxWebAuthNoRedirect(config, appInfo);
 
@@ -89,17 +85,14 @@ public class Dropbox implements Cloud {
 		}
 	}
 
-	public Dropbox(String accessToken) {
+	public Dropbox(String accessToken, Proxy proxy) {
 		// System.out.println("Access Token: " + accessToken);
 		this.accessToken = accessToken;
 		DbxRequestConfig config;
-		HttpRequestor requ = getProxy();
-		if (requ != null)
-			config = new DbxRequestConfig("CloudVault/1.0", Locale.getDefault()
-					.toString(), requ);
-		else
-			config = new DbxRequestConfig("CloudVault/1.0", Locale.getDefault()
-					.toString());
+		// HttpRequestor requ = getProxy();
+		HttpRequestor requ = new StandardHttpRequestor(proxy);
+		config = new DbxRequestConfig("CloudVault/1.0", Locale.getDefault()
+				.toString(), requ);
 		try {
 
 			client = new DbxClient(config, accessToken);
@@ -113,31 +106,6 @@ public class Dropbox implements Cloud {
 			System.out.println("DbxException: " + dbe);
 			dbe.printStackTrace();
 		}
-	}
-
-	private static HttpRequestor getProxy() {
-
-		// if ("true".equals(System.getProperty("proxy", "false"))) {
-		String ip = "proxy62.iitd.ernet.in";
-		int port = 3128;
-
-		// String authUser = "";
-		// String authPassword ="";
-		// Authenticator.setDefault(new Authenticator() {
-		// @Override
-		// protected PasswordAuthentication getPasswordAuthentication() {
-		// return new PasswordAuthentication(authUser, authPassword
-		// .toCharArray());
-		// }
-		// });
-
-		Proxy proxy = new Proxy(Proxy.Type.HTTP,
-				new InetSocketAddress(ip, port));
-
-		HttpRequestor req = new StandardHttpRequestor(proxy);
-		return req;
-		// }
-		// return null;
 	}
 
 	public String metadata() {

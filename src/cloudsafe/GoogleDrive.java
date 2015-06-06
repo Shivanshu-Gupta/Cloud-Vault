@@ -43,7 +43,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 //import java.io.InputStreamReader;
 import java.io.OutputStream;
-import java.net.InetSocketAddress;
 import java.net.Proxy;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -97,8 +96,8 @@ public class GoogleDrive implements Cloud {
   static String CloudVaultFolderID = null;
   
   
-  public GoogleDrive(){
-	  mainOld();
+  public GoogleDrive(Proxy proxy){
+	  mainOld(proxy);
   }
 
   /** Authorizes the installed application to access user's protected data. */
@@ -132,16 +131,16 @@ public class GoogleDrive implements Cloud {
     return new AuthorizationCodeInstalledApp(flow, recieve).authorize("user");
   }
 
-  static HttpTransport newProxyTransport() throws GeneralSecurityException, IOException {
+  static HttpTransport newProxyTransport(Proxy proxy) throws GeneralSecurityException, IOException {
     NetHttpTransport.Builder builder = new NetHttpTransport.Builder();
-    builder.setProxy(new Proxy(Proxy.Type.HTTP, new InetSocketAddress("10.10.78.62", 3128)));
+    builder.setProxy(proxy);
     return builder.build();
   }
 
-  public static boolean mainOld() {
+  public static boolean mainOld(Proxy proxy) {
    try {
       // httpTransport = GoogleNetHttpTransport.newTrustedTransport();
-      httpTransport = newProxyTransport();
+      httpTransport = newProxyTransport(proxy);
       dataStoreFactory = new FileDataStoreFactory(DATA_STORE_DIR);
       // authorization
       Credential credential = authorize();

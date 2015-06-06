@@ -14,9 +14,11 @@ import java.io.OutputStream;
 import java.util.Properties;
 
 import javax.swing.JButton;
+import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
 
@@ -117,10 +119,25 @@ public class Settings extends JFrame {
 		textUser.setText(configProps.getProperty("proxyuser"));
 		textPass.setText(configProps.getProperty("proxypass"));
 	}
+	
+	private void addItem(JPanel p, JComponent c, int x, int y, int width, int height, int align) {
+	    GridBagConstraints gc = new GridBagConstraints();
+	    gc.gridx = x;
+	    gc.gridy = y;
+	    gc.gridwidth = width;
+	    gc.gridheight = height;
+	    gc.weightx = 100.0;
+	    gc.weighty = 100.0;
+	    gc.insets = new Insets(5, 5, 5, 5);
+	    gc.anchor = align;
+	    gc.fill = GridBagConstraints.NONE;
+	    p.add(c, gc);
+	}
 
 	private void loadProperties() throws IOException {
 		Properties defaultProps = new Properties();
 		// sets default properties
+		defaultProps.setProperty("requireproxy", "no");
 		defaultProps.setProperty("proxyhost", "");
 		defaultProps.setProperty("proxyport", "");
 		defaultProps.setProperty("proxyuser", "");
@@ -135,6 +152,7 @@ public class Settings extends JFrame {
 	}
 	
 	private void saveProperties() throws IOException {
+		configProps.setProperty("requireproxy", "yes");
 		configProps.setProperty("proxyhost", textHost.getText());
 		configProps.setProperty("proxyport", textPort.getText());
 		configProps.setProperty("proxyuser", textUser.getText());
@@ -152,4 +170,6 @@ public class Settings extends JFrame {
 //			}
 //		});
 //	}
+	
+	
 }

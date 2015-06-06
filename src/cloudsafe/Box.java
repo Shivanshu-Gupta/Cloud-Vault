@@ -14,11 +14,15 @@ import com.box.restclientv2.requestsbase.BoxFileUploadRequestObject;
 
 
 
+
+
 import cloudsafe.cloud.Cloud;
 import cloudsafe.cloud.WriteMode;
 
 import java.io.*;
 import java.awt.Desktop;
+import java.net.InetSocketAddress;
+import java.net.Proxy;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
@@ -38,7 +42,7 @@ public class Box implements Cloud {
 	public String metadata = "";
 	String CloudSafeFolderID = "";
 
-	public Box() throws BoxRestException, BoxServerException,
+	public Box(Proxy proxy) throws BoxRestException, BoxServerException,
 			AuthFatalFailureException {
 		
 		String url = "https://www.box.com/api/oauth2/authorize?response_type=code&client_id="
@@ -54,7 +58,7 @@ public class Box implements Cloud {
 			e.printStackTrace();
 		}
 
-		client = getAuthenticatedClient(code);
+		client = getAuthenticatedClient(code, proxy);
 		
 		
 		try {
@@ -265,7 +269,7 @@ public class Box implements Cloud {
 
 	
 
-	private static BoxClient getAuthenticatedClient(String code)
+	private static BoxClient getAuthenticatedClient(String code, Proxy netproxy)
 			throws BoxRestException, BoxServerException,
 			AuthFatalFailureException {
 		BoxResourceHub hub = new BoxResourceHub();
@@ -277,7 +281,8 @@ public class Box implements Cloud {
 				//System.out.println("started");
 				HttpClient client = super.getRawHttpClient();
 				//System.out.println("client generated");
-				HttpHost proxy = new HttpHost("10.10.78.62", 3128, "http");
+				 InetSocketAddress addr = (InetSocketAddress)netproxy.address();
+				HttpHost proxy = new HttpHost(addr.getHostString(), addr.getPort(), "http");
 				client.getParams().setParameter(ConnRoutePNames.DEFAULT_PROXY,
 						proxy);
 

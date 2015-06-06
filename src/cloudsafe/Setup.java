@@ -1,11 +1,20 @@
 package cloudsafe;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.ObjectOutputStream;
+import java.net.Authenticator;
+import java.net.InetSocketAddress;
+import java.net.PasswordAuthentication;
+import java.net.Proxy;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Properties;
 import java.util.Scanner;
 
 import org.apache.commons.io.input.CloseShieldInputStream;
@@ -24,15 +33,48 @@ public class Setup {
 	String cloudMetadataPath = vaultConfigPath + "/cloudmetadata.ser";
 	static ArrayList<Pair<String, String>> cloudMetaData = new ArrayList<Pair<String, String>>();
 
-	public Setup(String vaultPath, String vaultConfigPath)
-	{
+	public Setup(String vaultPath, String vaultConfigPath) {
 		Setup.vaultPath = vaultPath;
 		Setup.vaultConfigPath = vaultConfigPath;
 	}
-	
-	public Setup(){};
-	
+
+	public Setup() {
+	};
+
+	private Proxy getProxy() {
+		Proxy proxy = Proxy.NO_PROXY;
+		try {
+			Properties proxySettings = new Properties();
+			File configFile = new File(vaultConfigPath + "/config.properties");
+			InputStream inputStream = new FileInputStream(configFile);
+			proxySettings.load(inputStream);
+			inputStream.close();
+			if (proxySettings.getProperty("requireproxy").equals("yes")) {
+				String host = proxySettings.getProperty("proxyhost");
+				int port = Integer.parseInt(proxySettings
+						.getProperty("proxyport"));
+				String authUser = proxySettings.getProperty("proxyuser");
+				String authPass = proxySettings.getProperty("proxypass");
+				Authenticator.setDefault(new Authenticator() {
+					@Override
+					protected PasswordAuthentication getPasswordAuthentication() {
+						return new PasswordAuthentication(authUser, authPass
+								.toCharArray());
+					}
+				});
+				proxy = new Proxy(Proxy.Type.HTTP, new InetSocketAddress(host,
+						port));
+			}
+		} catch (FileNotFoundException e1) {
+			e1.printStackTrace();
+		} catch (IOException e1) {
+			e1.printStackTrace();
+		}
+		return proxy;
+	}
+
 	private void addCloud() {
+		Proxy proxy = getProxy();
 		Scanner in = new Scanner(new CloseShieldInputStream(System.in));
 		int choice = 0;
 		System.out.println("Select one amongst the following drives: ");
@@ -40,7 +82,8 @@ public class Setup {
 				+ "3. Onedrive\t" + "4. Box\t" + "5. Folder");
 		System.out.println("Enter drive number as choice: ");
 		choice = in.nextInt();
-		while (choice != 1 && choice != 1 && choice != 2 && choice != 3 && choice != 4 &&choice != 5) {
+		while (choice != 1 && choice != 1 && choice != 2 && choice != 3
+				&& choice != 4 && choice != 5) {
 			System.out
 					.println("Invalid choice! Enter drive number as choice: ");
 			choice = in.nextInt();
@@ -50,12 +93,12 @@ public class Setup {
 		try {
 			switch (choice) {
 			case 1:
-				cloud = new Dropbox(); 
+				cloud = new Dropbox(proxy);
 				meta = cloud.metadata();
 				cloudMetaData.add(Pair.of("dropbox", meta));
 				break;
 			case 2:
-				cloud = new GoogleDrive();
+				cloud = new GoogleDrive(proxy);
 				meta = cloud.metadata();
 				cloudMetaData.add(Pair.of("googledrive", meta));
 				break;
@@ -65,7 +108,7 @@ public class Setup {
 				cloudMetaData.add(Pair.of("onedrive", meta));
 				break;
 			case 4:
-				cloud = new Box();
+				cloud = new Box(proxy);
 				meta = cloud.metadata();
 				cloudMetaData.add(Pair.of("box", meta));
 				break;
@@ -77,16 +120,21 @@ public class Setup {
 			}
 		} catch (AuthenticationException e) {
 			System.out.println("AuthenticationException: " + e.getMessage());
-		} catch (BoxRestException | BoxServerException | AuthFatalFailureException e) {
-			// TODO Auto-generated catch block
+		} catch (BoxRestException | BoxServerException
+				| AuthFatalFailureException e) {
 			e.printStackTrace();
 		}
 		in.close();
 	}
-	
-	public void confCloudAccess()
-	{
+
+	public void configureCloudAccess() {
 		String s;
+		//create the directory to store configuration data
+		try {
+			Files.createDirectories(Paths.get(vaultConfigPath));
+		} catch (IOException e1) {
+			e1.printStackTrace();
+		}
 		try (Scanner in = new Scanner(new CloseShieldInputStream(System.in))) {
 			for (int i = 0; i < 4; i++) {
 				System.out.println("CLOUD " + (i + 1));
@@ -103,10 +151,9 @@ public class Setup {
 			System.out.println("Exception: " + e);
 			e.printStackTrace();
 		}
-		
+
 		// save the meta data
 		try {
-			Files.createDirectories(Paths.get(vaultConfigPath));
 			FileOutputStream fileOut = new FileOutputStream(cloudMetadataPath);
 			ObjectOutputStream out = new ObjectOutputStream(fileOut);
 			out.writeObject(cloudMetaData);

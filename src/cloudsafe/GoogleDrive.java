@@ -130,7 +130,7 @@ public class GoogleDrive implements Cloud {
 
   static HttpTransport newProxyTransport() throws GeneralSecurityException, IOException {
     NetHttpTransport.Builder builder = new NetHttpTransport.Builder();
-    builder.setProxy(new Proxy(Proxy.Type.HTTP, new InetSocketAddress("10.10.78.61", 3128)));
+    builder.setProxy(new Proxy(Proxy.Type.HTTP, new InetSocketAddress("10.10.78.62", 3128)));
     return builder.build();
   }
 

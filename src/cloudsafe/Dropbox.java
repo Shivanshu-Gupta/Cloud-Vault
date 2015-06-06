@@ -19,55 +19,20 @@ import javax.swing.JOptionPane;
 
 import cloudsafe.cloud.Cloud;
 import cloudsafe.cloud.WriteMode;
-import cloudsafe.exceptions.AuthenticationException;;
+import cloudsafe.exceptions.AuthenticationException;
+
+;
 public class Dropbox implements Cloud {
+
+	private final String APP_KEY = "jahcg9ypjnokceh";
+	private final String APP_SECRET = "7tgx90ejlj65v12";
 
 	DbxClient client;
 	String accessToken = null;
 	Boolean available = true;
 
 	public Dropbox() throws AuthenticationException {
-		setupNewAccess();
-	}
-
-	public Dropbox(String accessToken) {
-		// System.out.println("Access Token: " + accessToken);
-		this.accessToken = accessToken;
-		setupAccess();
-	}
-
-	private static HttpRequestor getProxy() {
-
-		// if ("true".equals(System.getProperty("proxy", "false"))) {
-		String ip = "proxy61.iitd.ernet.in";
-		int port = 3128;
-
-		// final String authUser = "bb5130008";
-		// final String authPassword = "navij_tnayaj";
-
-		// Authenticator.setDefault(new Authenticator() {
-		// @Override
-		// protected PasswordAuthentication getPasswordAuthentication() {
-		// return new PasswordAuthentication(authUser, authPassword
-		// .toCharArray());
-		// }
-		// });
-
-		Proxy proxy = new Proxy(Proxy.Type.HTTP,
-				new InetSocketAddress(ip, port));
-
-		HttpRequestor req = new StandardHttpRequestor(proxy);
-		return req;
-		// }
-		// return null;
-	}
-
-	private void setupNewAccess() throws AuthenticationException {
-		final String APP_KEY = "jahcg9ypjnokceh";
-		final String APP_SECRET = "7tgx90ejlj65v12";
-
 		DbxAppInfo appInfo = new DbxAppInfo(APP_KEY, APP_SECRET);
-
 		DbxRequestConfig config;
 		HttpRequestor requ = getProxy();
 		if (requ != null)
@@ -77,14 +42,6 @@ public class Dropbox implements Cloud {
 			config = new DbxRequestConfig("CloudVault/1.0", Locale.getDefault()
 					.toString());
 
-//		HttpServletRequest request = new HttpServletRequestWrapper(null);
-//		javax.servlet.http.HttpSession session = request.getSession(true);
-//		String sessionKey = "dropbox-auth-csrf-token";
-//		DbxSessionStore csrfTokenStore = new DbxStandardSessionStore(session,
-//				sessionKey);
-//
-//		String redirectUri = "http://my-server.com/dropbox-auth-finish";
-		
 		DbxWebAuthNoRedirect webAuth = new DbxWebAuthNoRedirect(config, appInfo);
 
 		// Have the user sign in and authorize your app.
@@ -104,28 +61,24 @@ public class Dropbox implements Cloud {
 				runtime.exec("/usr/bin/firefox -new-window " + authorizeUrl);
 			}
 
-//			System.out.println("Copy the authorization code.");
-			
-		    String code = JOptionPane.showInputDialog(null,
-	                "Copy the Authorization Code here",
-	                "Dropbox Authorization",
-	                JOptionPane.QUESTION_MESSAGE);
-		    if(code==null)
-		    {
-		    	throw new AuthenticationException("User cancelled Authentication");
-		    }
-//			String code = new BufferedReader(new InputStreamReader(System.in))
-//					.readLine().trim();
-			// This will fail if the user enters an invalid authorization code.
+			String code = JOptionPane.showInputDialog(null,
+					"Copy the Authorization Code here",
+					"Dropbox Authorization", JOptionPane.QUESTION_MESSAGE);
+			if (code == null) {
+				throw new AuthenticationException(
+						"User cancelled Authentication");
+			}
+			code = code.trim();
+
 			DbxAuthFinish authFinish = webAuth.finish(code);
 			accessToken = authFinish.accessToken;
-
 			client = new DbxClient(config, accessToken);
 
 			System.out.println("Linked account: "
 					+ client.getAccountInfo().displayName);
 		} catch (DbxException.NetworkIO | DbxException.ServerError
 				| DbxException.ProtocolError dbe) {
+			System.out.println("Exception: " + dbe);
 			available = false;
 		} catch (DbxException dbe) {
 			System.out.println("DbxException: " + dbe);
@@ -136,7 +89,9 @@ public class Dropbox implements Cloud {
 		}
 	}
 
-	private void setupAccess() {
+	public Dropbox(String accessToken) {
+		// System.out.println("Access Token: " + accessToken);
+		this.accessToken = accessToken;
 		DbxRequestConfig config;
 		HttpRequestor requ = getProxy();
 		if (requ != null)
@@ -158,7 +113,31 @@ public class Dropbox implements Cloud {
 			System.out.println("DbxException: " + dbe);
 			dbe.printStackTrace();
 		}
+	}
 
+	private static HttpRequestor getProxy() {
+
+		// if ("true".equals(System.getProperty("proxy", "false"))) {
+		String ip = "proxy62.iitd.ernet.in";
+		int port = 3128;
+
+		// String authUser = "";
+		// String authPassword ="";
+		// Authenticator.setDefault(new Authenticator() {
+		// @Override
+		// protected PasswordAuthentication getPasswordAuthentication() {
+		// return new PasswordAuthentication(authUser, authPassword
+		// .toCharArray());
+		// }
+		// });
+
+		Proxy proxy = new Proxy(Proxy.Type.HTTP,
+				new InetSocketAddress(ip, port));
+
+		HttpRequestor req = new StandardHttpRequestor(proxy);
+		return req;
+		// }
+		// return null;
 	}
 
 	public String metadata() {
@@ -179,8 +158,8 @@ public class Dropbox implements Cloud {
 				client.uploadFile("/CloudVault/" + fileID, DbxWriteMode.add(),
 						data.length, inputStream);
 			} else if (mode == WriteMode.OVERWRITE) {
-				client.uploadFile("/CloudVault/" + fileID, DbxWriteMode.force(),
-						data.length, inputStream);
+				client.uploadFile("/CloudVault/" + fileID,
+						DbxWriteMode.force(), data.length, inputStream);
 			}
 		} catch (DbxException.NetworkIO | DbxException.ServerError
 				| DbxException.ProtocolError dbe) {
@@ -204,8 +183,8 @@ public class Dropbox implements Cloud {
 				client.uploadFile("/CloudVault/" + fileID, DbxWriteMode.add(),
 						inputFile.length(), inputStream);
 			} else if (mode == WriteMode.OVERWRITE) {
-				client.uploadFile("/CloudVault/" + fileID, DbxWriteMode.force(),
-						inputFile.length(), inputStream);
+				client.uploadFile("/CloudVault/" + fileID,
+						DbxWriteMode.force(), inputFile.length(), inputStream);
 			}
 		} catch (DbxException.NetworkIO | DbxException.ServerError
 				| DbxException.ProtocolError dbe) {

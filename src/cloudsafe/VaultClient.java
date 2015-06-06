@@ -45,8 +45,8 @@ import cloudsafe.exceptions.AuthenticationException;
 public class VaultClient {
 
 	String vaultPath;
-	static String dataFilesPath = "trials/temp";
-	String cloudMetadataPath = dataFilesPath + "/cloudmetadata.ser";
+	static String vaultConfigPath = "trials/config";
+	String cloudMetadataPath = vaultConfigPath + "/cloudmetadata.ser";
 	int cloudNum = 4; // Co
 	int cloudDanger = 1; // Cd
 	final static int overHead = 4; // epsilon
@@ -56,8 +56,8 @@ public class VaultClient {
 	static Table table;
 	
 	static long databaseSize;
-	static String databasePath = dataFilesPath + "/table.ser";
-	final static String databaseSizePath = dataFilesPath + "/tablesize.txt";
+	static String databasePath = vaultConfigPath + "/table.ser";
+	final static String databaseSizePath = vaultConfigPath + "/tablesize.txt";
 
 	@SuppressWarnings("unchecked")
 	public VaultClient(String vaultPath, boolean newDevice){
@@ -146,7 +146,7 @@ public class VaultClient {
 			e.printStackTrace();
 		}
 	}
-	public void uploadFile(String localFilePath)
+	public void upload(String localFilePath)
 	{
 		Path path = Paths.get(localFilePath);
 		File file = new File(localFilePath);
@@ -161,12 +161,12 @@ public class VaultClient {
 				cloudFileName = localFileName + " (" + Integer.toString(version) + ")";
 				databaseSize = table.writeToFile(databasePath);
 				updateTableSizeFile(databaseSize);
-				uploadFile(databaseSizePath);
-				uploadFile(databasePath);
+				upload(databaseSizePath);
+				upload(databasePath);
 		}
-		upload(localFilePath, cloudFileName);
+		uploadFile(localFilePath, cloudFileName);
 	}
-	public void upload(String localFilePath, String cloudFilePath) {
+	public void uploadFile(String localFilePath, String cloudFilePath) {
 //		System.out.println("Upload: ");
 		try {
 			Path path = Paths.get(localFilePath);
@@ -232,7 +232,7 @@ public class VaultClient {
 		}
 	}
 	
-	public void downloadFile(String localFileName, int version) throws FileNotFoundException
+	public void download(String localFileName, int version) throws FileNotFoundException
 	{
 		String cloudFileName = null;
 		String writePath = null;
@@ -241,7 +241,7 @@ public class VaultClient {
 		{
 		case "table.ser" : 
 			cloudFileName = localFileName; 
-			download("tablesize.txt", databaseSizePath, 8);
+			downloadFile("tablesize.txt", databaseSizePath, 8);
 			try (DataInputStream in = new DataInputStream(new FileInputStream(
 					databaseSizePath))) {
 				databaseSize = in.readLong();
@@ -263,10 +263,10 @@ public class VaultClient {
 			fileSize = table.fileSize(localFileName, version);
 			writePath = vaultPath + "/" + localFileName;
 		}
-		download(cloudFileName, writePath, fileSize);
+		downloadFile(cloudFileName, writePath, fileSize);
 	}
 	
-	public void download(String cloudFileName, String writePath, long fileSize) {
+	public void downloadFile(String cloudFileName, String writePath, long fileSize) {
 		System.out.println("Downloading: " + cloudFileName);
 		Pair<FECParameters, Integer> params = getParams(fileSize);
 		FECParameters fecParams = params.first;
@@ -341,8 +341,8 @@ public class VaultClient {
 			table = new Table();
 			databaseSize = table.writeToFile(databasePath);
 			updateTableSizeFile(databaseSize);
-			uploadFile(databaseSizePath);
-			uploadFile(databasePath);
+			upload(databaseSizePath);
+			upload(databasePath);
 		} catch (Exception x) {
 			System.out.println("Exception in creating table: " + x);
 		}
@@ -350,7 +350,7 @@ public class VaultClient {
 
 	public void downloadTable() {
 		try {
-			downloadFile("table.ser", 0);
+			download("table.ser", 0);
 		} catch (FileNotFoundException e) {
 			System.out.println("FileNotFoundException: " + e);
 			e.printStackTrace();

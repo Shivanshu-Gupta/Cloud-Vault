@@ -277,7 +277,7 @@ public class Box implements Cloud {
 				//System.out.println("started");
 				HttpClient client = super.getRawHttpClient();
 				//System.out.println("client generated");
-				HttpHost proxy = new HttpHost("10.10.78.61", 3128, "http");
+				HttpHost proxy = new HttpHost("10.10.78.62", 3128, "http");
 				client.getParams().setParameter(ConnRoutePNames.DEFAULT_PROXY,
 						proxy);
 

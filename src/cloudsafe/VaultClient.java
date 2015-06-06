@@ -17,6 +17,10 @@ import java.util.Arrays;
 
 import org.apache.http.util.*;
 
+import com.box.boxjavalibv2.exceptions.AuthFatalFailureException;
+import com.box.boxjavalibv2.exceptions.BoxServerException;
+import com.box.restclientv2.exceptions.BoxRestException;
+
 import net.fec.openrq.OpenRQ;
 import net.fec.openrq.ArrayDataDecoder;
 import net.fec.openrq.ArrayDataEncoder;
@@ -27,6 +31,8 @@ import net.fec.openrq.decoder.SourceBlockDecoder;
 import cloudsafe.util.Pair;
 import cloudsafe.FolderCloud;
 import cloudsafe.Dropbox;
+import cloudsafe.Box;
+import cloudsafe.GoogleDrive;
 import cloudsafe.cloud.Cloud;
 import cloudsafe.cloud.CloudType;
 import cloudsafe.cloud.WriteMode;
@@ -74,8 +80,9 @@ public class VaultClient {
 						break;
 					// case "onedrive" : clouds.add(new Dropbox());
 					// break;
-					// case "box" : clouds.add(new Dropbox());
-					// break;
+					case "box" : 
+						clouds.add(new Box());
+						break;
 					case "folder":
 						clouds.add(new FolderCloud(metadata.second));
 						break;
@@ -89,6 +96,9 @@ public class VaultClient {
 			} catch (ClassNotFoundException cfe) {
 				System.out.println("ClassNotFoundException: " + cfe);
 				cfe.printStackTrace();
+			} catch (BoxRestException  | BoxServerException | AuthFatalFailureException e){
+				// TODO Auto-generated catch block
+				e.printStackTrace();
 			}
 			// download and populate the table
 			downloadTable();
@@ -348,7 +358,7 @@ public class VaultClient {
 		table = new Table(databasePath);
 	}
 
-	public String addCloud(CloudType type) throws AuthenticationException {
+	public String addCloud(CloudType type) throws AuthenticationException, BoxRestException, BoxServerException, AuthFatalFailureException {
 		Cloud cloud = null;
 		switch (type) {
 		case DROPBOX:
@@ -367,9 +377,9 @@ public class VaultClient {
 			cloudMetaData.add(Pair.of("folder", cloud.metadata()));
 			break;
 		case BOX:
-			cloud = new FolderCloud();
+			cloud = new Box();
 			clouds.add(cloud);
-			cloudMetaData.add(Pair.of("folder", cloud.metadata()));
+			cloudMetaData.add(Pair.of("box", cloud.metadata()));
 			break;
 		case FOLDER:
 			cloud = new FolderCloud();

@@ -13,8 +13,8 @@ import java.net.URISyntaxException;
 import java.util.List;
 import java.util.Locale;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletRequestWrapper;
+//import javax.servlet.http.HttpServletRequest;
+//import javax.servlet.http.HttpServletRequestWrapper;
 import javax.swing.JOptionPane;
 
 import cloudsafe.cloud.Cloud;
@@ -39,7 +39,7 @@ public class Dropbox implements Cloud {
 	private static HttpRequestor getProxy() {
 
 		// if ("true".equals(System.getProperty("proxy", "false"))) {
-		String ip = "proxy62.iitd.ernet.in";
+		String ip = "proxy61.iitd.ernet.in";
 		int port = 3128;
 
 		// final String authUser = "bb5130008";

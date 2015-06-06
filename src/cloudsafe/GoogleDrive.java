@@ -34,6 +34,7 @@ import com.google.api.services.drive.Drive;
 import com.google.api.services.drive.DriveScopes;
 import com.google.api.services.drive.model.File;
 import com.google.api.services.drive.model.FileList;
+import com.google.api.services.drive.model.ParentReference;
 
 import cloudsafe.cloud.Cloud;
 import cloudsafe.cloud.WriteMode;
@@ -48,6 +49,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.security.GeneralSecurityException;
+import java.util.Arrays;
 import java.util.Collections;
 
 /**
@@ -67,7 +69,7 @@ public class GoogleDrive implements Cloud {
    * Be sure to specify the name of your application. If the application name is {@code null} or
    * blank, the application will log a warning. Suggested format is "MyCompany-ProductName/1.0".
    */
-  private static final String APPLICATION_NAME = "CloudSafe";
+  private static final String APPLICATION_NAME = "CloudVault";
   static final String assistingFolder = "trials/googledrive";
   private static final String DIR_FOR_DOWNLOADS = assistingFolder;
 
@@ -91,6 +93,8 @@ public class GoogleDrive implements Cloud {
 
   /** Global Drive API client. */
   private static Drive drive;
+  
+  static String CloudVaultFolderID = null;
   
   
   public GoogleDrive(){
@@ -145,6 +149,24 @@ public class GoogleDrive implements Cloud {
       drive =
           new Drive.Builder(httpTransport, JSON_FACTORY, credential).setApplicationName(
               APPLICATION_NAME).build();
+      
+      Drive.Files.List file_list = drive.files().list().setQ("title='CloudVault' and mimeType='application/vnd.google-apps.folder' and trashed=false" );
+	  FileList CHILDREN = file_list.execute();
+	    
+	  java.util.List<File> ChildActualList = CHILDREN.getItems();
+	  if(ChildActualList.size() >= 1)
+	  {
+		  CloudVaultFolderID = ChildActualList.get(0).getId();
+	  }
+	  else
+	  {	  
+	      File body = new File();
+	      body.setTitle("CloudVault");
+	      body.setMimeType("application/vnd.google-apps.folder");
+	      File file = drive.files().insert(body).execute();
+	      CloudVaultFolderID = file.getId();
+	  }
+      
       return true;
     } catch (IOException e) {
       System.err.println(e.getMessage());
@@ -189,7 +211,7 @@ public class GoogleDrive implements Cloud {
 	}
 	else if (mode == WriteMode.OVERWRITE)
 	{
-	    Drive.Files.List file_list = drive.files().list().setQ("title = '" + fileID + "'");
+	    Drive.Files.List file_list = drive.files().list().setQ("title = '" + fileID + "' and '"+ CloudVaultFolderID +"' in parents and" + " trashed=false");
 	    FileList Files = file_list.execute();
 	    
 	    java.util.List<File> FileActualList = Files.getItems();
@@ -216,6 +238,7 @@ public class GoogleDrive implements Cloud {
 
     File fileMetadata = new File();
     fileMetadata.setTitle(UPLOAD_FILE.getName());
+    fileMetadata.setParents(Arrays.asList(new ParentReference().setId(CloudVaultFolderID)));
     FileContent mediaContent = new FileContent("image/jpeg", UPLOAD_FILE);
     Drive.Files.Insert insert = drive.files().insert(fileMetadata, mediaContent);
     MediaHttpUploader uploader = insert.getMediaHttpUploader();
@@ -233,7 +256,7 @@ public class GoogleDrive implements Cloud {
 
   @Override
   public byte[] downloadFile(String fileID) throws IOException {
-    Drive.Files.List file_list = drive.files().list().setQ("title = '" + fileID + "'");
+    Drive.Files.List file_list = drive.files().list().setQ("title = '" + fileID + "' and '"+ CloudVaultFolderID +"' in parents and" + " trashed=false");
     FileList FilesPresent = file_list.execute();
     java.util.List<File> FileActualList = FilesPresent.getItems();
     OutputStream out = new FileOutputStream(new java.io.File(assistingFolder, fileID));
@@ -246,7 +269,7 @@ public class GoogleDrive implements Cloud {
   }
 
   public void downloadFile(String path, String fileID) throws IOException {
-    Drive.Files.List file_list = drive.files().list().setQ("title = '" + fileID + "'");
+    Drive.Files.List file_list = drive.files().list().setQ("title = '" + fileID + "' and '"+ CloudVaultFolderID +"' in parents and" + " trashed=false");
     FileList Files = file_list.execute();
     java.util.List<File> FileActualList = Files.getItems();
     downloadFile(false, FileActualList.get(0), path);
@@ -271,7 +294,7 @@ public class GoogleDrive implements Cloud {
   @Override
   public boolean searchFile(String fileID) {
     try {
-      Drive.Files.List file_list = drive.files().list().setQ("title = '" + fileID + "'");
+      Drive.Files.List file_list = drive.files().list().setQ("title = '" + fileID + "' and '"+ CloudVaultFolderID +"' in parents and" + " trashed=false");
       FileList Files = file_list.execute();
       java.util.List<File> FileActualList = Files.getItems();
       if (FileActualList.size() != 0)

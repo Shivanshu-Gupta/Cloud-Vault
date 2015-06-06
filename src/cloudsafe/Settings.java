@@ -15,20 +15,12 @@ import java.util.Properties;
 
 import javax.swing.JButton;
 import javax.swing.JComponent;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
-import javax.swing.SwingUtilities;
 
-/**
- * This program demonstrates using java.util.Properties class to read and write
- * settings for Java application.
- * @author www.codejava.net
- *
- */
-public class Settings extends JFrame {
+public class Settings extends JPanel {
 	
 	private static final long serialVersionUID = 1L;
 	String vaultConfigPath = "trials/config";
@@ -96,17 +88,22 @@ public class Settings extends JFrame {
 				try {
 					saveProperties();
 					JOptionPane.showMessageDialog(Settings.this, 
-							"Properties were saved successfully!");		
+							"Properties were saved successfully!");
+					
 				} catch (IOException ex) {
 					JOptionPane.showMessageDialog(Settings.this, 
 							"Error saving properties file: " + ex.getMessage());		
 				}
 			}
 		});
-		
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		pack();
-		setLocationRelativeTo(null);
+//		addWindowListener(new WindowAdapter() {
+//	          public void windowClosing(WindowEvent e) {
+//	              notify();
+//	          }
+//	     });
+//		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+//		pack();
+//		setLocationRelativeTo(null);
 		setVisible(true);
 		
 		try {

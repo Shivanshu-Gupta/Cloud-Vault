@@ -1,5 +1,6 @@
 package cloudsafe;
 
+import java.awt.Dialog;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -16,6 +17,8 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Properties;
 import java.util.Scanner;
+
+import javax.swing.JDialog;
 
 import org.apache.commons.io.input.CloseShieldInputStream;
 
@@ -39,6 +42,17 @@ public class Setup {
 	}
 
 	public Setup() {
+		//create the directory to store configuration data
+		try {
+			Files.createDirectories(Paths.get(vaultConfigPath));
+		} catch (IOException e1) {
+			e1.printStackTrace();
+		}
+		Settings proxySettings = new Settings(vaultConfigPath);
+		JDialog settings = new JDialog(null, "Proxy Settings", Dialog.ModalityType.APPLICATION_MODAL);
+		settings.add(proxySettings);
+        settings.pack();
+		settings.setVisible(true);
 	};
 
 	private Proxy getProxy() {
@@ -129,12 +143,6 @@ public class Setup {
 
 	public void configureCloudAccess() {
 		String s;
-		//create the directory to store configuration data
-		try {
-			Files.createDirectories(Paths.get(vaultConfigPath));
-		} catch (IOException e1) {
-			e1.printStackTrace();
-		}
 		try (Scanner in = new Scanner(new CloseShieldInputStream(System.in))) {
 			for (int i = 0; i < 4; i++) {
 				System.out.println("CLOUD " + (i + 1));

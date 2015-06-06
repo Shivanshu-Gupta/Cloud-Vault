@@ -1,12 +1,13 @@
 package cloudsafe;
 
+import java.awt.Dialog;
 import java.io.FileNotFoundException;
 import java.nio.file.Paths;
 import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-import javax.swing.SwingUtilities;
+import javax.swing.JDialog;
 
 import org.apache.commons.io.input.CloseShieldInputStream;
 
@@ -77,7 +78,7 @@ public class Main {
 		System.out.println("Enter the number corresponding to your choice: ");
 		Scanner in = new Scanner(new CloseShieldInputStream(System.in));
 		int choice = in.nextInt();
-		if (choice < 1 || 6 < choice) {
+		if (choice < 1 || 7 < choice) {
 			System.out.println("Invalid choice.");
 			System.out.println("You have the following options: ");
 			choice = showMenu();
@@ -107,16 +108,10 @@ public class Main {
 				System.out
 						.println("We will now setup access to your Cloud Vault.");
 				
-				SwingUtilities.invokeLater(new Runnable() {
-					@Override
-					public void run() {
-						new Settings(vaultConfigPath);
-					}
-				});
 				Setup cloudVaultSetup = new Setup();
 				cloudVaultSetup.configureCloudAccess();
 			}
-			client = new VaultClient(vaultPath, false);
+			client = new VaultClient(vaultPath);
 
 			int choice;
 			do {
@@ -153,12 +148,12 @@ public class Main {
 					}
 					break;
 				case 6:
-					SwingUtilities.invokeLater(new Runnable() {
-						@Override
-						public void run() {
-							new Settings(vaultConfigPath);
-						}
-					});
+					Settings proxySettings = new Settings(vaultConfigPath);
+					JDialog settings = new JDialog(null, "Proxy Settings", Dialog.ModalityType.APPLICATION_MODAL);
+					settings.add(proxySettings);
+			        settings.pack();
+					settings.setVisible(true);
+					break;
 				case 7:
 					System.exit(0);
 				}

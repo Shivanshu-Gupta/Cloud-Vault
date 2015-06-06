@@ -57,7 +57,7 @@ public class VaultClient {
 	int cloudNum = 4; // Co
 	int cloudDanger = 1; // Cd
 	final static int overHead = 4; // epsilon
-	Proxy proxy = new Proxy(Proxy.Type.HTTP, null);
+	Proxy proxy = Proxy.NO_PROXY;
 	static ArrayList<Cloud> clouds = new ArrayList<Cloud>();
 	static ArrayList<Pair<String, String>> cloudMetaData = new ArrayList<Pair<String, String>>();
 	static Table table;
@@ -67,52 +67,53 @@ public class VaultClient {
 	final static String databaseSizePath = vaultConfigPath + "/tablesize.txt";
 
 	@SuppressWarnings("unchecked")
-	public VaultClient(String vaultPath, boolean newDevice) {
+	public VaultClient(String vaultPath) {
 		this.vaultPath = vaultPath;
 		proxy = getProxy();
+		try {
+			FileInputStream fileIn = new FileInputStream(cloudMetadataPath);
+			ObjectInputStream in = new ObjectInputStream(fileIn);
+			cloudMetaData = (ArrayList<Pair<String, String>>) in
+					.readObject();
 
-		if (!newDevice) {
-			try {
-				FileInputStream fileIn = new FileInputStream(cloudMetadataPath);
-				ObjectInputStream in = new ObjectInputStream(fileIn);
-				cloudMetaData = (ArrayList<Pair<String, String>>) in
-						.readObject();
-
-				for (Pair<String, String> metadata : cloudMetaData) {
-					System.out.println("adding cloud: " + metadata.first);
-					switch (metadata.first) {
-					case "dropbox":
-						clouds.add(new Dropbox(metadata.second, proxy));
-						break;
-					case "googledrive":
-						clouds.add(new GoogleDrive(proxy));
-						break;
-					// case "onedrive" : clouds.add(new Dropbox());
-					// break;
-					case "box":
-						clouds.add(new Box(proxy));
-						break;
-					case "folder":
-						clouds.add(new FolderCloud(metadata.second));
-						break;
-					}
+			for (Pair<String, String> metadata : cloudMetaData) {
+				System.out.println("adding cloud: " + metadata.first);
+				switch (metadata.first) {
+				case "dropbox":
+					clouds.add(new Dropbox(metadata.second, proxy));
+					break;
+				case "googledrive":
+					clouds.add(new GoogleDrive(proxy));
+					break;
+				// case "onedrive" : clouds.add(new Dropbox());
+				// break;
+				case "box":
+					clouds.add(new Box(proxy));
+					break;
+				case "folder":
+					clouds.add(new FolderCloud(metadata.second));
+					break;
 				}
-				in.close();
-				fileIn.close();
-			} catch (IOException x) {
-				System.out.println("IOException: " + x);
-				x.printStackTrace();
-			} catch (ClassNotFoundException cfe) {
-				System.out.println("ClassNotFoundException: " + cfe);
-				cfe.printStackTrace();
-			} catch (BoxRestException | BoxServerException
-					| AuthFatalFailureException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
 			}
-			// download and populate the table
-			downloadTable();
+			in.close();
+			fileIn.close();
+		} catch (IOException x) {
+			System.out.println("IOException: " + x);
+			x.printStackTrace();
+		} catch (ClassNotFoundException cfe) {
+			System.out.println("ClassNotFoundException: " + cfe);
+			cfe.printStackTrace();
+		} catch (BoxRestException | BoxServerException
+				| AuthFatalFailureException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
+		
+		boolean newUser = checkIfNewUser();
+		if (newUser)
+			createNewTable();
+		else
+			downloadTable();
 	}
 
 	private Proxy getProxy() {

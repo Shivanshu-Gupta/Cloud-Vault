@@ -85,8 +85,9 @@ public class VaultClient {
 				case "googledrive":
 					clouds.add(new GoogleDrive(proxy));
 					break;
-				// case "onedrive" : clouds.add(new Dropbox());
-				// break;
+				case "onedrive" : 
+					clouds.add(new FolderCloud(metadata.second));
+					break;
 				case "box":
 					clouds.add(new Box(proxy));
 					break;

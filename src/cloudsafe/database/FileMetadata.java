@@ -7,7 +7,7 @@ public final class FileMetadata implements Serializable {
 	private static final long serialVersionUID = 10L;
 	
 //	String parent;
-	int parentVersion;
+//	int parentVersion;
 	String fileName;
 	int version;
 	long fileSize;
@@ -15,29 +15,29 @@ public final class FileMetadata implements Serializable {
 
 	public FileMetadata(String fileName, int version, long fileSize) {
 //		this.parent = "";
-		this.parentVersion =-1;
+//		this.parentVersion =-1;
 		this.fileName = fileName;
 		this.version = version;
 		this.fileSize = fileSize;
 		this.timestamp = new Date();
 	}
 	
-	public FileMetadata(String fileName, int version, int parentVersion, long fileSize) {
-//		this.parent = parent;
-		this.parentVersion = parentVersion;
-		this.fileName = fileName;
-		this.version = version;
-		this.fileSize = fileSize;
-		this.timestamp = new Date();
-	}
+//	public FileMetadata(String fileName, int version, int parentVersion, long fileSize) {
+////		this.parent = parent;
+////		this.parentVersion = parentVersion;
+//		this.fileName = fileName;
+//		this.version = version;
+//		this.fileSize = fileSize;
+//		this.timestamp = new Date();
+//	}
 	
 //	public String parent() {
 //		return parent;
 //	}
 //	
-	public int parentVersion() {
-		return parentVersion;
-	}
+//	public int parentVersion() {
+//		return parentVersion;
+//	}
 	
 	public String fileName() {
 		return fileName;
@@ -79,9 +79,9 @@ public final class FileMetadata implements Serializable {
 //							.equals(other.parent))) {
 //				return false;
 //			}
-			if (this.parentVersion != other.parentVersion) {
-				return false;
-			}
+//			if (this.parentVersion != other.parentVersion) {
+//				return false;
+//			}
 			if (this.fileSize != other.fileSize) {
 				return false;
 			}
@@ -99,7 +99,7 @@ public final class FileMetadata implements Serializable {
 			hash = 13 * hash + this.fileName.hashCode();
 			hash = 13 * hash + this.version;
 //			hash = 13 * hash + this.parent.hashCode();
-			hash = 13 * hash + this.parentVersion;
+//			hash = 13 * hash + this.parentVersion;
 			hash = 13 * hash + (int)this.fileSize;
 		}
 		return hash;

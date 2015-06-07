@@ -36,12 +36,14 @@ public class Main {
 		System.out.println("Enter the path of the file/folder to upload");
 		Scanner in = new Scanner(new CloseShieldInputStream(System.in));
 		String filePath = in.nextLine();
+		System.out.println("Enter the path to upload to");
+		String parentPath = in.nextLine();
 		in.close();
 		if (!Files.exists(Paths.get(filePath))) {
 			System.out.println("File/Folder not found");
 			return;
 		}
-		client.upload(filePath);
+		client.upload(filePath, parentPath);
 	}
 
 	private void handleDownload() {

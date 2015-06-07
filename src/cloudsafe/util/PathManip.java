@@ -4,13 +4,18 @@ public class PathManip {
 	static char LocalChar = '/';
 	static char CloudChar = '$';
 	static String invalidChar[] = {"/","\\",":","*","?","<",">","|","\"","$"};
-
-	public String toCloudFormat(String LocalFormat){
-		return LocalFormat.replace(LocalChar, CloudChar);
+	static String str;
+	
+	public PathManip(String str){
+		this.str = str; 
 	}
 	
-	public String toLocalFormat(String LocalFormat){
-		return LocalFormat.replace(CloudChar, LocalChar);
+	public String toCloudFormat(){
+		return str.replace(LocalChar, CloudChar);
+	}
+	
+	public String toLocalFormat(){
+		return str.replace(CloudChar, LocalChar);
 	}
 	
 	public boolean isLocalFormat(String filename){

@@ -62,22 +62,22 @@ public class Table {
 		return table.size();
 	}
 
-	public final int addNewFile(String fileName, int parentVersion,
-			long fileSize) {
-		int version = 1;
-		ArrayList<FileMetadata> fileVersions;
-		if (!table.containsKey(fileName) || table.get(fileName) == null) {
-			fileVersions = new ArrayList<FileMetadata>(1);
-		} else {
-			fileVersions = table.get(fileName).first;
-			version = fileVersions.size() + 1;
-		}
-		FileMetadata meta = new FileMetadata(fileName, version, parentVersion,
-				fileSize);
-		fileVersions.add(meta);
-		table.put(fileName, Pair.of(fileVersions, false));
-		return version;
-	}
+//	public final int addNewFile(String fileName, int parentVersion,
+//			long fileSize) {
+//		int version = 1;
+//		ArrayList<FileMetadata> fileVersions;
+//		if (!table.containsKey(fileName) || table.get(fileName) == null) {
+//			fileVersions = new ArrayList<FileMetadata>(1);
+//		} else {
+//			fileVersions = table.get(fileName).first;
+//			version = fileVersions.size() + 1;
+//		}
+//		FileMetadata meta = new FileMetadata(fileName, version, parentVersion,
+//				fileSize);
+//		fileVersions.add(meta);
+//		table.put(fileName, Pair.of(fileVersions, false));
+//		return version;
+//	}
 
 	public final int addNewFile(String fileName, long fileSize) {
 		int version = 1;
@@ -107,20 +107,12 @@ public class Table {
 		return contains;
 	}
 
-	public final ArrayList<FileMetadata> getChildren(String parent,
-			int parentVersion) {
+	public final ArrayList<FileMetadata> getChildren(String parent) {
 		Object[] fileNames = table.keySet().toArray();
 		ArrayList<FileMetadata> childrenData = new ArrayList<FileMetadata>();
 		for (Object fileName : fileNames) {
 			if (((String) fileName).startsWith(parent)) {
-				ArrayList<FileMetadata> fileVersions = table
-						.get((String) fileName).first;
-				for (FileMetadata file : fileVersions) {
-					if (file.parentVersion == parentVersion) {
-						System.out.println(file.toString());
-						childrenData.add(file);
-					}
-				}
+				childrenData.addAll(table.get((String) fileName).first);
 			}
 		}
 		return childrenData;

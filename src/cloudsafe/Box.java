@@ -5,18 +5,13 @@ import com.box.boxjavalibv2.dao.*;
 import com.box.boxjavalibv2.exceptions.*;
 import com.box.boxjavalibv2.jsonparsing.BoxJSONParser;
 import com.box.boxjavalibv2.jsonparsing.BoxResourceHub;
+import com.box.boxjavalibv2.requests.requestobjects.BoxFolderRequestObject;
 //import com.box.boxjavalibv2.requests.requestobjects.*;
 import com.box.restclientv2.IBoxRESTClient;
 import com.box.restclientv2.exceptions.*;
+import com.box.restclientv2.requestsbase.BoxDefaultRequestObject;
 import com.box.restclientv2.requestsbase.BoxFileUploadRequestObject;
 //import com.box.restclientv2.requestsbase.BoxOAuthRequestObject;
-
-
-
-
-
-
-
 
 import cloudsafe.cloud.Cloud;
 import cloudsafe.cloud.WriteMode;
@@ -44,49 +39,24 @@ public class Box implements Cloud {
 	String code = null;
 	BoxClient client;
 	public String metadata = "";
-	String CloudSafeFolderID = "";
+	String CloudVaultFolderID = "";
 
 	public Box(Proxy proxy) throws BoxRestException, BoxServerException,
 			AuthFatalFailureException {
-		
+
 		String url = "https://www.box.com/api/oauth2/authorize?response_type=code&client_id="
 				+ key + "&redirect_uri=http%3A//localhost%3A" + PORT;
 		try {
-			
 
-				Desktop.getDesktop().browse(java.net.URI.create(url));
-				code = getCode();
-
+			Desktop.getDesktop().browse(java.net.URI.create(url));
+			code = getCode();
 
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-
 		client = getAuthenticatedClient(code, proxy);
-		
-		
-		try {
-			BoxFolder boxFolder = client.getFoldersManager().getFolder(
-					"0", null);
-			ArrayList<BoxTypedObject> folderEntries = boxFolder
-					.getItemCollection().getEntries();
-			int folderSize = folderEntries.size();
-			for (int i = 0; i <= folderSize - 1; i++) {
-				BoxTypedObject folderEntry = folderEntries.get(i);
-				String name = (folderEntry instanceof BoxItem) ? ((BoxItem) folderEntry)
-						.getName() : "(unknown)";
-				if (name.equals("CloudSafe")) {
-					CloudSafeFolderID = folderEntry.getId();
-					break;
-				}
-			}
-		} catch (BoxRestException | BoxServerException
-				| AuthFatalFailureException e) {
-			e.printStackTrace();
-		}
+		CloudVaultFolderID = getCloudVaultFolderID();
 	}
-	
-
 
 	public String metadata() {
 		return code;
@@ -107,7 +77,7 @@ public class Box implements Cloud {
 				fos.write(data);
 				fos.close();
 			}
-			uploadFile(GoogleDrive.assistingFolder + "/" + fileID, fileID, mode);
+			uploadFile(tempPath + fileID, fileID, mode);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -121,7 +91,7 @@ public class Box implements Cloud {
 
 			try {
 				requestObj = BoxFileUploadRequestObject
-						.uploadFileRequestObject(CloudSafeFolderID, fileID,
+						.uploadFileRequestObject(CloudVaultFolderID, fileID,
 								UPLOAD_FILE);
 				client.getFilesManager().uploadFile(requestObj);
 			} catch (BoxRestException | BoxJSONException | BoxServerException
@@ -129,13 +99,13 @@ public class Box implements Cloud {
 				e.printStackTrace();
 			}
 
-			//System.out.println("file_uploaded");
+			// System.out.println("file_uploaded");
 
 		} else if (mode == WriteMode.OVERWRITE) {
 			BoxFolder boxFolder;
 			try {
-				boxFolder = client.getFoldersManager().getFolder(CloudSafeFolderID,
-						null);
+				boxFolder = client.getFoldersManager().getFolder(
+						CloudVaultFolderID, null);
 				ArrayList<BoxTypedObject> folderEntries = boxFolder
 						.getItemCollection().getEntries();
 				int folderSize = folderEntries.size();
@@ -144,9 +114,9 @@ public class Box implements Cloud {
 					BoxTypedObject folderEntry = folderEntries.get(i);
 					String name = (folderEntry instanceof BoxItem) ? ((BoxItem) folderEntry)
 							.getName() : "(unknown)";
-//					System.out.println("i:" + i + ", Type:"
-//							+ folderEntry.getType() + ", Id:"
-//							+ folderEntry.getId() + ", Name:" + name);
+					// System.out.println("i:" + i + ", Type:"
+					// + folderEntry.getType() + ", Id:"
+					// + folderEntry.getId() + ", Name:" + name);
 					if (name.equals(fileID)) {
 						RequiredFileID = folderEntry.getId();
 					}
@@ -157,11 +127,11 @@ public class Box implements Cloud {
 					java.io.File UPLOAD_FILE = new java.io.File(path);
 					BoxFileUploadRequestObject requestObj;
 					requestObj = BoxFileUploadRequestObject
-							.uploadFileRequestObject(CloudSafeFolderID, fileID,
+							.uploadFileRequestObject(CloudVaultFolderID, fileID,
 									UPLOAD_FILE);
 					client.getFilesManager().uploadNewVersion(RequiredFileID,
-									requestObj);
-					//System.out.println("file_updated");
+							requestObj);
+					// System.out.println("file_updated");
 				}
 			} catch (BoxRestException | BoxServerException
 					| AuthFatalFailureException | InterruptedException
@@ -176,8 +146,8 @@ public class Box implements Cloud {
 		BoxFolder boxFolder;
 		byte[] byteArray = null;
 		try {
-			boxFolder = client.getFoldersManager()
-					.getFolder(CloudSafeFolderID, null);
+			boxFolder = client.getFoldersManager().getFolder(CloudVaultFolderID,
+					null);
 			ArrayList<BoxTypedObject> folderEntries = boxFolder
 					.getItemCollection().getEntries();
 			int folderSize = folderEntries.size();
@@ -205,7 +175,7 @@ public class Box implements Cloud {
 	public void downloadFile(String path, String fileID) {
 		try {
 			BoxFolder boxFolder = client.getFoldersManager().getFolder(
-					CloudSafeFolderID, null);
+					CloudVaultFolderID, null);
 			ArrayList<BoxTypedObject> folderEntries = boxFolder
 					.getItemCollection().getEntries();
 			int folderSize = folderEntries.size();
@@ -236,26 +206,11 @@ public class Box implements Cloud {
 
 	public boolean searchFile(String fileID) {
 		try {
-			if(CloudSafeFolderID.equals(""))
-			{
-				BoxFolder boxFolder = client.getFoldersManager().getFolder(
-						"0", null);
-				ArrayList<BoxTypedObject> folderEntries = boxFolder
-						.getItemCollection().getEntries();
-				int folderSize = folderEntries.size();
-				for (int i = 0; i <= folderSize - 1; i++) {
-					BoxTypedObject folderEntry = folderEntries.get(i);
-					String name = (folderEntry instanceof BoxItem) ? ((BoxItem) folderEntry)
-							.getName() : "(unknown)";
-					//System.out.println(""+ i + " : " + ((BoxItem) folderEntry).getName());
-					if (name.equals("CloudSafe")) {
-						//System.out.println("ID changed : " + CloudSafeFolderID);
-						CloudSafeFolderID = folderEntry.getId();
-					}
-				}
+			if (CloudVaultFolderID.equals("")) {
+				CloudVaultFolderID = getCloudVaultFolderID();
 			}
 			BoxFolder boxFolder = client.getFoldersManager().getFolder(
-					CloudSafeFolderID, null);
+					CloudVaultFolderID, null);
 			ArrayList<BoxTypedObject> folderEntries = boxFolder
 					.getItemCollection().getEntries();
 			int folderSize = folderEntries.size();
@@ -274,7 +229,72 @@ public class Box implements Cloud {
 		return false;
 	}
 
-	
+	public void deleteFile(String Filename) {
+		try {
+			if (CloudVaultFolderID.equals("")) {
+				CloudVaultFolderID = getCloudVaultFolderID();
+			}
+			BoxFolder boxFolder = client.getFoldersManager().getFolder(
+					CloudVaultFolderID, null);
+			ArrayList<BoxTypedObject> folderEntries = boxFolder
+					.getItemCollection().getEntries();
+			int folderSize = folderEntries.size();
+			for (int i = 0; i <= folderSize - 1; i++) {
+				BoxTypedObject folderEntry = folderEntries.get(i);
+				String name = (folderEntry instanceof BoxItem) ? ((BoxItem) folderEntry)
+						.getName() : "(unknown)";
+				if (name.equals(Filename)) {
+					BoxDefaultRequestObject requestObj = new BoxDefaultRequestObject();
+					String fileId = ((BoxItem) folderEntry).getId();
+					client.getFilesManager().deleteFile(fileId, requestObj);
+					return;
+				}
+			}
+		} catch (BoxRestException | BoxServerException
+				| AuthFatalFailureException e) {
+			e.printStackTrace();
+		}
+		return;
+	}
+
+	private String getCloudVaultFolderID() {
+		BoxFolder boxFolder;
+		try {
+			boxFolder = client.getFoldersManager().getFolder("0", null);
+			ArrayList<BoxTypedObject> folderEntries = boxFolder
+					.getItemCollection().getEntries();
+			int folderSize = folderEntries.size();
+			for (int i = 0; i <= folderSize - 1; i++) {
+				BoxTypedObject folderEntry = folderEntries.get(i);
+				String name = (folderEntry instanceof BoxItem) ? ((BoxItem) folderEntry)
+						.getName() : "(unknown)";
+				if (name.equals("CloudVault")) {
+					// System.out.println("ID changed : " + CloudVaultFolderID);
+					return folderEntry.getId();
+				}
+			}
+
+			// create folder CloudVault
+
+			BoxFolderRequestObject requestObj;
+
+			try {
+				requestObj = BoxFolderRequestObject.createFolderRequestObject(
+						"CloudVault", "0");
+				return client.getFoldersManager().createFolder(requestObj).getId();
+			} catch (BoxRestException | BoxServerException
+					| AuthFatalFailureException e) {
+				e.printStackTrace();
+			}
+
+		} catch (BoxRestException | BoxServerException
+				| AuthFatalFailureException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
+
+	}
 
 	private static BoxClient getAuthenticatedClient(String code, Proxy netproxy)
 			throws BoxRestException, BoxServerException,
@@ -285,11 +305,12 @@ public class Box implements Cloud {
 			@SuppressWarnings("deprecation")
 			@Override
 			public HttpClient getRawHttpClient() {
-				//System.out.println("started");
+				// System.out.println("started");
 				HttpClient client = super.getRawHttpClient();
-				//System.out.println("client generated");
-				 InetSocketAddress addr = (InetSocketAddress)netproxy.address();
-				HttpHost proxy = new HttpHost(addr.getHostString(), addr.getPort(), "http");
+				// System.out.println("client generated");
+				InetSocketAddress addr = (InetSocketAddress) netproxy.address();
+				HttpHost proxy = new HttpHost(addr.getHostString(),
+						addr.getPort(), "http");
 				client.getParams().setParameter(ConnRoutePNames.DEFAULT_PROXY,
 						proxy);
 

@@ -12,6 +12,7 @@ import java.net.URISyntaxException;
 import java.util.List;
 import java.util.Locale;
 
+
 //import javax.servlet.http.HttpServletRequest;
 //import javax.servlet.http.HttpServletRequestWrapper;
 import javax.swing.JOptionPane;
@@ -215,5 +216,18 @@ public class Dropbox implements Cloud {
 			dbe.printStackTrace();
 		}
 		return false;
+	}
+
+	@Override
+	public void deleteFile(String path) {
+		try {
+			client.delete("/CloudVault/" + path);
+		} catch (DbxException.NetworkIO | DbxException.ServerError
+				| DbxException.ProtocolError dbe) {
+			available = false;
+		} catch (DbxException dbe) {
+			System.out.println("DbxException: " + dbe);
+			dbe.printStackTrace();
+		}
 	}
 }

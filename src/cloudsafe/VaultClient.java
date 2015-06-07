@@ -439,6 +439,40 @@ public class VaultClient {
 			e.printStackTrace();
 		}
 	}
+	
+	public void delete(String cloudFileName, int version)
+			throws FileNotFoundException {
+		String cloudFilePath = null;
+		long fileSize = 0;
+		downloadTable();
+		if (table.hasFileVersion(cloudFileName, version)) {
+			cloudFilePath = cloudFileName + " (" + version + ")";
+			fileSize = table.fileSize(cloudFileName, version);
+			if (fileSize < 0) {
+				try {
+					Iterable<FileMetadata> childrendata = table
+							.getChildren(cloudFilePath);
+					for (FileMetadata childdata : childrendata) {
+						System.out.println("Child: " + childdata.fileName()
+								+ ":" + childdata.version());
+						delete(childdata.fileName(), childdata.version());
+					}
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			} else {
+				cloudFilePath = (new PathManip(cloudFilePath)).toCloudFormat();
+				for (int i = 0; i < clouds.size(); i++) {
+					Cloud cloud = clouds.get(i);
+					if (cloud.isAvailable() && cloud.searchFile(cloudFilePath)) {
+						cloud.deleteFile(cloudFilePath);
+					}
+				}
+			}
+		} else {
+			throw new FileNotFoundException();
+		}		
+	}
 
 	public void setupTable() {
 		if (checkIfNewUser())

@@ -21,6 +21,8 @@ public interface Cloud {
 	
 	public void downloadFile(String path, String fileID) throws IOException;
 	
+	public void deleteFile(String path);
+	
 	public boolean searchFile(String fileID);
 
 }

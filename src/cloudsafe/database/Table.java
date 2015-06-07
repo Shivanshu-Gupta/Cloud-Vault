@@ -10,7 +10,6 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
-
 import cloudsafe.database.FileMetadata;
 import cloudsafe.util.Pair;
 
@@ -18,7 +17,7 @@ import java.util.Date;
 
 public class Table {
 	private static HashMap<String, Pair<ArrayList<FileMetadata>, Boolean>> table;
-	
+
 	public Table() {
 		table = new HashMap<String, Pair<ArrayList<FileMetadata>, Boolean>>();
 	}
@@ -63,6 +62,23 @@ public class Table {
 		return table.size();
 	}
 
+	public final int addNewFile(String fileName, int parentVersion,
+			long fileSize) {
+		int version = 1;
+		ArrayList<FileMetadata> fileVersions;
+		if (!table.containsKey(fileName) || table.get(fileName) == null) {
+			fileVersions = new ArrayList<FileMetadata>(1);
+		} else {
+			fileVersions = table.get(fileName).first;
+			version = fileVersions.size() + 1;
+		}
+		FileMetadata meta = new FileMetadata(fileName, version, parentVersion,
+				fileSize);
+		fileVersions.add(meta);
+		table.put(fileName, Pair.of(fileVersions, false));
+		return version;
+	}
+
 	public final int addNewFile(String fileName, long fileSize) {
 		int version = 1;
 		ArrayList<FileMetadata> fileVersions;
@@ -81,28 +97,45 @@ public class Table {
 	public final boolean hasFile(String fileName) {
 		return table.containsKey(fileName) && table.get(fileName) != null;
 	}
-	
-	public final boolean hasFileVersion(String fileName, int version){
+
+	public final boolean hasFileVersion(String fileName, int version) {
 		boolean contains = false;
-		if(this.hasFile(fileName))
-		{
+		if (this.hasFile(fileName)) {
 			ArrayList<FileMetadata> fileVersions = table.get(fileName).first;
-			contains = 0< version && version <= fileVersions.size(); 
+			contains = 0 < version && version <= fileVersions.size();
 		}
 		return contains;
 	}
-	
-	public final boolean hasFileDated(String fileName, Date timestamp){
+
+	public final ArrayList<FileMetadata> getChildren(String parent,
+			int parentVersion) {
+		Object[] fileNames = table.keySet().toArray();
+		ArrayList<FileMetadata> childrenData = new ArrayList<FileMetadata>();
+		for (Object fileName : fileNames) {
+			if (((String) fileName).startsWith(parent)) {
+				ArrayList<FileMetadata> fileVersions = table
+						.get((String) fileName).first;
+				for (FileMetadata file : fileVersions) {
+					if (file.parentVersion == parentVersion) {
+						System.out.println(file.toString());
+						childrenData.add(file);
+					}
+				}
+			}
+		}
+		return childrenData;
+	}
+
+	public final boolean hasFileDated(String fileName, Date timestamp) {
 		boolean contains = false;
-		if(this.hasFile(fileName))
-		{
+		if (this.hasFile(fileName)) {
 			ArrayList<FileMetadata> fileVersions = table.get(fileName).first;
 			for (int i = 0; i < fileVersions.size(); i++) {
 				if (timestamp.equals(fileVersions.get(i).timestamp())) {
 					contains = true;
 					break;
 				}
-			} 
+			}
 		}
 		return contains;
 	}
@@ -117,6 +150,14 @@ public class Table {
 			}
 		}
 		return fileSize;
+	}
+
+	public final int version(String fileName) {
+		int version = -1;
+		if (table.containsKey(fileName) && table.get(fileName) != null) {
+			version = table.get(fileName).first.size();
+		}
+		return version;
 	}
 
 	public final long fileSize(String fileName, int version) {
@@ -165,20 +206,20 @@ public class Table {
 			}
 		}
 	}
-	
-	public Object[] getFileList(){
+
+	public Object[] getFileList() {
 		return table.keySet().toArray();
 	}
-	
-	public ArrayList<FileMetadata> getFileHistory(String fileName) throws FileNotFoundException 
-	{
+
+	public ArrayList<FileMetadata> getFileHistory(String fileName)
+			throws FileNotFoundException {
 		if (!table.containsKey(fileName) || table.get(fileName) == null) {
 			throw new FileNotFoundException();
 		} else {
 			return table.get(fileName).first;
 		}
 	}
-	
+
 	public void printTable() {
 		Object[] fileNames = table.keySet().toArray();
 		for (Object fileName : fileNames) {

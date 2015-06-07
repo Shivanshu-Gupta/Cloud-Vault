@@ -119,7 +119,7 @@ public class Setup {
 			case 3:
 				cloud = new FolderCloud();
 				meta = cloud.metadata();
-				cloudMetaData.add(Pair.of("onedrive", meta));
+				cloudMetaData.add(Pair.of("folder", meta));
 				break;
 			case 4:
 				cloud = new Box(proxy);

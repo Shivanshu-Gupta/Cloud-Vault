@@ -16,6 +16,8 @@ import com.box.restclientv2.requestsbase.BoxFileUploadRequestObject;
 
 
 
+
+
 import cloudsafe.cloud.Cloud;
 import cloudsafe.cloud.WriteMode;
 
@@ -25,6 +27,8 @@ import java.net.InetSocketAddress;
 import java.net.Proxy;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 
 import org.apache.commons.io.IOUtils;
@@ -95,11 +99,14 @@ public class Box implements Cloud {
 
 	public void uploadFile(byte[] data, String fileID, WriteMode mode) {
 		FileOutputStream fos;
+		String tempPath = GoogleDrive.assistingFolder+"/"+fileID;
 		try {
-			fos = new FileOutputStream(GoogleDrive.assistingFolder + "/"
-					+ fileID);
-			fos.write(data);
-			fos.close();
+			if (!Files.exists(Paths.get(tempPath))) {
+				Files.createDirectories(Paths.get(tempPath).getParent());
+				fos = new FileOutputStream(tempPath);
+				fos.write(data);
+				fos.close();
+			}
 			uploadFile(GoogleDrive.assistingFolder + "/" + fileID, fileID, mode);
 		} catch (IOException e) {
 			e.printStackTrace();

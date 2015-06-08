@@ -65,7 +65,7 @@ public final class FolderCloud implements Cloud{
 		try {
 			Path filePath = Paths.get(cloudPath.toString() + '/' + fileID);
 			Files.createDirectories(filePath.getParent());
-			Files.write(filePath, data, CREATE);
+			Files.write(filePath, data, CREATE, WRITE, TRUNCATE_EXISTING);
 		} catch (IOException x) {
 		    System.err.format("IOException in uploadFile: %s%n", x);
 		}
@@ -78,7 +78,7 @@ public final class FolderCloud implements Cloud{
 			byte[] data = Files.readAllBytes(path);
 			Path filePath = Paths.get(cloudPath.toString() + '/' + fileID);
 			Files.createDirectories(filePath.getParent());
-			Files.write(filePath, data, CREATE);
+			Files.write(filePath, data, CREATE, WRITE, TRUNCATE_EXISTING);
 		} catch (IOException x) {
 		    System.err.format("IOException in uploadFile: %s%n", x);
 		}

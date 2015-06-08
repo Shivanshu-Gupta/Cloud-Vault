@@ -14,7 +14,6 @@ import org.apache.commons.io.input.CloseShieldInputStream;
 import cloudsafe.util.Pair;
 import cloudsafe.VaultClient;
 import cloudsafe.cloud.Cloud;
-import cloudsafe.database.FileMetadata;
 
 /**
  * The entry point for the CloudVault Application.
@@ -51,12 +50,9 @@ public class Main {
 		System.out.println("Enter the name of the file/folder to download");
 		String fileName;
 		fileName = in.nextLine();
-		System.out.println("Enter the version to download");
-		int version;
-		version = in.nextInt();
 		in.close();
 		try{
-			client.download(fileName, version);
+			client.download(fileName);
 		} catch (FileNotFoundException e) {
 			System.out.println("File Not Found.");
 //			e.printStackTrace();
@@ -68,12 +64,9 @@ public class Main {
 		System.out.println("Enter the name of the file/folder to delete");
 		String fileName;
 		fileName = in.nextLine();
-		System.out.println("Enter the version to delete");
-		int version;
-		version = in.nextInt();
 		in.close();
 		try{
-			client.delete(fileName, version);
+			client.delete(fileName);
 		} catch (FileNotFoundException e) {
 			System.out.println("File Not Found.");
 //			e.printStackTrace();
@@ -90,15 +83,15 @@ public class Main {
 		System.out.println("3. Delete File");
 		System.out.println("4. Sync with Vault");
 		System.out.println("5. Show Files in Vault");
-		System.out.println("6. Show File History");
-		System.out.println("7. Changes Settings");
-		System.out.println("8. Exit");
+//		System.out.println("6. Show File History");
+		System.out.println("6. Changes Settings");
+		System.out.println("7. Exit");
 		System.out.println("What do you want to do? ");
 
 		System.out.println("Enter the number corresponding to your choice: ");
 		Scanner in = new Scanner(new CloseShieldInputStream(System.in));
 		int choice = in.nextInt();
-		if (choice < 1 || 8 < choice) {
+		if (choice < 1 || 7 < choice) {
 			System.out.println("Invalid choice.");
 			System.out.println("You have the following options: ");
 			choice = showMenu();
@@ -155,29 +148,29 @@ public class Main {
 						System.out.println((String) fileName);
 					}
 					break;
+//				case 6:
+//					System.out.println("Enter the name of the file: ");
+//					s = in.nextLine();
+//					try{
+//						ArrayList<FileMetadata> fileVersions = client.getFileHistory(s);
+//						System.out.format("\t%-50s%-10s%-10s%-40s\n", "Name", "Version",
+//								"Size", "Last Modified");
+//						for (int i = 0; i < fileVersions.size(); i++) {
+//							System.out.println((i + 1) + ".\t"
+//									+ fileVersions.get(i).toString());
+//						}
+//					} catch(FileNotFoundException e) {
+//						System.out.println("File Not Found");
+//					}
+//					break;
 				case 6:
-					System.out.println("Enter the name of the file: ");
-					s = in.nextLine();
-					try{
-						ArrayList<FileMetadata> fileVersions = client.getFileHistory(s);
-						System.out.format("\t%-50s%-10s%-10s%-40s\n", "Name", "Version",
-								"Size", "Last Modified");
-						for (int i = 0; i < fileVersions.size(); i++) {
-							System.out.println((i + 1) + ".\t"
-									+ fileVersions.get(i).toString());
-						}
-					} catch(FileNotFoundException e) {
-						System.out.println("File Not Found");
-					}
-					break;
-				case 7:
 					Settings proxySettings = new Settings(vaultConfigPath);
 					JDialog settings = new JDialog(null, "Proxy Settings", Dialog.ModalityType.APPLICATION_MODAL);
 					settings.add(proxySettings);
 			        settings.pack();
 					settings.setVisible(true);
 					break;
-				case 8:
+				case 7:
 					System.exit(0);
 				}
 				System.out.println("Continue (Yes/No)? ");

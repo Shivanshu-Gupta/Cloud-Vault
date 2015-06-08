@@ -169,21 +169,13 @@ public class VaultClientDesktop {
 		return params;
 	}
 
-	public void updateTableSizeFile(long tableSize) {
-		try {
-			DataOutputStream out = new DataOutputStream(new FileOutputStream(
-					databaseSizePath));
-			out.writeLong(databaseSize);
-			out.flush();
-			out.close();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
-
-	public void upload(String localFilePath, String uploadPath) {
-		// TODO : change this upload function as required.
+	public void upload(String localFilePath) {
 		Path path = Paths.get(localFilePath).normalize().toAbsolutePath();
+		Path temp = Paths.get(vaultPath).relativize(path).getParent();
+		String uploadPath = "";
+		if(temp.getNameCount() > 0){
+			uploadPath = path.toString();
+		}
 		BasicFileAttributes attrs = null;
 		try {
 			attrs = Files.readAttributes(path, BasicFileAttributes.class);
@@ -201,19 +193,22 @@ public class VaultClientDesktop {
 			cloudFilePath = localFileName;
 			break;
 		default:
-			String cloudFileName = null;
 			if (uploadPath.length() > 0) {
-				cloudFileName = uploadPath + "/" + localFileName;
+				cloudFilePath = uploadPath + "/" + localFileName;
 			} else {
-				cloudFileName = localFileName;
+				cloudFilePath = localFileName;
 			}
-			int version = table.addNewFile(cloudFileName, fileSize);
-			cloudFilePath = cloudFileName + " (" + version + ")";
+			downloadTable();
+			int version = table.version(cloudFilePath);
+			if (version > 0) {
+				cloudFilePath = cloudFilePath + " (" + version + ")";
+			}
+			table.addNewFile(cloudFilePath, fileSize);
 			cloudFilePath = (new PathManip(cloudFilePath)).toCloudFormat();
 			databaseSize = table.writeToFile(databasePath);
 			updateTableSizeFile(databaseSize);
-			upload(databaseSizePath, "");
-			upload(databasePath, "");
+			upload(databaseSizePath);
+			upload(databasePath);
 		}
 		uploadFile(localFilePath, cloudFilePath);
 	}
@@ -284,31 +279,22 @@ public class VaultClientDesktop {
 		}
 	}
 
-	public void download(String cloudFileName, int version)
+	public void download(String cloudFilePath)
 			throws FileNotFoundException {
-		String cloudFilePath = null;
 		String writePath = null;
 		long fileSize = 0;
 		downloadTable();
-		if (table.hasFileVersion(cloudFileName, version)) {
-			cloudFilePath = cloudFileName + " (" + version + ")";
+		if (table.hasFile(cloudFilePath)) {
 			writePath = vaultPath + "/" + cloudFilePath;
-			fileSize = table.fileSize(cloudFileName, version);
+			fileSize = table.fileSize(cloudFilePath);
 			if (fileSize < 0) {
+				throw new FileNotFoundException();
+			} else {
 				try {
-					Files.createDirectories(Paths.get(writePath));
-					// parent = parent + " (" + version + ")";
-					Iterable<FileMetadata> childrendata = table
-							.getChildren(cloudFilePath);
-					for (FileMetadata childdata : childrendata) {
-						System.out.println("Child: " + childdata.fileName()
-								+ ":" + childdata.version());
-						download(childdata.fileName(), childdata.version());
-					}
+					Files.createDirectories(Paths.get(writePath).getParent());
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
-			} else {
 				cloudFilePath = (new PathManip(cloudFilePath)).toCloudFormat();
 				downloadFile(cloudFilePath, writePath, fileSize);
 			}
@@ -380,6 +366,49 @@ public class VaultClientDesktop {
 		}
 	}
 
+	public void delete(String cloudFilePath)
+			throws FileNotFoundException {
+		String writePath = null;
+		long fileSize = 0;
+		downloadTable();
+		if (table.hasFile(cloudFilePath)) {
+			table.removeFile(cloudFilePath);
+			databaseSize = table.writeToFile(databasePath);
+			updateTableSizeFile(databaseSize);
+			upload(databaseSizePath);
+			upload(databasePath);
+			if (fileSize < 0) {
+				throw new FileNotFoundException();
+			} else {
+				try {
+					Files.createDirectories(Paths.get(writePath).getParent());
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+				cloudFilePath = (new PathManip(cloudFilePath)).toCloudFormat();
+				Pair<FECParameters, Integer> params = getParams(fileSize);
+				FECParameters fecParams = params.first;
+				int blockID = 0, blockCount = fecParams.numberOfSourceBlocks();
+				String blockFileName = null;
+				while (blockID < blockCount) {
+					blockFileName = cloudFilePath + "_" + blockID;
+					System.out.println("Deleteing " + blockFileName);
+					for (int i = 0; i < clouds.size(); i++) {
+						Cloud cloud = clouds.get(i);
+						if (cloud.isAvailable()
+								&& cloud.searchFile(blockFileName)) {
+							cloud.deleteFile(blockFileName);
+						}
+					}
+					blockID++;
+				}
+			}
+
+		} else {
+			throw new FileNotFoundException();
+		}
+	}
+	
 	public void setupTable() {
 		if (checkIfNewUser())
 			createNewTable();
@@ -392,8 +421,8 @@ public class VaultClientDesktop {
 			table = new Table();
 			databaseSize = table.writeToFile(databasePath);
 			updateTableSizeFile(databaseSize);
-			upload(databaseSizePath, "");
-			upload(databasePath, "");
+			upload(databaseSizePath);
+			upload(databasePath);
 		} catch (Exception x) {
 			System.out.println("Exception in creating table: " + x);
 		}
@@ -414,40 +443,20 @@ public class VaultClientDesktop {
 		table = new Table(databasePath);
 	}
 
-	// public String addCloud(CloudType type) throws AuthenticationException,
-	// BoxRestException, BoxServerException, AuthFatalFailureException {
-	// Cloud cloud = null;
-	// switch (type) {
-	// case DROPBOX:
-	// cloud = new Dropbox(proxy);
-	// clouds.add(cloud);
-	// cloudMetaData.add(Pair.of("dropbox", cloud.metadata()));
-	// break;
-	// case GOOGLEDRIVE:
-	// cloud = new GoogleDrive(proxy);
-	// clouds.add(cloud);
-	// cloudMetaData.add(Pair.of("googledrive", cloud.metadata()));
-	// break;
-	// case ONEDRIVE:
-	// cloud = new FolderCloud();
-	// clouds.add(cloud);
-	// cloudMetaData.add(Pair.of("folder", cloud.metadata()));
-	// break;
-	// case BOX:
-	// cloud = new Box(proxy);
-	// clouds.add(cloud);
-	// cloudMetaData.add(Pair.of("box", cloud.metadata()));
-	// break;
-	// case FOLDER:
-	// cloud = new FolderCloud();
-	// clouds.add(cloud);
-	// cloudMetaData.add(Pair.of("folder", cloud.metadata()));
-	// break;
-	// }
-	// cloudNum = clouds.size();
-	// return cloud.metadata();
-	// }
-
+	public void updateTableSizeFile(long tableSize) {
+		try {
+			FileOutputStream fileOut = new FileOutputStream(databaseSizePath);
+			DataOutputStream out = new DataOutputStream(fileOut);
+			out.writeLong(databaseSize);
+			out.flush();
+			fileOut.flush();
+			out.close();
+			fileOut.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
 	public boolean checkIfNewUser() {
 		boolean newUser = true;
 		for (int i = 0; i < clouds.size(); i++) {
@@ -463,16 +472,6 @@ public class VaultClientDesktop {
 	public Object[] getFileList() {
 		downloadTable();
 		return table.getFileList();
-	}
-
-	public ArrayList<FileMetadata> getFileHistory(String fileName)
-			throws FileNotFoundException {
-		downloadTable();
-		try {
-			return table.getFileHistory(fileName);
-		} catch (FileNotFoundException e) {
-			throw new FileNotFoundException();
-		}
 	}
 
 	public void sync() {

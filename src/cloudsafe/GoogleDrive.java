@@ -14,6 +14,7 @@
 
 package cloudsafe;
 
+
 import com.google.api.client.auth.oauth2.Credential;
 import com.google.api.client.extensions.java6.auth.oauth2.AuthorizationCodeInstalledApp;
 import com.google.api.client.extensions.jetty.auth.oauth2.LocalServerReceiver;
@@ -332,5 +333,27 @@ public class GoogleDrive implements Cloud {
 		} catch (NullPointerException e) {
 		}
 		return false;
+	}
+
+	public void deleteFile(String Filename) {
+		try {
+			Drive.Files.List file_list = drive
+					.files()
+					.list()
+					.setQ("title = '" + Filename + "' and '" + CloudVaultFolderID
+							+ "' in parents and" + " trashed=false");
+			FileList Files = file_list.execute();
+			java.util.List<File> FileActualList = Files.getItems();
+			if (FileActualList.size() != 0)
+			{
+				drive.files().delete(FileActualList.get(0).getId());
+				return;
+			}
+			else
+				return;
+		} catch (IOException e1) {
+		} catch (NullPointerException e) {
+		}
+		return;
 	}
 }

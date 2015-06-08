@@ -17,7 +17,7 @@ import cloudsafe.cloud.Cloud;
 /**
  * The entry point for the CloudVault Application.
  */
-public class Main {
+public class MainDesktop {
 	VaultClientDesktop client;
 	static String vaultPath = "trials/Cloud Vault";
 	static String localConfigPath = "trials/config";

@@ -43,24 +43,35 @@ import cloudsafe.database.*;
  */
 public class VaultClientDesktop {
 
-	String vaultPath;
-	static String vaultConfigPath = "trials/config";
-	String cloudMetadataPath = vaultConfigPath + "/cloudmetadata.ser";
+	String vaultPath = Paths.get("trials/Cloud Vault").toAbsolutePath()
+			.toString();
+	String localConfigPath = "trials/config";
+	String cloudConfigPath = vaultPath;
+	String cloudMetadataPath = localConfigPath + "/cloudmetadata.ser";
 	int cloudNum = 4; // Co
 	int cloudDanger = 1; // Cd
 	final static int overHead = 4; // epsilon
 	Proxy proxy = Proxy.NO_PROXY;
-	static ArrayList<Cloud> clouds = new ArrayList<Cloud>();
-	static ArrayList<Pair<String, String>> cloudMetaData = new ArrayList<Pair<String, String>>();
-	static Table table;
+	ArrayList<Cloud> clouds = new ArrayList<Cloud>();
+	ArrayList<Pair<String, String>> cloudMetaData = new ArrayList<Pair<String, String>>();
+	Table table;
 
-	static long databaseSize;
-	static String databasePath = vaultConfigPath + "/table.ser";
-	final static String databaseSizePath = vaultConfigPath + "/tablesize.txt";
+	long databaseSize;
+	String databasePath = cloudConfigPath + "/table.ser";
+	String databaseSizePath = cloudConfigPath + "/tablesize.txt";
 
 	@SuppressWarnings("unchecked")
 	public VaultClientDesktop(String vaultPath) {
-		this.vaultPath = vaultPath;
+		// this.vaultPath = Paths.get(vaultPath).toAbsolutePath().toString();
+		// System.out.println("vaultPath: " + vaultPath);
+		// this.localConfigPath = "trials/config";
+		// this.cloudConfigPath = vaultPath;
+		// System.out.println("cloudConfigPath: " + cloudConfigPath);
+		// this.cloudMetadataPath = localConfigPath + "/cloudmetadata.ser";
+		// this.databasePath = cloudConfigPath + "/table.ser";
+		// System.out.println("sizePath: " + databaseSizePath);
+		// this.databaseSizePath = cloudConfigPath + "/tablesize.txt";
+		// System.out.println("sizePath: " + databaseSizePath);
 		proxy = getProxy();
 		try {
 			FileInputStream fileIn = new FileInputStream(cloudMetadataPath);
@@ -111,7 +122,7 @@ public class VaultClientDesktop {
 		Proxy proxy = Proxy.NO_PROXY;
 		try {
 			Properties proxySettings = new Properties();
-			File configFile = new File(vaultConfigPath + "/config.properties");
+			File configFile = new File(localConfigPath + "/config.properties");
 			InputStream inputStream = new FileInputStream(configFile);
 			proxySettings.load(inputStream);
 			inputStream.close();
@@ -170,12 +181,16 @@ public class VaultClientDesktop {
 	}
 
 	public void upload(String localFilePath) {
-		Path path = Paths.get(localFilePath).normalize().toAbsolutePath();
+		// localFilePath = localFilePath.replace("\\", "/");
+		System.out.println(localFilePath);
+		System.out.println(vaultPath);
+		Path path = Paths.get(localFilePath).normalize();
 		Path temp = Paths.get(vaultPath).relativize(path).getParent();
 		String uploadPath = "";
-		if(temp.getNameCount() > 0){
-			uploadPath = path.toString();
+		if (temp != null) {
+			uploadPath = temp.toString();
 		}
+		System.out.println("uploadPath: " + uploadPath);
 		BasicFileAttributes attrs = null;
 		try {
 			attrs = Files.readAttributes(path, BasicFileAttributes.class);
@@ -279,8 +294,7 @@ public class VaultClientDesktop {
 		}
 	}
 
-	public void download(String cloudFilePath)
-			throws FileNotFoundException {
+	public void download(String cloudFilePath) throws FileNotFoundException {
 		String writePath = null;
 		long fileSize = 0;
 		downloadTable();
@@ -291,7 +305,10 @@ public class VaultClientDesktop {
 				throw new FileNotFoundException();
 			} else {
 				try {
-					Files.createDirectories(Paths.get(writePath).getParent());
+					if (Paths.get(writePath).getParent() != null) {
+						Files.createDirectories(Paths.get(writePath)
+								.getParent());
+					}
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
@@ -365,13 +382,14 @@ public class VaultClientDesktop {
 			e.printStackTrace();
 		}
 	}
-
-	public void delete(String cloudFilePath)
-			throws FileNotFoundException {
-		String writePath = null;
+	
+	//TODO edit the delete function in case directories need to be deleted too. 
+	//Currently only files are deleted. (for directories, fileSize = -1)
+	public void delete(String cloudFilePath) throws FileNotFoundException {
 		long fileSize = 0;
 		downloadTable();
 		if (table.hasFile(cloudFilePath)) {
+			fileSize = table.fileSize(cloudFilePath);
 			table.removeFile(cloudFilePath);
 			databaseSize = table.writeToFile(databasePath);
 			updateTableSizeFile(databaseSize);
@@ -380,11 +398,6 @@ public class VaultClientDesktop {
 			if (fileSize < 0) {
 				throw new FileNotFoundException();
 			} else {
-				try {
-					Files.createDirectories(Paths.get(writePath).getParent());
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
 				cloudFilePath = (new PathManip(cloudFilePath)).toCloudFormat();
 				Pair<FECParameters, Integer> params = getParams(fileSize);
 				FECParameters fecParams = params.first;
@@ -408,7 +421,7 @@ public class VaultClientDesktop {
 			throw new FileNotFoundException();
 		}
 	}
-	
+
 	public void setupTable() {
 		if (checkIfNewUser())
 			createNewTable();
@@ -425,6 +438,7 @@ public class VaultClientDesktop {
 			upload(databasePath);
 		} catch (Exception x) {
 			System.out.println("Exception in creating table: " + x);
+			x.printStackTrace();
 		}
 	}
 
@@ -456,7 +470,7 @@ public class VaultClientDesktop {
 			e.printStackTrace();
 		}
 	}
-	
+
 	public boolean checkIfNewUser() {
 		boolean newUser = true;
 		for (int i = 0; i < clouds.size(); i++) {

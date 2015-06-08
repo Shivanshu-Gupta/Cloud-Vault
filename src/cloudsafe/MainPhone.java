@@ -17,12 +17,12 @@ import cloudsafe.cloud.Cloud;
 /**
  * The entry point for the CloudVault Application.
  */
-public class Main {
-	VaultClientDesktop client;
+public class MainPhone {
+	VaultClient client;
 	static String vaultPath = "trials/Cloud Vault";
-	static String localConfigPath = "trials/config";
+	static String vaultConfigPath = "trials/config";
 
-	String cloudMetadataPath = localConfigPath + "/cloudmetadata.ser";
+	String cloudMetadataPath = vaultConfigPath + "/cloudmetadata.ser";
 	static ArrayList<Cloud> clouds = new ArrayList<Cloud>();
 	static ArrayList<Pair<String, String>> cloudMetaData = new ArrayList<Pair<String, String>>();
 
@@ -34,13 +34,14 @@ public class Main {
 		System.out.println("Enter the path of the file/folder to upload");
 		Scanner in = new Scanner(new CloseShieldInputStream(System.in));
 		String filePath = in.nextLine();
-		System.out.println("in MainDesktop");
+		System.out.println("Enter the path to upload to");
+		String parentPath = in.nextLine();
 		in.close();
 		if (!Files.exists(Paths.get(filePath))) {
 			System.out.println("File/Folder not found");
 			return;
 		}
-		client.upload(filePath);
+		client.upload(filePath, parentPath);
 	}
 
 	private void handleDownload() {
@@ -98,16 +99,16 @@ public class Main {
 		return choice;
 	}
 
-	public static void main(String[] args) {
-		try {
-			System.out.println("Welcome to your Cloud Vault!");
-			Main prog = new Main();
-			prog.run();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-
-	}
+//	public static void main(String[] args) {
+//		try {
+//			System.out.println("Welcome to your Cloud Vault!");
+//			Main prog = new Main();
+//			prog.run();
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//		}
+//
+//	}
 
 	public void run() {
 		Scanner in = new Scanner(System.in);
@@ -122,7 +123,7 @@ public class Main {
 				Setup cloudVaultSetup = new Setup();
 				cloudVaultSetup.configureCloudAccess();
 			}
-			client = new VaultClientDesktop(vaultPath);
+			client = new VaultClient(vaultPath);
 
 			
 			//--------My work starts here--------------
@@ -174,7 +175,7 @@ public class Main {
 //					}
 //					break;
 				case 6:
-					Settings proxySettings = new Settings(localConfigPath);
+					Settings proxySettings = new Settings(vaultConfigPath);
 					JDialog settings = new JDialog(null, "Proxy Settings", Dialog.ModalityType.APPLICATION_MODAL);
 					settings.add(proxySettings);
 			        settings.pack();

@@ -17,7 +17,7 @@ import java.util.Date;
 
 public class Table {
 	private static HashMap<String, Pair<ArrayList<FileMetadata>, Boolean>> table;
-
+	static long initialPosition; 
 	public Table() {
 		table = new HashMap<String, Pair<ArrayList<FileMetadata>, Boolean>>();
 	}
@@ -93,7 +93,16 @@ public class Table {
 		table.put(fileName, Pair.of(fileVersions, false));
 		return version;
 	}
-
+	
+	public final void removeFile(String fileName, int version){
+		ArrayList<FileMetadata> fileVersions = table.get(fileName).first;
+		fileVersions.remove(version - 1);
+		if(fileVersions.isEmpty()){
+			table.remove(fileName);
+		}
+			
+	}
+	
 	public final boolean hasFile(String fileName) {
 		return table.containsKey(fileName) && table.get(fileName) != null;
 	}
@@ -174,6 +183,8 @@ public class Table {
 			FileOutputStream fileOut = new FileOutputStream(databasePath);
 			ObjectOutputStream out = new ObjectOutputStream(fileOut);
 			out.writeObject(table);
+			out.flush();
+			fileOut.flush();
 			out.close();
 			fileOut.close();
 			File tableFile = new File(databasePath);

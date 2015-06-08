@@ -65,7 +65,7 @@ public final class FolderCloud implements Cloud{
 		try {
 			Path filePath = Paths.get(cloudPath.toString() + '/' + fileID);
 			Files.createDirectories(filePath.getParent());
-			Files.write(filePath, data, CREATE);
+			Files.write(filePath, data, CREATE, WRITE, TRUNCATE_EXISTING);
 		} catch (IOException x) {
 		    System.err.format("IOException in uploadFile: %s%n", x);
 		}
@@ -78,7 +78,7 @@ public final class FolderCloud implements Cloud{
 			byte[] data = Files.readAllBytes(path);
 			Path filePath = Paths.get(cloudPath.toString() + '/' + fileID);
 			Files.createDirectories(filePath.getParent());
-			Files.write(filePath, data, CREATE);
+			Files.write(filePath, data, CREATE, WRITE, TRUNCATE_EXISTING);
 		} catch (IOException x) {
 		    System.err.format("IOException in uploadFile: %s%n", x);
 		}
@@ -99,7 +99,7 @@ public final class FolderCloud implements Cloud{
 
 
 	@Override
-	public void downloadFile(String path, String fileID) throws IOException {
+	public void downloadFile(String path, String fileID){
 		byte [] data = {};
 		try {
 			Path filePath = Paths.get(cloudPath.toString() + "/" + fileID);
@@ -114,5 +114,15 @@ public final class FolderCloud implements Cloud{
 	public boolean searchFile(String fileID) {
 		Path filePath = Paths.get(cloudPath.toString() + "/" + fileID);
 		return Files.exists(filePath);
+	}
+
+	@Override
+	public void deleteFile(String path) {
+		Path filePath = Paths.get(cloudPath.toString() + "/" + path);
+		try {
+			Files.delete(filePath);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 }

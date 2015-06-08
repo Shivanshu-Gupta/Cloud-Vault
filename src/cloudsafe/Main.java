@@ -2,6 +2,7 @@ package cloudsafe;
 
 import java.awt.Dialog;
 import java.io.FileNotFoundException;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.Files;
 import java.util.ArrayList;
@@ -126,7 +127,19 @@ public class Main {
 			}
 			client = new VaultClient(vaultPath);
 
-			int choice;
+			
+			//--------My work starts here--------------
+			
+	    	String targetdir = "test";
+	        // parse arguments
+	        boolean recursive = true;
+	        // register directory and process its events
+	        Path dir = Paths.get(targetdir);
+	        new WatchDir(dir, recursive, client).processEvents();
+			
+			//--------My work ends here----------------
+			
+			/*int choice;
 			do {
 				choice = showMenu();
 				switch (choice) {
@@ -175,7 +188,7 @@ public class Main {
 				}
 				System.out.println("Continue (Yes/No)? ");
 				s = in.nextLine();
-			} while (s.equals("Yes") || s.equals("yes"));
+			} while (s.equals("Yes") || s.equals("yes"));*/
 
 		} catch (Exception e) {
 			System.out.println(e);

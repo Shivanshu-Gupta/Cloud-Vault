@@ -346,7 +346,7 @@ public class GoogleDrive implements Cloud {
 			java.util.List<File> FileActualList = Files.getItems();
 			if (FileActualList.size() != 0)
 			{
-				drive.files().delete(FileActualList.get(0).getId());
+				drive.files().delete(FileActualList.get(0).getId()).execute();
 				return;
 			}
 			else

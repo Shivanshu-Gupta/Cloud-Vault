@@ -77,7 +77,7 @@ public class Box implements Cloud {
 				fos.write(data);
 				fos.close();
 			}
-			uploadFile(tempPath + fileID, fileID, mode);
+			uploadFile(tempPath, fileID, mode);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

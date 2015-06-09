@@ -2,7 +2,6 @@ package cloudsafe;
 
 import java.awt.Dialog;
 import java.io.FileNotFoundException;
-import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.Files;
 import java.util.ArrayList;
@@ -18,17 +17,12 @@ import cloudsafe.cloud.Cloud;
 /**
  * The entry point for the CloudVault Application.
  */
-public class Main {
-	VaultClientDesktop client;
+public class MainPhone {
+	VaultClient client;
 	static String vaultPath = "trials/Cloud Vault";
-//	static String vaultConfigPath = "trials/config";
-//
-//	String cloudMetadataPath = vaultConfigPath + "/cloudmetadata.ser";
+	static String vaultConfigPath = "trials/config";
 
-	static String localConfigPath = "trials/config";
-
-	String cloudMetadataPath = localConfigPath + "/cloudmetadata.ser";
-
+	String cloudMetadataPath = vaultConfigPath + "/cloudmetadata.ser";
 	static ArrayList<Cloud> clouds = new ArrayList<Cloud>();
 	static ArrayList<Pair<String, String>> cloudMetaData = new ArrayList<Pair<String, String>>();
 
@@ -36,21 +30,18 @@ public class Main {
 	static int cloudDanger = 1; // Cd
 	final static int overHead = 4; // epsilon
 
-	private void handleUpload() throws Exception {
+	private void handleUpload() {
 		System.out.println("Enter the path of the file/folder to upload");
 		Scanner in = new Scanner(new CloseShieldInputStream(System.in));
 		String filePath = in.nextLine();
-
-//		System.out.println("Enter the path to upload to");
-//		String parentPath = in.nextLine();
-
-		System.out.println("in MainDesktop");
+		System.out.println("Enter the path to upload to");
+		String parentPath = in.nextLine();
 		in.close();
 		if (!Files.exists(Paths.get(filePath))) {
 			System.out.println("File/Folder not found");
 			return;
 		}
-		client.upload(filePath);
+		client.upload(filePath, parentPath);
 	}
 
 	private void handleDownload() {
@@ -67,7 +58,7 @@ public class Main {
 		}
 	}
 	
-	private void handleDelete() throws Exception {
+	private void handleDelete() {
 		Scanner in = new Scanner(new CloseShieldInputStream(System.in));
 		System.out.println("Enter the name of the file/folder to delete");
 		String fileName;
@@ -108,16 +99,16 @@ public class Main {
 		return choice;
 	}
 
-	public static void main(String[] args) {
-		try {
-			System.out.println("Welcome to your Cloud Vault!");
-			Main prog = new Main();
-			prog.run();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-
-	}
+//	public static void main(String[] args) {
+//		try {
+//			System.out.println("Welcome to your Cloud Vault!");
+//			Main prog = new Main();
+//			prog.run();
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//		}
+//
+//	}
 
 	public void run() {
 		Scanner in = new Scanner(System.in);
@@ -132,69 +123,70 @@ public class Main {
 				Setup cloudVaultSetup = new Setup();
 				cloudVaultSetup.configureCloudAccess();
 			}
-			client = new VaultClientDesktop(vaultPath);
+			client = new VaultClient(vaultPath);
 
 			
 			//--------My work starts here--------------
-	    	String targetdir = vaultPath;
-	        // parse arguments
-	        boolean recursive = true;
-	        // register directory and process its events
-	        Path dir = Paths.get(targetdir);
-	        new WatchDir(dir, recursive, client).processEvents();
 			
+//	    	String targetdir = "test";
+//	        // parse arguments
+//	        boolean recursive = true;
+//	        // register directory and process its events
+//	        Path dir = Paths.get(targetdir);
+//	        new WatchDir(dir, recursive, client).processEvents();
+//			
 			//--------My work ends here----------------
 			
-//			int choice;
-//			do {
-//				choice = showMenu();
-//				switch (choice) {
-//				case 1:
-//					handleUpload();
-//					break;
-//				case 2:
-//					handleDownload();
-//					break;
-//				case 3:
-//					handleDelete();
-//					break;
-//				case 4:
-//					sync();
-//					break;
-//				case 5:
-//					Object[] fileNames = client.getFileList();
-//					for (Object fileName : fileNames) {
-//						System.out.println((String) fileName);
+			int choice;
+			do {
+				choice = showMenu();
+				switch (choice) {
+				case 1:
+					handleUpload();
+					break;
+				case 2:
+					handleDownload();
+					break;
+				case 3:
+					handleDelete();
+					break;
+				case 4:
+					sync();
+					break;
+				case 5:
+					Object[] fileNames = client.getFileList();
+					for (Object fileName : fileNames) {
+						System.out.println((String) fileName);
+					}
+					break;
+//				case 6:
+//					System.out.println("Enter the name of the file: ");
+//					s = in.nextLine();
+//					try{
+//						ArrayList<FileMetadata> fileVersions = client.getFileHistory(s);
+//						System.out.format("\t%-50s%-10s%-10s%-40s\n", "Name", "Version",
+//								"Size", "Last Modified");
+//						for (int i = 0; i < fileVersions.size(); i++) {
+//							System.out.println((i + 1) + ".\t"
+//									+ fileVersions.get(i).toString());
+//						}
+//					} catch(FileNotFoundException e) {
+//						System.out.println("File Not Found");
 //					}
 //					break;
-////				case 6:
-////					System.out.println("Enter the name of the file: ");
-////					s = in.nextLine();
-////					try{
-////						ArrayList<FileMetadata> fileVersions = client.getFileHistory(s);
-////						System.out.format("\t%-50s%-10s%-10s%-40s\n", "Name", "Version",
-////								"Size", "Last Modified");
-////						for (int i = 0; i < fileVersions.size(); i++) {
-////							System.out.println((i + 1) + ".\t"
-////									+ fileVersions.get(i).toString());
-////						}
-////					} catch(FileNotFoundException e) {
-////						System.out.println("File Not Found");
-////					}
-////					break;
-//				case 6:
-//					Settings proxySettings = new Settings(localConfigPath);
-//					JDialog settings = new JDialog(null, "Proxy Settings", Dialog.ModalityType.APPLICATION_MODAL);
-//					settings.add(proxySettings);
-//			        settings.pack();
-//					settings.setVisible(true);
-//					break;
-//				case 7:
-//					System.exit(0);
-//				}
-//				System.out.println("Continue (Yes/No)? ");
-//				s = in.nextLine();
-//			} while (s.equals("Yes") || s.equals("yes"));
+				case 6:
+					Settings proxySettings = new Settings(vaultConfigPath);
+					JDialog settings = new JDialog(null, "Proxy Settings", Dialog.ModalityType.APPLICATION_MODAL);
+					settings.add(proxySettings);
+			        settings.pack();
+					settings.setVisible(true);
+					break;
+				case 7:
+					System.exit(0);
+				}
+				System.out.println("Continue (Yes/No)? ");
+				s = in.nextLine();
+			} while (s.equals("Yes") || s.equals("yes"));
 
 		} catch (Exception e) {
 			System.out.println(e);

@@ -1,5 +1,4 @@
 package cloudsafe;
-
 /*
  * Copyright (c) 2008, 2010, Oracle and/or its affiliates. All rights reserved.
  *
@@ -57,6 +56,8 @@ public class WatchDir {
 	String childBuffer = null;
 	WatchEvent.Kind kindBufferPrev = null;
 	String childBufferPrev = null;
+	
+	String deletedFolder = "";
 
 	@SuppressWarnings("unchecked")
 	static <T> WatchEvent<T> cast(WatchEvent<?> event) {
@@ -122,8 +123,9 @@ public class WatchDir {
 
 	/**
 	 * Process all events for keys queued to the watcher
+	 * @throws Exception 
 	 */
-	void processEvents() {
+	void processEvents() throws Exception {
 		for (;;) {
 
 			// wait for key to be signalled
@@ -173,13 +175,73 @@ public class WatchDir {
 				// Directory Created
 				if (Files.isDirectory(child, NOFOLLOW_LINKS)) {
 					// Folder
+					if(kind == ENTRY_DELETE)
+					{
+						deletedFolder = child.toAbsolutePath().toString();
+					}
 					continue; // ignore
-				} 
+				}
+				
 				else {
+
+					System.out.println("DeletedFolder : " + deletedFolder);
+					if(child.endsWith("table.ser") || child.endsWith("tablesize.txt"))
+					{
+						continue;
+					}
+					if(kind == ENTRY_CREATE)
+					{
+						try {
+							String tempo = child.toAbsolutePath().toString();
+							client.upload(tempo);
+							System.out.println("-------------------------------Upload Finished : " + tempo);
+						} catch (NullPointerException e) {
+							// TODO Auto-generated catch block
+							continue;
+						}
+					}
+					else if(kind == ENTRY_MODIFY)
+					{
+						String tempo = child.toAbsolutePath().toString();
+						if(deletedFolder.length() == 0)
+						{
+							client.upload(tempo);
+						}
+						else  {
+							if (tempo.startsWith(deletedFolder)) {
+								System.out.println("............Entered Delete");
+								client.delete(tempo);
+							} else {
+								System.out.println("............Entered Upload");
+								client.upload(tempo);
+								deletedFolder = "";
+							}
+						}
+						System.out.println("-------------------------------Modify Finished : " + tempo);
+					}
+					else if(kind == ENTRY_DELETE)
+					{
+						String tempo = child.toAbsolutePath().toString();
+						try {
+							client.delete(tempo);
+						} catch (FileNotFoundException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();continue;
+						}
+						catch (Exception e){
+							continue;
+						}
+						System.out.println("-------------------------------Delete Finished : " + tempo);
+					}
+					
+				}
+				
+				/*else {
 					if (kindBuffer == null) 
 					{
 						kindBuffer = kind;
 						childBuffer = child.toString();
+						System.out.println("kindBuffer modified");
 					}
 					else if (kindBuffer == ENTRY_CREATE)
 					{
@@ -302,7 +364,7 @@ public class WatchDir {
 				{
 					if(kindBuffer == ENTRY_CREATE || kindBuffer == ENTRY_MODIFY)
 					{
-						client.upload(childBuffer);
+						client.upload(Paths.get(childBuffer).toAbsolutePath().toString());
 						System.out.println("Upload Finished : " + childBuffer);
 						kindBuffer = null;
 						childBuffer = null;
@@ -322,7 +384,7 @@ public class WatchDir {
 				}
 				
 				kindBufferPrev = kindBuffer;
-				childBufferPrev = childBuffer;
+				childBufferPrev = childBuffer;*/
 				
 				
 
@@ -341,10 +403,11 @@ public class WatchDir {
 		}
 	}
 		
-	private void simpledelete(WatchEvent.Kind kind, String childString) {
+	private void simpledelete(WatchEvent.Kind kind, String childString) throws Exception {
 		try {
-			client.delete(childBuffer);
-			System.out.println("Delete Finished : " + childBuffer);
+			String tempo = Paths.get(childBuffer).toAbsolutePath().toString();
+			client.delete(tempo);
+			System.out.println("---------------------------Delete Finished : " + tempo);
 			kindBuffer = kind;
 			childBuffer = childString;
 		} catch (FileNotFoundException e) {
@@ -353,9 +416,10 @@ public class WatchDir {
 		}
 	}
 
-	private void simpleupload (WatchEvent.Kind kind, String childString){
-		client.upload(childBuffer);
-		System.out.println("Upload Finished : " + childBuffer);
+	private void simpleupload (WatchEvent.Kind kind, String childString) throws Exception{
+		String tempo = Paths.get(childBuffer).toAbsolutePath().toString();
+		client.upload(tempo);
+		System.out.println("-------------------------------Upload Finished : " + tempo);
 		kindBuffer = kind;
 		childBuffer = childString;
 	}

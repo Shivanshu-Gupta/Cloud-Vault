@@ -43,7 +43,7 @@ import cloudsafe.database.*;
  */
 public class VaultClient {
 
-	String vaultPath;
+	String vaultPath = "trials/Cloud Vault";
 	static String vaultConfigPath = "trials/config";
 	String cloudMetadataPath = vaultConfigPath + "/cloudmetadata.ser";
 	int cloudNum = 4; // Co
@@ -56,7 +56,7 @@ public class VaultClient {
 
 	static long databaseSize;
 	static String databasePath = vaultConfigPath + "/table.ser";
-	final static String databaseSizePath = vaultConfigPath + "/tablesize.txt";
+	static String databaseSizePath = vaultConfigPath + "/tablesize.txt";
 
 	@SuppressWarnings("unchecked")
 	public VaultClient(String vaultPath) {
@@ -170,7 +170,7 @@ public class VaultClient {
 	}
 
 	public void upload(String localFilePath, String uploadPath) {
-		Path path = Paths.get(localFilePath).normalize().toAbsolutePath();
+		Path path = Paths.get(localFilePath).normalize();
 		if (!Files.isDirectory(path)) {
 			BasicFileAttributes attrs = null;
 			try {

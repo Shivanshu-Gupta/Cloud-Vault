@@ -5,26 +5,26 @@ import java.util.Date;
 
 public final class FileMetadata implements Serializable {
 	private static final long serialVersionUID = 10L;
-
+	
 	String fileName;
-	int version;
+//	int version;
 	long fileSize;
 	Date timestamp;
 
-	public FileMetadata(String fileName, int version, long fileSize) {
+	public FileMetadata(String fileName, long fileSize) {
 		this.fileName = fileName;
-		this.version = version;
+//		this.version = version;
 		this.fileSize = fileSize;
 		this.timestamp = new Date();
 	}
-
+	
 	public String fileName() {
 		return fileName;
 	}
 
-	public int version() {
-		return version;
-	}
+//	public int version() {
+//		return version;
+//	}
 
 	public long fileSize() {
 		return fileSize;
@@ -44,15 +44,15 @@ public final class FileMetadata implements Serializable {
 		}
 		try {
 			final FileMetadata other = (FileMetadata) obj;
-
+			
 			if (this.fileName != other.fileName
 					&& (this.fileName == null || !this.fileName
 							.equals(other.fileName))) {
 				return false;
 			}
-			if (this.version != other.version) {
-				return false;
-			}
+//			if (this.version != other.version) {
+//				return false;
+//			}
 			if (this.fileSize != other.fileSize) {
 				return false;
 			}
@@ -67,16 +67,15 @@ public final class FileMetadata implements Serializable {
 	public int hashCode() {
 		int hash = 7;
 		if (this.fileName != null) {
-			hash = 37 * hash + this.fileName.hashCode();
-			hash = 37 * hash + this.version;
-			hash = 37 * hash + (int)this.fileSize;
+			hash = 13 * hash + this.fileName.hashCode();
+//			hash = 13 * hash + this.version;
+			hash = 13 * hash + (int)this.fileSize;
 		}
 		return hash;
 	}
 
 	@Override
 	public String toString() {
-		return String.format("%-50s%-10d%-10d%-40s", fileName, version,
-				fileSize, timestamp.toString());
+		return String.format("%-50s%-10d%-40s", fileName, fileSize, timestamp.toString());
 	}
 }

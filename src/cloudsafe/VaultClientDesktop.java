@@ -184,28 +184,28 @@ public class VaultClientDesktop {
 
 	public void upload(String localFilePath) throws Exception {
 		// localFilePath = localFilePath.replace("\\", "/");
-		System.out.println(localFilePath);
-		System.out.println(vaultPath);
+//		System.out.println(localFilePath);
+//		System.out.println(vaultPath);
 		Path path = Paths.get(localFilePath).normalize();
-		System.out.println("Path : " + path.toString());
+//		System.out.println("Path : " + path.toString());
 		Path temp = Paths.get(vaultPath).relativize(path).getParent();
 		//System.out.println("temp : " + temp);
 		String uploadPath = "";
 		if (temp != null) {
 			uploadPath = temp.toString();
 		}
-		System.out.println("uploadPath: " + uploadPath);
+//		System.out.println("uploadPath: " + uploadPath);
 		BasicFileAttributes attrs = null;
 		try {
 			attrs = Files.readAttributes(path, BasicFileAttributes.class);
 			
 		} catch (Exception e) {
-			e.printStackTrace();
-			throw new NullPointerException();
+			//e.printStackTrace();
+			throw new NoSuchFileException(path.toString());
 		}
 		long fileSize = attrs.size();
 		String localFileName = path.getFileName().toString();
-		System.out.println(localFileName);
+//		System.out.println(localFileName);
 		String cloudFilePath = null;
 		switch (localFileName) {
 		case "table.ser":
@@ -227,14 +227,15 @@ public class VaultClientDesktop {
 			}
 			table.addNewFile(cloudFilePath, fileSize);
 			cloudFilePath = (new PathManip(cloudFilePath)).toCloudFormat();
-			System.out.println(cloudFilePath);
+//			System.out.println(cloudFilePath);
 			databaseSize = table.writeToFile(databasePath);
+			System.out.println("DatabaseSize : " + databaseSize);
 			updateTableSizeFile(databaseSize);
-			System.out.println("updateTableSizeFile done");
+//			System.out.println("updateTableSizeFile done");
 			upload(databaseSizePath);
-			System.out.println("databaseSizePath done");
+//			System.out.println("databaseSizePath done");
 			upload(databasePath);
-			System.out.println("databasePath done");
+//			System.out.println("databasePath done");
 		}
 		uploadFile(localFilePath, cloudFilePath);
 	}
@@ -253,9 +254,9 @@ public class VaultClientDesktop {
 			int r = params.second;
 
 			ArrayDataEncoder dataEncoder = OpenRQ.newEncoder(data, fecParams);
-			System.out.println("dataEncoder created");
-			System.out.println("data length: " + dataEncoder.dataLength());
-			System.out.println("symbol size: " + dataEncoder.symbolSize());
+//			System.out.println("dataEncoder created");
+//			System.out.println("data length: " + dataEncoder.dataLength());
+//			System.out.println("symbol size: " + dataEncoder.symbolSize());
 
 			int packetID = 0, packetCount = 0, blockID = 0;
 			byte[] packetdata;
@@ -263,7 +264,7 @@ public class VaultClientDesktop {
 					.sourceBlockIterable();
 
 			for (SourceBlockEncoder srcBlkEnc : srcBlkEncoders) {
-				System.out.println("Block " + blockID);
+//				System.out.println("Block " + blockID);
 				ArrayList<ByteArrayBuffer> dataArrays = new ArrayList<ByteArrayBuffer>(
 						clouds.size());
 				for (int i = 0; i < clouds.size(); i++) {
@@ -286,8 +287,8 @@ public class VaultClientDesktop {
 					}
 					packetID++;
 				}
-				System.out.println("number of repair packets for block"
-						+ blockID + ": " + (packetID - packetCount));
+//				System.out.println("number of repair packets for block"
+//						+ blockID + ": " + (packetID - packetCount));
 				for (int i = 0; i < clouds.size(); i++) {
 					Cloud cloud = clouds.get(i);
 					if (cloud.isAvailable()) {
@@ -370,7 +371,7 @@ public class VaultClientDesktop {
 
 			packetID = 0;
 			packetCount = packetList.size();
-			System.out.println("Packets available: " + packetCount);
+//			System.out.println("Packets available: " + packetCount);
 			while (!dataDecoder.isDataDecoded() && packetID < packetList.size()) {
 				byte[] packet = packetList.get(packetID);
 				EncodingPacket encPack = dataDecoder.parsePacket(packet, true)
@@ -382,9 +383,9 @@ public class VaultClientDesktop {
 				packetID++;
 			}
 
-			System.out.println("file has been decoded!");
-			System.out.println("used " + packetID + " packets out of "
-					+ packetCount + " packets");
+//			System.out.println("file has been decoded!");
+//			System.out.println("used " + packetID + " packets out of "
+//					+ packetCount + " packets");
 
 			byte dataNew[] = dataDecoder.dataArray();
 			Path pathNew = Paths.get(writePath);
@@ -400,6 +401,7 @@ public class VaultClientDesktop {
 	public void delete(String VaultFolderAbsolutePath) throws Exception {
 		
 		Path path = Paths.get(VaultFolderAbsolutePath).normalize();
+		System.out.println("Path : " + path.toString());
 		Path temp = Paths.get(vaultPath).relativize(path).getParent();
 		String uploadPath = "";
 		if (temp != null) {
@@ -415,6 +417,8 @@ public class VaultClientDesktop {
 
 		long fileSize = 0;
 		downloadTable();
+
+		System.out.println("CloudFilePath : " + cloudFilePath.toString());
 		if (table.hasFile(cloudFilePath)) {
 			fileSize = table.fileSize(cloudFilePath);
 			table.removeFile(cloudFilePath);

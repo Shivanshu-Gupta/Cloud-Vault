@@ -1,6 +1,7 @@
 //package net.fec.openrq;
 package cloudsafe;
 
+import java.io.File;
 import java.io.IOException;
 
 import static java.nio.file.StandardOpenOption.*;		//for READ, WRITE etc
@@ -9,6 +10,9 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.Files;
 import java.util.Scanner;
+
+import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
 
 import org.apache.commons.io.input.CloseShieldInputStream;
 
@@ -28,12 +32,28 @@ public final class FolderCloud implements Cloud{
 	
 	public FolderCloud()
 	{
-		Scanner in = new Scanner(new CloseShieldInputStream(System.in));
-    	String s;
-		System.out.println("Enter the path to the folder: ");
-		s = in.nextLine();
-		this.cloudPath = Paths.get(s);
-		in.close();
+//		Scanner in = new Scanner(new CloseShieldInputStream(System.in));
+//    	String s;
+//		System.out.println("Enter the path to the folder: ");
+//		s = in.nextLine();
+		
+//		s = JOptionPane.showInputDialog(null,
+//				"Enter the Path of Folder",
+//				"FolderCloud", JOptionPane.QUESTION_MESSAGE);
+//		s = s.trim();
+    	File yourFolder = null;
+    	JFileChooser fc = new JFileChooser();
+    	fc.setCurrentDirectory(new java.io.File(".")); // start at application current directory
+    	fc.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+    	int returnVal = fc.showSaveDialog(fc);
+    	if(returnVal == JFileChooser.APPROVE_OPTION) {
+    	    yourFolder = fc.getSelectedFile();
+    	}
+		
+    	this.cloudPath = Paths.get(yourFolder.getPath()).toAbsolutePath();
+		
+//		this.cloudPath = Paths.get(s);
+//		in.close();
   	}
 	
 	@Override

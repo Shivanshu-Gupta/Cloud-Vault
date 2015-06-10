@@ -175,16 +175,11 @@ public class WatchDir {
 				// Directory Created
 				if (Files.isDirectory(child, NOFOLLOW_LINKS)) {
 					// Folder
-					if(kind == ENTRY_DELETE)
-					{
-						deletedFolder = child.toAbsolutePath().toString();
-					}
 					continue; // ignore
 				}
 				
 				else {
 
-					System.out.println("DeletedFolder : " + deletedFolder);
 					if(child.endsWith("table.ser") || child.endsWith("tablesize.txt"))
 					{
 						continue;
@@ -202,20 +197,11 @@ public class WatchDir {
 					}
 					else if(kind == ENTRY_MODIFY)
 					{
-						String tempo = child.toAbsolutePath().toString();
-						if(deletedFolder.length() == 0)
-						{
+						String tempo = child.toAbsolutePath().toString();;
+						try {
 							client.upload(tempo);
-						}
-						else  {
-							if (tempo.startsWith(deletedFolder)) {
-								System.out.println("............Entered Delete");
-								client.delete(tempo);
-							} else {
-								System.out.println("............Entered Upload");
-								client.upload(tempo);
-								deletedFolder = "";
-							}
+						} catch (NoSuchFileException e) {
+							continue;
 						}
 						System.out.println("-------------------------------Modify Finished : " + tempo);
 					}
@@ -226,7 +212,8 @@ public class WatchDir {
 							client.delete(tempo);
 						} catch (FileNotFoundException e) {
 							// TODO Auto-generated catch block
-							e.printStackTrace();continue;
+							//e.printStackTrace();
+							continue;
 						}
 						catch (Exception e){
 							continue;

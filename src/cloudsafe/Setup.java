@@ -19,6 +19,7 @@ import java.util.Properties;
 import java.util.Scanner;
 
 import javax.swing.JDialog;
+import javax.swing.JOptionPane;
 
 import org.apache.commons.io.input.CloseShieldInputStream;
 
@@ -31,6 +32,7 @@ import cloudsafe.exceptions.AuthenticationException;
 import cloudsafe.util.Pair;
 
 public class Setup {
+	int cloudcounter = 0;
 	static String vaultPath = "trials/Cloud Vault";
 	static String vaultConfigPath = "trials/config";
 	String cloudMetadataPath = vaultConfigPath + "/cloudmetadata.ser";
@@ -91,17 +93,47 @@ public class Setup {
 		Proxy proxy = getProxy();
 		Scanner in = new Scanner(new CloseShieldInputStream(System.in));
 		int choice = 0;
-		System.out.println("Select one amongst the following drives: ");
-		System.out.println("1. Dropbox\t" + "2. Google Drive\t"
-				+ "3. Onedrive\t" + "4. Box\t" + "5. Folder");
-		System.out.println("Enter drive number as choice: ");
-		choice = in.nextInt();
-		while (choice != 1 && choice != 1 && choice != 2 && choice != 3
-				&& choice != 4 && choice != 5) {
-			System.out
-					.println("Invalid choice! Enter drive number as choice: ");
-			choice = in.nextInt();
+//		System.out.println("Select one amongst the following drives: ");
+//		System.out.println("1. Dropbox\t" + "2. Google Drive\t"
+//				+ "3. Onedrive\t" + "4. Box\t" + "5. Folder");
+//		System.out.println("Enter drive number as choice: ");
+//		choice = in.nextInt();
+//		while (choice != 1 && choice != 1 && choice != 2 && choice != 3
+//				&& choice != 4 && choice != 5) {
+//			System.out
+//					.println("Invalid choice! Enter drive number as choice: ");
+//			choice = in.nextInt();
+//		}
+		String[] possibleValues = { "DropBox", "GoogleDrive", "OneDrive", "Box", "FolderCloud" };
+		String code;
+		code = (String) JOptionPane.showInputDialog(null,
+		"Choose Your Cloud", "Cloud " + cloudcounter,
+		JOptionPane.INFORMATION_MESSAGE, null,
+		possibleValues, possibleValues[0]);
+		code.trim();
+		while (!code.equals("DropBox") && !code.equals("GoogleDrive") && !code.equals("OneDrive")
+				&& !code.equals("Box") && !code.equals("FolderCloud"))
+		{
+			code = (String) JOptionPane.showInputDialog(null,
+			"Choose Your Cloud", "Cloud " + cloudcounter,
+			JOptionPane.INFORMATION_MESSAGE, null,
+			possibleValues, possibleValues[0]);
+			code.trim();
+//			JOptionPane.showMessageDialog(null, "Invalid Choice! Enter drive number as choice : " + code);
+//			code = JOptionPane.showInputDialog(null,
+//					"1. Dropbox\t" + "2. Google Drive\t" + "3. Onedrive\t" + "4. Box\t" + "5. Folder",
+//					"Enter Drive Number as Choice", JOptionPane.QUESTION_MESSAGE);
+//			code = code.trim();
 		}
+		for(int i=0 ; i<possibleValues.length ; i++)
+		{
+			if(code.equals(possibleValues[i]))
+			{
+				choice = i + 1;
+				break;
+			}
+		}
+//		choice = Integer.parseInt(code);
 		Cloud cloud;
 		String meta;
 		try {
@@ -142,18 +174,36 @@ public class Setup {
 	}
 
 	public void configureCloudAccess() {
-		String s;
+
 		try (Scanner in = new Scanner(new CloseShieldInputStream(System.in))) {
-			for (int i = 0; i < 4; i++) {
-				System.out.println("CLOUD " + (i + 1));
+			for (cloudcounter = 1; cloudcounter <= 4; cloudcounter++) {
+				System.out.println("CLOUD " + cloudcounter);
 				addCloud();
 			}
-			System.out.println("Add more Clouds (Yes/No)?");
-			s = in.nextLine();
-			while ((s.equals("Yes"))) {
+//			System.out.println("Add more Clouds (Yes/No)?");
+//			s = in.nextLine();
+//			s = JOptionPane.showInputDialog(null,
+//					"Yes/No",
+//					"Add More Clouds?", JOptionPane.QUESTION_MESSAGE);
+//			s = s.trim();
+			
+			Object[] options = { "Yes", "No" };
+			  int choice = JOptionPane.showOptionDialog(null, 
+			      "Do You Want to Add more Clouds?", 
+			      "More Clouds?", 
+			      JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, 
+			      null, options, options[0]);
+			  
+			while ((choice == JOptionPane.YES_OPTION)) {
 				addCloud();
-				System.out.println("Add more Clouds (Yes/No)?");
-				s = in.nextLine();
+				cloudcounter++;
+//				System.out.println("Add more Clouds (Yes/No)?");
+//				s = in.nextLine();
+				choice = JOptionPane.showOptionDialog(null, 
+				      "Do You Want to Add more Clouds?", 
+				      "More Clouds?", 
+				      JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, 
+				      null, options, options[0]);
 			}
 		} catch (Exception e) {
 			System.out.println("Exception: " + e);

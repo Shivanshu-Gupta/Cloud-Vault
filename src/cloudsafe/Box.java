@@ -343,7 +343,7 @@ public class Box implements Cloud {
 				out.write("\r\n");
 
 				code = in.readLine();
-				System.out.println(code);
+				//System.out.println(code);
 				String match = "code";
 				int loc = code.indexOf(match);
 

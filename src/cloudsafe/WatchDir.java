@@ -1,4 +1,5 @@
 package cloudsafe;
+
 /*
  * Copyright (c) 2008, 2010, Oracle and/or its affiliates. All rights reserved.
  *
@@ -56,7 +57,7 @@ public class WatchDir {
 	String childBuffer = null;
 	WatchEvent.Kind kindBufferPrev = null;
 	String childBufferPrev = null;
-	
+
 	String deletedFolder = "";
 
 	@SuppressWarnings("unchecked")
@@ -123,7 +124,8 @@ public class WatchDir {
 
 	/**
 	 * Process all events for keys queued to the watcher
-	 * @throws Exception 
+	 * 
+	 * @throws Exception
 	 */
 	void processEvents() throws Exception {
 		for (;;) {
@@ -172,208 +174,131 @@ public class WatchDir {
 					}
 				}
 
-				// Directory Created
-				if (Files.isDirectory(child, NOFOLLOW_LINKS)) {
-					// Folder
-					continue; // ignore
-				}
-				
-				else {
+				if (Files.exists(child, NOFOLLOW_LINKS)) {
+					// Directory Created
+					if (Files.isDirectory(child, NOFOLLOW_LINKS)) {
+						// Folder
+						continue; // ignore
+					}
 
-					if(child.endsWith("table.ser") || child.endsWith("tablesize.txt"))
-					{
+					else {
+
+						if (child.endsWith("table.ser")
+								|| child.endsWith("tablesize.txt")) {
+							continue;
+						}
+						if (kind == ENTRY_CREATE) {
+							try {
+								String tempo = child.toAbsolutePath()
+										.toString();
+								client.upload(tempo);
+								System.out
+										.println("-------------------------------Upload Finished : "
+												+ tempo);
+							} catch (NullPointerException e) {
+								// TODO Auto-generated catch block
+								continue;
+							}
+						} else if (kind == ENTRY_MODIFY) {
+							String tempo = child.toAbsolutePath().toString();
+							;
+							try {
+								client.upload(tempo);
+							} catch (NoSuchFileException e) {
+								continue;
+							}
+							System.out
+									.println("-------------------------------Modify Finished : "
+											+ tempo);
+						} else if (kind == ENTRY_DELETE) {
+							String tempo = child.toAbsolutePath().toString();
+							try {
+								client.delete(tempo);
+							} catch (FileNotFoundException e) {
+								// TODO Auto-generated catch block
+								// e.printStackTrace();
+								continue;
+							} catch (Exception e) {
+								continue;
+							}
+							System.out
+									.println("-------------------------------Delete Finished : "
+											+ tempo);
+						}
+
+					}
+				} else {
+					String tempo = child.toAbsolutePath().toString();
+					try {
+						client.delete(tempo);
+					} catch (FileNotFoundException e) {
+						// TODO Auto-generated catch block
+						// e.printStackTrace();
+						continue;
+					} catch (Exception e) {
 						continue;
 					}
-					if(kind == ENTRY_CREATE)
-					{
-						try {
-							String tempo = child.toAbsolutePath().toString();
-							client.upload(tempo);
-							System.out.println("-------------------------------Upload Finished : " + tempo);
-						} catch (NullPointerException e) {
-							// TODO Auto-generated catch block
-							continue;
-						}
-					}
-					else if(kind == ENTRY_MODIFY)
-					{
-						String tempo = child.toAbsolutePath().toString();;
-						try {
-							client.upload(tempo);
-						} catch (NoSuchFileException e) {
-							continue;
-						}
-						System.out.println("-------------------------------Modify Finished : " + tempo);
-					}
-					else if(kind == ENTRY_DELETE)
-					{
-						String tempo = child.toAbsolutePath().toString();
-						try {
-							client.delete(tempo);
-						} catch (FileNotFoundException e) {
-							// TODO Auto-generated catch block
-							//e.printStackTrace();
-							continue;
-						}
-						catch (Exception e){
-							continue;
-						}
-						System.out.println("-------------------------------Delete Finished : " + tempo);
-					}
-					
+					System.out
+							.println("-------------------------------Delete (invalid Path) Finished : "
+									+ tempo);
 				}
-				
-				/*else {
-					if (kindBuffer == null) 
-					{
-						kindBuffer = kind;
-						childBuffer = child.toString();
-						System.out.println("kindBuffer modified");
-					}
-					else if (kindBuffer == ENTRY_CREATE)
-					{
-						if(kind == ENTRY_CREATE)
-						{
-							if(childBuffer.equals(child.toString()))
-							{
-								System.out.println("--------------Impossible Event Happened");
-							}
-							else
-							{
-								simpleupload(kind,child.toString());
-							}
-						}
-						else if(kind == ENTRY_MODIFY)
-						{
-							if(childBuffer.equals(child.toString()))
-							{
-								simpleupload(kind,child.toString());
-								kindBuffer = null;
-								childBuffer = null;
-							}
-							else
-							{
-								simpleupload(kind,child.toString());
-							}
-						}
-						else if(kind == ENTRY_DELETE)
-						{
-							if(childBuffer.equals(child.toString()))
-							{
-								kindBuffer = null;
-								childBuffer = null;
-							}
-							else
-							{
-								simpleupload(kind,child.toString());
-							}
-						}
-					}
-					else if (kindBuffer == ENTRY_MODIFY)
-					{
-						if(kind == ENTRY_CREATE)
-						{
-							if(childBuffer.equals(child.toString()))
-							{
-								simpleupload(kind,child.toString());
-							}
-							else
-							{
-								simpleupload(kind,child.toString());
-							}
-						}
-						else if(kind == ENTRY_MODIFY)
-						{
-							if(childBuffer.equals(child.toString()))
-							{
-								simpleupload(kind,child.toString());
-								kindBuffer = null;
-								childBuffer = null;								
-							}
-							else
-							{
-								simpleupload(kind,child.toString());
-							}
-						}
-						else if(kind == ENTRY_DELETE)
-						{
-							if(childBuffer.equals(child.toString()))
-							{
-								simpleupload(kind,child.toString());
-							}
-							else
-							{
-								simpleupload(kind,child.toString());
-							}
-						}
-					}
-					else if (kindBuffer == ENTRY_DELETE)
-					{
-						if(kind == ENTRY_CREATE)
-						{
-							if(childBuffer.equals(child.toString()))
-							{
-								simpledelete(kind,child.toString());
-							}
-							else
-							{
-								simpledelete(kind,child.toString());
-							}
-						}
-						else if(kind == ENTRY_MODIFY)
-						{
-							if(childBuffer.equals(child.toString()))
-							{
-								System.out.println("--------------Impossible Event Happened");							
-							}
-							else
-							{
-								simpledelete(kind,child.toString());
-							}
-						}
-						else if(kind == ENTRY_DELETE)
-						{
-							if(childBuffer.equals(child.toString()))
-							{
-								System.out.println("--------------Impossible Event Happened");
-							}
-							else
-							{
-								simpledelete(kind,child.toString());
-							}
-						}
-					}
-				}
-				
-				
-				//if this is the last entry
-				if(kindBufferPrev == kindBuffer && childBuffer.equals(childBufferPrev))
-				{
-					if(kindBuffer == ENTRY_CREATE || kindBuffer == ENTRY_MODIFY)
-					{
-						client.upload(Paths.get(childBuffer).toAbsolutePath().toString());
-						System.out.println("Upload Finished : " + childBuffer);
-						kindBuffer = null;
-						childBuffer = null;
-					}
-					else if(kindBuffer == ENTRY_DELETE)
-					{
-						try {
-							client.delete(childBuffer);
-							System.out.println("Upload Finished : " + childBuffer);
-							kindBuffer = null;
-							childBuffer = null;
-						} catch (FileNotFoundException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						}
-					}
-				}
-				
-				kindBufferPrev = kindBuffer;
-				childBufferPrev = childBuffer;*/
-				
-				
+
+				/*
+				 * else { if (kindBuffer == null) { kindBuffer = kind;
+				 * childBuffer = child.toString();
+				 * System.out.println("kindBuffer modified"); } else if
+				 * (kindBuffer == ENTRY_CREATE) { if(kind == ENTRY_CREATE) {
+				 * if(childBuffer.equals(child.toString())) {
+				 * System.out.println(
+				 * "--------------Impossible Event Happened"); } else {
+				 * simpleupload(kind,child.toString()); } } else if(kind ==
+				 * ENTRY_MODIFY) { if(childBuffer.equals(child.toString())) {
+				 * simpleupload(kind,child.toString()); kindBuffer = null;
+				 * childBuffer = null; } else {
+				 * simpleupload(kind,child.toString()); } } else if(kind ==
+				 * ENTRY_DELETE) { if(childBuffer.equals(child.toString())) {
+				 * kindBuffer = null; childBuffer = null; } else {
+				 * simpleupload(kind,child.toString()); } } } else if
+				 * (kindBuffer == ENTRY_MODIFY) { if(kind == ENTRY_CREATE) {
+				 * if(childBuffer.equals(child.toString())) {
+				 * simpleupload(kind,child.toString()); } else {
+				 * simpleupload(kind,child.toString()); } } else if(kind ==
+				 * ENTRY_MODIFY) { if(childBuffer.equals(child.toString())) {
+				 * simpleupload(kind,child.toString()); kindBuffer = null;
+				 * childBuffer = null; } else {
+				 * simpleupload(kind,child.toString()); } } else if(kind ==
+				 * ENTRY_DELETE) { if(childBuffer.equals(child.toString())) {
+				 * simpleupload(kind,child.toString()); } else {
+				 * simpleupload(kind,child.toString()); } } } else if
+				 * (kindBuffer == ENTRY_DELETE) { if(kind == ENTRY_CREATE) {
+				 * if(childBuffer.equals(child.toString())) {
+				 * simpledelete(kind,child.toString()); } else {
+				 * simpledelete(kind,child.toString()); } } else if(kind ==
+				 * ENTRY_MODIFY) { if(childBuffer.equals(child.toString())) {
+				 * System
+				 * .out.println("--------------Impossible Event Happened"); }
+				 * else { simpledelete(kind,child.toString()); } } else if(kind
+				 * == ENTRY_DELETE) { if(childBuffer.equals(child.toString())) {
+				 * System
+				 * .out.println("--------------Impossible Event Happened"); }
+				 * else { simpledelete(kind,child.toString()); } } } }
+				 * 
+				 * 
+				 * //if this is the last entry if(kindBufferPrev == kindBuffer
+				 * && childBuffer.equals(childBufferPrev)) { if(kindBuffer ==
+				 * ENTRY_CREATE || kindBuffer == ENTRY_MODIFY) {
+				 * client.upload(Paths
+				 * .get(childBuffer).toAbsolutePath().toString());
+				 * System.out.println("Upload Finished : " + childBuffer);
+				 * kindBuffer = null; childBuffer = null; } else if(kindBuffer
+				 * == ENTRY_DELETE) { try { client.delete(childBuffer);
+				 * System.out.println("Upload Finished : " + childBuffer);
+				 * kindBuffer = null; childBuffer = null; } catch
+				 * (FileNotFoundException e) { // TODO Auto-generated catch
+				 * block e.printStackTrace(); } } }
+				 * 
+				 * kindBufferPrev = kindBuffer; childBufferPrev = childBuffer;
+				 */
 
 			}
 
@@ -389,12 +314,14 @@ public class WatchDir {
 			}
 		}
 	}
-		
-	private void simpledelete(WatchEvent.Kind kind, String childString) throws Exception {
+
+	private void simpledelete(WatchEvent.Kind kind, String childString)
+			throws Exception {
 		try {
 			String tempo = Paths.get(childBuffer).toAbsolutePath().toString();
 			client.delete(tempo);
-			System.out.println("---------------------------Delete Finished : " + tempo);
+			System.out.println("---------------------------Delete Finished : "
+					+ tempo);
 			kindBuffer = kind;
 			childBuffer = childString;
 		} catch (FileNotFoundException e) {
@@ -403,10 +330,12 @@ public class WatchDir {
 		}
 	}
 
-	private void simpleupload (WatchEvent.Kind kind, String childString) throws Exception{
+	private void simpleupload(WatchEvent.Kind kind, String childString)
+			throws Exception {
 		String tempo = Paths.get(childBuffer).toAbsolutePath().toString();
 		client.upload(tempo);
-		System.out.println("-------------------------------Upload Finished : " + tempo);
+		System.out.println("-------------------------------Upload Finished : "
+				+ tempo);
 		kindBuffer = kind;
 		childBuffer = childString;
 	}

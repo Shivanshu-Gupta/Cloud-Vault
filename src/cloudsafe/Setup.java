@@ -22,6 +22,7 @@ import javax.swing.JDialog;
 import javax.swing.JOptionPane;
 
 import org.apache.commons.io.input.CloseShieldInputStream;
+import org.apache.commons.lang3.ArrayUtils;
 
 import com.box.boxjavalibv2.exceptions.AuthFatalFailureException;
 import com.box.boxjavalibv2.exceptions.BoxServerException;
@@ -32,6 +33,7 @@ import cloudsafe.exceptions.AuthenticationException;
 import cloudsafe.util.Pair;
 
 public class Setup {
+	String[] possibleValues = { "DropBox", "GoogleDrive", "OneDrive", "Box", "FolderCloud" };
 	int cloudcounter = 0;
 	static String vaultPath = "trials/Cloud Vault";
 	static String vaultConfigPath = "trials/config";
@@ -104,7 +106,7 @@ public class Setup {
 //					.println("Invalid choice! Enter drive number as choice: ");
 //			choice = in.nextInt();
 //		}
-		String[] possibleValues = { "DropBox", "GoogleDrive", "OneDrive", "Box", "FolderCloud" };
+		
 		String code;
 		code = (String) JOptionPane.showInputDialog(null,
 		"Choose Your Cloud", "Cloud " + cloudcounter,
@@ -125,14 +127,27 @@ public class Setup {
 //					"Enter Drive Number as Choice", JOptionPane.QUESTION_MESSAGE);
 //			code = code.trim();
 		}
-		for(int i=0 ; i<possibleValues.length ; i++)
-		{
-			if(code.equals(possibleValues[i]))
-			{
-				choice = i + 1;
-				break;
-			}
+		//Deciding value of choice
+		if(code.equals("DropBox")){
+			choice = 1;
+			possibleValues = ArrayUtils.removeElement(possibleValues, "DropBox");
 		}
+		else if(code.equals("GoogleDrive")){
+			choice = 2;
+			possibleValues = ArrayUtils.removeElement(possibleValues, "GoogleDrive");
+		}
+		else if(code.equals("OneDrive")){
+			choice = 3;
+			possibleValues = ArrayUtils.removeElement(possibleValues, "OneDrive");
+		}
+		else if(code.equals("Box")){
+			choice = 4;
+			possibleValues = ArrayUtils.removeElement(possibleValues, "Box");
+		}
+		else if(code.equals("FolderCloud")){
+			choice = 5;
+		}
+
 //		choice = Integer.parseInt(code);
 		Cloud cloud;
 		String meta;

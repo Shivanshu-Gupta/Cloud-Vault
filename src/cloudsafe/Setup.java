@@ -52,7 +52,9 @@ public class Setup {
 		} catch (IOException e1) {
 			e1.printStackTrace();
 		}
-		Settings proxySettings = new Settings(vaultConfigPath);
+//		Settings settings = new Settings(vaultConfigPath);
+//		settings.show();
+		ProxyConfig proxySettings = new ProxyConfig(vaultConfigPath);
 		JDialog settings = new JDialog(null, "Proxy Settings", Dialog.ModalityType.APPLICATION_MODAL);
 		settings.add(proxySettings);
         settings.pack();
@@ -85,8 +87,10 @@ public class Setup {
 			}
 		} catch (FileNotFoundException e1) {
 			e1.printStackTrace();
+			proxy = Proxy.NO_PROXY;
 		} catch (IOException e1) {
 			e1.printStackTrace();
+			proxy = Proxy.NO_PROXY;
 		}
 		return proxy;
 	}

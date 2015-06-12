@@ -133,8 +133,10 @@ public class VaultClient {
 			}
 		} catch (FileNotFoundException e1) {
 			e1.printStackTrace();
+			proxy = Proxy.NO_PROXY;
 		} catch (IOException e1) {
 			e1.printStackTrace();
+			proxy = Proxy.NO_PROXY;
 		}
 		return proxy;
 	}

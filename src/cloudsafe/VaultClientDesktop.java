@@ -258,7 +258,7 @@ public class VaultClientDesktop {
 //			System.out.println("data length: " + dataEncoder.dataLength());
 //			System.out.println("symbol size: " + dataEncoder.symbolSize());
 
-			int packetID = 0, packetCount = 0, blockID = 0;
+			int packetID = 0, blockID = 0;
 			byte[] packetdata;
 			Iterable<SourceBlockEncoder> srcBlkEncoders = dataEncoder
 					.sourceBlockIterable();
@@ -297,7 +297,6 @@ public class VaultClientDesktop {
 								WriteMode.OVERWRITE);
 					}
 				}
-				packetCount = packetID;
 				blockID++;
 			}
 		} catch (Exception e) {

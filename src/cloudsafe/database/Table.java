@@ -1,7 +1,6 @@
 package cloudsafe.database;
 
 import java.io.ByteArrayInputStream;
-import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -147,8 +146,7 @@ public class Table {
 		table.put(fileName, Pair.of(table.get(fileName).first, false));
 	}
 
-	public final int writeToFile(String databasePath) {
-		int tableFileSize = 0;
+	public final void writeToFile(String databasePath) {
 		try {
 			FileOutputStream fileOut = new FileOutputStream(databasePath);
 			ObjectOutputStream out = new ObjectOutputStream(fileOut);
@@ -157,28 +155,11 @@ public class Table {
 			fileOut.flush();
 			out.close();
 			fileOut.close();
-			File tableFile = new File(databasePath);
-			tableFileSize = (int) tableFile.length();
 		} catch (IOException x) {
 			System.out.println("IOException: " + x);
 			x.printStackTrace();
 		}
-		return tableFileSize;
 	}
-
-	// public void printHistory(String fileName) {
-	// if (!table.containsKey(fileName) || table.get(fileName) == null) {
-	// System.out.println("File not found");
-	// } else {
-	// FileMetadata fileVersions = table.get(fileName).first;
-	// System.out.format("\t%-50s%-10s%-10s%-40s\n", "Name", "Version",
-	// "Size", "Last Modified");
-	// for (int i = 0; i < fileVersions.size(); i++) {
-	// System.out.println((i + 1) + ".\t"
-	// + fileVersions.get(i).toString());
-	// }
-	// }
-	// }
 
 	public Object[] getFileList() {
 		return table.keySet().toArray();

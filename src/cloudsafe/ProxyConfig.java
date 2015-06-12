@@ -126,7 +126,7 @@ public class ProxyConfig extends JPanel implements ActionListener {
 		try {
 			loadProperties();
 		} catch (IOException ex) {
-			JOptionPane.showMessageDialog(this, "The config.properties file does not exist, default properties loaded.");
+//			JOptionPane.showMessageDialog(this, "The config.properties file does not exist, default properties loaded.");
 		}
 		textHost.setText(configProps.getProperty("proxyhost"));
 		textPort.setText(configProps.getProperty("proxyport"));

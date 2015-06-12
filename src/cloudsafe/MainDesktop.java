@@ -14,12 +14,8 @@ import cloudsafe.cloud.Cloud;
 public class MainDesktop {
 	VaultClientDesktop client;
 	static String vaultPath = "trials/Cloud Vault";
-//	static String vaultConfigPath = "trials/config";
-//
-//	String cloudMetadataPath = vaultConfigPath + "/cloudmetadata.ser";
 
 	static String localConfigPath = "trials/config";
-
 	String cloudMetadataPath = localConfigPath + "/cloudmetadata.ser";
 
 	static ArrayList<Cloud> clouds = new ArrayList<Cloud>();

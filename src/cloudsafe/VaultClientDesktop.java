@@ -438,6 +438,7 @@ public class VaultClientDesktop {
 						Cloud cloud = clouds.get(i);
 						if (cloud.isAvailable()
 								&& cloud.searchFile(blockFileName)) {
+							System.out.println("Deleting in cloud " + i);
 							cloud.deleteFile(blockFileName);
 						}
 					}
@@ -466,6 +467,7 @@ public class VaultClientDesktop {
 			byte[] tableBytes = Files.readAllBytes(Paths.get(databasePath));
 			databaseSize = tableBytes.length;
 			databaseHash = tableBytes.hashCode();
+			System.out.println("Uploading Table: Size=" + databaseSize + " Hash=" + databaseHash);
 			updateTableMetaFile(databaseSize, databaseHash);
 			upload(databaseMetaPath);
 			upload(databasePath);
@@ -478,7 +480,7 @@ public class VaultClientDesktop {
 	public void downloadTable() {
 		boolean databaseChanged = false; 
 		String cloudFilePath = "table.ser";
-		downloadFile("tablemeta.txt", databaseMetaPath, 8);
+		downloadFile("tablemeta.txt", databaseMetaPath, 12);
 		try (DataInputStream in = new DataInputStream(new FileInputStream(
 				databaseMetaPath))) {
 			int tableHash = in.readInt();
@@ -486,6 +488,7 @@ public class VaultClientDesktop {
 				databaseChanged = true;
 			}
 			databaseSize = in.readLong();
+			System.out.println("New Table: Size=" + databaseSize + " Hash=" + tableHash);
 		} catch (IOException e) {
 			System.out.println("IOException: " + e);
 			e.printStackTrace();
@@ -516,7 +519,7 @@ public class VaultClientDesktop {
 	public boolean checkIfNewUser() {
 		boolean newUser = true;
 		for (int i = 0; i < clouds.size(); i++) {
-			if (clouds.get(i).searchFile("table.ser")) {
+			if (clouds.get(i).searchFile("table.ser_0")) {
 				System.out.println("Found table.ser");
 				newUser = false;
 				break;
@@ -531,6 +534,7 @@ public class VaultClientDesktop {
 	}
 	
 	public void sync(Table newTable) {
+		System.out.println("Syncing with new table");
 		Object[] localFiles = table.getFileList();
 		Object[] filesInVault = newTable.getFileList();
 		for(Object file : filesInVault){
@@ -558,7 +562,7 @@ public class VaultClientDesktop {
 	public void sync() {
 		boolean databaseChanged = false; 
 		String cloudFilePath = "table.ser";
-		downloadFile("tablemeta.txt", databaseMetaPath, 8);
+		downloadFile("tablemeta.txt", databaseMetaPath, 12);
 		try (DataInputStream in = new DataInputStream(new FileInputStream(
 				databaseMetaPath))) {
 			int tableHash = in.readInt();

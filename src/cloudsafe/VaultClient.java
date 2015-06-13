@@ -516,7 +516,7 @@ public class VaultClient {
 	public void downloadTable() {
 		boolean databaseChanged = false; 
 		String cloudFilePath = "table.ser";
-		downloadFile("tablemeta.txt", databaseMetaPath, 8);
+		downloadFile("tablemeta.txt", databaseMetaPath, 12);
 		try (DataInputStream in = new DataInputStream(new FileInputStream(
 				databaseMetaPath))) {
 			int tableHash = in.readInt();
@@ -554,7 +554,7 @@ public class VaultClient {
 	public boolean checkIfNewUser() {
 		boolean newUser = true;
 		for (int i = 0; i < clouds.size(); i++) {
-			if (clouds.get(i).searchFile("table.ser")) {
+			if (clouds.get(i).searchFile("table.ser_0")) {
 				System.out.println("Found table.ser");
 				newUser = false;
 				break;
@@ -596,7 +596,7 @@ public class VaultClient {
 	public void sync() {
 		boolean databaseChanged = false; 
 		String cloudFilePath = "table.ser";
-		downloadFile("tablemeta.txt", databaseMetaPath, 8);
+		downloadFile("tablemeta.txt", databaseMetaPath, 12);
 		try (DataInputStream in = new DataInputStream(new FileInputStream(
 				databaseMetaPath))) {
 			int tableHash = in.readInt();

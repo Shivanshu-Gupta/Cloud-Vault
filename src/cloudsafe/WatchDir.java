@@ -215,7 +215,7 @@ public class WatchDir {
 								client.delete(tempo);
 							} catch (FileNotFoundException e) {
 								// TODO Auto-generated catch block
-								// e.printStackTrace();
+								e.printStackTrace();
 								continue;
 							} catch (Exception e) {
 								continue;
@@ -232,7 +232,7 @@ public class WatchDir {
 						client.delete(tempo);
 					} catch (FileNotFoundException e) {
 						// TODO Auto-generated catch block
-						// e.printStackTrace();
+						 e.printStackTrace();
 						continue;
 					} catch (Exception e) {
 						continue;

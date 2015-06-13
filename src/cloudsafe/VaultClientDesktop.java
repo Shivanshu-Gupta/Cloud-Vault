@@ -3,6 +3,9 @@ package cloudsafe;
 import java.io.*;
 import java.nio.file.*;
 import java.nio.file.attribute.BasicFileAttributes;
+
+import static java.nio.file.StandardOpenOption.*;		//for READ, WRITE etc
+
 import java.net.Proxy;
 import java.net.Authenticator;
 import java.net.InetSocketAddress;
@@ -11,6 +14,7 @@ import java.util.List;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Properties;
+import java.util.logging.Logger;
 
 import org.apache.http.util.*;
 
@@ -42,7 +46,7 @@ import cloudsafe.database.*;
  * The entry point for the CloudSafe Application.
  */
 public class VaultClientDesktop {
-
+	private static final Logger log = Logger.getLogger( VaultClientDesktop.class.getName() );
 
 	String vaultPath = Paths.get("trials/Cloud Vault").toAbsolutePath()
 			.toString();
@@ -60,8 +64,10 @@ public class VaultClientDesktop {
 
 	long databaseSize;
 	int databaseHash;
-	String databasePath = cloudConfigPath + "/table.ser";
-	String databaseMetaPath = cloudConfigPath + "/tablemeta.txt";
+	String localDatabasePath = localConfigPath + "/table.ser";
+	String localDatabaseMetaPath = localConfigPath + "/tablemeta.txt";
+	String cloudDatabasePath = cloudConfigPath + "/table.ser";
+	String cloudDatabaseMetaPath = cloudConfigPath + "/tablemeta.txt";
 	
 	String currentFile = "";
 	
@@ -73,10 +79,10 @@ public class VaultClientDesktop {
 		// this.cloudConfigPath = vaultPath;
 		// System.out.println("cloudConfigPath: " + cloudConfigPath);
 		// this.cloudMetadataPath = localConfigPath + "/cloudmetadata.ser";
-		// this.databasePath = cloudConfigPath + "/table.ser";
-		// System.out.println("sizePath: " + databaseMetaPath);
-		// this.databaseMetaPath = cloudConfigPath + "/tablemeta.txt";
-		// System.out.println("sizePath: " + databaseMetaPath);
+		// this.localDatabasePath = cloudConfigPath + "/table.ser";
+		// System.out.println("sizePath: " + localDatabaseMetaPath);
+		// this.localDatabaseMetaPath = cloudConfigPath + "/tablemeta.txt";
+		// System.out.println("sizePath: " + localDatabaseMetaPath);
 		proxy = getProxy();
 		try {
 			FileInputStream fileIn = new FileInputStream(cloudMetadataPath);
@@ -119,8 +125,10 @@ public class VaultClientDesktop {
 		boolean newUser = checkIfNewUser();
 		if (newUser)
 			createNewTable();
-		else
+		else {
+			table = new Table(localDatabasePath);
 			downloadTable();
+		}
 	}
 
 	private Proxy getProxy() {
@@ -424,7 +432,7 @@ public class VaultClientDesktop {
 			uploadTable();
 			releaseLock();
 			if (fileSize < 0) {
-				throw new FileNotFoundException();
+//				throw new FileNotFoundException();
 			} else {
 				cloudFilePath = (new PathManip(cloudFilePath)).toCloudFormat();
 				Pair<FECParameters, Integer> params = getParams(fileSize);
@@ -454,7 +462,17 @@ public class VaultClientDesktop {
 	public void createNewTable() {
 		try {
 			table = new Table();
-			uploadTable();
+			table.writeToFile(localDatabasePath);
+			byte[] tableBytes = Files.readAllBytes(Paths.get(localDatabasePath));
+			databaseSize = tableBytes.length;
+			databaseHash = table.hashCode();
+			System.out.println("Uploading Table: Size=" + databaseSize + " Hash=" + databaseHash);
+			
+			updateTableMetaFile(databaseSize, databaseHash);
+			upload(cloudDatabaseMetaPath);
+			
+			Files.write(Paths.get(cloudDatabasePath), tableBytes, CREATE, WRITE, TRUNCATE_EXISTING);
+			upload(cloudDatabasePath);
 		} catch (Exception x) {
 			System.out.println("Exception in creating table: " + x);
 			x.printStackTrace();
@@ -463,14 +481,22 @@ public class VaultClientDesktop {
 
 	public void uploadTable() {
 		try {
-			table.writeToFile(databasePath);
-			byte[] tableBytes = Files.readAllBytes(Paths.get(databasePath));
+			table.writeToFile(localDatabasePath);
+			byte[] tableBytes = Files.readAllBytes(Paths.get(localDatabasePath));
 			databaseSize = tableBytes.length;
-			databaseHash = tableBytes.hashCode();
+			databaseHash = table.hashCode();
 			System.out.println("Uploading Table: Size=" + databaseSize + " Hash=" + databaseHash);
+			
+			//this will write to local config folder then copy to local vault
+			//no need to upload as watchDir will do that.
 			updateTableMetaFile(databaseSize, databaseHash);
-			upload(databaseMetaPath);
-			upload(databasePath);
+//			upload(cloudDatabaseMetaPath);
+			
+			//write the table to local vault too; 
+			//no need to upload as watchDir will do that.
+			Files.write(Paths.get(cloudDatabasePath), tableBytes, CREATE, WRITE, TRUNCATE_EXISTING);
+//			upload(cloudDatabasePath);
+
 		} catch (IOException e) {
 			System.out.println("Exception while uploading database");
 			e.printStackTrace();
@@ -480,9 +506,11 @@ public class VaultClientDesktop {
 	public void downloadTable() {
 		boolean databaseChanged = false; 
 		String cloudFilePath = "table.ser";
-		downloadFile("tablemeta.txt", databaseMetaPath, 12);
+		downloadFile("tablemeta.txt", cloudDatabaseMetaPath, 12);
 		try (DataInputStream in = new DataInputStream(new FileInputStream(
-				databaseMetaPath))) {
+				cloudDatabaseMetaPath))) {
+			//no need to copy database files from vaultPath to localConfigPath. 
+//			Files.copy(Paths.get(cloudDatabaseMetaPath), Paths.get(localDatabaseMetaPath), REPLACE_EXISTING);
 			int tableHash = in.readInt();
 			if(databaseHash != tableHash){
 				databaseChanged = true;
@@ -496,18 +524,25 @@ public class VaultClientDesktop {
 		if (databaseChanged) {
 			System.out.println("Size of the database on cloud: " + databaseSize);
 			System.out.println("downloading database");
-			downloadFile(cloudFilePath, databasePath, databaseSize);
-			Table newTable = new Table(databasePath);
+			downloadFile(cloudFilePath, cloudDatabasePath, databaseSize);
+//			Files.copy(Paths.get(cloudDatabasePath), Paths.get(localDatabasePath), REPLACE_EXISTING);
+			Table newTable = new Table(cloudDatabasePath);
 			sync(newTable);
 		}
 	}
 
 	private void updateTableMetaFile(long tableSize, int tableHash) {
 		try {
-			FileOutputStream fileOut = new FileOutputStream(databaseMetaPath);
+			FileOutputStream fileOut = new FileOutputStream(localDatabaseMetaPath);
 			DataOutputStream out = new DataOutputStream(fileOut);
 			out.writeInt(tableHash);
 			out.writeLong(databaseSize);
+//			Files.copy(Paths.get(localDatabaseMetaPath), Paths.get(cloudDatabaseMetaPath), REPLACE_EXISTING);
+			fileOut = new FileOutputStream(cloudDatabaseMetaPath);
+			out = new DataOutputStream(fileOut);
+			out.writeInt(tableHash);
+			out.writeLong(databaseSize);
+			
 			out.flush();
 			fileOut.flush();
 			out.close();
@@ -539,6 +574,7 @@ public class VaultClientDesktop {
 		Object[] filesInVault = newTable.getFileList();
 		for(Object file : filesInVault){
 			if(!table.hasFile((String)file) && !currentFile.equals(file)){
+				System.out.println("File in Cloud not present locally: " + (String)file);
 				table.addNewFile((String)file, newTable.fileSize((String)file));
 				try {
 					download((String)file);
@@ -549,6 +585,7 @@ public class VaultClientDesktop {
 		}
 		for(Object file : localFiles){
 			if(!newTable.hasFile((String)file)){
+				System.out.println("File present locally not in Cloud : " + (String)file);
 				try {
 					Path filePath = Paths.get(vaultPath + "/" + (String)file);
 					Files.delete(filePath);
@@ -562,9 +599,9 @@ public class VaultClientDesktop {
 	public void sync() {
 		boolean databaseChanged = false; 
 		String cloudFilePath = "table.ser";
-		downloadFile("tablemeta.txt", databaseMetaPath, 12);
+		downloadFile("tablemeta.txt", localDatabaseMetaPath, 12);
 		try (DataInputStream in = new DataInputStream(new FileInputStream(
-				databaseMetaPath))) {
+				localDatabaseMetaPath))) {
 			int tableHash = in.readInt();
 			if(databaseHash != tableHash){
 				databaseChanged = true;
@@ -576,8 +613,8 @@ public class VaultClientDesktop {
 		}
 		if (databaseChanged) {
 			System.out.println("database Size: " + databaseSize);
-			downloadFile(cloudFilePath, databasePath, databaseSize);
-			Table newTable = new Table(databasePath);
+			downloadFile(cloudFilePath, localDatabasePath, databaseSize);
+			Table newTable = new Table(localDatabasePath);
 			sync(newTable);
 		}
 	}

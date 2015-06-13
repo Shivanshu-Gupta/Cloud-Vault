@@ -182,10 +182,10 @@ public class WatchDir {
 
 					else {
 
-						if (child.endsWith("table.ser")
-								|| child.endsWith("tablesize.txt")) {
-							continue;
-						}
+//						if (child.endsWith("table.ser")
+//								|| child.endsWith("tablesize.txt")) {
+//							continue;
+//						}
 						if (kind == ENTRY_CREATE) {
 							try {
 								String tempo = child.toAbsolutePath()

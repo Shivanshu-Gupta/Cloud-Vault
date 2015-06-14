@@ -1,10 +1,10 @@
 package cloudsafe.util;
 
 public class PathManip {
-	static char LocalChar = '/';
-	static char CloudChar = '$';
-	static String invalidChar[] = {"/","\\",":","*","?","<",">","|","\"","$"};
-	static String str;
+	private char LocalChar = '/';
+	private char CloudChar = '$';
+	private String invalidChar[] = {"/","\\",":","*","?","<",">","|","\"","$"};
+	private String str;
 	
 	public PathManip(String str){
 		this.str = str; 

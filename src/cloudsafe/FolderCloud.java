@@ -9,12 +9,9 @@ import static java.nio.file.StandardOpenOption.*;		//for READ, WRITE etc
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.Files;
-import java.util.Scanner;
 
 import javax.swing.JFileChooser;
-import javax.swing.JOptionPane;
 
-import org.apache.commons.io.input.CloseShieldInputStream;
 
 import cloudsafe.cloud.Cloud;
 import cloudsafe.cloud.WriteMode;

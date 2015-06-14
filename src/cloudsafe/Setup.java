@@ -53,7 +53,9 @@ public class Setup {
 		} catch (IOException e1) {
 			e1.printStackTrace();
 		}
-		Settings proxySettings = new Settings(vaultConfigPath);
+//		Settings settings = new Settings(vaultConfigPath);
+//		settings.show();
+		ProxyConfig proxySettings = new ProxyConfig(vaultConfigPath);
 		JDialog settings = new JDialog(null, "Proxy Settings", Dialog.ModalityType.APPLICATION_MODAL);
 		settings.add(proxySettings);
         settings.pack();
@@ -86,8 +88,10 @@ public class Setup {
 			}
 		} catch (FileNotFoundException e1) {
 			e1.printStackTrace();
+			proxy = Proxy.NO_PROXY;
 		} catch (IOException e1) {
 			e1.printStackTrace();
+			proxy = Proxy.NO_PROXY;
 		}
 		return proxy;
 	}
@@ -95,19 +99,7 @@ public class Setup {
 	private void addCloud() {
 		Proxy proxy = getProxy();
 		Scanner in = new Scanner(new CloseShieldInputStream(System.in));
-		int choice = 0;
-//		System.out.println("Select one amongst the following drives: ");
-//		System.out.println("1. Dropbox\t" + "2. Google Drive\t"
-//				+ "3. Onedrive\t" + "4. Box\t" + "5. Folder");
-//		System.out.println("Enter drive number as choice: ");
-//		choice = in.nextInt();
-//		while (choice != 1 && choice != 1 && choice != 2 && choice != 3
-//				&& choice != 4 && choice != 5) {
-//			System.out
-//					.println("Invalid choice! Enter drive number as choice: ");
-//			choice = in.nextInt();
-//		}
-		
+		int choice = 0;		
 		String code;
 		code = (String) JOptionPane.showInputDialog(null,
 		"Choose Your Cloud", "Cloud " + cloudcounter,
@@ -196,13 +188,6 @@ public class Setup {
 				System.out.println("CLOUD " + cloudcounter);
 				addCloud();
 			}
-//			System.out.println("Add more Clouds (Yes/No)?");
-//			s = in.nextLine();
-//			s = JOptionPane.showInputDialog(null,
-//					"Yes/No",
-//					"Add More Clouds?", JOptionPane.QUESTION_MESSAGE);
-//			s = s.trim();
-			
 			Object[] options = { "Yes", "No" };
 			  int choice = JOptionPane.showOptionDialog(null, 
 			      "Do You Want to Add more Clouds?", 

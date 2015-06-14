@@ -32,7 +32,6 @@ package cloudsafe;
  */
 
 import java.nio.file.*;
-import java.nio.file.WatchEvent.Kind;
 
 import static java.nio.file.StandardWatchEventKinds.*;
 import static java.nio.file.LinkOption.*;
@@ -183,10 +182,10 @@ public class WatchDir {
 
 					else {
 
-						if (child.endsWith("table.ser")
-								|| child.endsWith("tablesize.txt")) {
-							continue;
-						}
+//						if (child.endsWith("table.ser")
+//								|| child.endsWith("tablesize.txt")) {
+//							continue;
+//						}
 						if (kind == ENTRY_CREATE) {
 							try {
 								String tempo = child.toAbsolutePath()
@@ -216,7 +215,7 @@ public class WatchDir {
 								client.delete(tempo);
 							} catch (FileNotFoundException e) {
 								// TODO Auto-generated catch block
-								// e.printStackTrace();
+								e.printStackTrace();
 								continue;
 							} catch (Exception e) {
 								continue;
@@ -233,7 +232,7 @@ public class WatchDir {
 						client.delete(tempo);
 					} catch (FileNotFoundException e) {
 						// TODO Auto-generated catch block
-						// e.printStackTrace();
+						 e.printStackTrace();
 						continue;
 					} catch (Exception e) {
 						continue;
@@ -344,11 +343,4 @@ public class WatchDir {
 		System.err.println("usage: java WatchDir [-r] dir");
 		System.exit(-1);
 	}
-
-	/*
-	 * public static void main(String[] args) throws IOException { String
-	 * targetdir = "test"; // parse arguments boolean recursive = true; //
-	 * register directory and process its events Path dir =
-	 * Paths.get(targetdir); new WatchDir(dir, recursive).processEvents(); }
-	 */
 }

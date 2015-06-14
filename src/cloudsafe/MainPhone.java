@@ -175,7 +175,8 @@ public class MainPhone {
 //					}
 //					break;
 				case 6:
-					Settings proxySettings = new Settings(vaultConfigPath);
+//					new Settings(vaultConfigPath);
+					ProxyConfig proxySettings = new ProxyConfig(vaultConfigPath);
 					JDialog settings = new JDialog(null, "Proxy Settings", Dialog.ModalityType.APPLICATION_MODAL);
 					settings.add(proxySettings);
 			        settings.pack();

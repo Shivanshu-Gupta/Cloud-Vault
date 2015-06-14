@@ -55,8 +55,9 @@ public class VaultClient {
 	static Table table;
 
 	static long databaseSize;
+	int databaseHash;
 	static String databasePath = vaultConfigPath + "/table.ser";
-	static String databaseSizePath = vaultConfigPath + "/tablesize.txt";
+	static String databaseMetaPath = vaultConfigPath + "/tablesize.txt";
 
 	@SuppressWarnings("unchecked")
 	public VaultClient(String vaultPath) {
@@ -134,8 +135,10 @@ public class VaultClient {
 			}
 		} catch (FileNotFoundException e1) {
 			e1.printStackTrace();
+			proxy = Proxy.NO_PROXY;
 		} catch (IOException e1) {
 			e1.printStackTrace();
+			proxy = Proxy.NO_PROXY;
 		}
 		return proxy;
 	}
@@ -195,6 +198,7 @@ public class VaultClient {
 				} else {
 					cloudFilePath = localFileName;
 				}
+				acquireLock();
 				downloadTable();
 				int version = table.version(cloudFilePath);
 				if (version > 0) {
@@ -202,10 +206,8 @@ public class VaultClient {
 				}
 				table.addNewFile(cloudFilePath, fileSize);
 				cloudFilePath = (new PathManip(cloudFilePath)).toCloudFormat();
-				databaseSize = table.writeToFile(databasePath);
-				updateTableSizeFile(databaseSize);
-				upload(databaseSizePath, "");
-				upload(databasePath, "");
+				uploadTable();
+				releaseLock();
 			}
 			uploadFile(localFilePath, cloudFilePath);
 		} else {
@@ -220,15 +222,13 @@ public class VaultClient {
 						String cloudFilePath = parent + "/"
 								+ file.getFileName();
 						System.out.println(cloudFilePath);
+						acquireLock();
 						downloadTable();
-						//no need to get a version number here as this inside a folder.
+						//no need to append version as inside folder
 						table.addNewFile(cloudFilePath, fileSize);
-						cloudFilePath = (new PathManip(cloudFilePath))
-								.toCloudFormat();
-						databaseSize = table.writeToFile(databasePath);
-						updateTableSizeFile(databaseSize);
-						upload(databaseSizePath, "");
-						upload(databasePath, "");
+						cloudFilePath = (new PathManip(cloudFilePath)).toCloudFormat();
+						uploadTable();
+						releaseLock();
 						uploadFile(file.toString(), cloudFilePath);
 						return FileVisitResult.CONTINUE;
 					}
@@ -243,6 +243,7 @@ public class VaultClient {
 							cloudFilePath = dir.getFileName().toString();
 						}
 						System.out.println(cloudFilePath);
+						acquireLock();
 						downloadTable();
 						if (path == dir) {
 							int version = table.version(cloudFilePath);
@@ -253,10 +254,8 @@ public class VaultClient {
 						}
 						table.addNewFile(cloudFilePath, -1);
 						parent = cloudFilePath;
-						databaseSize = table.writeToFile(databasePath);
-						updateTableSizeFile(databaseSize);
-						upload(databaseSizePath, "");
-						upload(databasePath, "");
+						uploadTable();
+						releaseLock();
 						return FileVisitResult.CONTINUE;
 					}
 
@@ -274,6 +273,16 @@ public class VaultClient {
 				e.printStackTrace();
 			}
 		}
+	}
+
+	private void releaseLock() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	private void acquireLock() {
+		// TODO Auto-generated method stub
+		
 	}
 
 	public void uploadFile(String localFilePath, String cloudFilePath) {
@@ -438,14 +447,13 @@ public class VaultClient {
 	public void delete(String cloudFilePath)
 			throws FileNotFoundException {
 		long fileSize = 0;
-		downloadTable();
 		if (table.hasFile(cloudFilePath)) {
 			fileSize = table.fileSize(cloudFilePath);
+			acquireLock();
+			downloadTable();
 			table.removeFile(cloudFilePath);
-			databaseSize = table.writeToFile(databasePath);
-			updateTableSizeFile(databaseSize);
-			upload(databaseSizePath, "");
-			upload(databasePath, "");
+			uploadTable();
+			releaseLock();
 			if (fileSize < 0) {
 				try {
 					Iterable<FileMetadata> childrendata = table
@@ -481,44 +489,60 @@ public class VaultClient {
 		}
 	}
 
-	public void setupTable() {
-		if (checkIfNewUser())
-			createNewTable();
-		else
-			downloadTable();
-	}
-
 	public void createNewTable() {
 		try {
 			table = new Table();
-			databaseSize = table.writeToFile(databasePath);
-			updateTableSizeFile(databaseSize);
-			upload(databaseSizePath, "");
-			upload(databasePath, "");
+			uploadTable();
 		} catch (Exception x) {
 			System.out.println("Exception in creating table: " + x);
+			x.printStackTrace();
 		}
 	}
 
+	public void uploadTable() {
+		try {
+			table.writeToFile(databasePath);
+			byte[] tableBytes = Files.readAllBytes(Paths.get(databasePath));
+			databaseSize = tableBytes.length;
+			databaseHash = tableBytes.hashCode();
+			updateTableMetaFile(databaseSize, databaseHash);
+			upload(databaseMetaPath, "");
+			upload(databasePath, "");
+		} catch (IOException e) {
+			System.out.println("Exception while uploading database");
+			e.printStackTrace();
+		}
+	}
+	
 	public void downloadTable() {
+		boolean databaseChanged = false; 
 		String cloudFilePath = "table.ser";
-		downloadFile("tablesize.txt", databaseSizePath, 8);
+		downloadFile("tablemeta.txt", databaseMetaPath, 12);
 		try (DataInputStream in = new DataInputStream(new FileInputStream(
-				databaseSizePath))) {
+				databaseMetaPath))) {
+			int tableHash = in.readInt();
+			if(databaseHash != tableHash){
+				databaseChanged = true;
+			}
 			databaseSize = in.readLong();
 		} catch (IOException e) {
 			System.out.println("IOException: " + e);
 			e.printStackTrace();
 		}
-		System.out.println("database Size: " + databaseSize);
-		downloadFile(cloudFilePath, databasePath, databaseSize);
-		table = new Table(databasePath);
+		if (databaseChanged) {
+			System.out.println("Size of the database on cloud: " + databaseSize);
+			System.out.println("downloading database");
+			downloadFile(cloudFilePath, databasePath, databaseSize);
+			Table newTable = new Table(databasePath);
+			sync(newTable);
+		}
 	}
 
-	public void updateTableSizeFile(long tableSize) {
+	private void updateTableMetaFile(long tableSize, int tableHash) {
 		try {
-			FileOutputStream fileOut = new FileOutputStream(databaseSizePath);
+			FileOutputStream fileOut = new FileOutputStream(databaseMetaPath);
 			DataOutputStream out = new DataOutputStream(fileOut);
+			out.writeInt(tableHash);
 			out.writeLong(databaseSize);
 			out.flush();
 			fileOut.flush();
@@ -528,11 +552,10 @@ public class VaultClient {
 			e.printStackTrace();
 		}
 	}
-
 	public boolean checkIfNewUser() {
 		boolean newUser = true;
 		for (int i = 0; i < clouds.size(); i++) {
-			if (clouds.get(i).searchFile("table.ser")) {
+			if (clouds.get(i).searchFile("table.ser_0")) {
 				System.out.println("Found table.ser");
 				newUser = false;
 				break;
@@ -545,8 +568,52 @@ public class VaultClient {
 		downloadTable();
 		return table.getFileList();
 	}
-
+	
+	public void sync(Table newTable) {
+		Object[] localFiles = table.getFileList();
+		Object[] filesInVault = newTable.getFileList();
+		for(Object file : filesInVault){
+			if(!table.hasFile((String)file)){
+				table.addNewFile((String)file, newTable.fileSize((String)file));
+				try {
+					download((String)file);
+				} catch (FileNotFoundException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+		for(Object file : localFiles){
+			if(!newTable.hasFile((String)file)){
+				try {
+					Path filePath = Paths.get(vaultPath + "/" + (String)file);
+					Files.delete(filePath);
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+	}
+	
 	public void sync() {
-
+		boolean databaseChanged = false; 
+		String cloudFilePath = "table.ser";
+		downloadFile("tablemeta.txt", databaseMetaPath, 12);
+		try (DataInputStream in = new DataInputStream(new FileInputStream(
+				databaseMetaPath))) {
+			int tableHash = in.readInt();
+			if(databaseHash != tableHash){
+				databaseChanged = true;
+			}
+			databaseSize = in.readLong();
+		} catch (IOException e) {
+			System.out.println("IOException: " + e);
+			e.printStackTrace();
+		}
+		if (databaseChanged) {
+			System.out.println("database Size: " + databaseSize);
+			downloadFile(cloudFilePath, databasePath, databaseSize);
+			Table newTable = new Table(databasePath);
+			sync(newTable);
+		}
 	}
 }

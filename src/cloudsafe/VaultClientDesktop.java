@@ -76,6 +76,7 @@ public class VaultClientDesktop {
 		// System.out.println("sizePath: " + databaseSizePath);
 		proxy = getProxy();
 		try {
+			int index = 1;
 			FileInputStream fileIn = new FileInputStream(cloudMetadataPath);
 			ObjectInputStream in = new ObjectInputStream(fileIn);
 			cloudMetaData = (ArrayList<Pair<String, String>>) in.readObject();
@@ -87,7 +88,7 @@ public class VaultClientDesktop {
 					clouds.add(new Dropbox(metadata.second, proxy));
 					break;
 				case "googledrive":
-					clouds.add(new GoogleDrive(proxy));
+					clouds.add(new GoogleDrive(proxy,index++));
 					break;
 				case "onedrive":
 					clouds.add(new FolderCloud(metadata.second));

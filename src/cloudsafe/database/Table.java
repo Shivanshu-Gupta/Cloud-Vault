@@ -159,6 +159,7 @@ public class Table {
 			fileOut.close();
 			File tableFile = new File(databasePath);
 			tableFileSize = (int) tableFile.length();
+			System.out.println("Table File Size (after writing) : " + tableFileSize);
 		} catch (IOException x) {
 			System.out.println("IOException: " + x);
 			x.printStackTrace();

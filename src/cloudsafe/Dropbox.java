@@ -34,7 +34,6 @@ public class Dropbox implements Cloud {
 	public Dropbox(Proxy proxy) throws AuthenticationException {
 		DbxAppInfo appInfo = new DbxAppInfo(APP_KEY, APP_SECRET);
 		DbxRequestConfig config;
-		// HttpRequestor requ = getProxy();
 		HttpRequestor requ = new StandardHttpRequestor(proxy);
 		config = new DbxRequestConfig("CloudVault/1.0", Locale.getDefault()
 				.toString(), requ);

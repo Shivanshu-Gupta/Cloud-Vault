@@ -1,11 +1,199 @@
-2015-06-14 13:57:48,794 main TRACE cloudsafe.Main - entry params(Application Starting!)
-2015-06-14 13:57:48,809 main TRACE cloudsafe.Main - entry params(New Setup)
-2015-06-14 13:58:49,992 main INFO  cloudsafe.VaultClientDesktop - Uploading Table: Size=82 Hash=1253946629
-2015-06-14 13:58:49,992 main INFO  cloudsafe.VaultClientDesktop - Uploading: C:\Users\Shivanshu Gupta\Dropbox\SURA\cloud-vault\trials\Cloud Vault/tablemeta.txt
-2015-06-14 13:58:50,117 main ERROR cloudsafe.VaultClientDesktop - Exception in upload: java.lang.IndexOutOfBoundsException: Index: 0, Size: 0
-2015-06-14 13:58:50,117 main INFO  cloudsafe.VaultClientDesktop - Uploading: C:\Users\Shivanshu Gupta\Dropbox\SURA\cloud-vault\trials\Cloud Vault/table.ser
-2015-06-14 13:58:50,133 main ERROR cloudsafe.VaultClientDesktop - Exception in upload: java.lang.IndexOutOfBoundsException: Index: 0, Size: 0
-2015-06-14 14:31:06,516 main INFO  cloudsafe.VaultClientDesktop - Path : C:\Users\Shivanshu Gupta\Dropbox\SURA\cloud-vault\trials\Cloud Vault\table.ser
-2015-06-14 14:31:06,516 main INFO  cloudsafe.VaultClientDesktop - CloudFilePath : table.ser
-2015-06-14 14:31:06,517 main INFO  cloudsafe.VaultClientDesktop - Path : C:\Users\Shivanshu Gupta\Dropbox\SURA\cloud-vault\trials\Cloud Vault\tablemeta.txt
-2015-06-14 14:31:06,517 main INFO  cloudsafe.VaultClientDesktop - CloudFilePath : tablemeta.txt
+2015-06-14 16:39:33,359 main TRACE cloudsafe.Main - entry params(Application Starting!)
+2015-06-14 16:39:33,359 main TRACE cloudsafe.Main - entry params(New Setup)
+2015-06-14 16:43:37,469 main TRACE cloudsafe.Main - exit with(Setup complete!)
+2015-06-14 16:43:37,470 main TRACE cloudsafe.VaultClientDesktop - entry params(Setting up VaultClient)
+2015-06-14 16:43:37,486 main TRACE cloudsafe.VaultClientDesktop - entry params(getting proxy)
+2015-06-14 16:43:37,486 main TRACE cloudsafe.VaultClientDesktop - exit with(proxy configured.)
+2015-06-14 16:43:37,486 main INFO  cloudsafe.VaultClientDesktop - adding cloud: dropbox
+2015-06-14 16:43:38,719 main INFO  cloudsafe.VaultClientDesktop - adding cloud: googledrive
+2015-06-14 16:43:39,178 main INFO  cloudsafe.VaultClientDesktop - adding cloud: box
+2015-06-14 16:43:50,660 main INFO  cloudsafe.VaultClientDesktop - adding cloud: folder
+2015-06-14 16:43:51,482 main TRACE cloudsafe.VaultClientDesktop - Found table.ser
+2015-06-14 16:43:51,487 main INFO  cloudsafe.VaultClientDesktop - Downloading: tablemeta.txt
+2015-06-14 16:43:52,628 main ERROR cloudsafe.VaultClientDesktop - Exception in download: java.io.FileNotFoundException: trials\googledrive\tablemeta.txt_0 (The system cannot find the path specified)
+2015-06-14 16:43:52,631 main ERROR cloudsafe.VaultClientDesktop - IOException: java.io.FileNotFoundException: C:\Users\Shivanshu Gupta\Dropbox\SURA\cloud-vault\trials\Cloud Vault\tablemeta.txt (The system cannot find the file specified)
+2015-06-14 16:43:52,631 main TRACE cloudsafe.VaultClientDesktop - exit with(VaultClient Setup)
+2015-06-14 16:51:51,044 main TRACE cloudsafe.Main - entry params(Application Starting!)
+2015-06-14 16:51:51,059 main TRACE cloudsafe.Main - entry params(New Setup)
+2015-06-14 16:53:14,538 main TRACE cloudsafe.Main - exit with(Setup complete!)
+2015-06-14 16:53:14,539 main TRACE cloudsafe.VaultClientDesktop - entry params(Setting up VaultClient)
+2015-06-14 16:53:14,539 main TRACE cloudsafe.VaultClientDesktop - entry params(getting proxy)
+2015-06-14 16:53:14,539 main TRACE cloudsafe.VaultClientDesktop - exit with(proxy configured.)
+2015-06-14 16:53:14,539 main INFO  cloudsafe.VaultClientDesktop - adding cloud: dropbox
+2015-06-14 16:53:14,903 main INFO  cloudsafe.VaultClientDesktop - adding cloud: googledrive
+2015-06-14 16:53:15,372 main INFO  cloudsafe.VaultClientDesktop - adding cloud: box
+2015-06-14 16:53:25,347 main INFO  cloudsafe.VaultClientDesktop - adding cloud: folder
+2015-06-14 16:53:25,373 main INFO  cloudsafe.VaultClientDesktop - Uploading Table: Size=82 Hash=587180314
+2015-06-14 16:53:25,373 main INFO  cloudsafe.VaultClientDesktop - Uploading: C:\Users\Shivanshu Gupta\Dropbox\SURA\cloud-vault\trials\Cloud Vault/tablemeta.txt
+2015-06-14 16:53:35,133 main INFO  cloudsafe.VaultClientDesktop - Uploading: C:\Users\Shivanshu Gupta\Dropbox\SURA\cloud-vault\trials\Cloud Vault/table.ser
+2015-06-14 16:53:44,149 main TRACE cloudsafe.VaultClientDesktop - exit with(VaultClient Setup)
+2015-06-14 16:54:08,956 main INFO  cloudsafe.VaultClientDesktop - Downloading: tablemeta.txt
+2015-06-14 16:54:15,431 main TRACE cloudsafe.VaultClientDesktop - packets have been downloaded!
+2015-06-14 16:54:15,448 main INFO  cloudsafe.VaultClientDesktop - New Table: Size=82 Hash=587180314
+2015-06-14 16:54:15,448 main INFO  cloudsafe.VaultClientDesktop - Uploading Table: Size=402 Hash=587180314
+2015-06-14 16:54:15,448 main INFO  cloudsafe.VaultClientDesktop - Uploading: C:\Users\Shivanshu Gupta\Dropbox\SURA\cloud-vault\trials\Cloud Vault\temporar\error.log
+2015-06-14 16:54:24,742 main INFO  cloudsafe.VaultClientDesktop - Uploading: C:\Users\Shivanshu Gupta\Dropbox\SURA\cloud-vault\trials\Cloud Vault\tablemeta.txt
+2015-06-14 16:54:33,840 main INFO  cloudsafe.VaultClientDesktop - Uploading: C:\Users\Shivanshu Gupta\Dropbox\SURA\cloud-vault\trials\Cloud Vault\table.ser
+2015-06-14 16:56:57,911 main INFO  cloudsafe.VaultClientDesktop - Deleting: C:\Users\Shivanshu Gupta\Dropbox\SURA\cloud-vault\trials\Cloud Vault\temporar\error.log
+2015-06-14 16:56:57,911 main INFO  cloudsafe.VaultClientDesktop - CloudFilePath : temporar/error.log
+2015-06-14 16:56:57,911 main INFO  cloudsafe.VaultClientDesktop - Downloading: tablemeta.txt
+2015-06-14 16:57:06,064 main TRACE cloudsafe.VaultClientDesktop - packets have been downloaded!
+2015-06-14 16:57:06,070 main INFO  cloudsafe.VaultClientDesktop - New Table: Size=49589073924389670 Hash=-1162237670
+2015-06-14 16:57:06,070 main INFO  cloudsafe.VaultClientDesktop - Size of the database on cloud: 49589073924389670
+2015-06-14 16:57:06,070 main TRACE cloudsafe.VaultClientDesktop - downloading database
+2015-06-14 16:57:06,070 main INFO  cloudsafe.VaultClientDesktop - Downloading: table.ser
+2015-06-14 16:57:06,070 main ERROR cloudsafe.VaultClientDesktop - Exception: java.lang.IllegalArgumentException: by default, the data length (49589073924389670) must be within [1, 946270874880] bytes
+2015-06-14 16:57:06,070 main INFO  cloudsafe.VaultClientDesktop - Uploading: C:\Users\Shivanshu Gupta\Dropbox\SURA\cloud-vault\trials\Cloud Vault\tablemeta.txt
+2015-06-14 17:55:39,059 main TRACE cloudsafe.Main - entry params(Application Starting!)
+2015-06-14 17:55:39,075 main TRACE cloudsafe.Main - entry params(New Setup)
+2015-06-14 17:56:39,157 main TRACE cloudsafe.Main - exit with(Setup complete!)
+2015-06-14 17:56:39,158 main TRACE cloudsafe.VaultClientDesktop - entry params(Setting up VaultClient)
+2015-06-14 17:56:39,158 main TRACE cloudsafe.VaultClientDesktop - entry params(getting proxy)
+2015-06-14 17:56:39,158 main TRACE cloudsafe.VaultClientDesktop - exit with(proxy configured.)
+2015-06-14 17:56:39,158 main INFO  cloudsafe.VaultClientDesktop - adding cloud: dropbox
+2015-06-14 17:56:39,486 main INFO  cloudsafe.VaultClientDesktop - adding cloud: googledrive
+2015-06-14 17:56:39,938 main INFO  cloudsafe.VaultClientDesktop - adding cloud: box
+2015-06-14 17:56:51,141 main INFO  cloudsafe.VaultClientDesktop - adding cloud: folder
+2015-06-14 17:56:51,144 main TRACE cloudsafe.VaultClientDesktop - entry params(createNewtable)
+2015-06-14 17:56:51,195 main INFO  cloudsafe.VaultClientDesktop - Uploading Table: Size=82 Hash=1643141512
+2015-06-14 17:56:51,195 main TRACE cloudsafe.VaultClientDesktop - entry params(Update Table Meta)
+2015-06-14 17:56:51,195 main TRACE cloudsafe.VaultClientDesktop - entry params(Table Size:82 Hash:1643141512)
+2015-06-14 17:56:51,195 main TRACE cloudsafe.VaultClientDesktop - exit with(Update Table Meta)
+2015-06-14 17:56:51,195 main INFO  cloudsafe.VaultClientDesktop - Uploading: C:\Users\Shivanshu Gupta\Dropbox\SURA\cloud-vault\trials\Cloud Vault/tablemeta.txt
+2015-06-14 17:57:01,736 main INFO  cloudsafe.VaultClientDesktop - Uploading: C:\Users\Shivanshu Gupta\Dropbox\SURA\cloud-vault\trials\Cloud Vault/table.ser
+2015-06-14 17:57:11,239 main TRACE cloudsafe.VaultClientDesktop - exit with(createNewTable)
+2015-06-14 17:57:11,239 main TRACE cloudsafe.VaultClientDesktop - exit with(VaultClient Setup)
+2015-06-14 17:57:50,882 main TRACE cloudsafe.VaultClientDesktop - entry params(DownloadTable)
+2015-06-14 17:57:50,882 main TRACE cloudsafe.VaultClientDesktop - entry params(DownloadFile)
+2015-06-14 17:57:50,882 main INFO  cloudsafe.VaultClientDesktop - Downloading: tablemeta.txt
+2015-06-14 17:57:57,629 main TRACE cloudsafe.VaultClientDesktop - packets have been downloaded!
+2015-06-14 17:57:57,634 main TRACE cloudsafe.VaultClientDesktop - exit with(DownloadFile)
+2015-06-14 17:57:57,634 main INFO  cloudsafe.VaultClientDesktop - Local Table: Size=82 Hash=1643141512
+2015-06-14 17:57:57,634 main INFO  cloudsafe.VaultClientDesktop - Table on cloud: Size=82 Hash=1643141512
+2015-06-14 17:57:57,634 main TRACE cloudsafe.VaultClientDesktop - exit with(DownloadTable)
+2015-06-14 17:57:57,634 main TRACE cloudsafe.VaultClientDesktop - entry params(UploadTable)
+2015-06-14 17:57:57,634 main INFO  cloudsafe.VaultClientDesktop - Uploading Table: Size=402 Hash=1643141512
+2015-06-14 17:57:57,634 main TRACE cloudsafe.VaultClientDesktop - entry params(Update Table Meta)
+2015-06-14 17:57:57,634 main TRACE cloudsafe.VaultClientDesktop - entry params(Table Size:402 Hash:1643141512)
+2015-06-14 17:57:57,649 main TRACE cloudsafe.VaultClientDesktop - exit with(Update Table Meta)
+2015-06-14 17:57:57,649 main TRACE cloudsafe.VaultClientDesktop - exit with(UploadTable)
+2015-06-14 17:57:57,649 main INFO  cloudsafe.VaultClientDesktop - Uploading: C:\Users\Shivanshu Gupta\Dropbox\SURA\cloud-vault\trials\Cloud Vault\temporar\error.log
+2015-06-14 17:58:06,973 main INFO  cloudsafe.VaultClientDesktop - Uploading: C:\Users\Shivanshu Gupta\Dropbox\SURA\cloud-vault\trials\Cloud Vault\tablemeta.txt
+2015-06-14 17:58:16,388 main INFO  cloudsafe.VaultClientDesktop - Uploading: C:\Users\Shivanshu Gupta\Dropbox\SURA\cloud-vault\trials\Cloud Vault\table.ser
+2015-06-14 17:59:38,380 main TRACE cloudsafe.VaultClientDesktop - entry params(delete)
+2015-06-14 17:59:38,380 main INFO  cloudsafe.VaultClientDesktop - Deleting: C:\Users\Shivanshu Gupta\Dropbox\SURA\cloud-vault\trials\Cloud Vault\temporar\error.log
+2015-06-14 17:59:38,380 main INFO  cloudsafe.VaultClientDesktop - CloudFilePath : temporar/error.log
+2015-06-14 17:59:38,381 main TRACE cloudsafe.VaultClientDesktop - entry params(DownloadTable)
+2015-06-14 17:59:38,381 main TRACE cloudsafe.VaultClientDesktop - entry params(DownloadFile)
+2015-06-14 17:59:38,381 main INFO  cloudsafe.VaultClientDesktop - Downloading: tablemeta.txt
+2015-06-14 17:59:46,312 main TRACE cloudsafe.VaultClientDesktop - packets have been downloaded!
+2015-06-14 17:59:46,329 main TRACE cloudsafe.VaultClientDesktop - exit with(DownloadFile)
+2015-06-14 17:59:46,329 main INFO  cloudsafe.VaultClientDesktop - Local Table: Size=402 Hash=1643141512
+2015-06-14 17:59:46,329 main INFO  cloudsafe.VaultClientDesktop - Table on cloud: Size=49589073924389670 Hash=-105490040
+2015-06-14 17:59:46,329 main TRACE cloudsafe.VaultClientDesktop - table hash mismatch: downloading database
+2015-06-14 17:59:46,329 main TRACE cloudsafe.VaultClientDesktop - entry params(DownloadFile)
+2015-06-14 17:59:46,329 main INFO  cloudsafe.VaultClientDesktop - Downloading: table.ser
+2015-06-14 17:59:51,757 main TRACE cloudsafe.VaultClientDesktop - packets have been downloaded!
+2015-06-14 17:59:51,770 main ERROR cloudsafe.VaultClientDesktop - Exception in download: java.nio.BufferUnderflowException
+2015-06-14 17:59:51,771 main TRACE cloudsafe.VaultClientDesktop - exit with(DownloadFile)
+2015-06-14 17:59:51,772 main TRACE cloudsafe.VaultClientDesktop - entry params(syncing local and downloaded table.)
+2015-06-14 17:59:51,772 main TRACE cloudsafe.VaultClientDesktop - Syncing with new table
+2015-06-14 17:59:51,772 main TRACE cloudsafe.VaultClientDesktop - exit with(syncing done)
+2015-06-14 17:59:51,772 main TRACE cloudsafe.VaultClientDesktop - exit with(DownloadTable)
+2015-06-14 17:59:51,772 main TRACE cloudsafe.VaultClientDesktop - entry params(UploadTable)
+2015-06-14 17:59:51,772 main INFO  cloudsafe.VaultClientDesktop - Uploading Table: Size=82 Hash=1643141512
+2015-06-14 17:59:51,772 main TRACE cloudsafe.VaultClientDesktop - entry params(Update Table Meta)
+2015-06-14 17:59:51,772 main TRACE cloudsafe.VaultClientDesktop - entry params(Table Size:82 Hash:1643141512)
+2015-06-14 17:59:51,772 main TRACE cloudsafe.VaultClientDesktop - exit with(Update Table Meta)
+2015-06-14 17:59:51,772 main TRACE cloudsafe.VaultClientDesktop - exit with(UploadTable)
+2015-06-14 17:59:51,772 main INFO  cloudsafe.VaultClientDesktop - Deleteing block filetemporar$error.log_0
+2015-06-14 17:59:52,129 main TRACE cloudsafe.VaultClientDesktop - Deleting in cloud 0
+2015-06-14 17:59:52,999 main TRACE cloudsafe.VaultClientDesktop - Deleting in cloud 1
+2015-06-14 17:59:55,196 main TRACE cloudsafe.VaultClientDesktop - Deleting in cloud 2
+2015-06-14 17:59:56,244 main TRACE cloudsafe.VaultClientDesktop - Deleting in cloud 3
+2015-06-14 17:59:56,248 main TRACE cloudsafe.VaultClientDesktop - exit with(delete)
+2015-06-14 17:59:56,249 main INFO  cloudsafe.VaultClientDesktop - Uploading: C:\Users\Shivanshu Gupta\Dropbox\SURA\cloud-vault\trials\Cloud Vault\tablemeta.txt
+2015-06-14 18:00:09,718 main INFO  cloudsafe.VaultClientDesktop - Uploading: C:\Users\Shivanshu Gupta\Dropbox\SURA\cloud-vault\trials\Cloud Vault\table.ser
+2015-06-14 18:29:14,956 main TRACE cloudsafe.Main - entry params(Application Starting!)
+2015-06-14 18:29:14,956 main TRACE cloudsafe.Main - entry params(New Setup)
+2015-06-14 18:30:23,471 main TRACE cloudsafe.Main - exit with(Setup complete!)
+2015-06-14 18:30:23,472 main TRACE cloudsafe.VaultClientDesktop - entry params(Setting up VaultClient)
+2015-06-14 18:30:23,472 main TRACE cloudsafe.VaultClientDesktop - entry params(getting proxy)
+2015-06-14 18:30:23,472 main TRACE cloudsafe.VaultClientDesktop - exit with(proxy configured.)
+2015-06-14 18:30:23,472 main INFO  cloudsafe.VaultClientDesktop - adding cloud: dropbox
+2015-06-14 18:30:23,800 main INFO  cloudsafe.VaultClientDesktop - adding cloud: googledrive
+2015-06-14 18:30:24,248 main INFO  cloudsafe.VaultClientDesktop - adding cloud: box
+2015-06-14 18:30:34,622 main INFO  cloudsafe.VaultClientDesktop - adding cloud: folder
+2015-06-14 18:30:34,631 main TRACE cloudsafe.VaultClientDesktop - entry params(createNewtable)
+2015-06-14 18:30:34,664 main INFO  cloudsafe.VaultClientDesktop - Uploading Table: Size=82 Hash=587180314
+2015-06-14 18:30:34,664 main TRACE cloudsafe.VaultClientDesktop - entry params(Update Table Meta)
+2015-06-14 18:30:34,664 main INFO  cloudsafe.VaultClientDesktop - Table Size:82 Hash:587180314
+2015-06-14 18:30:34,664 main TRACE cloudsafe.VaultClientDesktop - exit with(Update Table Meta)
+2015-06-14 18:30:34,664 main INFO  cloudsafe.VaultClientDesktop - Uploading: trials/config/tablemeta.txt
+2015-06-14 18:30:44,817 main INFO  cloudsafe.VaultClientDesktop - Uploading: trials/config/table.ser
+2015-06-14 18:30:54,084 main TRACE cloudsafe.VaultClientDesktop - exit with(createNewTable)
+2015-06-14 18:30:54,084 main TRACE cloudsafe.VaultClientDesktop - exit with(VaultClient Setup)
+2015-06-14 18:31:24,718 main TRACE cloudsafe.VaultClientDesktop - entry params(DownloadTable)
+2015-06-14 18:31:24,718 main TRACE cloudsafe.VaultClientDesktop - entry params(DownloadFile)
+2015-06-14 18:31:24,718 main INFO  cloudsafe.VaultClientDesktop - Downloading: tablemeta.txt
+2015-06-14 18:31:31,326 main TRACE cloudsafe.VaultClientDesktop - packets have been downloaded!
+2015-06-14 18:31:31,330 main TRACE cloudsafe.VaultClientDesktop - exit with(DownloadFile)
+2015-06-14 18:31:31,330 main INFO  cloudsafe.VaultClientDesktop - Local Table: Size=82 Hash=587180314
+2015-06-14 18:31:31,330 main INFO  cloudsafe.VaultClientDesktop - Table on cloud: Size=82 Hash=587180314
+2015-06-14 18:31:31,330 main TRACE cloudsafe.VaultClientDesktop - exit with(DownloadTable)
+2015-06-14 18:31:31,330 main TRACE cloudsafe.VaultClientDesktop - entry params(UploadTable)
+2015-06-14 18:31:31,330 main INFO  cloudsafe.VaultClientDesktop - Uploading Table: Size=412 Hash=587180314
+2015-06-14 18:31:31,330 main TRACE cloudsafe.VaultClientDesktop - entry params(Update Table Meta)
+2015-06-14 18:31:31,330 main INFO  cloudsafe.VaultClientDesktop - Table Size:412 Hash:587180314
+2015-06-14 18:31:31,330 main TRACE cloudsafe.VaultClientDesktop - exit with(Update Table Meta)
+2015-06-14 18:31:31,330 main INFO  cloudsafe.VaultClientDesktop - Uploading: trials/config/tablemeta.txt
+2015-06-14 18:31:40,216 main INFO  cloudsafe.VaultClientDesktop - Uploading: trials/config/table.ser
+2015-06-14 18:31:49,290 main TRACE cloudsafe.VaultClientDesktop - exit with(UploadTable)
+2015-06-14 18:31:49,305 main INFO  cloudsafe.VaultClientDesktop - Uploading: C:\Users\Shivanshu Gupta\Dropbox\SURA\cloud-vault\trials\Cloud Vault\temporar\temp2\ADA465464.pdf
+2015-06-14 18:36:46,361 main TRACE cloudsafe.Main - entry params(Application Starting!)
+2015-06-14 18:36:46,361 main TRACE cloudsafe.Main - entry params(New Setup)
+2015-06-14 18:38:03,318 main TRACE cloudsafe.Main - exit with(Setup complete!)
+2015-06-14 18:38:03,319 main TRACE cloudsafe.VaultClientDesktop - entry params(Setting up VaultClient)
+2015-06-14 18:38:03,319 main TRACE cloudsafe.VaultClientDesktop - entry params(getting proxy)
+2015-06-14 18:38:03,319 main TRACE cloudsafe.VaultClientDesktop - exit with(proxy configured.)
+2015-06-14 18:38:03,319 main INFO  cloudsafe.VaultClientDesktop - adding cloud: dropbox
+2015-06-14 18:38:03,663 main INFO  cloudsafe.VaultClientDesktop - adding cloud: googledrive
+2015-06-14 18:38:04,163 main INFO  cloudsafe.VaultClientDesktop - adding cloud: box
+2015-06-14 18:38:16,788 main INFO  cloudsafe.VaultClientDesktop - adding cloud: folder
+2015-06-14 18:38:16,791 main TRACE cloudsafe.VaultClientDesktop - entry params(createNewtable)
+2015-06-14 18:38:16,839 main INFO  cloudsafe.VaultClientDesktop - Uploading Table: Size=82 Hash=587180314
+2015-06-14 18:38:16,839 main TRACE cloudsafe.VaultClientDesktop - entry params(Update Table Meta)
+2015-06-14 18:38:16,839 main INFO  cloudsafe.VaultClientDesktop - Table Size:82 Hash:587180314
+2015-06-14 18:38:16,839 main TRACE cloudsafe.VaultClientDesktop - exit with(Update Table Meta)
+2015-06-14 18:38:16,839 main INFO  cloudsafe.VaultClientDesktop - Uploading: trials/config/tablemeta.txt
+2015-06-14 18:38:27,003 main INFO  cloudsafe.VaultClientDesktop - Uploading: trials/config/table.ser
+2015-06-14 18:38:36,109 main TRACE cloudsafe.VaultClientDesktop - exit with(createNewTable)
+2015-06-14 18:38:36,109 main TRACE cloudsafe.VaultClientDesktop - exit with(VaultClient Setup)
+2015-06-14 18:38:55,239 main TRACE cloudsafe.VaultClientDesktop - entry params(DownloadTable)
+2015-06-14 18:38:55,239 main TRACE cloudsafe.VaultClientDesktop - entry params(DownloadFile)
+2015-06-14 18:38:55,239 main INFO  cloudsafe.VaultClientDesktop - Downloading: tablemeta.txt
+2015-06-14 18:39:01,364 main TRACE cloudsafe.VaultClientDesktop - packets have been downloaded!
+2015-06-14 18:39:01,372 main TRACE cloudsafe.VaultClientDesktop - exit with(DownloadFile)
+2015-06-14 18:39:01,372 main INFO  cloudsafe.VaultClientDesktop - Local Table: Size=82 Hash=587180314
+2015-06-14 18:39:01,372 main INFO  cloudsafe.VaultClientDesktop - Table on cloud: Size=82 Hash=587180314
+2015-06-14 18:39:01,372 main TRACE cloudsafe.VaultClientDesktop - exit with(DownloadTable)
+2015-06-14 18:39:01,372 main TRACE cloudsafe.VaultClientDesktop - entry params(UploadTable)
+2015-06-14 18:39:01,372 main INFO  cloudsafe.VaultClientDesktop - Uploading Table: Size=412 Hash=587180314
+2015-06-14 18:39:01,372 main TRACE cloudsafe.VaultClientDesktop - entry params(Update Table Meta)
+2015-06-14 18:39:01,372 main INFO  cloudsafe.VaultClientDesktop - Table Size:412 Hash:587180314
+2015-06-14 18:39:01,372 main TRACE cloudsafe.VaultClientDesktop - exit with(Update Table Meta)
+2015-06-14 18:39:01,372 main INFO  cloudsafe.VaultClientDesktop - Uploading: trials/config/tablemeta.txt
+2015-06-14 18:39:10,135 main INFO  cloudsafe.VaultClientDesktop - Uploading: trials/config/table.ser
+2015-06-14 18:39:19,315 main TRACE cloudsafe.VaultClientDesktop - exit with(UploadTable)
+2015-06-14 18:39:19,328 main INFO  cloudsafe.VaultClientDesktop - Uploading: C:\Users\Shivanshu Gupta\Dropbox\SURA\cloud-vault\trials\Cloud Vault\temporar\temp2\ADA465464.pdf
+2015-06-14 18:39:30,629 main TRACE cloudsafe.VaultClientDesktop - entry params(DownloadTable)
+2015-06-14 18:39:30,629 main TRACE cloudsafe.VaultClientDesktop - entry params(DownloadFile)
+2015-06-14 18:39:30,630 main INFO  cloudsafe.VaultClientDesktop - Downloading: tablemeta.txt
+2015-06-14 18:39:36,381 main TRACE cloudsafe.VaultClientDesktop - packets have been downloaded!
+2015-06-14 18:39:36,388 main TRACE cloudsafe.VaultClientDesktop - exit with(DownloadFile)
+2015-06-14 18:39:36,404 main INFO  cloudsafe.VaultClientDesktop - Local Table: Size=412 Hash=587180314
+2015-06-14 18:39:36,404 main INFO  cloudsafe.VaultClientDesktop - Table on cloud: Size=49613263180200845 Hash=-1166366438
+2015-06-14 18:39:36,404 main TRACE cloudsafe.VaultClientDesktop - table hash mismatch: downloading database
+2015-06-14 18:39:36,404 main TRACE cloudsafe.VaultClientDesktop - entry params(DownloadFile)
+2015-06-14 18:39:36,404 main INFO  cloudsafe.VaultClientDesktop - Downloading: table.ser
+2015-06-14 18:39:36,404 main ERROR cloudsafe.VaultClientDesktop - Exception: java.lang.IllegalArgumentException: by default, the data length (49613263180200845) must be within [1, 946270874880] bytes

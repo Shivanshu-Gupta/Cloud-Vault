@@ -61,23 +61,10 @@ public class Table {
 	public final int fileCount() {
 		return table.size();
 	}
-
-	// public final int addNewFile(String fileName, int parentVersion,
-	// long fileSize) {
-	// int version = 1;
-	// FileMetadata fileVersions;
-	// if (!table.containsKey(fileName) || table.get(fileName) == null) {
-	// fileVersions = new FileMetadata(1);
-	// } else {
-	// fileVersions = table.get(fileName).first;
-	// version = fileVersions.size() + 1;
-	// }
-	// FileMetadata meta = new FileMetadata(fileName, version, parentVersion,
-	// fileSize);
-	// fileVersions.add(meta);
-	// table.put(fileName, Pair.of(fileVersions, false));
-	// return version;
-	// }
+	
+	public final int hash() {
+		return table.hashCode();
+	}
 
 	public final void addNewFile(String fileName, long fileSize) {
 		FileMetadata meta = new FileMetadata(fileName, fileSize);

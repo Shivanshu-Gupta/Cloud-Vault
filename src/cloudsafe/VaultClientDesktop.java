@@ -4,7 +4,7 @@ import java.io.*;
 import java.nio.file.*;
 import java.nio.file.attribute.BasicFileAttributes;
 
-import static java.nio.file.StandardOpenOption.*;		//for READ, WRITE etc
+//import static java.nio.file.StandardOpenOption.*;		//for READ, WRITE etc
 
 import java.net.Proxy;
 import java.net.Authenticator;
@@ -67,8 +67,8 @@ public class VaultClientDesktop {
 	int databaseHash;
 	String localDatabasePath = localConfigPath + "/table.ser";
 	String localDatabaseMetaPath = localConfigPath + "/tablemeta.txt";
-	String cloudDatabasePath = cloudConfigPath + "/table.ser";
-	String cloudDatabaseMetaPath = cloudConfigPath + "/tablemeta.txt";
+//	String cloudDatabasePath = cloudConfigPath + "/table.ser";
+//	String cloudDatabaseMetaPath = cloudConfigPath + "/tablemeta.txt";
 	
 	String currentFile = "";
 	
@@ -199,13 +199,8 @@ public class VaultClientDesktop {
 	}
 
 	public void upload(String localFilePath) throws NoSuchFileException {
-		// localFilePath = localFilePath.replace("\\", "/");
-//		System.out.println(localFilePath);
-//		System.out.println(vaultPath);
 		Path path = Paths.get(localFilePath).normalize();
-//		System.out.println("Path : " + path.toString());
 		Path temp = Paths.get(vaultPath).relativize(path).getParent();
-		//System.out.println("temp : " + temp);
 		String uploadPath = "";
 		if (temp != null) {
 			uploadPath = temp.toString();
@@ -219,29 +214,36 @@ public class VaultClientDesktop {
 		long fileSize = attrs.size();
 		String localFileName = path.getFileName().toString();
 		String cloudFilePath = null;
-		switch (localFileName) {
-		case "table.ser":
+//		switch (localFileName) {
+//		case "table.ser":
+//			cloudFilePath = localFileName;
+//			break;
+//		case "tablemeta.txt":
+//			cloudFilePath = localFileName;
+//			break;
+//		default:
+//			
+//		}
+		if (uploadPath.length() > 0) {
+			cloudFilePath = uploadPath + "/" + localFileName;
+		} else {
 			cloudFilePath = localFileName;
-			break;
-		case "tablemeta.txt":
-			cloudFilePath = localFileName;
-			break;
-		default:
-			if (uploadPath.length() > 0) {
-				cloudFilePath = uploadPath + "/" + localFileName;
-			} else {
-				cloudFilePath = localFileName;
-			}
-			acquireLock();
-			currentFile = cloudFilePath;
-			downloadTable();
-			table.addNewFile(cloudFilePath, fileSize);
-			cloudFilePath = (new PathManip(cloudFilePath)).toCloudFormat();
-			uploadTable();
-			currentFile = "";
-			releaseLock();
 		}
-		uploadFile(localFilePath, cloudFilePath);
+		acquireLock();
+		currentFile = cloudFilePath;
+		downloadTable();
+		table.addNewFile(cloudFilePath, fileSize);
+		cloudFilePath = (new PathManip(cloudFilePath)).toCloudFormat();
+		uploadTable();
+		currentFile = "";
+		releaseLock();
+		if(!Files.isDirectory(path)) {
+			if(fileSize>50){
+				uploadFile(localFilePath, cloudFilePath);
+			} else {
+				uploadTinyFile(localFilePath, cloudFilePath);
+			}
+		}
 	}
 
 	private void releaseLock() {
@@ -253,9 +255,21 @@ public class VaultClientDesktop {
 		// TODO Auto-generated method stub
 		
 	}
-
+	public void uploadTinyFile(String localFilePath, String cloudFilePath) {
+		for (int i = 0; i < clouds.size(); i++) {
+			Cloud cloud = clouds.get(i);
+			if (cloud.isAvailable()) {
+				try {
+					cloud.uploadFile(localFilePath, cloudFilePath, WriteMode.OVERWRITE);
+				} catch (IOException e) {
+					logger.error("IOException: " + e);
+//					e.printStackTrace();
+				}
+			}
+		}
+	}
 	public void uploadFile(String localFilePath, String cloudFilePath) {
-		 logger.entry();
+		 //logger.entry();
 		try {
 			Path path = Paths.get(localFilePath);
 			byte[] data = Files.readAllBytes(path);
@@ -311,7 +325,7 @@ public class VaultClientDesktop {
 			logger.error("Exception in upload: " + e);
 			e.printStackTrace();
 		}
-		logger.exit();
+		//logger.exit();
 	}
 
 
@@ -334,7 +348,11 @@ public class VaultClientDesktop {
 					e.printStackTrace();
 				}
 				cloudFilePath = (new PathManip(cloudFilePath)).toCloudFormat();
-				downloadFile(cloudFilePath, writePath, fileSize);
+				if(fileSize>50){
+					downloadFile(cloudFilePath, writePath, fileSize);
+				} else {
+					downloadTinyFile(cloudFilePath, writePath, fileSize);
+				}
 			}
 
 		} else {
@@ -342,9 +360,25 @@ public class VaultClientDesktop {
 		}
 	}
 
+	public void downloadTinyFile(String cloudFileName, String writePath,
+			long fileSize) {
+		for (int i = 0; i < clouds.size(); i++) {
+			Cloud cloud = clouds.get(i);
+			if (cloud.isAvailable()) {
+				try {
+					cloud.downloadFile(writePath, cloudFileName);
+					break;
+				} catch (IOException e) {
+					logger.error("IOException: " + e);
+//					e.printStackTrace();
+				}
+			}
+		}
+	}
+	
 	public void downloadFile(String cloudFileName, String writePath,
 			long fileSize) {
-		logger.entry();
+		logger.entry("DownloadFile");
 		logger.info("Downloading: " + cloudFileName);
 		Pair<FECParameters, Integer> params = getParams(fileSize);
 		FECParameters fecParams = params.first;
@@ -398,11 +432,11 @@ public class VaultClientDesktop {
 			logger.error("Exception in download: " + e);
 			e.printStackTrace();
 		}
-		logger.exit();
+		logger.exit("DownloadFile");
 	}
 
 	public void delete(String vaultFolderAbsolutePath) throws FileNotFoundException {
-		logger.entry();
+		logger.entry("delete");
 		Path path = Paths.get(vaultFolderAbsolutePath).normalize();
 		logger.info("Deleting: " + path.toString());
 		Path temp = Paths.get(vaultPath).relativize(path).getParent();
@@ -430,7 +464,7 @@ public class VaultClientDesktop {
 			releaseLock();
 			if (fileSize < 0) {
 //				throw new FileNotFoundException();
-			} else {
+			} else if (fileSize > 50) {
 				cloudFilePath = (new PathManip(cloudFilePath)).toCloudFormat();
 				Pair<FECParameters, Integer> params = getParams(fileSize);
 				FECParameters fecParams = params.first;
@@ -449,118 +483,137 @@ public class VaultClientDesktop {
 					}
 					blockID++;
 				}
+			} else {
+				cloudFilePath = (new PathManip(cloudFilePath)).toCloudFormat();
+				for (int i = 0; i < clouds.size(); i++) {
+					Cloud cloud = clouds.get(i);
+					if (cloud.isAvailable()
+							&& cloud.searchFile(cloudFilePath)) {
+						logger.trace("Deleting in cloud " + i);
+						cloud.deleteFile(cloudFilePath);
+					}
+				}
 			}
 		} else {
 			throw new FileNotFoundException();
 		}
-		logger.exit();
+		logger.exit("delete");
 	}
 
 	public void createNewTable() {
-		logger.entry();
+		logger.entry("createNewtable");
 		try {
 			table = new Table();
 			table.writeToFile(localDatabasePath);
 			byte[] tableBytes = Files.readAllBytes(Paths.get(localDatabasePath));
 			databaseSize = tableBytes.length;
-			databaseHash = table.hashCode();
-			logger.info("Uploading Table: Size=" + databaseSize + " Hash=" + databaseHash);
+			databaseHash = table.hash();
+			logger.info("Uploading new Table: Size=" + databaseSize + " Hash=" + databaseHash);
 			
 			updateTableMetaFile(databaseSize, databaseHash);
-			upload(cloudDatabaseMetaPath);
+//			upload(cloudDatabaseMetaPath);
+			uploadFile(localDatabaseMetaPath, "tablemeta.txt");
 			
-			Files.write(Paths.get(cloudDatabasePath), tableBytes, CREATE, WRITE, TRUNCATE_EXISTING);
-			upload(cloudDatabasePath);
+//			Files.write(Paths.get(cloudDatabasePath), tableBytes, CREATE, WRITE, TRUNCATE_EXISTING);
+//			upload(cloudDatabasePath);
+			uploadFile(localDatabasePath, "table.ser");
 		} catch (Exception x) {
 			logger.error("Exception in creating new table: " + x);
 		}
-		logger.exit();
+		logger.exit("createNewTable");
 	}
 
 	public void uploadTable() {
-		logger.entry();
+		logger.entry("UploadTable");
 		try {
 			table.writeToFile(localDatabasePath);
 			byte[] tableBytes = Files.readAllBytes(Paths.get(localDatabasePath));
 			databaseSize = tableBytes.length;
-			databaseHash = table.hashCode();
+			databaseHash = table.hash();
 			logger.info("Uploading Table: Size=" + databaseSize + " Hash=" + databaseHash);
 			
 			//this will write to local config folder then copy to local vault
 			//no need to upload as watchDir will do that.
 			updateTableMetaFile(databaseSize, databaseHash);
 //			upload(cloudDatabaseMetaPath);
+			uploadFile(localDatabaseMetaPath, "tablemeta.txt");
 			
 			//write the table to local vault too; 
 			//no need to upload as watchDir will do that.
-			Files.write(Paths.get(cloudDatabasePath), tableBytes, CREATE, WRITE, TRUNCATE_EXISTING);
+//			Files.write(Paths.get(cloudDatabasePath), tableBytes, CREATE, WRITE, TRUNCATE_EXISTING);
 //			upload(cloudDatabasePath);
+			uploadFile(localDatabasePath, "table.ser");
 
 		} catch (IOException e) {
 			logger.error("Exception while uploading database" + e);
 		}
-		logger.exit();
+		logger.exit("UploadTable");
 	}
 	
 	public void downloadTable() {
-		logger.entry();
+		logger.entry("DownloadTable");
 		boolean databaseChanged = false; 
-		String cloudFilePath = "table.ser";
-		downloadFile("tablemeta.txt", cloudDatabaseMetaPath, 12);
+		downloadFile("tablemeta.txt", localDatabaseMetaPath, 12);
 		try (DataInputStream in = new DataInputStream(new FileInputStream(
-				cloudDatabaseMetaPath))) {
+				localDatabaseMetaPath))) {
 			//no need to copy database files from vaultPath to localConfigPath. 
 //			Files.copy(Paths.get(cloudDatabaseMetaPath), Paths.get(localDatabaseMetaPath), REPLACE_EXISTING);
 			int tableHash = in.readInt();
 			if(databaseHash != tableHash){
 				databaseChanged = true;
 			}
-			databaseSize = in.readLong();
-			logger.info("New Table: Size=" + databaseSize + " Hash=" + tableHash);
+			long tableSize = in.readLong();
+			logger.info("Local Table: Size=" + databaseSize + " Hash=" + databaseHash);
+			logger.info("Table on cloud: Size=" + tableSize + " Hash=" + tableHash);
+			if (databaseChanged) {
+				logger.trace("table hash mismatch: downloading database");
+				downloadFile("table.ser", localDatabasePath, tableSize);
+//				Files.copy(Paths.get(cloudDatabasePath), Paths.get(localDatabasePath), REPLACE_EXISTING);
+				Table newTable = new Table(localDatabasePath);
+				sync(newTable);
+			}
 		} catch (IOException e) {
 			logger.error("IOException: " + e);
 		}
-		if (databaseChanged) {
-			logger.info("Size of the database on cloud: " + databaseSize);
-			logger.trace("downloading database");
-			downloadFile(cloudFilePath, cloudDatabasePath, databaseSize);
-//			Files.copy(Paths.get(cloudDatabasePath), Paths.get(localDatabasePath), REPLACE_EXISTING);
-			Table newTable = new Table(cloudDatabasePath);
-			sync(newTable);
-		}
-		logger.exit();
+		logger.exit("DownloadTable");
 	}
 
 	private void updateTableMetaFile(long tableSize, int tableHash) {
+		logger.entry("Update Table Meta");
+		logger.info("Table Size:" + tableSize + " Hash:" + tableHash);
 		try {
 			FileOutputStream fileOut = new FileOutputStream(localDatabaseMetaPath);
 			DataOutputStream out = new DataOutputStream(fileOut);
 			out.writeInt(tableHash);
-			out.writeLong(databaseSize);
-//			Files.copy(Paths.get(localDatabaseMetaPath), Paths.get(cloudDatabaseMetaPath), REPLACE_EXISTING);
-			fileOut = new FileOutputStream(cloudDatabaseMetaPath);
-			out = new DataOutputStream(fileOut);
-			out.writeInt(tableHash);
-			out.writeLong(databaseSize);
-			
+			out.writeLong(tableSize);
 			out.flush();
 			fileOut.flush();
+//
+//			fileOut = new FileOutputStream(cloudDatabaseMetaPath);
+//			out = new DataOutputStream(fileOut);
+//			out.writeInt(tableHash);
+//			out.writeLong(tableSize);			
+//			out.flush();
+//			fileOut.flush();
+			
 			out.close();
 			fileOut.close();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		logger.exit("Update Table Meta");
 	}
 	public boolean checkIfNewUser() {
-		boolean newUser = true;
-		for (int i = 0; i < clouds.size(); i++) {
-			if (clouds.get(i).searchFile("table.ser_0")) {
-				logger.trace("Found table.ser");
-				newUser = false;
-				break;
-			}
-		}
-		return newUser;
+//		boolean newUser = true;
+//		for (int i = 0; i < clouds.size(); i++) {
+//			if (clouds.get(i).searchFile("table.ser_0")) {
+//				logger.trace("Found table.ser");
+//				newUser = false;
+//				break;
+//			}
+//		}
+//		return newUser;
+		return !Files.exists(Paths.get(localDatabasePath));
 	}
 	
 	public void sync(Table newTable) {

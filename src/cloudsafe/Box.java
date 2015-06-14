@@ -73,10 +73,10 @@ public class Box implements Cloud {
 		try {
 			if (!Files.exists(Paths.get(tempPath))) {
 				Files.createDirectories(Paths.get(tempPath).getParent());
-				fos = new FileOutputStream(tempPath);
-				fos.write(data);
-				fos.close();
 			}
+			fos = new FileOutputStream(tempPath);
+			fos.write(data);
+			fos.close();
 			uploadFile(tempPath, fileID, mode);
 		} catch (IOException e) {
 			e.printStackTrace();

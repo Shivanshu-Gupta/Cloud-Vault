@@ -73,6 +73,7 @@ public class GoogleDrive implements Cloud {
 	private static final String APPLICATION_NAME = "CloudVault";
 	static final String assistingFolder = "trials/googledrive";
 	private static final String DIR_FOR_DOWNLOADS = assistingFolder;
+	static int userIndex;
 
 	/** Directory to store user credentials. */
 	// Set up a location to store retrieved credentials. This avoids having to
@@ -80,6 +81,8 @@ public class GoogleDrive implements Cloud {
 	// every time the application is run
 	private static final java.io.File DATA_STORE_DIR = new java.io.File(
 			System.getProperty("user.home"), ".store/drive_sample8");
+	private static final java.io.File DATA_STORE_DIR2 = new java.io.File(
+			System.getProperty("user.home"), ".store/drive_sample_2_0");
 
 	/**
 	 * Global instance of the {@link DataStoreFactory}. The best practice is to
@@ -99,7 +102,8 @@ public class GoogleDrive implements Cloud {
 
 	static String CloudVaultFolderID = null;
 
-	public GoogleDrive(Proxy proxy) {
+	public GoogleDrive(Proxy proxy, int userIndex) {
+		GoogleDrive.userIndex = userIndex;
 		mainOld(proxy);
 	}
 
@@ -149,7 +153,11 @@ public class GoogleDrive implements Cloud {
 		try {
 			// httpTransport = GoogleNetHttpTransport.newTrustedTransport();
 			httpTransport = newProxyTransport(proxy);
-			dataStoreFactory = new FileDataStoreFactory(DATA_STORE_DIR);
+			if(userIndex == 1)
+				dataStoreFactory = new FileDataStoreFactory(DATA_STORE_DIR);
+			else
+				dataStoreFactory = new FileDataStoreFactory(DATA_STORE_DIR2);
+				
 			// authorization
 			Credential credential = authorize();
 			// set up the global Drive instance
@@ -197,19 +205,19 @@ public class GoogleDrive implements Cloud {
 		String tempPath = assistingFolder + "/" + fileID;
 		if (!Files.exists(Paths.get(tempPath))) {
 			Files.createDirectories(Paths.get(tempPath).getParent());
-			FileOutputStream fos = new FileOutputStream(tempPath);
-			fos.write(data);
-			fos.close();
 		}
+		FileOutputStream fos = new FileOutputStream(tempPath);
+		fos.write(data);
+		fos.close();
 		uploadFile(tempPath, fileID, mode);
-		// try {
-		// Process p =
-		// Runtime.getRuntime().exec("rm -rf Downloads/drive_table");
-		// p.waitFor();
-		// //System.out.println("file deleted from Downloads");
-		// } catch (IOException e1) {
-		// } catch (InterruptedException e2) {
-		// }
+//		 try {
+//		 Process p =
+//		 Runtime.getRuntime().exec("rm -rf "+tempPath);
+//		 p.waitFor();
+//		 //System.out.println("file deleted from Downloads");
+//		 } catch (IOException e1) {
+//		 } catch (InterruptedException e2) {
+//		 }
 	}
 
 	public void uploadFile(String path, String fileID, WriteMode mode)
@@ -231,6 +239,9 @@ public class GoogleDrive implements Cloud {
 			if (FileActualList.size() == 0) {
 				uploadFile(path, fileID, WriteMode.ADD);
 			} else {
+
+//				drive.files().delete(FileActualList.get(0).getId()).execute();
+//				uploadFile(path, fileID, WriteMode.ADD);
 				java.io.File UPLOAD_FILE = new java.io.File(path);
 				File fileMetadata = new File();
 				FileContent mediaContent = new FileContent("image/jpeg",

@@ -36,6 +36,7 @@ public class Setup {
 	String[] possibleValues = { "DropBox", "GoogleDrive", "OneDrive", "Box", "FolderCloud" };
 	int cloudcounter = 0;
 	static String vaultPath = "trials/Cloud Vault";
+	int userIndex = 1;
 	static String vaultConfigPath = "trials/config";
 	String cloudMetadataPath = vaultConfigPath + "/cloudmetadata.ser";
 	static ArrayList<Pair<String, String>> cloudMetaData = new ArrayList<Pair<String, String>>();
@@ -126,7 +127,7 @@ public class Setup {
 		}
 		else if(code.equals("GoogleDrive")){
 			choice = 2;
-			possibleValues = ArrayUtils.removeElement(possibleValues, "GoogleDrive");
+//			possibleValues = ArrayUtils.removeElement(possibleValues, "GoogleDrive");
 		}
 		else if(code.equals("OneDrive")){
 			choice = 3;
@@ -134,7 +135,7 @@ public class Setup {
 		}
 		else if(code.equals("Box")){
 			choice = 4;
-			possibleValues = ArrayUtils.removeElement(possibleValues, "Box");
+			//possibleValues = ArrayUtils.removeElement(possibleValues, "Box");
 		}
 		else if(code.equals("FolderCloud")){
 			choice = 5;
@@ -151,7 +152,7 @@ public class Setup {
 				cloudMetaData.add(Pair.of("dropbox", meta));
 				break;
 			case 2:
-				cloud = new GoogleDrive(proxy);
+				cloud = new GoogleDrive(proxy,userIndex++);
 				meta = cloud.metadata();
 				cloudMetaData.add(Pair.of("googledrive", meta));
 				break;

@@ -142,6 +142,7 @@ public class Table {
 			fileOut.flush();
 			out.close();
 			fileOut.close();
+
 		} catch (IOException x) {
 			System.out.println("IOException: " + x);
 			x.printStackTrace();

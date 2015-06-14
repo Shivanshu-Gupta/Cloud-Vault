@@ -1,0 +1,11 @@
+2015-06-14 13:57:48,794 main TRACE cloudsafe.Main - entry params(Application Starting!)
+2015-06-14 13:57:48,809 main TRACE cloudsafe.Main - entry params(New Setup)
+2015-06-14 13:58:49,992 main INFO  cloudsafe.VaultClientDesktop - Uploading Table: Size=82 Hash=1253946629
+2015-06-14 13:58:49,992 main INFO  cloudsafe.VaultClientDesktop - Uploading: C:\Users\Shivanshu Gupta\Dropbox\SURA\cloud-vault\trials\Cloud Vault/tablemeta.txt
+2015-06-14 13:58:50,117 main ERROR cloudsafe.VaultClientDesktop - Exception in upload: java.lang.IndexOutOfBoundsException: Index: 0, Size: 0
+2015-06-14 13:58:50,117 main INFO  cloudsafe.VaultClientDesktop - Uploading: C:\Users\Shivanshu Gupta\Dropbox\SURA\cloud-vault\trials\Cloud Vault/table.ser
+2015-06-14 13:58:50,133 main ERROR cloudsafe.VaultClientDesktop - Exception in upload: java.lang.IndexOutOfBoundsException: Index: 0, Size: 0
+2015-06-14 14:31:06,516 main INFO  cloudsafe.VaultClientDesktop - Path : C:\Users\Shivanshu Gupta\Dropbox\SURA\cloud-vault\trials\Cloud Vault\table.ser
+2015-06-14 14:31:06,516 main INFO  cloudsafe.VaultClientDesktop - CloudFilePath : table.ser
+2015-06-14 14:31:06,517 main INFO  cloudsafe.VaultClientDesktop - Path : C:\Users\Shivanshu Gupta\Dropbox\SURA\cloud-vault\trials\Cloud Vault\tablemeta.txt
+2015-06-14 14:31:06,517 main INFO  cloudsafe.VaultClientDesktop - CloudFilePath : tablemeta.txt

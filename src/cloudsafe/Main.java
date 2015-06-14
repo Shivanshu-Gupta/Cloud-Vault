@@ -5,6 +5,9 @@ import java.nio.file.Paths;
 import java.nio.file.Files;
 import java.util.ArrayList;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import cloudsafe.util.Pair;
 import cloudsafe.cloud.Cloud;
 
@@ -12,11 +15,10 @@ import cloudsafe.cloud.Cloud;
  * The entry point for the CloudVault Application.
  */
 public class Main {
+	private final static Logger logger = LogManager.getLogger(Main.class.getName());
+
 	VaultClientDesktop client;
 	static String vaultPath = "trials/Cloud Vault";
-//	static String vaultConfigPath = "trials/config";
-//
-//	String cloudMetadataPath = vaultConfigPath + "/cloudmetadata.ser";
 
 	static String localConfigPath = "trials/config";
 
@@ -32,6 +34,7 @@ public class Main {
 	public static void main(String[] args) {
 		try {
 			System.out.println("Welcome to your Cloud Vault!");
+			logger.entry("Application Starting!");
 			Main prog = new Main();
 			prog.run();
 		} catch (Exception e) {
@@ -47,9 +50,10 @@ public class Main {
 						.println("It seems this is the first time you are using Cloud Vault on this device.");
 				System.out
 						.println("We will now setup access to your Cloud Vault.");
-				
+				logger.entry("New Setup");
 				Setup cloudVaultSetup = new Setup();
 				cloudVaultSetup.configureCloudAccess();
+				logger.exit("Setup complete!");
 			}
 			client = new VaultClientDesktop(vaultPath);
 

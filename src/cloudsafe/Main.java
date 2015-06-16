@@ -167,5 +167,6 @@ public class Main {
 		} finally {
 			in.close();
 		}
+		System.exit(0);
 	}
 }

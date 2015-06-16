@@ -167,5 +167,6 @@ public class MainPhone {
 		} finally {
 			in.close();
 		}
+		System.exit(0);
 	}
 }

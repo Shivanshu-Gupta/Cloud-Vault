@@ -99,16 +99,16 @@ public class MainPhone {
 		return choice;
 	}
 
-//	public static void main(String[] args) {
-//		try {
-//			System.out.println("Welcome to your Cloud Vault!");
-//			Main prog = new Main();
-//			prog.run();
-//		} catch (Exception e) {
-//			e.printStackTrace();
-//		}
-//
-//	}
+	public static void main(String[] args) {
+		try {
+			System.out.println("Welcome to your Cloud Vault!");
+			Main prog = new Main();
+			prog.run();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+	}
 
 	public void run() {
 		Scanner in = new Scanner(System.in);
@@ -124,18 +124,6 @@ public class MainPhone {
 				cloudVaultSetup.configureCloudAccess();
 			}
 			client = new VaultClient(vaultPath);
-
-			
-			//--------My work starts here--------------
-			
-//	    	String targetdir = "test";
-//	        // parse arguments
-//	        boolean recursive = true;
-//	        // register directory and process its events
-//	        Path dir = Paths.get(targetdir);
-//	        new WatchDir(dir, recursive, client).processEvents();
-//			
-			//--------My work ends here----------------
 			
 			int choice;
 			do {
@@ -159,23 +147,7 @@ public class MainPhone {
 						System.out.println((String) fileName);
 					}
 					break;
-//				case 6:
-//					System.out.println("Enter the name of the file: ");
-//					s = in.nextLine();
-//					try{
-//						ArrayList<FileMetadata> fileVersions = client.getFileHistory(s);
-//						System.out.format("\t%-50s%-10s%-10s%-40s\n", "Name", "Version",
-//								"Size", "Last Modified");
-//						for (int i = 0; i < fileVersions.size(); i++) {
-//							System.out.println((i + 1) + ".\t"
-//									+ fileVersions.get(i).toString());
-//						}
-//					} catch(FileNotFoundException e) {
-//						System.out.println("File Not Found");
-//					}
-//					break;
 				case 6:
-//					new Settings(vaultConfigPath);
 					ProxyConfig proxySettings = new ProxyConfig(vaultConfigPath);
 					JDialog settings = new JDialog(null, "Proxy Settings", Dialog.ModalityType.APPLICATION_MODAL);
 					settings.add(proxySettings);

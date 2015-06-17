@@ -53,8 +53,6 @@ public class Setup {
 		} catch (IOException e1) {
 			e1.printStackTrace();
 		}
-//		Settings settings = new Settings(vaultConfigPath);
-//		settings.show();
 		ProxyConfig proxySettings = new ProxyConfig(vaultConfigPath);
 		JDialog settings = new JDialog(null, "Proxy Settings", Dialog.ModalityType.APPLICATION_MODAL);
 		settings.add(proxySettings);

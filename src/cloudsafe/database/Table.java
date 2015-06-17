@@ -9,10 +9,13 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
+
 import cloudsafe.database.FileMetadata;
 import cloudsafe.util.Pair;
 
 import java.util.Date;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class Table {
 	private static HashMap<String, Pair<FileMetadata, Boolean>> table;
@@ -115,12 +118,18 @@ public class Table {
 	}
 
 	public final int version(String file) {
-		int version = 0;
+		int version = 1;
 		Object[] fileNames = table.keySet().toArray();
-		for (Object fileName : fileNames) {
-			if (((String) fileName).startsWith(file + " (")) {
-				version++;
+		if(table.containsKey(file)) {
+			Pattern p = Pattern.compile("^" + file + " \\([0-9]+\\)$");
+			for (Object fileName : fileNames) {
+				Matcher m = p.matcher((String) fileName);
+				if (m.matches()) {
+					version++;
+				}
 			}
+		} else {
+			version = 0;
 		}
 		return version;
 	}

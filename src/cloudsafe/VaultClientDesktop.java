@@ -44,7 +44,7 @@ import cloudsafe.database.*;
 //import cloudsafe.exceptions.AuthenticationException;
 
 /**
- * The entry point for the CloudSafe Application.
+ * The entry point for the CloudVault Application.
  */
 public class VaultClientDesktop {
 	private final static Logger logger = LogManager.getLogger(VaultClientDesktop.class.getName());
@@ -52,7 +52,7 @@ public class VaultClientDesktop {
 	String vaultPath = Paths.get("trials/Cloud Vault").toAbsolutePath()
 			.toString();
 	String localConfigPath = "trials/config";
-	String cloudConfigPath = vaultPath;
+//	String cloudConfigPath = vaultPath;
 	String cloudMetadataPath = localConfigPath + "/cloudmetadata.ser";
 	int cloudNum = 4; // Co
 	int cloudDanger = 1; // Cd
@@ -206,25 +206,21 @@ public class VaultClientDesktop {
 		if (temp != null) {
 			uploadPath = temp.toString();
 		}
-		BasicFileAttributes attrs = null;
-		try {
-			attrs = Files.readAttributes(path, BasicFileAttributes.class);
-		} catch (Exception e) {
-			throw new NoSuchFileException(path.toString());
+		
+		long fileSize = -1;
+		if(!Files.isDirectory(path)) {
+			BasicFileAttributes attrs = null;
+			try {
+				attrs = Files.readAttributes(path, BasicFileAttributes.class);
+			} catch (Exception e) {
+				throw new NoSuchFileException(path.toString());
+			}
+			fileSize = attrs.size();
 		}
-		long fileSize = attrs.size();
+		
 		String localFileName = path.getFileName().toString();
 		String cloudFilePath = null;
-//		switch (localFileName) {
-//		case "table.ser":
-//			cloudFilePath = localFileName;
-//			break;
-//		case "tablemeta.txt":
-//			cloudFilePath = localFileName;
-//			break;
-//		default:
-//			
-//		}
+		
 		if (uploadPath.length() > 0) {
 			cloudFilePath = uploadPath + "/" + localFileName;
 		} else {
@@ -256,6 +252,7 @@ public class VaultClientDesktop {
 		// TODO Auto-generated method stub
 		
 	}
+	
 	public void uploadTinyFile(String localFilePath, String cloudFilePath) {
 		for (int i = 0; i < clouds.size(); i++) {
 			Cloud cloud = clouds.get(i);
@@ -269,6 +266,7 @@ public class VaultClientDesktop {
 			}
 		}
 	}
+	
 	public void uploadFile(String localFilePath, String cloudFilePath) {
 		 //logger.entry();
 		try {
@@ -589,13 +587,6 @@ public class VaultClientDesktop {
 			out.writeLong(tableSize);
 			out.flush();
 			fileOut.flush();
-//
-//			fileOut = new FileOutputStream(cloudDatabaseMetaPath);
-//			out = new DataOutputStream(fileOut);
-//			out.writeInt(tableHash);
-//			out.writeLong(tableSize);			
-//			out.flush();
-//			fileOut.flush();
 			
 			out.close();
 			fileOut.close();

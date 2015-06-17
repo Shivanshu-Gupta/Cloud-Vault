@@ -523,7 +523,7 @@ public class VaultClient {
 			if (fileSize < 0) {
 				try {
 					Iterable<FileMetadata> childrendata = table
-							.getChildren(cloudFilePath);
+							.getChildren(cloudFilePath + "/");
 					for (FileMetadata childdata : childrendata) {
 						logger.trace("Child: " + childdata.fileName());
 						delete(childdata.fileName());
@@ -727,25 +727,6 @@ public class VaultClient {
 	}
 
 	public void sync() {
-//		boolean databaseChanged = false;
-//		String cloudFilePath = "table.ser";
-//		downloadFile("tablemeta.txt", localDatabaseMetaPath, 12);
-//		try (DataInputStream in = new DataInputStream(new FileInputStream(
-//				localDatabaseMetaPath))) {
-//			int tableHash = in.readInt();
-//			if (databaseHash != tableHash) {
-//				databaseChanged = true;
-//			}
-//			databaseSize = in.readLong();
-//		} catch (IOException e) {
-//			logger.error("IOException: " + e);
-//		}
-//		if (databaseChanged) {
-//			logger.info("database Size: " + databaseSize);
-//			downloadFile(cloudFilePath, localDatabasePath, databaseSize);
-//			Table newTable = new Table(localDatabasePath);
-//			sync(newTable);
-//		}
 		logger.trace("starting Sync");
 		downloadTable();
 		logger.trace("Sync done;");

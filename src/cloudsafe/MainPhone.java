@@ -18,7 +18,7 @@ import org.apache.logging.log4j.Logger;
  * The entry point for the CloudVault Application.
  */
 public class MainPhone {
-	private final static Logger logger = LogManager.getLogger(Main.class.getName());
+	private final static Logger logger = LogManager.getLogger(MainPhone.class.getName());
 
 	VaultClient client;
 	String vaultPath = "trials/Cloud Vault";

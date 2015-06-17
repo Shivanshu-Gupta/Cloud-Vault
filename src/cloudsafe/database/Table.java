@@ -81,20 +81,14 @@ public class Table {
 	public final boolean hasFile(String fileName) {
 		return table.containsKey(fileName) && table.get(fileName) != null;
 	}
-
-	// public final boolean hasFileVersion(String fileName, int version) {
-	// boolean contains = false;
-	// if (this.hasFile(fileName)) {
-	// FileMetadata fileVersions = table.get(fileName).first;
-	// }
-	// return contains;
-	// }
-
+	
 	public final ArrayList<FileMetadata> getChildren(String parent) {
 		Object[] fileNames = table.keySet().toArray();
 		ArrayList<FileMetadata> childrenData = new ArrayList<FileMetadata>();
+		Pattern p = Pattern.compile("^" + parent + "[^/]+" + "$");
 		for (Object fileName : fileNames) {
-			if (((String) fileName).startsWith(parent)) {
+			Matcher m = p.matcher((String) fileName);
+			if (m.matches()) {
 				childrenData.add(table.get((String) fileName).first);
 			}
 		}

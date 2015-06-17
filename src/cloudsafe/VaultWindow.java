@@ -1,4 +1,4 @@
-package cloudsafe.gui;
+package cloudsafe;
 
 import java.awt.BorderLayout;
 import java.awt.event.MouseAdapter;
@@ -64,50 +64,13 @@ public class VaultWindow extends JFrame {
 
 		selectedLabel = new JLabel();
 		add(selectedLabel, BorderLayout.SOUTH);
-
-		vaultDirTree = new JTree(getDirTree(client.getFileList()));
-
-		vaultDirTree.addMouseListener(new MouseAdapter() {
-			public void mousePressed(MouseEvent e) {
-				if (SwingUtilities.isRightMouseButton(e)) {
-					// TreePath selectedPath = vaultDirTree
-					// .getClosestPathForLocation(e.getX(), e.getY());
-					TreePath selectedPath = vaultDirTree.getSelectionPath();
-					if (selectedPath == null) {
-						return;
-					}
-					DefaultMutableTreeNode node = (DefaultMutableTreeNode) selectedPath
-							.getLastPathComponent();
-					boolean isFile = node.isLeaf();
-					FilePopupMenu menu = new FilePopupMenu(isFile,
-							selectedLabel.getText());
-					menu.show(e.getComponent(), e.getX(), e.getY());
-				}
-			}
-		});
-		vaultDirTree.setShowsRootHandles(true);
-		vaultDirTree.setRootVisible(false);
+		vaultDirTree = getDirBrowser();
+		
 		sp = new JScrollPane(vaultDirTree);
 		add(sp);
-
-		vaultDirTree.getSelectionModel().addTreeSelectionListener(
-				new TreeSelectionListener() {
-					@Override
-					public void valueChanged(TreeSelectionEvent e) {
-						TreePath selectedPath = vaultDirTree.getSelectionPath();
-						System.out.println(selectedPath.toString());
-						String path = selectedPath.toString()
-								.replaceAll("\\]| |\\[|", "")
-								.replaceAll(",", "/");
-						int index = path.indexOf("/");
-						path = path.substring(index + 1);
-						selectedLabel.setText(path);
-					}
-				});
-
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setTitle("Cloud Vault");
-		this.setSize(200, 200);
+		this.setSize(700, 700);
 		this.setVisible(true);
 	}
 
@@ -137,10 +100,14 @@ public class VaultWindow extends JFrame {
 					String filePath = Paths.get(yourFolder.getPath())
 							.toAbsolutePath().toString();
 					client.upload(filePath, path);
+					client.sync();
+					vaultDirTree = getDirBrowser();
+					sp.setViewportView(vaultDirTree);
 				}
 			});
 			download.addMouseListener(new MouseAdapter() {
 				public void mousePressed(MouseEvent e) {
+					System.out.println("Download clicked on: " + path);
 					try {
 						client.download(path);
 					} catch (FileNotFoundException e1) {
@@ -150,19 +117,23 @@ public class VaultWindow extends JFrame {
 			});
 			delete.addMouseListener(new MouseAdapter() {
 				public void mousePressed(MouseEvent e) {
+					System.out.println("Delete clicked on: " + path);
 					try {
 						client.delete(path);
 					} catch (FileNotFoundException e1) {
 						logger.error("FileNotFoundException: " + e1);
 					}
+					client.sync();
+					vaultDirTree = getDirBrowser();
+					sp.setViewportView(vaultDirTree);
 				}
 			});
 			sync.addMouseListener(new MouseAdapter() {
 				public void mousePressed(MouseEvent e) {
+					System.out.println("Sync clicked");
 					client.sync();
-					vaultDirTree = new JTree(getDirTree(client.getFileList()));
+					vaultDirTree = getDirBrowser();
 					sp.setViewportView(vaultDirTree);
-
 				}
 			});
 			if (!isFile) {
@@ -190,8 +161,47 @@ public class VaultWindow extends JFrame {
 		logger.info("devicePath: " + devicePath);
 		return devicePath;
 	}
+	private JTree getDirBrowser(){
+		JTree vaultDirTree = new JTree(parseFileTree(client.getFileList()));
 
-	private DefaultMutableTreeNode getDirTree(Object[] paths) {
+		vaultDirTree.addMouseListener(new MouseAdapter() {
+			public void mousePressed(MouseEvent e) {
+				if (SwingUtilities.isRightMouseButton(e)) {
+					TreePath selectedPath = vaultDirTree.getSelectionPath();
+					boolean isFile = false;
+					String path = "";
+					if (selectedPath != null) {
+						DefaultMutableTreeNode node = (DefaultMutableTreeNode) selectedPath
+								.getLastPathComponent();
+						//TODO take care of empty directories
+						isFile = node.isLeaf();
+						path = selectedLabel.getText();
+					}
+					FilePopupMenu menu = new FilePopupMenu(isFile,
+							path);
+					menu.show(e.getComponent(), e.getX(), e.getY());
+				}
+			}
+		});
+		vaultDirTree.setShowsRootHandles(true);
+		vaultDirTree.setRootVisible(false);
+		vaultDirTree.getSelectionModel().addTreeSelectionListener(
+				new TreeSelectionListener() {
+					@Override
+					public void valueChanged(TreeSelectionEvent e) {
+						TreePath selectedPath = vaultDirTree.getSelectionPath();
+						System.out.println(selectedPath.toString());
+						String path = selectedPath.toString()
+								.replaceAll("\\]| |\\[|", "")
+								.replaceAll(",", "/");
+						int index = path.indexOf("/");
+						path = path.substring(index + 1);
+						selectedLabel.setText(path);
+					}
+				});
+		return vaultDirTree;
+	}
+	private DefaultMutableTreeNode parseFileTree(Object[] paths) {
 		DefaultMutableTreeNode root = new DefaultMutableTreeNode("Cloud Vault");
 		for (Object path : paths) {
 			System.out.println((String) path);

@@ -35,36 +35,34 @@ import cloudsafe.util.Pair;
 public class Setup {
 	String[] possibleValues = { "DropBox", "GoogleDrive", "OneDrive", "Box", "FolderCloud" };
 	int cloudcounter = 0;
-	static String vaultPath = "trials/Cloud Vault";
+	String vaultPath = "trials/Cloud Vault";
 	int userIndex = 1;
-	static String vaultConfigPath = "trials/config";
-	String cloudMetadataPath = vaultConfigPath + "/cloudmetadata.ser";
-	static ArrayList<Pair<String, String>> cloudMetaData = new ArrayList<Pair<String, String>>();
+	String configPath = "trials/config";
+	String cloudMetadataPath = configPath + "/cloudmetadata.ser";
+	ArrayList<Pair<String, String>> cloudMetaData = new ArrayList<Pair<String, String>>();
 
-	public Setup(String vaultPath, String vaultConfigPath) {
-		Setup.vaultPath = vaultPath;
-		Setup.vaultConfigPath = vaultConfigPath;
-	}
-
-	public Setup() {
+	public Setup(String vaultPath, String configPath) {
+		this.vaultPath = vaultPath;
+		this.configPath = configPath;
+		this.cloudMetadataPath = configPath + "/cloudmetadata.ser";
 		//create the directory to store configuration data
 		try {
-			Files.createDirectories(Paths.get(vaultConfigPath));
+			Files.createDirectories(Paths.get(configPath));
 		} catch (IOException e1) {
 			e1.printStackTrace();
 		}
-		ProxyConfig proxySettings = new ProxyConfig(vaultConfigPath);
+		ProxyConfig proxySettings = new ProxyConfig(configPath);
 		JDialog settings = new JDialog(null, "Proxy Settings", Dialog.ModalityType.APPLICATION_MODAL);
 		settings.add(proxySettings);
         settings.pack();
 		settings.setVisible(true);
-	};
+	};	
 
 	private Proxy getProxy() {
 		Proxy proxy = Proxy.NO_PROXY;
 		try {
 			Properties proxySettings = new Properties();
-			File configFile = new File(vaultConfigPath + "/config.properties");
+			File configFile = new File(configPath + "/config.properties");
 			InputStream inputStream = new FileInputStream(configFile);
 			proxySettings.load(inputStream);
 			inputStream.close();

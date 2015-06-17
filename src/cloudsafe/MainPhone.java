@@ -1,34 +1,28 @@
 package cloudsafe;
 
 import java.awt.Dialog;
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.nio.file.Paths;
 import java.nio.file.Files;
-import java.util.ArrayList;
 import java.util.Scanner;
 
 import javax.swing.JDialog;
+import javax.swing.JFileChooser;
 
 import org.apache.commons.io.input.CloseShieldInputStream;
-
-import cloudsafe.util.Pair;
-import cloudsafe.cloud.Cloud;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 /**
  * The entry point for the CloudVault Application.
  */
 public class MainPhone {
+	private final static Logger logger = LogManager.getLogger(Main.class.getName());
+
 	VaultClient client;
-	static String vaultPath = "trials/Cloud Vault";
-	static String vaultConfigPath = "trials/config";
-
-	String cloudMetadataPath = vaultConfigPath + "/cloudmetadata.ser";
-	static ArrayList<Cloud> clouds = new ArrayList<Cloud>();
-	static ArrayList<Pair<String, String>> cloudMetaData = new ArrayList<Pair<String, String>>();
-
-	static int cloudNum = 4; // Co
-	static int cloudDanger = 1; // Cd
-	final static int overHead = 4; // epsilon
+	String vaultPath = "trials/Cloud Vault";
+	String configPath = "trials/config";
 
 	private void handleUpload() {
 		System.out.println("Enter the path of the file/folder to upload");
@@ -71,10 +65,6 @@ public class MainPhone {
 //			e.printStackTrace();
 		}
 	}
-	
-	private void sync() {
-
-	}
 
 	private static int showMenu() {
 		System.out.println("1. Upload File");
@@ -102,7 +92,7 @@ public class MainPhone {
 	public static void main(String[] args) {
 		try {
 			System.out.println("Welcome to your Cloud Vault!");
-			Main prog = new Main();
+			MainPhone prog = new MainPhone();
 			prog.run();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -113,6 +103,11 @@ public class MainPhone {
 	public void run() {
 		Scanner in = new Scanner(System.in);
 		String s;
+		String devicePath = getDevicePath();
+		vaultPath = devicePath + "/Cloud Vault";
+		configPath = devicePath + "/config";
+		logger.info("vaultPath: " + vaultPath);
+		logger.info("configPath: " + configPath);
 		try {
 			if (!Files.exists(Paths.get(vaultPath))) {
 				System.out
@@ -120,10 +115,10 @@ public class MainPhone {
 				System.out
 						.println("We will now setup access to your Cloud Vault.");
 				
-				Setup cloudVaultSetup = new Setup();
+				Setup cloudVaultSetup = new Setup(vaultPath, configPath);
 				cloudVaultSetup.configureCloudAccess();
 			}
-			client = new VaultClient(vaultPath);
+			client = new VaultClient(vaultPath, configPath);
 			
 			int choice;
 			do {
@@ -139,7 +134,7 @@ public class MainPhone {
 					handleDelete();
 					break;
 				case 4:
-					sync();
+					client.sync();
 					break;
 				case 5:
 					Object[] fileNames = client.getFileList();
@@ -148,7 +143,7 @@ public class MainPhone {
 					}
 					break;
 				case 6:
-					ProxyConfig proxySettings = new ProxyConfig(vaultConfigPath);
+					ProxyConfig proxySettings = new ProxyConfig(configPath);
 					JDialog settings = new JDialog(null, "Proxy Settings", Dialog.ModalityType.APPLICATION_MODAL);
 					settings.add(proxySettings);
 			        settings.pack();
@@ -168,5 +163,20 @@ public class MainPhone {
 			in.close();
 		}
 		System.exit(0);
+	}
+	
+	//temporary for testing syncing
+	private String getDevicePath() {
+		File yourFolder = null;
+    	JFileChooser fc = new JFileChooser();
+    	fc.setCurrentDirectory(new java.io.File(".")); // start at application current directory
+    	fc.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+    	int returnVal = fc.showSaveDialog(fc);
+    	if(returnVal == JFileChooser.APPROVE_OPTION) {
+    	    yourFolder = fc.getSelectedFile();
+    	}
+    	String devicePath =Paths.get(yourFolder.getPath()).toAbsolutePath().toString();
+    	logger.info("devicePath: " + devicePath);
+		return devicePath;
 	}
 }

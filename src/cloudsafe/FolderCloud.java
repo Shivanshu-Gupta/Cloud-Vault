@@ -29,15 +29,6 @@ public final class FolderCloud implements Cloud{
 	
 	public FolderCloud()
 	{
-//		Scanner in = new Scanner(new CloseShieldInputStream(System.in));
-//    	String s;
-//		System.out.println("Enter the path to the folder: ");
-//		s = in.nextLine();
-		
-//		s = JOptionPane.showInputDialog(null,
-//				"Enter the Path of Folder",
-//				"FolderCloud", JOptionPane.QUESTION_MESSAGE);
-//		s = s.trim();
     	File yourFolder = null;
     	JFileChooser fc = new JFileChooser();
     	fc.setCurrentDirectory(new java.io.File(".")); // start at application current directory
@@ -48,9 +39,6 @@ public final class FolderCloud implements Cloud{
     	}
 		
     	this.cloudPath = Paths.get(yourFolder.getPath()).toAbsolutePath();
-		
-//		this.cloudPath = Paths.get(s);
-//		in.close();
   	}
 	
 	@Override

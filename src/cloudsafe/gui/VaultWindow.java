@@ -1,4 +1,4 @@
-package cloudsafe;
+package cloudsafe.gui;
 
 import java.awt.BorderLayout;
 import java.awt.event.MouseAdapter;
@@ -27,9 +27,9 @@ import org.apache.logging.log4j.Logger;
 import cloudsafe.Setup;
 import cloudsafe.VaultClient;
 
-public class Main extends JFrame {
+public class VaultWindow extends JFrame {
 	private static final long serialVersionUID = 1L;
-	private final static Logger logger = LogManager.getLogger(Main.class
+	private final static Logger logger = LogManager.getLogger(VaultWindow.class
 			.getName());
 
 	VaultClient client;
@@ -43,7 +43,7 @@ public class Main extends JFrame {
 	public static void main(String[] args) {
 		try {
 			System.out.println("Welcome to your Cloud Vault!");
-			Main prog = new Main();
+			VaultWindow prog = new VaultWindow();
 			prog.run();
 		} catch (Exception e) {
 			e.printStackTrace();

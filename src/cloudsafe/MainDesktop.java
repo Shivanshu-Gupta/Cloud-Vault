@@ -20,9 +20,9 @@ public class MainDesktop {
 	VaultClientDesktop client;
 	static String vaultPath = "trials/Cloud Vault";
 
-	static String localConfigPath = "trials/config";
+	static String configPath = "trials/config";
 
-	String cloudMetadataPath = localConfigPath + "/cloudmetadata.ser";
+	String cloudMetadataPath = configPath + "/cloudmetadata.ser";
 
 	static ArrayList<Cloud> clouds = new ArrayList<Cloud>();
 	static ArrayList<Pair<String, String>> cloudMetaData = new ArrayList<Pair<String, String>>();
@@ -35,7 +35,7 @@ public class MainDesktop {
 		try {
 			System.out.println("Welcome to your Cloud Vault!");
 			logger.entry("Application Starting!");
-			Main prog = new Main();
+			MainDesktop prog = new MainDesktop();
 			prog.run();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -51,7 +51,7 @@ public class MainDesktop {
 				System.out
 						.println("We will now setup access to your Cloud Vault.");
 				logger.entry("New Setup");
-				Setup cloudVaultSetup = new Setup();
+				Setup cloudVaultSetup = new Setup(vaultPath, configPath);
 				cloudVaultSetup.configureCloudAccess();
 				logger.exit("Setup complete!");
 			}

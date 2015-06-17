@@ -1,15 +1,12 @@
 package cloudsafe;
 
-import java.awt.Dialog;
-import java.io.FileNotFoundException;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.Files;
 import java.util.ArrayList;
-import java.util.Scanner;
 
-import javax.swing.JDialog;
-
-import org.apache.commons.io.input.CloseShieldInputStream;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import cloudsafe.util.Pair;
 import cloudsafe.cloud.Cloud;
@@ -18,90 +15,26 @@ import cloudsafe.cloud.Cloud;
  * The entry point for the CloudVault Application.
  */
 public class Main {
-	VaultClient client;
-	static String vaultPath = "trials/Cloud Vault";
-	static String vaultConfigPath = "trials/config";
+	private final static Logger logger = LogManager.getLogger(Main.class.getName());
 
-	String cloudMetadataPath = vaultConfigPath + "/cloudmetadata.ser";
+	VaultClientDesktop client;
+	static String vaultPath = "trials/Cloud Vault";
+
+	static String localConfigPath = "trials/config";
+
+	String cloudMetadataPath = localConfigPath + "/cloudmetadata.ser";
+
 	static ArrayList<Cloud> clouds = new ArrayList<Cloud>();
 	static ArrayList<Pair<String, String>> cloudMetaData = new ArrayList<Pair<String, String>>();
 
 	static int cloudNum = 4; // Co
 	static int cloudDanger = 1; // Cd
 	final static int overHead = 4; // epsilon
-
-	private void handleUpload() {
-		System.out.println("Enter the path of the file/folder to upload");
-		Scanner in = new Scanner(new CloseShieldInputStream(System.in));
-		String filePath = in.nextLine();
-		System.out.println("Enter the path to upload to");
-		String parentPath = in.nextLine();
-		in.close();
-		if (!Files.exists(Paths.get(filePath))) {
-			System.out.println("File/Folder not found");
-			return;
-		}
-		client.upload(filePath, parentPath);
-	}
-
-	private void handleDownload() {
-		Scanner in = new Scanner(new CloseShieldInputStream(System.in));
-		System.out.println("Enter the name of the file/folder to download");
-		String fileName;
-		fileName = in.nextLine();
-		in.close();
-		try{
-			client.download(fileName);
-		} catch (FileNotFoundException e) {
-			System.out.println("File Not Found.");
-//			e.printStackTrace();
-		}
-	}
 	
-	private void handleDelete() {
-		Scanner in = new Scanner(new CloseShieldInputStream(System.in));
-		System.out.println("Enter the name of the file/folder to delete");
-		String fileName;
-		fileName = in.nextLine();
-		in.close();
-		try{
-			client.delete(fileName);
-		} catch (FileNotFoundException e) {
-			System.out.println("File Not Found.");
-//			e.printStackTrace();
-		}
-	}
-	
-	private void sync() {
-
-	}
-
-	private static int showMenu() {
-		System.out.println("1. Upload File");
-		System.out.println("2. Download File");
-		System.out.println("3. Delete File");
-		System.out.println("4. Sync with Vault");
-		System.out.println("5. Show Files in Vault");
-//		System.out.println("6. Show File History");
-		System.out.println("6. Changes Settings");
-		System.out.println("7. Exit");
-		System.out.println("What do you want to do? ");
-
-		System.out.println("Enter the number corresponding to your choice: ");
-		Scanner in = new Scanner(new CloseShieldInputStream(System.in));
-		int choice = in.nextInt();
-		if (choice < 1 || 7 < choice) {
-			System.out.println("Invalid choice.");
-			System.out.println("You have the following options: ");
-			choice = showMenu();
-		}
-		in.close();
-		return choice;
-	}
-
 	public static void main(String[] args) {
 		try {
 			System.out.println("Welcome to your Cloud Vault!");
+			logger.entry("Application Starting!");
 			Main prog = new Main();
 			prog.run();
 		} catch (Exception e) {
@@ -111,62 +44,32 @@ public class Main {
 	}
 
 	public void run() {
-		Scanner in = new Scanner(System.in);
-		String s;
 		try {
 			if (!Files.exists(Paths.get(vaultPath))) {
 				System.out
 						.println("It seems this is the first time you are using Cloud Vault on this device.");
 				System.out
 						.println("We will now setup access to your Cloud Vault.");
-				
+				logger.entry("New Setup");
 				Setup cloudVaultSetup = new Setup();
 				cloudVaultSetup.configureCloudAccess();
+				logger.exit("Setup complete!");
 			}
-			client = new VaultClient(vaultPath);
-			
-			int choice;
-			do {
-				choice = showMenu();
-				switch (choice) {
-				case 1:
-					handleUpload();
-					break;
-				case 2:
-					handleDownload();
-					break;
-				case 3:
-					handleDelete();
-					break;
-				case 4:
-					sync();
-					break;
-				case 5:
-					Object[] fileNames = client.getFileList();
-					for (Object fileName : fileNames) {
-						System.out.println((String) fileName);
-					}
-					break;
-				case 6:
-					ProxyConfig proxySettings = new ProxyConfig(vaultConfigPath);
-					JDialog settings = new JDialog(null, "Proxy Settings", Dialog.ModalityType.APPLICATION_MODAL);
-					settings.add(proxySettings);
-			        settings.pack();
-					settings.setVisible(true);
-					break;
-				case 7:
-					System.exit(0);
-				}
-				System.out.println("Continue (Yes/No)? ");
-				s = in.nextLine();
-			} while (s.equals("Yes") || s.equals("yes"));
+			client = new VaultClientDesktop(vaultPath);
 
+			
+			//--------My work starts here--------------
+	    	String targetdir = vaultPath;
+	        // parse arguments
+	        boolean recursive = true;
+	        // register directory and process its events
+	        Path dir = Paths.get(targetdir);
+	        new WatchDir(dir, recursive, client).processEvents();
+			
+			//--------My work ends here----------------
 		} catch (Exception e) {
 			System.out.println(e);
 			e.printStackTrace();
-		} finally {
-			in.close();
 		}
-		System.exit(0);
 	}
 }

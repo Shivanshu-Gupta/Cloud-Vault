@@ -119,7 +119,7 @@ public class Setup {
 		//Deciding value of choice
 		if(code.equals("DropBox")){
 			choice = 1;
-			possibleValues = ArrayUtils.removeElement(possibleValues, "DropBox");
+//			possibleValues = ArrayUtils.removeElement(possibleValues, "DropBox");
 		}
 		else if(code.equals("GoogleDrive")){
 			choice = 2;

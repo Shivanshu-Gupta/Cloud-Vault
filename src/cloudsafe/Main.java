@@ -92,7 +92,7 @@ public class Main extends JFrame {
 					File yourFolder = null;
 					JFileChooser fc = new JFileChooser();
 					fc.setCurrentDirectory(new java.io.File("."));
-					fc.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+					fc.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
 					int returnVal = fc.showSaveDialog(fc);
 					if (returnVal == JFileChooser.APPROVE_OPTION) {
 						yourFolder = fc.getSelectedFile();
@@ -151,7 +151,7 @@ public class Main extends JFrame {
 		JFileChooser fc = new JFileChooser();
 		fc.setCurrentDirectory(new java.io.File(".")); // start at application
 														// current directory
-		fc.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
+		fc.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
 		int returnVal = fc.showSaveDialog(fc);
 		if (returnVal == JFileChooser.APPROVE_OPTION) {
 			yourFolder = fc.getSelectedFile();

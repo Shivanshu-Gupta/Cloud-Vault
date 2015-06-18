@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
-	<classpathentry kind="src" path="src"/>
+	<classpathentry excluding="test/resources/" kind="src" path="src"/>
+	<classpathentry kind="src" path="src/test/resources"/>
 	<classpathentry kind="lib" path="lib/openrq-3.3.2.jar"/>
 	<classpathentry kind="lib" path="lib/jackson-core-2.2.4.jar"/>
 	<classpathentry kind="lib" path="lib/dropbox-core-sdk-1.7.7.jar"/>

@@ -59,9 +59,9 @@ public class WatchDir {
 
 	String deletedFolder = "";
 
-    ArrayList <String> uploadQueue = new ArrayList <String>();
-    ArrayList <String> deleteQueue = new ArrayList <String>();
-    
+	ArrayList<String> uploadQueue = new ArrayList<String>();
+	ArrayList<String> deleteQueue = new ArrayList<String>();
+
 	@SuppressWarnings("unchecked")
 	static <T> WatchEvent<T> cast(WatchEvent<?> event) {
 		return (WatchEvent<T>) event;
@@ -70,21 +70,22 @@ public class WatchDir {
 	/**
 	 * Register the given directory with the WatchService
 	 */
-    private void register(Path dir) throws IOException {
-        WatchKey key = dir.register(watcher, ENTRY_CREATE, ENTRY_DELETE, ENTRY_MODIFY);
-        if (trace) {
-            Path prev = keys.get(key);
-            if (prev == null) {
-                System.out.format("register: %s\n", dir);
-            } else {
-                if (!dir.equals(prev)) {
-                    System.out.format("update: %s -> %s\n", prev, dir);
-                    deleteAllFiles(prev,dir);
-                }
-            }
-        }
-        keys.put(key, dir);
-    }
+	private void register(Path dir) throws IOException {
+		WatchKey key = dir.register(watcher, ENTRY_CREATE, ENTRY_DELETE,
+				ENTRY_MODIFY);
+		if (trace) {
+			Path prev = keys.get(key);
+			if (prev == null) {
+				System.out.format("register: %s\n", dir);
+			} else {
+				if (!dir.equals(prev)) {
+					System.out.format("update: %s -> %s\n", prev, dir);
+					deleteAllFiles(prev, dir);
+				}
+			}
+		}
+		keys.put(key, dir);
+	}
 
 	/**
 	 * Register the given directory, and all its sub-directories, with the
@@ -129,231 +130,227 @@ public class WatchDir {
 	 * 
 	 * @throws Exception
 	 */
-	
+
 	void processEvents() {
-    	class Execution extends TimerTask {
-    	    public void run() {
-    	       executeUpdate();
-    	    }
-    	 }
-    	
-    	Timer timer = new Timer();
-    	 timer.schedule(new Execution(), 0, 5000);
-    	 
-        for (;;) {
+		class Execution extends TimerTask {
+			public void run() {
+				executeUpdate();
+			}
+		}
 
-            // wait for key to be signalled
-            WatchKey key;
-            try {
-            	
-            	//System.out.println("Waiting for take()");
-                key = watcher.take();
-        
-                //System.out.println("Wait finished");
-            } catch (InterruptedException x) {
-                return;
-            }
+		Timer timer = new Timer();
+		timer.schedule(new Execution(), 0, 5000);
 
-            Path dir = keys.get(key);
-           // System.out.println("key : " + key.toString());
-            if (dir == null) {
-                System.err.println("WatchKey not recognized!!");
-                continue;
-            }
-            int counter = 0;
-            for (WatchEvent<?> event: key.pollEvents()) {
-                WatchEvent.Kind kind = event.kind();
+		for (;;) {
 
-                // TBD - provide example of how OVERFLOW event is handled
-                if (kind == OVERFLOW) {
-                    continue;
-                }
+			// wait for key to be signalled
+			WatchKey key;
+			try {
 
-                // Context for directory entry event is the file name of entry
-                WatchEvent<Path> ev = cast(event);
-                Path name = ev.context();
-                Path child = dir.resolve(name);
+				// System.out.println("Waiting for take()");
+				key = watcher.take();
 
-                System.out.format("..........%s: %s\n", event.kind().name(), child);
+				// System.out.println("Wait finished");
+			} catch (InterruptedException x) {
+				return;
+			}
 
-                
-                
-                // if directory is created, and watching recursively, then
-                // register it and its sub-directories
-                if (recursive && (kind == ENTRY_CREATE)) {
-                    try {
-                        if (Files.isDirectory(child, NOFOLLOW_LINKS)) {
-                            registerAll(child);
-                            addAllFiles(child);
-                        }
-                    } catch (IOException x) {
-                        // ignore to keep sample readbale
-                    }
-                }
-                String AbsoluteFilePath = child.toAbsolutePath().toString();
-                if(Files.isDirectory(child,NOFOLLOW_LINKS) && kind == ENTRY_MODIFY)
-                {
-                	
-                }
-                else if(kind == ENTRY_CREATE || kind == ENTRY_MODIFY)
-                {
-                	if(Files.exists(child, NOFOLLOW_LINKS))
-                	{
-                    	if(uploadQueue.contains(AbsoluteFilePath))
-                    	{
-                    		System.out.println("UPLOADQUEUE - File Already Present : " + AbsoluteFilePath);
-                    	}
-                    	else
-                    	{
-                    		uploadQueue.add(AbsoluteFilePath);
-                    		deleteQueue.remove(AbsoluteFilePath);
-                    	}
-                	}
-                	else
-                	{
-                    	uploadQueue.remove(AbsoluteFilePath);
-                    	deleteQueue.add(AbsoluteFilePath);
-                	}
+			Path dir = keys.get(key);
+			// System.out.println("key : " + key.toString());
+			if (dir == null) {
+				System.err.println("WatchKey not recognized!!");
+				continue;
+			}
+			int counter = 0;
+			for (WatchEvent<?> event : key.pollEvents()) {
+				WatchEvent.Kind kind = event.kind();
 
-                }
-                
-                //Deleted Folder also gets transmitted to cloud
-                else		//ENTRY_DELETE
-                {
-                	
-                	if(uploadQueue.remove(AbsoluteFilePath))
-                	{
-                		System.out.println("UPLOADQUEUE - File Removed : " + AbsoluteFilePath);
-                	}
-                	else
-                	{
-                		if(!deleteQueue.contains(AbsoluteFilePath))
-                			deleteQueue.add(AbsoluteFilePath);
-                	}                	
-                }
-                	System.out.println("Upload Size : " + uploadQueue.size() + "\tDelete Size : " + deleteQueue.size());
-            }
-//            System.out.println("pollevents loop exited, count : " + counter);
-            // reset key and remove from set if directory no longer accessible
-            boolean valid = key.reset();
-            if (!valid) {
-                keys.remove(key);
+				// TBD - provide example of how OVERFLOW event is handled
+				if (kind == OVERFLOW) {
+					continue;
+				}
 
-                // all directories are inaccessible
-                if (keys.isEmpty()) {
-                    break;
-                }
-            }
-        }
-    }
+				// Context for directory entry event is the file name of entry
+				WatchEvent<Path> ev = cast(event);
+				Path name = ev.context();
+				Path child = dir.resolve(name);
+
+				System.out.format("..........%s: %s\n", event.kind().name(),
+						child);
+
+				// if directory is created, and watching recursively, then
+				// register it and its sub-directories
+				if (recursive && (kind == ENTRY_CREATE)) {
+					try {
+						if (Files.isDirectory(child, NOFOLLOW_LINKS)) {
+							registerAll(child);
+							addAllFiles(child);
+						}
+					} catch (IOException x) {
+						// ignore to keep sample readbale
+					}
+				}
+				String AbsoluteFilePath = child.toAbsolutePath().toString();
+				if (Files.isDirectory(child, NOFOLLOW_LINKS)
+						&& kind == ENTRY_MODIFY) {
+
+				} else if (kind == ENTRY_CREATE || kind == ENTRY_MODIFY) {
+					if (Files.exists(child, NOFOLLOW_LINKS)) {
+						if (uploadQueue.contains(AbsoluteFilePath)) {
+							System.out
+									.println("UPLOADQUEUE - File Already Present : "
+											+ AbsoluteFilePath);
+						} else {
+							uploadQueue.add(AbsoluteFilePath);
+							deleteQueue.remove(AbsoluteFilePath);
+						}
+					} else {
+						uploadQueue.remove(AbsoluteFilePath);
+						deleteQueue.add(AbsoluteFilePath);
+					}
+
+				}
+
+				// Deleted Folder also gets transmitted to cloud
+				else // ENTRY_DELETE
+				{
+
+					if (uploadQueue.remove(AbsoluteFilePath)) {
+						System.out.println("UPLOADQUEUE - File Removed : "
+								+ AbsoluteFilePath);
+					} else {
+						if (!deleteQueue.contains(AbsoluteFilePath))
+							deleteQueue.add(AbsoluteFilePath);
+					}
+				}
+				System.out.println("Upload Size : " + uploadQueue.size()
+						+ "\tDelete Size : " + deleteQueue.size());
+			}
+			// System.out.println("pollevents loop exited, count : " + counter);
+			// reset key and remove from set if directory no longer accessible
+			boolean valid = key.reset();
+			if (!valid) {
+				keys.remove(key);
+
+				// all directories are inaccessible
+				if (keys.isEmpty()) {
+					break;
+				}
+			}
+		}
+	}
 
 	static void usage() {
 		System.err.println("usage: java WatchDir [-r] dir");
 		System.exit(-1);
 	}
-	
-	  //add all the files of newly created folder in uploadqueue
-    void addAllFiles(Path start) throws IOException
-    {
-        
-        Files.walkFileTree(start, new SimpleFileVisitor<Path>() {
 
-        	@Override
-            public FileVisitResult preVisitDirectory(Path dir, BasicFileAttributes attrs) throws IOException {
-        		uploadQueue.add(dir.toAbsolutePath().toString());
-                return FileVisitResult.CONTINUE;
-            }
-            @Override
-            public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) throws IOException {
-                if (Files.isHidden(file)) {
-                    return FileVisitResult.CONTINUE;
-                }
-                uploadQueue.add(file.toAbsolutePath().toString());
-                System.out.println("file added inside walk tree");
-                return FileVisitResult.CONTINUE;
-            }
-            
-            
-        });
-    }
-    
-    void deleteAllFiles(Path prevDir,Path currentDir) throws IOException
-    {
-        Files.walkFileTree(currentDir, new SimpleFileVisitor<Path>() {
+	// add all the files of newly created folder in uploadqueue
+	void addAllFiles(Path start) throws IOException {
 
-        	@Override
-            public FileVisitResult preVisitDirectory(Path dir, BasicFileAttributes attrs) throws IOException {
-        		Path currentParentpath = dir/*.toAbsolutePath()*/;
-                Path commonpath = currentDir.relativize(currentParentpath);
-                Path prevParentpath = prevDir.resolve(commonpath);
-                
-                currentParentpath = currentParentpath.toAbsolutePath();
-                prevParentpath = prevParentpath.toAbsolutePath();
-              //  Path prevParentpath = currentParentpath.subpath(0, currentParentpath.getNameCount() - currentDir.getNameCount()).resolve(prevDir);
-                
-                String prevpath = prevParentpath.toString();
-                System.out.println("Current path : " + currentParentpath);
-                System.out.println("common path : " + commonpath);
-                System.out.println("Previous path : " + prevParentpath);
-                uploadQueue.remove(prevpath);
-                if(!deleteQueue.contains(prevpath))
-                	deleteQueue.add(prevpath);
-                System.out.println("dir deleted inside walk tree");
-                return FileVisitResult.CONTINUE;
-            }
-            @Override
-            public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) throws IOException {
-                if (Files.isHidden(file)) {
-                    return FileVisitResult.CONTINUE;
-                }
-                Path currentParentpath = file.getParent()/*.toAbsolutePath()*/;
-                Path commonpath = currentDir.relativize(currentParentpath);
-                Path prevParentpath = prevDir.resolve(commonpath);
-                
-                currentParentpath = currentParentpath.toAbsolutePath();
-                prevParentpath = prevParentpath.toAbsolutePath();
-              //  Path prevParentpath = currentParentpath.subpath(0, currentParentpath.getNameCount() - currentDir.getNameCount()).resolve(prevDir);
-                
-                String prevpath = prevParentpath.toString() + "\\" + file.getFileName().toString();
-                System.out.println("Current path : " + currentParentpath);
-                System.out.println("common path : " + commonpath);
-                System.out.println("Previous path : " + prevParentpath);
-                uploadQueue.remove(prevpath);
-                if(!deleteQueue.contains(prevpath))
-                	deleteQueue.add(prevpath);
-                System.out.println("file deleted inside walk tree");
-                return FileVisitResult.CONTINUE;
-            }
-            
-            
-        });
-    }
-    
-    void executeUpdate()
-    {
-    	while(!uploadQueue.isEmpty())
-    	{
-    		String filepath = uploadQueue.get(0);
-    		uploadQueue.remove(0);
-    		System.out.println("Executing UPLOAD QUEUE : " + filepath);
-            try {
+		Files.walkFileTree(start, new SimpleFileVisitor<Path>() {
+
+			@Override
+			public FileVisitResult preVisitDirectory(Path dir,
+					BasicFileAttributes attrs) throws IOException {
+				uploadQueue.add(dir.toAbsolutePath().toString());
+				return FileVisitResult.CONTINUE;
+			}
+
+			@Override
+			public FileVisitResult visitFile(Path file,
+					BasicFileAttributes attrs) throws IOException {
+				if (Files.isHidden(file)) {
+					return FileVisitResult.CONTINUE;
+				}
+				uploadQueue.add(file.toAbsolutePath().toString());
+				System.out.println("file added inside walk tree");
+				return FileVisitResult.CONTINUE;
+			}
+
+		});
+	}
+
+	void deleteAllFiles(Path prevDir, Path currentDir) throws IOException {
+		Files.walkFileTree(currentDir, new SimpleFileVisitor<Path>() {
+
+			@Override
+			public FileVisitResult preVisitDirectory(Path dir,
+					BasicFileAttributes attrs) throws IOException {
+				Path currentParentpath = dir/* .toAbsolutePath() */;
+				Path commonpath = currentDir.relativize(currentParentpath);
+				Path prevParentpath = prevDir.resolve(commonpath);
+
+				currentParentpath = currentParentpath.toAbsolutePath();
+				prevParentpath = prevParentpath.toAbsolutePath();
+				// Path prevParentpath = currentParentpath.subpath(0,
+				// currentParentpath.getNameCount() -
+				// currentDir.getNameCount()).resolve(prevDir);
+
+				String prevpath = prevParentpath.toString();
+				System.out.println("Current path : " + currentParentpath);
+				System.out.println("common path : " + commonpath);
+				System.out.println("Previous path : " + prevParentpath);
+				uploadQueue.remove(prevpath);
+				if (!deleteQueue.contains(prevpath))
+					deleteQueue.add(prevpath);
+				System.out.println("dir deleted inside walk tree");
+				return FileVisitResult.CONTINUE;
+			}
+
+			@Override
+			public FileVisitResult visitFile(Path file,
+					BasicFileAttributes attrs) throws IOException {
+				if (Files.isHidden(file)) {
+					return FileVisitResult.CONTINUE;
+				}
+				Path currentParentpath = file.getParent()/* .toAbsolutePath() */;
+				Path commonpath = currentDir.relativize(currentParentpath);
+				Path prevParentpath = prevDir.resolve(commonpath);
+
+				currentParentpath = currentParentpath.toAbsolutePath();
+				prevParentpath = prevParentpath.toAbsolutePath();
+				// Path prevParentpath = currentParentpath.subpath(0,
+				// currentParentpath.getNameCount() -
+				// currentDir.getNameCount()).resolve(prevDir);
+
+				String prevpath = prevParentpath.toString() + "\\"
+						+ file.getFileName().toString();
+				System.out.println("Current path : " + currentParentpath);
+				System.out.println("common path : " + commonpath);
+				System.out.println("Previous path : " + prevParentpath);
+				uploadQueue.remove(prevpath);
+				if (!deleteQueue.contains(prevpath))
+					deleteQueue.add(prevpath);
+				System.out.println("file deleted inside walk tree");
+				return FileVisitResult.CONTINUE;
+			}
+
+		});
+	}
+
+	void executeUpdate() {
+		while (!uploadQueue.isEmpty()) {
+			String filepath = uploadQueue.get(0);
+			uploadQueue.remove(0);
+			System.out.println("Executing UPLOAD QUEUE : " + filepath);
+			try {
 				client.upload(filepath);
 			} catch (NoSuchFileException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-    	}
-    	while(!deleteQueue.isEmpty())
-    	{
-    		String filepath = deleteQueue.get(0);
-    		deleteQueue.remove(0);
-    		System.out.println("Executing DELETE QUEUE : " + filepath);
-            try {
+		}
+		while (!deleteQueue.isEmpty()) {
+			String filepath = deleteQueue.get(0);
+			deleteQueue.remove(0);
+			System.out.println("Executing DELETE QUEUE : " + filepath);
+			try {
 				client.delete(filepath);
 			} catch (FileNotFoundException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-    	}
-    }
+		}
+	}
 }

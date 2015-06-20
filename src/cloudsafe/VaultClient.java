@@ -369,13 +369,9 @@ public class VaultClient {
 				for (EncodingPacket repPack : repPackets) {
 					packetdata = repPack.asArray();
 					int cloudID = packetID % cloudNum;
-					Cloud cloud = clouds.get(cloudID);
-
-					if (cloud.isAvailable()) {
-						ByteArrayBuffer dataArray = dataArrays.get(cloudID);
-						dataArray.append(packetdata, 0, packetdata.length);
-						dataArrays.set(cloudID, dataArray);
-					}
+					ByteArrayBuffer dataArray = dataArrays.get(cloudID);
+					dataArray.append(packetdata, 0, packetdata.length);
+					dataArrays.set(cloudID, dataArray);
 					packetID++;
 				}
 				for (int i = 0; i < clouds.size(); i++) {
@@ -579,12 +575,7 @@ public class VaultClient {
 					+ databaseHash);
 
 			updateTableMetaFile(databaseSize, databaseHash);
-			// upload(cloudDatabaseMetaPath);
-			uploadFile(localDatabaseMetaPath, "tablemeta.txt");
-
-			// Files.write(Paths.get(cloudDatabasePath), tableBytes, CREATE,
-			// WRITE, TRUNCATE_EXISTING);
-			// upload(cloudDatabasePath);
+			uploadTinyFile(localDatabaseMetaPath, "tablemeta.txt");
 			uploadFile(localDatabasePath, "table.ser");
 		} catch (Exception x) {
 			logger.error("Exception in creating new table: " + x);
@@ -604,17 +595,8 @@ public class VaultClient {
 			logger.info("Uploading Table: Size=" + databaseSize + " Hash="
 					+ databaseHash);
 
-			// this will write to local config folder then copy to local vault
-			// no need to upload as watchDir will do that.
 			updateTableMetaFile(databaseSize, databaseHash);
-			// upload(cloudDatabaseMetaPath);
-			uploadFile(localDatabaseMetaPath, "tablemeta.txt");
-
-			// write the table to local vault too;
-			// no need to upload as watchDir will do that.
-			// Files.write(Paths.get(cloudDatabasePath), tableBytes, CREATE,
-			// WRITE, TRUNCATE_EXISTING);
-			// upload(cloudDatabasePath);
+			uploadTinyFile(localDatabaseMetaPath, "tablemeta.txt");
 			uploadFile(localDatabasePath, "table.ser");
 
 		} catch (IOException e) {
@@ -626,12 +608,9 @@ public class VaultClient {
 	public void downloadTable() {
 		logger.entry("DownloadTable");
 		boolean databaseChanged = false;
-		downloadFile("tablemeta.txt", localDatabaseMetaPath, 12);
+		downloadTinyFile("tablemeta.txt", localDatabaseMetaPath, 12);
 		try (DataInputStream in = new DataInputStream(new FileInputStream(
 				localDatabaseMetaPath))) {
-			// no need to copy database files from vaultPath to configPath.
-			// Files.copy(Paths.get(cloudDatabaseMetaPath),
-			// Paths.get(localDatabaseMetaPath), REPLACE_EXISTING);
 			int tableHash = in.readInt();
 			if (databaseHash != tableHash) {
 				databaseChanged = true;
@@ -644,8 +623,6 @@ public class VaultClient {
 			if (databaseChanged) {
 				logger.trace("table hash mismatch: downloading database");
 				downloadFile("table.ser", localDatabasePath, tableSize);
-				// Files.copy(Paths.get(cloudDatabasePath),
-				// Paths.get(localDatabasePath), REPLACE_EXISTING);
 				Table newTable = new Table(localDatabasePath);
 				sync(newTable);
 			}
@@ -685,11 +662,10 @@ public class VaultClient {
 			}
 		}
 		return newUser;
-		// return !Files.exists(Paths.get(localDatabasePath));
 	}
 
 	public Object[] getFileList() {
-		downloadTable();
+//		downloadTable();
 		return table.getFileList();
 	}
 

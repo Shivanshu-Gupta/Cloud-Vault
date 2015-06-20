@@ -4,9 +4,14 @@ import java.awt.BorderLayout;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.Date;
+import java.util.Timer;
+import java.util.TimerTask;
+import java.util.concurrent.ArrayBlockingQueue;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
@@ -24,8 +29,11 @@ import javax.swing.tree.TreePath;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import cloudsafe.Setup;
-import cloudsafe.VaultClient;
+import cloudsafe.client.ClientHandler;
+import cloudsafe.client.ClientTask;
+import cloudsafe.client.DeleteTask;
+import cloudsafe.client.DownloadTask;
+import cloudsafe.client.UploadTask;
 
 public class Main extends JFrame {
 	private static final long serialVersionUID = 1L;
@@ -40,6 +48,17 @@ public class Main extends JFrame {
 	private JTree vaultDirTree;
 	private JLabel selectedLabel;
 
+//	private ConcurrentHashMap<UploadTask, Date> uploadRequests = 
+//			new ConcurrentHashMap<UploadTask, Date>(128);
+//	private ConcurrentHashMap<DownloadTask, Date> downloadRequests = 
+//			new ConcurrentHashMap<DownloadTask, Date>(128);
+//	private ConcurrentHashMap<DeleteTask, Date> deleteRequests = 
+//			new ConcurrentHashMap<DeleteTask, Date>(128);
+	
+	private ArrayBlockingQueue<ClientTask> tasks = 
+			new ArrayBlockingQueue<ClientTask>(128);
+	AtomicBoolean tableChanged = new  AtomicBoolean(false);
+	
 	public static void main(String[] args) {
 		try {
 			System.out.println("Welcome to your Cloud Vault!");
@@ -61,19 +80,34 @@ public class Main extends JFrame {
 			cloudVaultSetup.configureCloudAccess();
 		}
 		client = new VaultClient(vaultPath, configPath);
+//		ClientHandler handler = new ClientHandler(client, uploadRequests,
+//				downloadRequests, deleteRequests, tasks);
+		ClientHandler handler = new ClientHandler(client, tasks, tableChanged);
+		new Thread(handler).start();
 
+		Timer timer = new Timer();
+		timer.schedule(new TimerTask() {
+			public void run() {
+				if (tableChanged.getAndSet(false)) {
+					vaultDirTree = getDirBrowser();
+					sp.setViewportView(vaultDirTree);
+				}
+			}
+		}, 0, 5000);
+		
 		selectedLabel = new JLabel();
 		add(selectedLabel, BorderLayout.SOUTH);
 		vaultDirTree = getDirBrowser();
-		
+
 		sp = new JScrollPane(vaultDirTree);
 		add(sp);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setTitle("Cloud Vault");
-		this.setSize(700, 700);
+		this.setSize(400, 700);
+		this.setLocationRelativeTo(null);
 		this.setVisible(true);
 	}
-
+	
 	class FilePopupMenu extends JPopupMenu {
 		/**
 		 * appears on right clicking a file
@@ -97,35 +131,64 @@ public class Main extends JFrame {
 					if (returnVal == JFileChooser.APPROVE_OPTION) {
 						yourFolder = fc.getSelectedFile();
 					}
-					String filePath = Paths.get(yourFolder.getPath())
-							.toAbsolutePath().toString();
-					client.upload(filePath, path);
-					client.sync();
-					vaultDirTree = getDirBrowser();
-					sp.setViewportView(vaultDirTree);
+					if (yourFolder != null) {
+						String filePath = Paths.get(yourFolder.getPath())
+								.toAbsolutePath().toString();
+						logger.info("Upload Task: " + filePath);
+						Date timestamp = new Date();
+						UploadTask task = new UploadTask(filePath, path,
+								timestamp);
+						try {
+							tasks.add(task);
+						} catch (IllegalStateException e1) {
+							// TODO tell the user to try later
+						}
+//					uploadRequests.put(task, timestamp);
+					// client.upload(filePath, path);
+					// client.sync();
+					// vaultDirTree = getDirBrowser();
+					// sp.setViewportView(vaultDirTree);
+					}
 				}
 			});
 			download.addMouseListener(new MouseAdapter() {
 				public void mousePressed(MouseEvent e) {
 					System.out.println("Download clicked on: " + path);
+					Date timestamp = new Date();
+					DownloadTask task = new DownloadTask(path, timestamp);
 					try {
-						client.download(path);
-					} catch (FileNotFoundException e1) {
-						logger.error("FileNotFoundException: " + e1);
+						tasks.add(task);
+					} catch (IllegalStateException e1) {
+						// TODO tell the user to try later
 					}
+//					downloadRequests.put(task, timestamp);
+					// try {
+					// client.download(path);
+					//
+					// } catch (FileNotFoundException e1) {
+					// logger.error("FileNotFoundException: " + e1);
+					// }
 				}
 			});
 			delete.addMouseListener(new MouseAdapter() {
 				public void mousePressed(MouseEvent e) {
 					System.out.println("Delete clicked on: " + path);
+					Date timestamp = new Date();
+					DeleteTask task = new DeleteTask(path, timestamp);
 					try {
-						client.delete(path);
-					} catch (FileNotFoundException e1) {
-						logger.error("FileNotFoundException: " + e1);
+						tasks.add(task);
+					} catch (IllegalStateException e1) {
+						// TODO tell the user to try later
 					}
-					client.sync();
-					vaultDirTree = getDirBrowser();
-					sp.setViewportView(vaultDirTree);
+//					deleteRequests.put(task, timestamp);
+					// try {
+					// client.delete(path);
+					// } catch (FileNotFoundException e1) {
+					// logger.error("FileNotFoundException: " + e1);
+					// }
+					// client.sync();
+					// vaultDirTree = getDirBrowser();
+					// sp.setViewportView(vaultDirTree);
 				}
 			});
 			sync.addMouseListener(new MouseAdapter() {
@@ -161,7 +224,8 @@ public class Main extends JFrame {
 		logger.info("devicePath: " + devicePath);
 		return devicePath;
 	}
-	private JTree getDirBrowser(){
+
+	private JTree getDirBrowser() {
 		JTree vaultDirTree = new JTree(parseFileTree(client.getFileList()));
 
 		vaultDirTree.addMouseListener(new MouseAdapter() {
@@ -173,12 +237,11 @@ public class Main extends JFrame {
 					if (selectedPath != null) {
 						DefaultMutableTreeNode node = (DefaultMutableTreeNode) selectedPath
 								.getLastPathComponent();
-						//TODO take care of empty directories
+						// TODO take care of empty directories
 						isFile = node.isLeaf();
 						path = selectedLabel.getText();
 					}
-					FilePopupMenu menu = new FilePopupMenu(isFile,
-							path);
+					FilePopupMenu menu = new FilePopupMenu(isFile, path);
 					menu.show(e.getComponent(), e.getX(), e.getY());
 				}
 			}
@@ -201,6 +264,7 @@ public class Main extends JFrame {
 				});
 		return vaultDirTree;
 	}
+
 	private DefaultMutableTreeNode parseFileTree(Object[] paths) {
 		DefaultMutableTreeNode root = new DefaultMutableTreeNode("Cloud Vault");
 		for (Object path : paths) {

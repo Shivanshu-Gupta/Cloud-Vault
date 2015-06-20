@@ -18,6 +18,13 @@ public final class FileMetadata implements Serializable {
 		this.timestamp = new Date();
 	}
 	
+	public FileMetadata(String fileName, long fileSize, Date timestamp) {
+		this.fileName = fileName;
+//		this.version = version;
+		this.fileSize = fileSize;
+		this.timestamp = timestamp;
+	}
+	
 	public String fileName() {
 		return fileName;
 	}

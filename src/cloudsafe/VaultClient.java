@@ -53,6 +53,7 @@ public class VaultClient {
 	String configPath = "trials/config";
 	String cloudMetadataPath = configPath + "/cloudmetadata.ser";
 	static int cloudNum = 4; // Co
+	
 	static int cloudDanger = 1; // Cd
 	final static int overHead = 4; // epsilon
 	Proxy proxy = Proxy.NO_PROXY;

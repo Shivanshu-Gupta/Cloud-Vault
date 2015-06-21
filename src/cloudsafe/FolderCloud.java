@@ -32,6 +32,7 @@ public final class FolderCloud implements Cloud{
     	File yourFolder = null;
     	JFileChooser fc = new JFileChooser();
     	fc.setCurrentDirectory(new java.io.File(".")); // start at application current directory
+    	fc.setDialogTitle("Locate Your Folder");	
     	fc.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
     	int returnVal = fc.showSaveDialog(fc);
     	if(returnVal == JFileChooser.APPROVE_OPTION) {

@@ -40,6 +40,7 @@ public class Setup {
 	String configPath = "trials/config";
 	String cloudMetadataPath = configPath + "/cloudmetadata.ser";
 	ArrayList<Pair<String, String>> cloudMetaData = new ArrayList<Pair<String, String>>();
+	
 
 	public Setup(String vaultPath, String configPath) {
 		this.vaultPath = vaultPath;
@@ -92,15 +93,18 @@ public class Setup {
 		return proxy;
 	}
 
+	String static_message = "Choose Your Cloud\n";
+	String dynamic_message = "Cloud 1 : ";
 	private void addCloud() {
+		String info_message = "You have added " + (cloudcounter - 1) + " clouds\n";
 		Proxy proxy = getProxy();
 		Scanner in = new Scanner(new CloseShieldInputStream(System.in));
 		int choice = 0;		
 		String code;
 		code = (String) JOptionPane.showInputDialog(null,
-		"Choose Your Cloud", "Cloud " + cloudcounter,
-		JOptionPane.INFORMATION_MESSAGE, null,
-		possibleValues, possibleValues[0]);
+				 info_message + dynamic_message + static_message, "Cloud " + cloudcounter,
+				JOptionPane.INFORMATION_MESSAGE, null,
+				possibleValues, possibleValues[0]);
 		code.trim();
 		while (!code.equals("DropBox") && !code.equals("GoogleDrive") && !code.equals("OneDrive")
 				&& !code.equals("Box") && !code.equals("FolderCloud"))
@@ -110,31 +114,31 @@ public class Setup {
 			JOptionPane.INFORMATION_MESSAGE, null,
 			possibleValues, possibleValues[0]);
 			code.trim();
-//			JOptionPane.showMessageDialog(null, "Invalid Choice! Enter drive number as choice : " + code);
-//			code = JOptionPane.showInputDialog(null,
-//					"1. Dropbox\t" + "2. Google Drive\t" + "3. Onedrive\t" + "4. Box\t" + "5. Folder",
-//					"Enter Drive Number as Choice", JOptionPane.QUESTION_MESSAGE);
-//			code = code.trim();
 		}
 		//Deciding value of choice
 		if(code.equals("DropBox")){
 			choice = 1;
 //			possibleValues = ArrayUtils.removeElement(possibleValues, "DropBox");
+			updateDynamicMessage(cloudcounter,"DropBox");
 		}
 		else if(code.equals("GoogleDrive")){
 			choice = 2;
 //			possibleValues = ArrayUtils.removeElement(possibleValues, "GoogleDrive");
+			updateDynamicMessage(cloudcounter,"GoogleDrive");
 		}
 		else if(code.equals("OneDrive")){
 			choice = 3;
 			possibleValues = ArrayUtils.removeElement(possibleValues, "OneDrive");
+			updateDynamicMessage(cloudcounter,"OneDrive");
 		}
 		else if(code.equals("Box")){
 			choice = 4;
-			//possibleValues = ArrayUtils.removeElement(possibleValues, "Box");
+			possibleValues = ArrayUtils.removeElement(possibleValues, "Box");
+			updateDynamicMessage(cloudcounter,"Box");
 		}
 		else if(code.equals("FolderCloud")){
 			choice = 5;
+			updateDynamicMessage(cloudcounter,"FolderCloud");
 		}
 
 //		choice = Integer.parseInt(code);
@@ -175,6 +179,10 @@ public class Setup {
 			e.printStackTrace();
 		}
 		in.close();
+	}
+	
+	public void updateDynamicMessage(int index, String CloudName){
+		dynamic_message = dynamic_message + CloudName +"\nCloud " + (index+1) + " : ";
 	}
 
 	public void configureCloudAccess() {

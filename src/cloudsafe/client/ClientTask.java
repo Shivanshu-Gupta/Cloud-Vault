@@ -49,7 +49,6 @@ public class ClientTask {
         ClientTask rhs = (ClientTask) obj;
         return new EqualsBuilder().
             append(type, rhs.type).
-//            append(timestamp, rhs.timestamp).
             isEquals();
     }
 }

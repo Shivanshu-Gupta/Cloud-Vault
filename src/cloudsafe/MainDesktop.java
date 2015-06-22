@@ -15,7 +15,7 @@ import cloudsafe.cloud.Cloud;
  * The entry point for the CloudVault Application.
  */
 public class MainDesktop {
-	private final static Logger logger = LogManager.getLogger(Main.class.getName());
+	private final static Logger logger = LogManager.getLogger(MainDesktop.class.getName());
 
 	VaultClientDesktop client;
 	static String vaultPath = "trials/Cloud Vault";

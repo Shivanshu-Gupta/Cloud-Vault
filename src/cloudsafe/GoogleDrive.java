@@ -52,6 +52,9 @@ import java.security.GeneralSecurityException;
 import java.util.Arrays;
 import java.util.Collections;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 /**
  * A sample application that runs multiple requests against the Drive API. The
  * requests this sample makes are:
@@ -64,6 +67,8 @@ import java.util.Collections;
  * </ul>
  */
 public class GoogleDrive implements Cloud {
+	private final static Logger logger = LogManager
+			.getLogger(GoogleDrive.class.getName());
 
 	/**
 	 * Be sure to specify the name of your application. If the application name
@@ -126,8 +131,7 @@ public class GoogleDrive implements Cloud {
 		if (clientSecrets.getDetails().getClientId().startsWith("Enter")
 				|| clientSecrets.getDetails().getClientSecret()
 						.startsWith("Enter ")) {
-			System.out
-					.println("Enter Client ID and Secret from https://code.google.com/apis/console/?api=drive "
+			logger.info("Enter Client ID and Secret from https://code.google.com/apis/console/?api=drive "
 							+ "into src/lib/client_secrets.json");
 			System.exit(1);
 		}

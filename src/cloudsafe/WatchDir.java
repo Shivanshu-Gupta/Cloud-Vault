@@ -40,6 +40,9 @@ import java.nio.file.attribute.*;
 import java.io.*;
 import java.util.*;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import cloudsafe.util.Pair;
 
 /**
@@ -47,6 +50,9 @@ import cloudsafe.util.Pair;
  */
 
 public class WatchDir {
+	
+	private final static Logger logger = LogManager
+			.getLogger(WatchDir.class.getName());
 
 	private final WatchService watcher;
 	private VaultClientDesktop client;
@@ -82,10 +88,11 @@ public class WatchDir {
 		if (trace) {
 			Path prev = keys.get(key);
 			if (prev == null) {
-				System.out.format("register: %s\n", dir);
+				logger.info("register: %s\n" +  dir);
 			} else {
 				if (!dir.equals(prev)) {
-					System.out.format("update: %s -> %s\n", prev, dir);
+					logger.info("update: " + prev + " -> " + dir + "\n", prev, dir);
+//					System.out.format("update: %s -> %s\n", prev, dir);
 					deleteAllFiles(prev, dir);
 				}
 			}
@@ -120,9 +127,9 @@ public class WatchDir {
 		this.recursive = recursive;
 
 		if (recursive) {
-			System.out.format("Scanning %s ...\n", dir);
+			logger.info("Scanning " + dir + " ...\n");
 			registerAll(dir);
-			System.out.println("Done.");
+			logger.info("Done.");
 		} else {
 			register(dir);
 		}
@@ -172,7 +179,7 @@ public class WatchDir {
 			Path dir = keys.get(key);
 			// System.out.println("key : " + key.toString());
 			if (dir == null) {
-				System.err.println("WatchKey not recognized!!");
+				logger.error("WatchKey not recognized!!");
 				continue;
 			}
 			int counter = 0;
@@ -189,8 +196,7 @@ public class WatchDir {
 				Path name = ev.context();
 				Path child = dir.resolve(name);
 
-				System.out.format("..........%s: %s\n", event.kind().name(),
-						child);
+				logger.info(event.kind().name() + ": " + child + "\n");
 
 				// if directory is created, and watching recursively, then
 				// register it and its sub-directories
@@ -211,8 +217,7 @@ public class WatchDir {
 				} else if (kind == ENTRY_CREATE || kind == ENTRY_MODIFY) {
 					if (Files.exists(child, NOFOLLOW_LINKS)) {
 						if (uploadQueue.contains(AbsoluteFilePath)) {
-							System.out
-									.println("UPLOADQUEUE - File Already Present : "
+							logger.info("UPLOADQUEUE - File Already Present : "
 											+ AbsoluteFilePath);
 						} else {
 							uploadQueue.add(AbsoluteFilePath);
@@ -230,14 +235,14 @@ public class WatchDir {
 				{
 
 					if (uploadQueue.remove(AbsoluteFilePath)) {
-						System.out.println("UPLOADQUEUE - File Removed : "
+						logger.info("UPLOADQUEUE - File Removed : "
 								+ AbsoluteFilePath);
 					} else {
 						if (!deleteQueue.contains(AbsoluteFilePath))
 							deleteQueue.add(AbsoluteFilePath);
 					}
 				}
-				System.out.println("Upload Size : " + uploadQueue.size()
+				logger.info("Upload Size : " + uploadQueue.size()
 						+ "\tDelete Size : " + deleteQueue.size());
 			}
 			// System.out.println("pollevents loop exited, count : " + counter);
@@ -255,7 +260,7 @@ public class WatchDir {
 	}
 
 	static void usage() {
-		System.err.println("usage: java WatchDir [-r] dir");
+		logger.error("usage: java WatchDir [-r] dir");
 		System.exit(-1);
 	}
 
@@ -278,7 +283,7 @@ public class WatchDir {
 					return FileVisitResult.CONTINUE;
 				}
 				uploadQueue.add(file.toAbsolutePath().toString());
-				System.out.println("file added inside walk tree");
+				logger.trace("file added inside walk tree");
 				return FileVisitResult.CONTINUE;
 			}
 
@@ -302,13 +307,13 @@ public class WatchDir {
 				// currentDir.getNameCount()).resolve(prevDir);
 
 				String prevpath = prevParentpath.toString();
-				System.out.println("Current path : " + currentParentpath);
-				System.out.println("common path : " + commonpath);
-				System.out.println("Previous path : " + prevParentpath);
+				logger.info("Current path : " + currentParentpath);
+				logger.info("common path : " + commonpath);
+				logger.info("Previous path : " + prevParentpath);
 				uploadQueue.remove(prevpath);
 				if (!deleteQueue.contains(prevpath))
 					deleteQueue.add(prevpath);
-				System.out.println("dir deleted inside walk tree");
+				logger.trace("dir deleted inside walk tree");
 				return FileVisitResult.CONTINUE;
 			}
 
@@ -330,13 +335,13 @@ public class WatchDir {
 
 				String prevpath = prevParentpath.toString() + "\\"
 						+ file.getFileName().toString();
-				System.out.println("Current path : " + currentParentpath);
-				System.out.println("common path : " + commonpath);
-				System.out.println("Previous path : " + prevParentpath);
+				logger.info("Current path : " + currentParentpath);
+				logger.info("common path : " + commonpath);
+				logger.info("Previous path : " + prevParentpath);
 				uploadQueue.remove(prevpath);
 				if (!deleteQueue.contains(prevpath))
 					deleteQueue.add(prevpath);
-				System.out.println("file deleted inside walk tree");
+				logger.trace("file deleted inside walk tree");
 				return FileVisitResult.CONTINUE;
 			}
 
@@ -344,7 +349,7 @@ public class WatchDir {
 	}
 
 	void executeUpdate() {
-		System.out.println("ExecuteUpdate Called");
+		logger.trace("ExecuteUpdate Called");
 		while (!uploadQueue.isEmpty()) {
 			String filepath = uploadQueue.get(0);
 			uploadQueue.remove(0);
@@ -354,7 +359,7 @@ public class WatchDir {
 			}
 			else
 			{
-				System.out.println("Executing UPLOAD QUEUE : " + filepath);
+				logger.info("Executing UPLOAD QUEUE : " + filepath);
 				try {
 					client.upload(filepath);
 				} catch (NoSuchFileException e) {
@@ -372,7 +377,7 @@ public class WatchDir {
 			}
 			else
 			{
-				System.out.println("Executing DELETE QUEUE : " + filepath);
+				logger.info("Executing DELETE QUEUE : " + filepath);
 				try {
 					client.delete(filepath);
 				} catch (FileNotFoundException e) {
@@ -386,7 +391,7 @@ public class WatchDir {
 	void executeSync() {
 		downloadsSyncList.clear();  //Not Required Actually
 		deleteSyncList.clear();		//Not Required Actually
-		System.out.println("ExecuteSync Called");
+		logger.trace("ExecuteSync Called");
 		try{
 			Pair<ArrayList<String>, ArrayList<String>> pairOfList = client.sync();
 			if(pairOfList == null)

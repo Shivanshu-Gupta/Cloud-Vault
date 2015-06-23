@@ -13,9 +13,13 @@ import java.util.List;
 import java.util.Locale;
 
 
+
 //import javax.servlet.http.HttpServletRequest;
 //import javax.servlet.http.HttpServletRequestWrapper;
 import javax.swing.JOptionPane;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import cloudsafe.cloud.Cloud;
 import cloudsafe.cloud.WriteMode;
@@ -24,6 +28,8 @@ import cloudsafe.exceptions.AuthenticationException;
 ;
 public class Dropbox implements Cloud {
 
+	private final static Logger logger = LogManager
+			.getLogger(Dropbox.class.getName());
 	private final String APP_KEY = "jahcg9ypjnokceh";
 	private final String APP_SECRET = "7tgx90ejlj65v12";
 
@@ -48,7 +54,7 @@ public class Dropbox implements Cloud {
 				try {
 					Desktop.getDesktop().browse(new URI(authorizeUrl));
 				} catch (URISyntaxException e) {
-					System.out.println("Excpetion: " + e);
+					logger.info("Excpetion: " + e);
 					e.printStackTrace();
 				}
 			} else {
@@ -70,17 +76,17 @@ public class Dropbox implements Cloud {
 			accessToken = authFinish.accessToken;
 			client = new DbxClient(config, accessToken);
 
-			System.out.println("Linked account: "
+			logger.info("Linked account: "
 					+ client.getAccountInfo().displayName);
 		} catch (DbxException.NetworkIO | DbxException.ServerError
 				| DbxException.ProtocolError dbe) {
-			System.out.println("Exception: " + dbe);
+			logger.info("Exception: " + dbe);
 			available = false;
 		} catch (DbxException dbe) {
-			System.out.println("DbxException: " + dbe);
+			logger.info("DbxException: " + dbe);
 			dbe.printStackTrace();
 		} catch (IOException x) {
-			System.out.println("IOException: " + x);
+			logger.info("IOException: " + x);
 			x.printStackTrace();
 		}
 	}
@@ -97,13 +103,13 @@ public class Dropbox implements Cloud {
 
 			client = new DbxClient(config, accessToken);
 
-			System.out.println("Linked account: "
+			logger.info("Linked account: "
 					+ client.getAccountInfo().displayName);
 		} catch (DbxException.NetworkIO | DbxException.ServerError
 				| DbxException.ProtocolError | DbxException.InvalidAccessToken dbe) {
 			available = false;
 		} catch (DbxException dbe) {
-			System.out.println("DbxException: " + dbe);
+			logger.info("DbxException: " + dbe);
 			dbe.printStackTrace();
 		}
 	}
@@ -133,7 +139,7 @@ public class Dropbox implements Cloud {
 				| DbxException.ProtocolError dbe) {
 			available = false;
 		} catch (DbxException dbe) {
-			System.out.println("DbxException: " + dbe);
+			logger.info("DbxException: " + dbe);
 			dbe.printStackTrace();
 		} finally {
 			inputStream.close();
@@ -158,7 +164,7 @@ public class Dropbox implements Cloud {
 				| DbxException.ProtocolError dbe) {
 			available = false;
 		} catch (DbxException dbe) {
-			System.out.println("DbxException: " + dbe);
+			logger.info("DbxException: " + dbe);
 			dbe.printStackTrace();
 		} finally {
 			inputStream.close();
@@ -174,7 +180,7 @@ public class Dropbox implements Cloud {
 				| DbxException.ProtocolError dbe) {
 			available = false;
 		} catch (DbxException dbe) {
-			System.out.println("DbxException: " + dbe);
+			logger.info("DbxException: " + dbe);
 			dbe.printStackTrace();
 		} finally {
 			outputStream.close();
@@ -191,7 +197,7 @@ public class Dropbox implements Cloud {
 				| DbxException.ProtocolError dbe) {
 			available = false;
 		} catch (DbxException dbe) {
-			System.out.println("DbxException: " + dbe);
+			logger.info("DbxException: " + dbe);
 			dbe.printStackTrace();
 		} finally {
 			outputStream.close();
@@ -211,7 +217,7 @@ public class Dropbox implements Cloud {
 				| DbxException.ProtocolError dbe) {
 			available = false;
 		} catch (DbxException dbe) {
-			System.out.println("DbxException: " + dbe);
+			logger.info("DbxException: " + dbe);
 			dbe.printStackTrace();
 		}
 		return false;
@@ -225,7 +231,7 @@ public class Dropbox implements Cloud {
 				| DbxException.ProtocolError dbe) {
 			available = false;
 		} catch (DbxException dbe) {
-			System.out.println("DbxException: " + dbe);
+			logger.info("DbxException: " + dbe);
 			dbe.printStackTrace();
 		}
 	}

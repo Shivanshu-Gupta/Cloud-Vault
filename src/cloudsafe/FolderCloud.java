@@ -13,6 +13,10 @@ import java.nio.file.Files;
 import javax.swing.JFileChooser;
 
 
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import cloudsafe.cloud.Cloud;
 import cloudsafe.cloud.WriteMode;
 
@@ -20,6 +24,8 @@ import cloudsafe.cloud.WriteMode;
 
 public final class FolderCloud implements Cloud{
 
+	private final static Logger logger = LogManager
+			.getLogger(FolderCloud.class.getName());
 	Path cloudPath;
 
 	public FolderCloud(String cloudPath)
@@ -73,7 +79,7 @@ public final class FolderCloud implements Cloud{
 			Files.createDirectories(filePath.getParent());
 			Files.write(filePath, data, CREATE, WRITE, TRUNCATE_EXISTING);
 		} catch (IOException x) {
-		    System.err.format("IOException in uploadFile: %s%n", x);
+		    logger.error("IOException in uploadFile: %s%n", x);
 		}
 	}
 
@@ -86,7 +92,7 @@ public final class FolderCloud implements Cloud{
 			Files.createDirectories(filePath.getParent());
 			Files.write(filePath, data, CREATE, WRITE, TRUNCATE_EXISTING);
 		} catch (IOException x) {
-		    System.err.format("IOException in uploadFile: %s%n", x);
+		    logger.error("IOException in uploadFile: %s%n", x);
 		}
 	}
 	
@@ -98,7 +104,7 @@ public final class FolderCloud implements Cloud{
 			Path filePath = Paths.get(cloudPath.toString() + "/" + fileID);
 			data = Files.readAllBytes(filePath);
 		} catch (IOException x) {
-		    System.err.format("IOException: %s%n", x);
+		    logger.error("IOException: %s%n", x);
 		}
 		return data;
 	}
@@ -112,7 +118,7 @@ public final class FolderCloud implements Cloud{
 			data = Files.readAllBytes(filePath);
 			Files.write(Paths.get(path), data, CREATE, TRUNCATE_EXISTING);
 		} catch (IOException x) {
-		    System.err.format("IOException: %s%n", x);
+		    logger.error("IOException: %s%n", x);
 		}
 	}
 

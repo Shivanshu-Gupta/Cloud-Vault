@@ -1,9 +1,12 @@
 package cloudsafe;
 
+import java.io.File;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.Files;
 import java.util.ArrayList;
+
+import javax.swing.JFileChooser;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -45,17 +48,22 @@ public class MainDesktop {
 
 	public void run() {
 		try {
+			String devicePath = getDevicePath();
+			vaultPath = devicePath + "/Cloud Vault";
+			configPath = devicePath + "/config";
+			logger.info("vaultPath: " + vaultPath);
+			logger.info("configPath: " + configPath);
 			if (!Files.exists(Paths.get(vaultPath))) {
-				System.out
-						.println("It seems this is the first time you are using Cloud Vault on this device.");
-				System.out
-						.println("We will now setup access to your Cloud Vault.");
+				Setup cloudVaultSetup = new Setup(vaultPath, configPath);
+				cloudVaultSetup.configureCloudAccess();
+			}
+			if (!Files.exists(Paths.get(vaultPath))) {
 				logger.entry("New Setup");
 				Setup cloudVaultSetup = new Setup(vaultPath, configPath);
 				cloudVaultSetup.configureCloudAccess();
 				logger.exit("Setup complete!");
 			}
-			client = new VaultClientDesktop(vaultPath);
+			client = new VaultClientDesktop(vaultPath, configPath);
 
 			
 			//--------My work starts here--------------
@@ -71,5 +79,22 @@ public class MainDesktop {
 			System.out.println(e);
 			e.printStackTrace();
 		}
+	}
+	
+	// temporary for testing syncing
+	private String getDevicePath() {
+		File yourFolder = null;
+		JFileChooser fc = new JFileChooser();
+		fc.setCurrentDirectory(new java.io.File(".")); // start at application
+														// current directory
+		fc.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+		int returnVal = fc.showSaveDialog(fc);
+		if (returnVal == JFileChooser.APPROVE_OPTION) {
+			yourFolder = fc.getSelectedFile();
+		}
+		String devicePath = Paths.get(yourFolder.getPath()).toAbsolutePath()
+				.toString();
+		logger.info("devicePath: " + devicePath);
+		return devicePath;
 	}
 }

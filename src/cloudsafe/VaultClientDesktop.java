@@ -69,18 +69,14 @@ public class VaultClientDesktop {
 	String currentFile = "";
 
 	@SuppressWarnings("unchecked")
-	public VaultClientDesktop(String vaultPath) {
+	public VaultClientDesktop(String vaultPath, String configPath) {
 		logger.entry("Setting up VaultClient");
-		// this.vaultPath = Paths.get(vaultPath).toAbsolutePath().toString();
-		// System.out.println("vaultPath: " + vaultPath);
-		// this.configPath = "trials/config";
-		// this.cloudConfigPath = vaultPath;
-		// System.out.println("cloudConfigPath: " + cloudConfigPath);
-		// this.cloudMetadataPath = configPath + "/cloudmetadata.ser";
-		// this.databasePath = cloudConfigPath + "/table.ser";
-		// System.out.println("sizePath: " + databaseMetaPath);
-		// this.databaseMetaPath = cloudConfigPath + "/tablemeta.txt";
-		// System.out.println("sizePath: " + databaseMetaPath);
+		this.vaultPath = vaultPath;
+		this.configPath = configPath;
+		this.databasePath = configPath + "/table.ser";
+		this.databaseMetaPath = configPath + "/tablemeta.txt";
+		logger.info("databasePath: " + databasePath);
+		logger.info("databaseMetaPath: " + databaseMetaPath);
 		proxy = getProxy();
 		try {
 			int index = 1;
@@ -136,8 +132,20 @@ public class VaultClientDesktop {
 			createNewTable();
 		else {
 			if(Files.exists(Paths.get(databasePath))) {
+				logger.info("Found a local copy of the database");
 				table = new Table(databasePath);
+				try(DataInputStream in = new DataInputStream(new FileInputStream(
+						databaseMetaPath))) {
+					databaseHash = in.readInt();
+					databaseSize = in.readLong();
+				} catch (FileNotFoundException e) {
+					logger.error("tablemeta.txt not found" + e);
+				} catch (IOException e) {
+					logger.error("tablemeta.txt could not be loaded " + e);
+					e.printStackTrace();
+				}
 			} else {
+				logger.info("Could not find a local copy of the database. Setting up a new detabase");
 				table = new Table();
 			}
 			downloadTable();
@@ -621,6 +629,8 @@ public class VaultClientDesktop {
 		logger.trace("Syncing with new table");
 		Object[] localFiles = table.getFileList();
 		Object[] filesInVault = newTable.getFileList();
+		logger.info("no of table entries locally: " + localFiles.length);
+		logger.info("no of table entries on cloud: " + filesInVault.length);
 		ArrayList<String> downloads = new ArrayList<String>();
 		ArrayList<String> deletes = new ArrayList<String>();
 		for (Object file : filesInVault) {

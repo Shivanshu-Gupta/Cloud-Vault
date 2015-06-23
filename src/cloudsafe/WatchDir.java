@@ -40,6 +40,8 @@ import java.nio.file.attribute.*;
 import java.io.*;
 import java.util.*;
 
+import cloudsafe.util.Pair;
+
 /**
  * Example to watch a directory (or tree) for changes to files.
  */
@@ -61,6 +63,10 @@ public class WatchDir {
 
 	ArrayList<String> uploadQueue = new ArrayList<String>();
 	ArrayList<String> deleteQueue = new ArrayList<String>();
+	
+
+	ArrayList <String> downloadsSyncList = new ArrayList <String>();
+	ArrayList <String> deleteSyncList = new ArrayList <String>();	// No need to use it??
 
 	@SuppressWarnings("unchecked")
 	static <T> WatchEvent<T> cast(WatchEvent<?> event) {
@@ -131,10 +137,18 @@ public class WatchDir {
 	 * @throws Exception
 	 */
 
+	private int updateCounter = 0;
+	
 	void processEvents() {
 		class Execution extends TimerTask {
 			public void run() {
-				executeUpdate();
+				if(updateCounter <= 8){
+					executeUpdate();
+				}
+				else{
+					executeSync();
+				}
+				updateCounter = (updateCounter + 1) % 10;
 			}
 		}
 
@@ -330,27 +344,62 @@ public class WatchDir {
 	}
 
 	void executeUpdate() {
+		System.out.println("ExecuteUpdate Called");
 		while (!uploadQueue.isEmpty()) {
 			String filepath = uploadQueue.get(0);
 			uploadQueue.remove(0);
-			System.out.println("Executing UPLOAD QUEUE : " + filepath);
-			try {
-				client.upload(filepath);
-			} catch (NoSuchFileException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+			if(downloadsSyncList.contains(filepath))
+			{
+				downloadsSyncList.remove(filepath);
+			}
+			else
+			{
+				System.out.println("Executing UPLOAD QUEUE : " + filepath);
+				try {
+					client.upload(filepath);
+				} catch (NoSuchFileException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}			
 			}
 		}
 		while (!deleteQueue.isEmpty()) {
 			String filepath = deleteQueue.get(0);
 			deleteQueue.remove(0);
-			System.out.println("Executing DELETE QUEUE : " + filepath);
-			try {
-				client.delete(filepath);
-			} catch (FileNotFoundException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+			if(deleteSyncList.contains(filepath))
+			{
+				deleteSyncList.remove(filepath);
+			}
+			else
+			{
+				System.out.println("Executing DELETE QUEUE : " + filepath);
+				try {
+					client.delete(filepath);
+				} catch (FileNotFoundException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}			
 			}
 		}
+	}
+	
+	void executeSync() {
+		downloadsSyncList.clear();  //Not Required Actually
+		deleteSyncList.clear();		//Not Required Actually
+		System.out.println("ExecuteSync Called");
+		try{
+			Pair<ArrayList<String>, ArrayList<String>> pairOfList = client.sync();
+			if(pairOfList == null)
+			{
+				return;
+			}
+			downloadsSyncList = pairOfList.first;
+			deleteSyncList = pairOfList.second;
+		}
+		catch (NullPointerException e){
+			e.printStackTrace();
+			return;
+		}
+
 	}
 }

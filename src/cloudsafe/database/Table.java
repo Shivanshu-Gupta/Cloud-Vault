@@ -18,8 +18,8 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class Table {
-	private static HashMap<String, Pair<FileMetadata, Boolean>> table;
-	static long initialPosition;
+	private HashMap<String, Pair<FileMetadata, Boolean>> table;
+	long initialPosition;
 
 	public Table() {
 		table = new HashMap<String, Pair<FileMetadata, Boolean>>();

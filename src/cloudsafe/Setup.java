@@ -23,6 +23,8 @@ import javax.swing.JOptionPane;
 
 import org.apache.commons.io.input.CloseShieldInputStream;
 import org.apache.commons.lang3.ArrayUtils;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import com.box.boxjavalibv2.exceptions.AuthFatalFailureException;
 import com.box.boxjavalibv2.exceptions.BoxServerException;
@@ -33,31 +35,35 @@ import cloudsafe.exceptions.AuthenticationException;
 import cloudsafe.util.Pair;
 
 public class Setup {
-	String[] possibleValues = { "DropBox", "GoogleDrive", "OneDrive", "Box", "FolderCloud" };
+	private final static Logger logger = LogManager.getLogger(Setup.class
+			.getName());
+
+	String[] possibleValues = { "DropBox", "GoogleDrive", "OneDrive", "Box",
+			"FolderCloud" };
 	int cloudcounter = 0;
 	String vaultPath = "trials/Cloud Vault";
 	int userIndex = 1;
 	String configPath = "trials/config";
 	String cloudMetadataPath = configPath + "/cloudmetadata.ser";
 	ArrayList<Pair<String, String>> cloudMetaData = new ArrayList<Pair<String, String>>();
-	
 
 	public Setup(String vaultPath, String configPath) {
 		this.vaultPath = vaultPath;
 		this.configPath = configPath;
 		this.cloudMetadataPath = configPath + "/cloudmetadata.ser";
-		//create the directory to store configuration data
+		// create the directory to store configuration data
 		try {
 			Files.createDirectories(Paths.get(configPath));
 		} catch (IOException e1) {
 			e1.printStackTrace();
 		}
 		ProxyConfig proxySettings = new ProxyConfig(configPath);
-		JDialog settings = new JDialog(null, "Proxy Settings", Dialog.ModalityType.APPLICATION_MODAL);
+		JDialog settings = new JDialog(null, "Proxy Settings",
+				Dialog.ModalityType.APPLICATION_MODAL);
 		settings.add(proxySettings);
-        settings.pack();
+		settings.pack();
 		settings.setVisible(true);
-	};	
+	};
 
 	private Proxy getProxy() {
 		Proxy proxy = Proxy.NO_PROXY;
@@ -95,94 +101,142 @@ public class Setup {
 
 	String static_message = "Choose Your Cloud\n";
 	String dynamic_message = "Cloud 1 : ";
+
 	private void addCloud() {
-		String info_message = "You have added " + (cloudcounter - 1) + " clouds\n";
+		String info_message = "You have added " + (cloudcounter - 1)
+				+ " clouds\n";
 		Proxy proxy = getProxy();
-		Scanner in = new Scanner(new CloseShieldInputStream(System.in));
-		int choice = 0;		
+		// Scanner in = new Scanner(new CloseShieldInputStream(System.in));
+
 		String code;
-		code = (String) JOptionPane.showInputDialog(null,
-				 info_message + dynamic_message + static_message, "Cloud " + cloudcounter,
-				JOptionPane.INFORMATION_MESSAGE, null,
-				possibleValues, possibleValues[0]);
+
+		while (true) {
+			code = (String) JOptionPane.showInputDialog(null, info_message
+					+ dynamic_message + static_message,
+					"Cloud " + cloudcounter, JOptionPane.INFORMATION_MESSAGE,
+					null, possibleValues, possibleValues[0]);
+
+			if (code == null) {
+				int n = JOptionPane.showConfirmDialog(null,
+						"Do you really want to exit?", "Exit",
+						JOptionPane.YES_NO_OPTION,
+						JOptionPane.QUESTION_MESSAGE, null);
+				if (n == JOptionPane.YES_OPTION) {
+					UndoSetup undoSetup = new UndoSetup();
+					undoSetup.delete(vaultPath, true);
+					undoSetup.delete(configPath, true);
+					System.exit(0);
+				} else {
+					continue;
+				}
+			} else {
+				break;
+			}
+		}
 		code.trim();
-		while (!code.equals("DropBox") && !code.equals("GoogleDrive") && !code.equals("OneDrive")
-				&& !code.equals("Box") && !code.equals("FolderCloud"))
-		{
+		while (!code.equals("DropBox") && !code.equals("GoogleDrive")
+				&& !code.equals("OneDrive") && !code.equals("Box")
+				&& !code.equals("FolderCloud")) {
 			code = (String) JOptionPane.showInputDialog(null,
-			"Choose Your Cloud", "Cloud " + cloudcounter,
-			JOptionPane.INFORMATION_MESSAGE, null,
-			possibleValues, possibleValues[0]);
+					"Choose Your Cloud", "Cloud " + cloudcounter,
+					JOptionPane.INFORMATION_MESSAGE, null, possibleValues,
+					possibleValues[0]);
 			code.trim();
 		}
-		//Deciding value of choice
-		if(code.equals("DropBox")){
-			choice = 1;
-//			possibleValues = ArrayUtils.removeElement(possibleValues, "DropBox");
-			updateDynamicMessage(cloudcounter,"DropBox");
-		}
-		else if(code.equals("GoogleDrive")){
-			choice = 2;
-//			possibleValues = ArrayUtils.removeElement(possibleValues, "GoogleDrive");
-			updateDynamicMessage(cloudcounter,"GoogleDrive");
-		}
-		else if(code.equals("OneDrive")){
-			choice = 3;
-			possibleValues = ArrayUtils.removeElement(possibleValues, "OneDrive");
-			updateDynamicMessage(cloudcounter,"OneDrive");
-		}
-		else if(code.equals("Box")){
-			choice = 4;
-			possibleValues = ArrayUtils.removeElement(possibleValues, "Box");
-			updateDynamicMessage(cloudcounter,"Box");
-		}
-		else if(code.equals("FolderCloud")){
-			choice = 5;
-			updateDynamicMessage(cloudcounter,"FolderCloud");
-		}
-
-//		choice = Integer.parseInt(code);
+		// Deciding value of choice
+//		int choice = 0;
+//		if (code.equals("DropBox")) {
+//			choice = 1;
+//		} else if (code.equals("GoogleDrive")) {
+//			choice = 2;
+//		} else if (code.equals("OneDrive")) {
+//			choice = 3;
+//		} else if (code.equals("Box")) {
+//			choice = 4;
+//		} else if (code.equals("FolderCloud")) {
+//			choice = 5;
+//		}
 		Cloud cloud;
 		String meta;
-		try {
-			switch (choice) {
-			case 1:
+		switch (code) {
+		case "DropBox":
+			try {
 				cloud = new Dropbox(proxy);
 				meta = cloud.metadata();
 				cloudMetaData.add(Pair.of("dropbox", meta));
-				break;
-			case 2:
-				cloud = new GoogleDrive(proxy,userIndex++);
-				meta = cloud.metadata();
-				cloudMetaData.add(Pair.of("googledrive", meta));
-				break;
-			case 3:
+			} catch (AuthenticationException e) {
+				logger.error("AuthenticationException: " + e.getMessage());
+				JOptionPane.showMessageDialog(null,
+						"Authentication Interrupted : Dropbox");
+				addCloud();
+				return;
+			}
+			// possibleValues = ArrayUtils.removeElement(possibleValues,
+			// "DropBox");
+			updateDynamicMessage(cloudcounter, "DropBox");
+			break;
+		case "GoogleDrive":
+			cloud = new GoogleDrive(proxy, userIndex++);
+			meta = cloud.metadata();
+			cloudMetaData.add(Pair.of("googledrive", meta));
+			// possibleValues = ArrayUtils.removeElement(possibleValues,
+			// "GoogleDrive");
+			updateDynamicMessage(cloudcounter, "GoogleDrive");
+			break;
+		case "OneDrive":
+			try {
 				cloud = new FolderCloud();
 				meta = cloud.metadata();
 				cloudMetaData.add(Pair.of("folder", meta));
-				break;
-			case 4:
+			} catch (Exception e) {
+				e.printStackTrace();
+				JOptionPane.showMessageDialog(null,
+						"Authentication Interrupted : OneDrive");
+				addCloud();
+				return;
+			}
+			possibleValues = ArrayUtils.removeElement(possibleValues,
+					"OneDrive");
+			updateDynamicMessage(cloudcounter, "OneDrive");
+			break;
+		case "Box":
+			try {
 				cloud = new Box(proxy);
 				meta = cloud.metadata();
 				cloudMetaData.add(Pair.of("box", meta));
-				break;
-			case 5:
+			} catch (BoxRestException | BoxServerException
+					| AuthFatalFailureException e) {
+				e.printStackTrace();
+				JOptionPane.showMessageDialog(null,
+						"Authentication Interrupted : Box");
+				addCloud();
+				return;
+			}
+			possibleValues = ArrayUtils.removeElement(possibleValues, "Box");
+			updateDynamicMessage(cloudcounter, "Box");
+			break;
+		case "FolderCloud":
+			try {
 				cloud = new FolderCloud();
 				meta = cloud.metadata();
 				cloudMetaData.add(Pair.of("folder", meta));
-				break;
+			} catch (Exception e) {
+				e.printStackTrace();
+				JOptionPane.showMessageDialog(null,
+						"Authentication Interrupted : FolderCloud");
+				addCloud();
+				return;
 			}
-		} catch (AuthenticationException e) {
-			System.out.println("AuthenticationException: " + e.getMessage());
-		} catch (BoxRestException | BoxServerException
-				| AuthFatalFailureException e) {
-			e.printStackTrace();
+			updateDynamicMessage(cloudcounter, "FolderCloud");
+			break;
 		}
-		in.close();
 	}
-	
-	public void updateDynamicMessage(int index, String CloudName){
-		dynamic_message = dynamic_message + CloudName +"\nCloud " + (index+1) + " : ";
+
+	// in.close();
+
+	public void updateDynamicMessage(int index, String CloudName) {
+		dynamic_message = dynamic_message + CloudName + "\nCloud "
+				+ (index + 1) + " : ";
 	}
 
 	public void configureCloudAccess() {
@@ -193,25 +247,25 @@ public class Setup {
 				addCloud();
 			}
 			Object[] options = { "Yes", "No" };
-			  int choice = JOptionPane.showOptionDialog(null, 
-			      "Do You Want to Add more Clouds?", 
-			      "More Clouds?", 
-			      JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, 
-			      null, options, options[0]);
-			  
+			int choice = JOptionPane.showOptionDialog(null,
+					"Do You Want to Add more Clouds?", "More Clouds?",
+					JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE,
+					null, options, options[0]);
+
 			while ((choice == JOptionPane.YES_OPTION)) {
 				addCloud();
 				cloudcounter++;
-//				System.out.println("Add more Clouds (Yes/No)?");
-//				s = in.nextLine();
-				choice = JOptionPane.showOptionDialog(null, 
-				      "Do You Want to Add more Clouds?", 
-				      "More Clouds?", 
-				      JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, 
-				      null, options, options[0]);
+				// System.out.println("Add more Clouds (Yes/No)?");
+				// s = in.nextLine();
+				choice = JOptionPane
+						.showOptionDialog(null,
+								"Do You Want to Add more Clouds?",
+								"More Clouds?", JOptionPane.YES_NO_OPTION,
+								JOptionPane.QUESTION_MESSAGE, null, options,
+								options[0]);
 			}
 		} catch (Exception e) {
-			System.out.println("Exception: " + e);
+			logger.error("Exception: " + e);
 			e.printStackTrace();
 		}
 
@@ -222,7 +276,7 @@ public class Setup {
 			out.writeObject(cloudMetaData);
 			out.close();
 			fileOut.close();
-			System.out.println("Serialized data is saved in cloudmetadata.ser");
+			logger.info("Serialized data is saved in cloudmetadata.ser");
 			Files.createDirectories(Paths.get(vaultPath));
 		} catch (IOException i) {
 			i.printStackTrace();

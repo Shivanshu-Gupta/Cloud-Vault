@@ -14,11 +14,15 @@ import javax.swing.JFileChooser;
 
 
 
+
+
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import cloudsafe.cloud.Cloud;
 import cloudsafe.cloud.WriteMode;
+import cloudsafe.exceptions.AuthenticationException;
 
 // import net.fec.openrq.cloud.Cloud;
 
@@ -26,6 +30,7 @@ public final class FolderCloud implements Cloud{
 
 	private final static Logger logger = LogManager
 			.getLogger(FolderCloud.class.getName());
+	
 	Path cloudPath;
 
 	public FolderCloud(String cloudPath)
@@ -33,7 +38,7 @@ public final class FolderCloud implements Cloud{
 		this.cloudPath = Paths.get(cloudPath);
 	}
 	
-	public FolderCloud()
+	public FolderCloud() throws Exception
 	{
     	File yourFolder = null;
     	JFileChooser fc = new JFileChooser();
@@ -41,6 +46,10 @@ public final class FolderCloud implements Cloud{
     	fc.setDialogTitle("Locate Your Folder");	
     	fc.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
     	int returnVal = fc.showSaveDialog(fc);
+    	if(returnVal == JFileChooser.CANCEL_OPTION) {
+    		throw new AuthenticationException(
+					"User cancelled Authentication");
+    	}
     	if(returnVal == JFileChooser.APPROVE_OPTION) {
     	    yourFolder = fc.getSelectedFile();
     	}

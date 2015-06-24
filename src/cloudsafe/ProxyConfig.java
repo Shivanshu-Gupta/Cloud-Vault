@@ -9,10 +9,13 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.Properties;
 
 import javax.swing.ButtonGroup;
@@ -26,7 +29,7 @@ import javax.swing.JTextField;
 public class ProxyConfig extends JPanel implements ActionListener {
 	
 	private static final long serialVersionUID = 1L;
-	String vaultConfigPath = "trials/config";
+	String configPath = "trials/config";
 	private File configFile = null;
 	private Properties configProps;
 	
@@ -44,9 +47,9 @@ public class ProxyConfig extends JPanel implements ActionListener {
 	
 	private JButton buttonSave = new JButton("Save");
 	
-	public ProxyConfig(String vaultConfigPath) {
-		this.vaultConfigPath = vaultConfigPath;
-		configFile = new File(vaultConfigPath + "/config.properties");
+	public ProxyConfig(String configPath) {
+		this.configPath = configPath;
+		configFile = new File(configPath + "/config.properties");
 		
 		setLayout(new GridBagLayout());
 		GridBagConstraints constraints = new GridBagConstraints();
@@ -101,7 +104,7 @@ public class ProxyConfig extends JPanel implements ActionListener {
 		add(textPass, constraints);
 		
 		constraints.gridy = 6;
-		constraints.gridx = 0;
+		constraints.gridx = 1;
 		constraints.gridwidth = 2;
 		constraints.anchor = GridBagConstraints.CENTER;
 		add(buttonSave, constraints);
@@ -116,18 +119,16 @@ public class ProxyConfig extends JPanel implements ActionListener {
 					
 				} catch (IOException ex) {
 					JOptionPane.showMessageDialog(ProxyConfig.this, 
-							"Error saving properties file: " + ex.getMessage());		
+							"Error saving properties file: " + ex.getMessage(),
+							"Error",
+							JOptionPane.ERROR_MESSAGE);		
 				}
 			}
 		});
 		
 		setVisible(true);
 		
-		try {
-			loadProperties();
-		} catch (IOException ex) {
-//			JOptionPane.showMessageDialog(this, "The config.properties file does not exist, default properties loaded.");
-		}
+		loadProperties();
 		textHost.setText(configProps.getProperty("proxyhost"));
 		textPort.setText(configProps.getProperty("proxyport"));
 		textUser.setText(configProps.getProperty("proxyuser"));
@@ -143,61 +144,7 @@ public class ProxyConfig extends JPanel implements ActionListener {
         }
 	}
 	
-//	public ProxyConfig(Properties configProps) {
-//		setLayout(new GridBagLayout());
-//		GridBagConstraints constraints = new GridBagConstraints();
-//		constraints.gridx = 0;
-//		constraints.gridy = 0;
-//		constraints.insets = new Insets(10, 10, 5, 10);
-//		constraints.anchor = GridBagConstraints.WEST;
-//		
-//		add(labelHost, constraints);
-//		
-//		constraints.gridx = 1;
-//		add(textHost, constraints);
-//		
-//		constraints.gridy = 1;
-//		constraints.gridx = 0;
-//		add(labelPort, constraints);
-//		
-//		constraints.gridx = 1;
-//		add(textPort, constraints);
-//
-//		constraints.gridy = 2;
-//		constraints.gridx = 0;
-//		add(labelUser, constraints);
-//		
-//		constraints.gridx = 1;
-//		add(textUser, constraints);
-//
-//		constraints.gridy = 3;
-//		constraints.gridx = 0;
-//		add(labelPass, constraints);
-//		
-//		constraints.gridx = 1;
-//		add(textPass, constraints);
-//
-//		textHost.setText(configProps.getProperty("proxyhost"));
-//		textPort.setText(configProps.getProperty("proxyport"));
-//		textUser.setText(configProps.getProperty("proxyuser"));
-//		textPass.setText(configProps.getProperty("proxypass"));
-//	}
-	
-//	private void addItem(JPanel p, JComponent c, int x, int y, int width, int height, int align) {
-//	    GridBagConstraints gc = new GridBagConstraints();
-//	    gc.gridx = x;
-//	    gc.gridy = y;
-//	    gc.gridwidth = width;
-//	    gc.gridheight = height;
-//	    gc.weightx = 100.0;
-//	    gc.weighty = 100.0;
-//	    gc.insets = new Insets(5, 5, 5, 5);
-//	    gc.anchor = align;
-//	    gc.fill = GridBagConstraints.NONE;
-//	    p.add(c, gc);
-//	}
-//	
-	private void loadProperties() throws IOException {
+	private void loadProperties() {
 		Properties defaultProps = new Properties();
 		// sets default properties
 		defaultProps.setProperty("requireproxy", "no");
@@ -209,9 +156,27 @@ public class ProxyConfig extends JPanel implements ActionListener {
 		configProps = new Properties(defaultProps);
 		
 		// loads properties from file
-		InputStream inputStream = new FileInputStream(configFile);
-		configProps.load(inputStream);
-		inputStream.close();
+		try {
+			if(Files.exists(Paths.get(configFile.toString()))) {
+				InputStream inputStream = new FileInputStream(configFile);
+				configProps.load(inputStream);
+				inputStream.close();
+			}
+		} catch (FileNotFoundException e) {
+			JOptionPane.showMessageDialog(this, "<html>Error loading proxy configuration: "
+					+ "config file not found.<br>"
+					+ "Default properties loaded instead."
+					+ "</html>", "Error",
+					JOptionPane.ERROR_MESSAGE);
+			e.printStackTrace();
+		} catch (IOException e) {
+			JOptionPane.showMessageDialog(this, "<html>Error loading proxy configuration: "
+					+ "proxy settings could not be read.<br>"
+					+ "Default properties loaded instead."
+					+ "</html>", "Error",
+					JOptionPane.ERROR_MESSAGE);
+			e.printStackTrace();
+		}
 	}
 	
 	private void saveProperties() throws IOException {
@@ -220,12 +185,20 @@ public class ProxyConfig extends JPanel implements ActionListener {
 		configProps.setProperty("proxyport", textPort.getText());
 		configProps.setProperty("proxyuser", textUser.getText());
 		configProps.setProperty("proxypass", textPass.getText());
-		OutputStream outputStream = new FileOutputStream(configFile);
-		configProps.store(outputStream, "host setttings");
-		outputStream.close();
+		OutputStream outputStream;
+		try {
+			outputStream = new FileOutputStream(configFile);
+			configProps.store(outputStream, "host setttings");
+			outputStream.close();
+		} catch (FileNotFoundException e) {
+			JOptionPane.showMessageDialog(this, "<html>Error saving proxy configuration: "
+					+ "config file not found.<br>"
+					+ "</html>");
+			e.printStackTrace();
+		}
 	}
 	
-	public Properties getProperties() throws IOException {
+	public Properties getProperties(){
 		configProps.setProperty("proxyhost", textHost.getText());
 		configProps.setProperty("proxyport", textPort.getText());
 		configProps.setProperty("proxyuser", textUser.getText());

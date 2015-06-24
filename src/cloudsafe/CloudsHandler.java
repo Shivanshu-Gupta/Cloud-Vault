@@ -75,16 +75,47 @@ public class CloudsHandler {
 
 	public boolean acquireLock() {
 		boolean lockAcquired = true;
-		for (int i = 0; i < clouds.size(); i++) {
+		String lockFile = "tablelock";
+		int cloudID = 0;
+		ArrayList<Future<Void>> results = new ArrayList<Future<Void>>();
+		for (int i = 0; i < clouds.size(); i++, cloudID++) {
 			Cloud cloud = clouds.get(i);
 			if (cloud.isAvailable()) {
 				if (cloud.searchFile("tablelock")) {
 					logger.trace("Deleting in cloud " + i);
-					cloud.deleteFile("tablelock");
+//					cloud.deleteFile("tablelock");
+					Future<Void> future = executor.submit(new Deleter(i, lockFile));
+					results.add(future);
 				} else {
 					releaseLock();
 					lockAcquired = false;
+					break;
 				}
+			}
+		}
+		for (Future<Void> result : results) {
+			try {
+				result.get();
+			} catch (InterruptedException|ExecutionException e) {
+				e.printStackTrace();
+			}
+		}
+		if(!lockAcquired) {
+			byte[] lock = {};
+			for(int i=0; i<cloudID; i++){
+				Cloud cloud = clouds.get(i);
+				if (cloud.isAvailable()) {
+					logger.trace("Deleting in cloud " + i);
+					Future<Void> future = executor.submit(new Uploader(i, lock, lockFile, WriteMode.OVERWRITE));
+					results.add(future);
+				}
+			}
+		}
+		for (Future<Void> result : results) {
+			try {
+				result.get();
+			} catch (InterruptedException|ExecutionException e) {
+				e.printStackTrace();
 			}
 		}
 		return lockAcquired;
@@ -92,15 +123,26 @@ public class CloudsHandler {
 
 	public void releaseLock() {
 		byte[] lock = {};
+		String lockFile = "tablelock";
+		ArrayList<Future<Void>> results = new ArrayList<Future<Void>>();
 		for (int i = 0; i < clouds.size(); i++) {
 			Cloud cloud = clouds.get(i);
 			if (cloud.isAvailable()) {
-				try {
-					cloud.uploadFile(lock, "tablelock", WriteMode.OVERWRITE);
-				} catch (IOException e) {
-					// TODO handle this exception
-					logger.error("IOException: " + e);
-				}
+//				try {
+//					cloud.uploadFile(lock, "tablelock", WriteMode.OVERWRITE);
+//				} catch (IOException e) {
+//					// TODO handle this exception
+//					logger.error("IOException: " + e);
+//				}
+				Future<Void> future = executor.submit(new Uploader(i, lock, lockFile, WriteMode.OVERWRITE));
+				results.add(future);
+			}
+		}
+		for (Future<Void> result : results) {
+			try {
+				result.get();
+			} catch (InterruptedException|ExecutionException e) {
+				e.printStackTrace();
 			}
 		}
 	}

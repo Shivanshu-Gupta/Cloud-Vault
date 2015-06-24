@@ -1,6 +1,5 @@
 package cloudsafe;
 
-import java.awt.Dialog;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -18,19 +17,19 @@ import java.util.ArrayList;
 import java.util.Properties;
 import java.util.Scanner;
 
-import javax.swing.JDialog;
 import javax.swing.JOptionPane;
+import javax.swing.JTabbedPane;
 
 import org.apache.commons.io.input.CloseShieldInputStream;
 import org.apache.commons.lang3.ArrayUtils;
 
-import com.box.boxjavalibv2.exceptions.AuthFatalFailureException;
-import com.box.boxjavalibv2.exceptions.BoxServerException;
-import com.box.restclientv2.exceptions.BoxRestException;
-
 import cloudsafe.cloud.Cloud;
 import cloudsafe.exceptions.AuthenticationException;
 import cloudsafe.util.Pair;
+
+import com.box.boxjavalibv2.exceptions.AuthFatalFailureException;
+import com.box.boxjavalibv2.exceptions.BoxServerException;
+import com.box.restclientv2.exceptions.BoxRestException;
 
 public class Setup {
 	String[] possibleValues = { "DropBox", "GoogleDrive", "OneDrive", "Box", "FolderCloud" };
@@ -53,10 +52,9 @@ public class Setup {
 			e1.printStackTrace();
 		}
 		ProxyConfig proxySettings = new ProxyConfig(configPath);
-		JDialog settings = new JDialog(null, "Proxy Settings", Dialog.ModalityType.APPLICATION_MODAL);
-		settings.add(proxySettings);
-        settings.pack();
-		settings.setVisible(true);
+		JTabbedPane settings = new JTabbedPane();
+		settings.addTab("Proxy Settings", null, proxySettings, "Proxy Settings");
+		JOptionPane.showMessageDialog(null, settings, "Settings", JOptionPane.PLAIN_MESSAGE);
 	};	
 
 	private Proxy getProxy() {

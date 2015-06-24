@@ -33,9 +33,9 @@ import org.apache.http.conn.params.ConnRoutePNames;
 
 public class Box implements Cloud {
 
-	public static final int PORT = 4000;
-	public static final String key = "okg0mkf7xmbx371w0awevez9m7jxuhes";
-	public static final String secret = "trrTxLEN8x5ZtOZbg45pPZp4uFpBERbx";
+	private static final int PORT = 4000;
+	private static final String key = "okg0mkf7xmbx371w0awevez9m7jxuhes";
+	private static final String secret = "trrTxLEN8x5ZtOZbg45pPZp4uFpBERbx";
 	String code = null;
 	BoxClient client;
 	public String metadata = "";
@@ -352,10 +352,10 @@ public class Box implements Cloud {
 					code = code.substring(code.indexOf(match), httpstr);
 					String parts[] = code.split("=");
 					code = parts[1];
-					out.write("Now return to command line to Proceed.");
+					out.write("<html><h3>Now return to Cloud Vault Setup to Proceed</h3></html>.");
 				} else {
 					// It doesn't have a code
-					out.write("Code not found in the URL!");
+					out.write("<html><h3>Code not found in the URL</h3></html>!");
 				}
 
 				out.close();

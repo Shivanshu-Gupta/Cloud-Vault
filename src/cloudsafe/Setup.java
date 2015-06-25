@@ -36,6 +36,8 @@ import com.box.restclientv2.exceptions.BoxRestException;
 public class Setup {
 	private final static Logger logger = LogManager.getLogger(Setup.class
 			.getName());
+	
+	CloudConfig cloudSettings = new CloudConfig();
 
 	String[] possibleValues = { "DropBox", "GoogleDrive", "OneDrive", "Box",
 			"FolderCloud" };
@@ -59,6 +61,7 @@ public class Setup {
 		ProxyConfig proxySettings = new ProxyConfig(configPath);
 		JTabbedPane settings = new JTabbedPane();
 		settings.addTab("Proxy Settings", null, proxySettings, "Proxy Settings");
+		settings.addTab("Clouds", null, cloudSettings, "Clouds");
 		JOptionPane.showMessageDialog(null, settings, "Settings", JOptionPane.PLAIN_MESSAGE);
 	};	
 
@@ -234,6 +237,8 @@ public class Setup {
 	public void updateDynamicMessage(int index, String CloudName) {
 		dynamic_message = dynamic_message + CloudName + "\nCloud "
 				+ (index + 1) + " : ";
+		cloudSettings.addEntry(CloudName);
+		
 	}
 
 	public void configureCloudAccess() {

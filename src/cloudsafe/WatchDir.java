@@ -350,77 +350,57 @@ public class WatchDir {
 
 	void executeUpdate() {
 		logger.trace("ExecuteUpdate Called");
-//		while (!uploadQueue.isEmpty()) {
-//			String filepath = uploadQueue.get(0);
-//			uploadQueue.remove(0);
-//			if(downloadsSyncList.contains(filepath))
-//			{
-//				downloadsSyncList.remove(filepath);
-//			}
-//			else
-//			{
-//				logger.info("Executing UPLOAD QUEUE : " + filepath);
-//				try {
-//					client.upload(filepath);
-//				} catch (NoSuchFileException e) {
-//					// TODO Auto-generated catch block
-//					e.printStackTrace();
-//				}			
-//			}
-//		}
-		for(int i=0; i<uploadQueue.size(); i++) {
-			String filepath = uploadQueue.get(i);
+		ArrayList<String> uQueue = new ArrayList<String>();
+		while (!uploadQueue.isEmpty()) {
+			String filepath = uploadQueue.get(0);
+			uploadQueue.remove(0);
 			if(downloadsSyncList.contains(filepath))
 			{
 				downloadsSyncList.remove(filepath);
-				uploadQueue.remove(i);
+			}
+			else
+			{
+				logger.info("Executing UPLOAD QUEUE : " + filepath);
+				uQueue.add(filepath);			
 			}
 		}
+		
 		try {
-			if(!uploadQueue.isEmpty()){
-				client.upload(uploadQueue);
+			if(!uQueue.isEmpty()){
+				client.upload(uQueue);
 			}
 		} catch (LockNotAcquiredException e1) {
 			// TODO save this uploadQueue for next time of executeUpload is called 
 			e1.printStackTrace();
 		}	
-		uploadQueue.clear();
+		uQueue.clear();
 		
-//		while (!deleteQueue.isEmpty()) {
-//			String filepath = deleteQueue.get(0);
-//			deleteQueue.remove(0);
-//			if(deleteSyncList.contains(filepath))
-//			{
-//				deleteSyncList.remove(filepath);
-//			}
-//			else
-//			{
-//				logger.info("Executing DELETE QUEUE : " + filepath);
-//				try {
-//					client.delete(filepath);
-//				} catch (FileNotFoundException e) {
-//					// TODO Auto-generated catch block
-//					e.printStackTrace();
-//				}			
-//			}
-//		}
-		for(int i=0; i<deleteQueue.size(); i++) {
-			String filepath = deleteQueue.get(i);
+		
+		ArrayList<String> dQueue = new ArrayList<String>();
+		while (!deleteQueue.isEmpty()) {
+			String filepath = deleteQueue.get(0);
+			deleteQueue.remove(0);
 			if(deleteSyncList.contains(filepath))
 			{
 				deleteSyncList.remove(filepath);
-				deleteQueue.remove(i);
+			}
+			else
+			{
+				logger.info("Executing DELETE QUEUE : " + filepath);
+				dQueue.add(filepath);
+//				client.delete(filepath);			
 			}
 		}
+		
 		try {
-			if(!deleteQueue.isEmpty()) {
-				client.delete(deleteQueue);
+			if(!dQueue.isEmpty()) {
+				client.delete(dQueue);
 			}
 		} catch (LockNotAcquiredException e) {
 			// TODO save this uploadQueue for next time of executeUpload is called 
 			e.printStackTrace();
 		}	
-		uploadQueue.clear();
+		dQueue.clear();
 		
 	}
 	

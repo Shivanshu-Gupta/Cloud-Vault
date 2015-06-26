@@ -62,7 +62,6 @@ public class Main {
 				logger.exit("Setup complete!");
 			}
 			client = new VaultClientDesktop(vaultPath, configPath);
-
 			
 			//--------Watchdir starts here--------------
 	    	String targetdir = vaultPath;

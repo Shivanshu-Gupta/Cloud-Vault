@@ -1,9 +1,7 @@
 package cloudsafe.client;
 
 import java.io.FileNotFoundException;
-import java.util.Date;
 import java.util.concurrent.BlockingQueue;
-import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import org.apache.logging.log4j.LogManager;

@@ -22,9 +22,7 @@ public class Main {
 
 	VaultClientDesktop client;
 	static String vaultPath = "trials/Cloud Vault";
-
 	static String configPath = "trials/config";
-
 	String cloudMetadataPath = configPath + "/cloudmetadata.ser";
 
 	static ArrayList<Cloud> clouds = new ArrayList<Cloud>();
@@ -48,9 +46,11 @@ public class Main {
 
 	public void run() {
 		try {
-			String devicePath = getDevicePath();
-			vaultPath = devicePath + "/Cloud Vault";
-			configPath = devicePath + "/config";
+//			String devicePath = getDevicePath();
+//			vaultPath = devicePath + "/Cloud Vault";
+//			configPath = devicePath + "/config";
+			vaultPath = getDevicePath() + "/Cloud Vault";
+			configPath = "config";
 			logger.info("vaultPath: " + vaultPath);
 			logger.info("configPath: " + configPath);
 			if (!Files.exists(Paths.get(vaultPath))) {

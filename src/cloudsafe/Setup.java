@@ -37,8 +37,9 @@ public class Setup {
 	private final static Logger logger = LogManager.getLogger(Setup.class
 			.getName());
 	
-	CloudConfig cloudSettings = new CloudConfig();
-
+	
+	JTabbedPane settings = new JTabbedPane();
+	
 	String[] possibleValues = { "DropBox", "GoogleDrive", "OneDrive", "Box",
 			"FolderCloud" };
 	int cloudcounter = 0;
@@ -59,9 +60,7 @@ public class Setup {
 			e1.printStackTrace();
 		}
 		ProxyConfig proxySettings = new ProxyConfig(configPath);
-		JTabbedPane settings = new JTabbedPane();
 		settings.addTab("Proxy Settings", null, proxySettings, "Proxy Settings");
-		settings.addTab("Clouds", null, cloudSettings, "Clouds");
 		JOptionPane.showMessageDialog(null, settings, "Settings", JOptionPane.PLAIN_MESSAGE);
 	};	
 
@@ -102,7 +101,7 @@ public class Setup {
 	String static_message = "Choose Your Cloud\n";
 	String dynamic_message = "Cloud 1 : ";
 
-	private void addCloud() {
+	void addCloud() {
 		String info_message = "You have added " + (cloudcounter - 1)
 				+ " clouds\n";
 		Proxy proxy = getProxy();
@@ -144,18 +143,7 @@ public class Setup {
 			code.trim();
 		}
 		// Deciding value of choice
-//		int choice = 0;
-//		if (code.equals("DropBox")) {
-//			choice = 1;
-//		} else if (code.equals("GoogleDrive")) {
-//			choice = 2;
-//		} else if (code.equals("OneDrive")) {
-//			choice = 3;
-//		} else if (code.equals("Box")) {
-//			choice = 4;
-//		} else if (code.equals("FolderCloud")) {
-//			choice = 5;
-//		}
+
 		Cloud cloud;
 		String meta;
 		switch (code) {
@@ -237,10 +225,15 @@ public class Setup {
 	public void updateDynamicMessage(int index, String CloudName) {
 		dynamic_message = dynamic_message + CloudName + "\nCloud "
 				+ (index + 1) + " : ";
-		cloudSettings.addEntry(CloudName);
+//		cloudSettings.addEntry(CloudName);
 		
 	}
 
+	void deleteCloud(int index)
+	{
+		cloudMetaData.remove(index);
+	}
+	
 	public void configureCloudAccess() {
 
 		try (Scanner in = new Scanner(new CloseShieldInputStream(System.in))) {

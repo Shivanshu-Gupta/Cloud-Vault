@@ -347,10 +347,11 @@ public class WatchDir {
 
 		});
 	}
-
+	
+	ArrayList<String> uQueue = new ArrayList<String>();
 	void executeUpdate() {
 		logger.trace("ExecuteUpdate Called");
-		ArrayList<String> uQueue = new ArrayList<String>();
+		
 		while (!uploadQueue.isEmpty()) {
 			String filepath = uploadQueue.get(0);
 			uploadQueue.remove(0);
@@ -368,12 +369,13 @@ public class WatchDir {
 		try {
 			if(!uQueue.isEmpty()){
 				client.upload(uQueue);
+				uQueue.clear();
 			}
 		} catch (LockNotAcquiredException e1) {
 			// TODO save this uploadQueue for next time of executeUpload is called 
 			e1.printStackTrace();
 		}	
-		uQueue.clear();
+		
 		
 		
 		ArrayList<String> dQueue = new ArrayList<String>();

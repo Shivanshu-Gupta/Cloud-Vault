@@ -266,7 +266,7 @@ public class CloudsHandler {
 					cloud.downloadFile(path, fileID);
 					break;
 				} catch (IOException e) {
-					logger.error("IOException: " + e);
+					logger.error("Exception while downloading file from cloud. ", e);
 					// e.printStackTrace();
 				}
 			}

@@ -113,8 +113,7 @@ public class VaultClientDesktop {
 						break;
 					}
 				} catch (Exception e) {
-					logger.error("couldn't add cloud " + metadata.first
-							+ " error:" + e);
+					logger.error("couldn't add cloud " + metadata.first, e);
 				}
 			}
 			in.close();
@@ -122,8 +121,7 @@ public class VaultClientDesktop {
 			cloudsHandler = new CloudsHandler(clouds, configPath);
 			cloudNum = clouds.size();
 		} catch (IOException x) {
-			logger.error("IOException: " + x);
-			// x.printStackTrace();
+			logger.error("IOException while adding cloud " + x);
 		} catch (ClassNotFoundException cfe) {
 			cfe.printStackTrace();
 		}
@@ -140,9 +138,9 @@ public class VaultClientDesktop {
 					databaseHash = in.readInt();
 					databaseSize = in.readLong();
 				} catch (FileNotFoundException e) {
-					logger.error("tablemeta.txt not found" + e);
+					logger.error("tablemeta.txt not found", e);
 				} catch (IOException e) {
-					logger.error("tablemeta.txt could not be loaded " + e);
+					logger.error("tablemeta.txt could not be loaded ", e);
 					e.printStackTrace();
 				}
 			} else {
@@ -180,43 +178,37 @@ public class VaultClientDesktop {
 						port));
 			}
 		} catch (FileNotFoundException e) {
-			logger.error("Proxy Configuretion File Not Found");
+			logger.error("Proxy Configuration File Not Found", e);
 		} catch (IOException e) {
-			logger.error("IOException: " + e);
+			logger.error("Error while reading config.properties. ",  e);
 		}
 		logger.exit("proxy configured.");
 		return proxy;
 	}
 
 	private Pair<FECParameters, Integer> getParams(long fileSize) {
-		Pair<FECParameters, Integer> params = null;
-		try {
-			// epsilon
-			int overHead = 4;
-			int symSize = (int) Math.round(Math.sqrt((float) fileSize * 8
-					/ (float) overHead)); // symbol header length = 8, T =
-											// sqrt(D * delta / epsilon)
-			int blockCount = 1;
-			FECParameters fecParams = FECParameters.newParameters(fileSize,
-					symSize, blockCount);
+		// epsilon
+		int overHead = 4;
+		int symSize = (int) Math.round(Math.sqrt((float) fileSize * 8
+				/ (float) overHead)); // symbol header length = 8, T =
+										// sqrt(D * delta / epsilon)
+		int blockCount = 1;
+		FECParameters fecParams = FECParameters.newParameters(fileSize,
+				symSize, blockCount);
 
-			int k = (int) Math.ceil((float) fileSize / (float) symSize);
-			// System.out.println("k = " + k);
+		int k = (int) Math.ceil((float) fileSize / (float) symSize);
+		// System.out.println("k = " + k);
 
-			// double k_cloud = (int) Math.ceil( (float)k / (float)cloudNum );
-			// System.out.println("source symbols/packets per cloud = " +
-			// k_cloud);
-			float gamma = (float) cloudDanger / (float) cloudNum;
-			// System.out.println("Cloud Burst CoefficientL: " + gamma);
+		// double k_cloud = (int) Math.ceil( (float)k / (float)cloudNum );
+		// System.out.println("source symbols/packets per cloud = " +
+		// k_cloud);
+		float gamma = (float) cloudDanger / (float) cloudNum;
+		// System.out.println("Cloud Burst CoefficientL: " + gamma);
 
-			int r = (int) Math.ceil((gamma * k + overHead) / (1 - gamma));
-			// System.out.println("r = " + r);
+		int r = (int) Math.ceil((gamma * k + overHead) / (1 - gamma));
+		// System.out.println("r = " + r);
 
-			params = Pair.of(fecParams, r);
-		} catch (Exception x) {
-			logger.error("Exception: " + x);
-		}
-		return params;
+		return Pair.of(fecParams, r);
 	}
 
 	public void upload(ArrayList<String> localFilePaths)
@@ -224,7 +216,7 @@ public class VaultClientDesktop {
 		try {
 			acquireLock();
 		} catch (LockNotAcquiredException e) {
-			logger.error("Could Not acquire lock");
+			logger.warn("Could Not acquire lock");
 			throw e;
 		}
 		ArrayList<String> cloudFilePaths = new ArrayList<String>();
@@ -260,7 +252,7 @@ public class VaultClientDesktop {
 				cloudFilePaths.add(cloudFilePath);
 				fileSizes.add(fileSize);
 			} catch (Exception e) {
-				logger.error("Exception uploading " + localFilePath + ": " + e);
+				logger.error("Exception uploading " + localFilePath,  e);
 				localFilePaths.remove(i);
 			}
 		}
@@ -306,7 +298,7 @@ public class VaultClientDesktop {
 			cloudsHandler.uploadFile(localFilePath, cloudFilePath,
 					WriteMode.OVERWRITE);
 		} catch (IOException e) {
-			logger.error("IOException: " + e);
+			logger.error("Exception while uploading tiny file " + cloudFilePath, e);
 		}
 	}
 
@@ -354,7 +346,7 @@ public class VaultClientDesktop {
 				blockID++;
 			}
 		} catch (Exception e) {
-			logger.error("Exception in upload: " + e);
+			logger.error("Exception in uploading File " + cloudFilePath, e);
 			// e.printStackTrace();
 		}
 		// logger.exit();
@@ -396,7 +388,7 @@ public class VaultClientDesktop {
 		try {
 			cloudsHandler.downloadFile(writePath, cloudFileName);
 		} catch (IOException e) {
-			logger.error("IOException: " + e);
+			logger.error("error while downloading tiny file to" + writePath,  e);
 			// e.printStackTrace();
 		}
 	}
@@ -449,7 +441,7 @@ public class VaultClientDesktop {
 			Path pathNew = Paths.get(writePath);
 			Files.write(pathNew, dataNew);
 		} catch (Exception e) {
-			logger.error("Exception in download: " + e);
+			logger.error("Exception in downloading to " + writePath, e);
 			e.printStackTrace();
 		}
 		logger.exit("DownloadFile");
@@ -462,7 +454,7 @@ public class VaultClientDesktop {
 		try {
 			acquireLock();
 		} catch (LockNotAcquiredException e) {
-			logger.error("Could Not acquire lock");
+			logger.warn("Could Not acquire lock");
 			throw e;
 		}
 		// downloadTable();
@@ -561,7 +553,7 @@ public class VaultClientDesktop {
 			// upload(cloudDatabasePath);
 			uploadFile(databasePath, "table.ser");
 		} catch (Exception x) {
-			logger.error("Exception in creating new table: " + x);
+			logger.error("Error while creating new table.", x);
 		}
 		releaseLock();
 		logger.exit("createNewTable");
@@ -591,7 +583,7 @@ public class VaultClientDesktop {
 			uploadFile(databasePath, "table.ser");
 
 		} catch (IOException e) {
-			logger.error("Exception while uploading database" + e);
+			logger.error("Exception while uploading database.", e);
 		}
 		logger.exit("UploadTable");
 	}
@@ -618,7 +610,7 @@ public class VaultClientDesktop {
 				sync(newTable);
 			}
 		} catch (IOException e) {
-			logger.error("IOException: " + e);
+			logger.error("IOException while downloading table. ", e);
 		}
 		logger.exit("DownloadTable");
 	}
@@ -719,7 +711,7 @@ public class VaultClientDesktop {
 						}
 					}
 				} catch (IOException e) {
-					logger.error(e);
+					logger.error("sync -- unable to delete " + fileName, e);
 				}
 			}
 		}
@@ -750,7 +742,7 @@ public class VaultClientDesktop {
 				changes = sync(newTable);
 			}
 		} catch (IOException e) {
-			logger.error("IOException: " + e);
+			logger.error("sync error. " , e);
 		}
 		logger.trace("Sync done;");
 		return changes;

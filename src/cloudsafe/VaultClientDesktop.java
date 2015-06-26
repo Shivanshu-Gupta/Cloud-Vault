@@ -465,7 +465,7 @@ public class VaultClientDesktop {
 			logger.error("Could Not acquire lock");
 			throw e;
 		}
-		downloadTable();
+		// downloadTable();
 
 		ArrayList<String> cloudFilePaths = new ArrayList<String>();
 		ArrayList<Long> fileSizes = new ArrayList<Long>();
@@ -488,9 +488,15 @@ public class VaultClientDesktop {
 
 			logger.info("CloudFilePath : " + cloudFilePath.toString());
 			if (table.hasFile(cloudFilePath)) {
+				currentFiles.add(cloudFilePath);
+				cloudFilePath = (new PathManip(cloudFilePath)).toCloudFormat();
 				cloudFilePaths.add(cloudFilePath);
 				fileSizes.add(table.fileSize(cloudFilePath));
-				table.removeFile(cloudFilePath);
+
+				// cloudFilePaths.add(cloudFilePath);
+				// fileSizes.add(table.fileSize(cloudFilePath));
+				// currentFiles.add(cloudFilePath);
+				// table.removeFile(cloudFilePath);
 
 			} else {
 				logger.error("file" + cloudFilePath
@@ -499,7 +505,13 @@ public class VaultClientDesktop {
 			}
 		}
 
+		downloadTable();
+		for (int i = 0; i < currentFiles.size(); i++) {
+			table.removeFile(currentFiles.get(i));
+		}
+
 		uploadTable();
+		currentFiles.clear();
 		releaseLock();
 
 		for (int i = 0; i < cloudFilePaths.size(); i++) {
@@ -508,7 +520,8 @@ public class VaultClientDesktop {
 			if (fileSize < 0) {
 				// throw new FileNotFoundException();
 			} else if (fileSize > 50) {
-				cloudFilePath = (new PathManip(cloudFilePath)).toCloudFormat();
+				// cloudFilePath = (new
+				// PathManip(cloudFilePath)).toCloudFormat();
 				Pair<FECParameters, Integer> params = getParams(fileSize);
 				FECParameters fecParams = params.first;
 				int blockID = 0, blockCount = fecParams.numberOfSourceBlocks();
@@ -651,28 +664,60 @@ public class VaultClientDesktop {
 		ArrayList<String> downloads = new ArrayList<String>();
 		ArrayList<String> deletes = new ArrayList<String>();
 		for (Object file : filesInVault) {
-			if (!table.hasFile((String) file) && !currentFiles.contains(file)) {
-				logger.info("File in Cloud not present locally: "
-						+ (String) file);
-				Path filePath = Paths.get(vaultPath + "/" + (String) file);
-				downloads.add(filePath.toString());
-				table.addNewFile((String) file,
-						newTable.fileSize((String) file));
-				try {
-					download((String) file);
-				} catch (FileNotFoundException e) {
-					logger.error(e);
+			String fileName = (String) file;
+			if (!currentFiles.contains(fileName)) {
+				if (!table.hasFile(fileName)
+						|| (table.lastModified(fileName).before(newTable
+								.lastModified(fileName)))) {
+					logger.info("Sync -- File to be updated: " + fileName);
+					Path filePath = Paths.get(vaultPath + "/" + fileName);
+					downloads.add(filePath.toString());
+					table.addNewFile(fileName, newTable.fileSize(fileName));
+					if (newTable.fileSize(fileName) > 0) {
+						try {
+							Files.createDirectories(filePath.getParent());
+						} catch (IOException e) {
+							logger.error("sync -- unable to create directories to download file into");
+						}
+						downloadFile(fileName, filePath.toString(),
+								newTable.fileSize(fileName));
+					}
 				}
 			}
 		}
 		for (Object file : localFiles) {
-			if (!newTable.hasFile((String) file)) {
-				logger.info("File present locally not in Cloud : "
-						+ (String) file);
+			String fileName = (String) file;
+			if (!currentFiles.contains(fileName) && !newTable.hasFile(fileName)) {
+				logger.info("Sync -- File to be deleted: " + fileName);
 				try {
-					Path filePath = Paths.get(vaultPath + "/" + (String) file);
+					Path filePath = Paths.get(vaultPath + "/" + fileName);
 					deletes.add(filePath.toString());
-					Files.delete(filePath);
+					table.removeFile(fileName);
+					if (Files.exists(filePath)) {
+						if (table.fileSize(fileName) > 0)
+							Files.delete(filePath);
+						else {
+							Files.walkFileTree(filePath,
+									new SimpleFileVisitor<Path>() {
+										@Override
+										public FileVisitResult visitFile(
+												Path file,
+												BasicFileAttributes attrs)
+												throws IOException {
+											Files.delete(file);
+											return FileVisitResult.CONTINUE;
+										}
+
+										@Override
+										public FileVisitResult postVisitDirectory(
+												Path dir, IOException e)
+												throws IOException {
+											Files.delete(dir);
+											return FileVisitResult.CONTINUE;
+										}
+									});
+						}
+					}
 				} catch (IOException e) {
 					logger.error(e);
 				}

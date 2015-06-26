@@ -110,6 +110,11 @@ public class Table {
 		FileMetadata file = table.get(fileName).first;
 		return file.fileSize;
 	}
+	
+	public final Date lastModified(String fileName) {
+		FileMetadata file = table.get(fileName).first;
+		return file.timestamp;
+	}
 
 	public final int version(String file) {
 		int version = 1;

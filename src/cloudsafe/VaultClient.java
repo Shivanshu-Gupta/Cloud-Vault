@@ -109,10 +109,10 @@ public class VaultClient {
 			in.close();
 			fileIn.close();
 		} catch (IOException x) {
-			logger.error("IOException: " + x);
+			logger.error("IOException: ", x);
 			// x.printStackTrace();
 		} catch (ClassNotFoundException cfe) {
-			logger.error("ClassNotFoundException: " + cfe);
+			logger.error("ClassNotFoundException: ", cfe);
 			// cfe.printStackTrace();
 		} catch (BoxRestException | BoxServerException
 				| AuthFatalFailureException e) {

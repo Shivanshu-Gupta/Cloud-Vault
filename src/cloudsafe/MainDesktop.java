@@ -54,19 +54,17 @@ public class MainDesktop {
 			logger.info("vaultPath: " + vaultPath);
 			logger.info("configPath: " + configPath);
 			if (!Files.exists(Paths.get(vaultPath))) {
-				Setup cloudVaultSetup = new Setup(vaultPath, configPath);
-				cloudVaultSetup.configureCloudAccess();
-			}
-			if (!Files.exists(Paths.get(vaultPath))) {
 				logger.entry("New Setup");
 				Setup cloudVaultSetup = new Setup(vaultPath, configPath);
+				CloudConfig cloudSettings = new CloudConfig(cloudVaultSetup);
+				cloudVaultSetup.settings.addTab("Clouds", null, cloudSettings, "Clouds");
 				cloudVaultSetup.configureCloudAccess();
 				logger.exit("Setup complete!");
 			}
 			client = new VaultClientDesktop(vaultPath, configPath);
 
 			
-			//--------My work starts here--------------
+			//--------Watchdir starts here--------------
 	    	String targetdir = vaultPath;
 	        // parse arguments
 	        boolean recursive = true;
@@ -74,7 +72,7 @@ public class MainDesktop {
 	        Path dir = Paths.get(targetdir);
 	        new WatchDir(dir, recursive, client).processEvents();
 			
-			//--------My work ends here----------------
+			//--------Watchdir ends here----------------
 		} catch (Exception e) {
 			System.out.println(e);
 			e.printStackTrace();

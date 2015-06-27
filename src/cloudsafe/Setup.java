@@ -55,7 +55,8 @@ public class Setup {
 		this.cloudMetadataPath = configPath + "/cloudmetadata.ser";
 		// create the directory to store configuration data
 		try {
-			Files.createDirectories(Paths.get(configPath));
+//			Files.createDirectories(Paths.get(configPath));
+			Files.createDirectories(Paths.get(configPath + "/uploadQueues"));
 		} catch (IOException e1) {
 			e1.printStackTrace();
 		}

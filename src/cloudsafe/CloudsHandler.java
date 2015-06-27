@@ -1,19 +1,22 @@
 package cloudsafe;
 
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Set;
+import java.util.Timer;
+import java.util.TimerTask;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
-import java.util.regex.Pattern;
 
 import org.apache.http.util.ByteArrayBuffer;
 import org.apache.logging.log4j.LogManager;
@@ -29,7 +32,8 @@ public class CloudsHandler {
 	ArrayList<Cloud> clouds = new ArrayList<Cloud>();
 
 	ArrayList<ConcurrentHashMap<String, byte[]>> cloudUploadQueues = new ArrayList<ConcurrentHashMap<String, byte[]>>();
-	ArrayList<CloudUploader> cloudUploaders = new ArrayList<CloudUploader>();
+//	ArrayList<CloudUploader> cloudUploaders = new ArrayList<CloudUploader>();
+	ArrayList<Timer> cloudPeriodicUploaders = new ArrayList<Timer>();
 	ArrayList<String> cloudQueueFilePaths = new ArrayList<String>();
 
 	ExecutorService executor = Executors.newFixedThreadPool(10);
@@ -63,14 +67,13 @@ public class CloudsHandler {
 				uploadQueue = new ConcurrentHashMap<String, byte[]>();
 			}
 			cloudUploadQueues.add(uploadQueue);
-			cloudUploaders.add(new CloudUploader(clouds.get(cloudID),
-					uploadQueue));
-			if (!uploadQueue.isEmpty() && clouds.get(cloudID).isAvailable()) {
-				cloudUploaders.get(cloudID).start();
-			}
+			Timer timer = new Timer();
+			timer.schedule(new CloudUploader(cloudID, uploadQueue), 0, 60000);
+			cloudPeriodicUploaders.add(timer);
 			cloudID++;
 		}
 		executor = Executors.newFixedThreadPool(clouds.size());
+		
 	}
 
 	public boolean acquireLock() {
@@ -82,8 +85,7 @@ public class CloudsHandler {
 			Cloud cloud = clouds.get(i);
 			if (cloud.isAvailable()) {
 				if (cloud.searchFile("tablelock")) {
-					logger.trace("Deleting in cloud " + i);
-//					cloud.deleteFile("tablelock");
+					logger.trace("Deleting lock in cloud " + i);
 					Future<Void> future = executor.submit(new Deleter(i, lockFile));
 					results.add(future);
 				} else {
@@ -100,12 +102,13 @@ public class CloudsHandler {
 				e.printStackTrace();
 			}
 		}
+		logger.trace("lock could not be acquired");
 		if(!lockAcquired) {
 			byte[] lock = {};
 			for(int i=0; i<cloudID; i++){
 				Cloud cloud = clouds.get(i);
 				if (cloud.isAvailable()) {
-					logger.trace("Deleting in cloud " + i);
+					logger.trace("recreating lock in cloud " + i);
 					Future<Void> future = executor.submit(new Uploader(i, lock, lockFile, WriteMode.OVERWRITE));
 					results.add(future);
 				}
@@ -128,12 +131,6 @@ public class CloudsHandler {
 		for (int i = 0; i < clouds.size(); i++) {
 			Cloud cloud = clouds.get(i);
 			if (cloud.isAvailable()) {
-//				try {
-//					cloud.uploadFile(lock, "tablelock", WriteMode.OVERWRITE);
-//				} catch (IOException e) {
-//					// TODO handle this exception
-//					logger.error("IOException: " + e);
-//				}
 				Future<Void> future = executor.submit(new Uploader(i, lock, lockFile, WriteMode.OVERWRITE));
 				results.add(future);
 			}
@@ -149,38 +146,20 @@ public class CloudsHandler {
 
 	public void uploadFile(ArrayList<ByteArrayBuffer> dataArrays,
 			String fileID, WriteMode mode) throws IOException {
-		Pattern p = Pattern.compile(".*table.ser.*");
-		boolean isTable = p.matcher(fileID).matches();
-		// ArrayList<Thread> threads = new ArrayList<Thread>();
+//		Pattern p = Pattern.compile(".*table.ser.*");
+//		boolean isTable = p.matcher(fileID).matches();
 		ArrayList<Future<Void>> results = new ArrayList<Future<Void>>();
 		for (int i = 0; i < clouds.size(); i++) {
 			Cloud cloud = clouds.get(i);
-			if (!isTable) {
-				if (cloud.isAvailable()) {
-					if (cloudUploadQueues.get(i).isEmpty()) {
-						Future<Void> future = executor.submit(new Uploader(i,
-								dataArrays.get(i).toByteArray(), fileID,
-								WriteMode.OVERWRITE));
-						results.add(future);
-					} else {
-						cloudUploadQueues.get(i).put(fileID,
-								dataArrays.get(i).toByteArray());
-						if (!cloudUploaders.get(i).isAlive()) {
-							CloudUploader uploader = new CloudUploader(cloud,
-									cloudUploadQueues.get(i));
-							cloudUploaders.set(i, uploader);
-							uploader.start();
-						}
-					}
-				} else {
-					cloudUploadQueues.get(i).put(fileID,
-							dataArrays.get(i).toByteArray());
-				}
-			} else if (cloud.isAvailable()) {
+			if (cloud.isAvailable() && cloudUploadQueues.get(i).isEmpty()) {
 				Future<Void> future = executor.submit(new Uploader(i,
 						dataArrays.get(i).toByteArray(), fileID,
 						WriteMode.OVERWRITE));
 				results.add(future);
+			} else {
+				cloudUploadQueues.get(i).put(fileID,
+						dataArrays.get(i).toByteArray());
+				writeQueueToFile(i);
 			}
 		}
 		for (Future<Void> result : results) {
@@ -196,30 +175,19 @@ public class CloudsHandler {
 
 	public void uploadFile(String path, String fileID, WriteMode mode)
 			throws IOException {
-		Pattern p = Pattern.compile(".*tablemeta.txt.*");
-		boolean isTablemeta = p.matcher(fileID).matches();
+//		Pattern p = Pattern.compile(".*tablemeta.txt.*");
+//		boolean isTablemeta = p.matcher(fileID).matches();
 		byte[] filedata = Files.readAllBytes(Paths.get(path));
 		ArrayList<Future<Void>> results = new ArrayList<Future<Void>>();
 		for (int i = 0; i < clouds.size(); i++) {
 			Cloud cloud = clouds.get(i);
-			if (!isTablemeta) {
-				if (cloud.isAvailable()) {
-					if (cloudUploadQueues.get(i).isEmpty()) {
-						Future<Void> future = executor.submit(new Uploader(i,
-								filedata, fileID, WriteMode.OVERWRITE));
-						results.add(future);
-					} else {
-						cloudUploadQueues.get(i).put(fileID, filedata);
-						new CloudUploader(cloud, cloudUploadQueues.get(i))
-								.start();
-					}
-				} else {
-					cloudUploadQueues.get(i).put(fileID, filedata);
-				}
-			} else if (cloud.isAvailable()) {
-				Future<Void> future = executor.submit(new Uploader(i, filedata,
-						fileID, WriteMode.OVERWRITE));
+			if (cloud.isAvailable() && cloudUploadQueues.get(i).isEmpty()) {
+				Future<Void> future = executor.submit(new Uploader(i,
+						filedata, fileID, WriteMode.OVERWRITE));
 				results.add(future);
+			} else {
+				cloudUploadQueues.get(i).put(fileID, filedata);
+				writeQueueToFile(i);
 			}
 		}
 		for (Future<Void> result : results) {
@@ -233,6 +201,21 @@ public class CloudsHandler {
 		}
 	}
 
+	private void writeQueueToFile(int i) {
+		try {
+			FileOutputStream fileOut = new FileOutputStream(
+					cloudQueueFilePaths.get(i));
+			ObjectOutputStream out = new ObjectOutputStream(fileOut);
+			out.writeObject(cloudUploadQueues.get(i));
+			out.flush();
+			out.close();
+			fileOut.flush();
+			fileOut.close();
+		} catch (IOException e) {
+			logger.error("Unable to write cloud upload queue to file for cloud " + i, e);
+		}
+	}
+	
 	public ArrayList<byte[]> downloadFile(String fileID) throws IOException {
 		ArrayList<byte[]> filedatas = new ArrayList<byte[]>();
 		ArrayList<Future<byte[]>> results = new ArrayList<Future<byte[]>>();
@@ -374,30 +357,35 @@ public class CloudsHandler {
 		}
 	}
 
-	private class CloudUploader extends Thread {
+	private class CloudUploader extends TimerTask {
+		int cloudID;
 		Cloud cloud;
 		ConcurrentHashMap<String, byte[]> uploadQueue;
 
-		public CloudUploader(Cloud cloud,
+		public CloudUploader(int cloudID,
 				ConcurrentHashMap<String, byte[]> uploadQueue) {
-			this.cloud = cloud;
+			this.cloudID = cloudID;
+			this.cloud = clouds.get(cloudID);
 			this.uploadQueue = uploadQueue;
 		}
 
-		@Override
 		public void run() {
-			Set<String> fileNames = uploadQueue.keySet();
-			try {
-				for (String fileName : fileNames) {
-					cloud.uploadFile(uploadQueue.get(fileName), fileName,
-							WriteMode.OVERWRITE);
-					uploadQueue.remove(fileName);
+			logger.trace("starting periodic upload for cloud" + cloudID);
+			if(cloud.isAvailable() && !uploadQueue.isEmpty()){
+				Set<String> fileNames = uploadQueue.keySet();
+				try {
+					for (String fileName : fileNames) {
+						cloud.uploadFile(uploadQueue.get(fileName), fileName,
+								WriteMode.OVERWRITE);
+						uploadQueue.remove(fileName);
+					}
+				} catch (IOException e) {
+					logger.error("error in periodic upload to cloud. ", e);
+					e.printStackTrace();
 				}
-			} catch (IOException e) {
-				e.printStackTrace();
+				writeQueueToFile(cloudID);
 			}
 		}
-
 	}
 
 }

@@ -481,9 +481,9 @@ public class VaultClientDesktop {
 			logger.info("CloudFilePath : " + cloudFilePath.toString());
 			if (table.hasFile(cloudFilePath)) {
 				currentFiles.add(cloudFilePath);
+				fileSizes.add(table.fileSize(cloudFilePath));
 				cloudFilePath = (new PathManip(cloudFilePath)).toCloudFormat();
 				cloudFilePaths.add(cloudFilePath);
-				fileSizes.add(table.fileSize(cloudFilePath));
 
 				// cloudFilePaths.add(cloudFilePath);
 				// fileSizes.add(table.fileSize(cloudFilePath));

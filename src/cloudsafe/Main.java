@@ -46,11 +46,11 @@ public class Main {
 
 	public void run() {
 		try {
-//			String devicePath = getDevicePath();
-//			vaultPath = devicePath + "/Cloud Vault";
-//			configPath = devicePath + "/config";
-			vaultPath = getDevicePath() + "/Cloud Vault";
-			configPath = "config";
+			String devicePath = getDevicePath();
+			vaultPath = devicePath + "/Cloud Vault";
+			configPath = devicePath + "/config";
+//			vaultPath = getDevicePath() + "/Cloud Vault";
+//			configPath = "config";
 			logger.info("vaultPath: " + vaultPath);
 			logger.info("configPath: " + configPath);
 			if (!Files.exists(Paths.get(vaultPath))) {

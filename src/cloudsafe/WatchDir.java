@@ -61,7 +61,7 @@ public class WatchDir {
 	private final boolean recursive;
 	private boolean trace = false;
 
-	private boolean terminate = true;
+	private boolean terminate = false;
 	
 	WatchEvent.Kind kindBuffer = null;
 	String childBuffer = null;
@@ -423,6 +423,12 @@ public class WatchDir {
 	public void shutdown()
 	{
 		terminate = true;
+		try {
+			watcher.close();
+		} catch (IOException | ClosedWatchServiceException e) {
+			// TODO Auto-generated catch block
+			//e.printStackTrace();
+		}
 		timer.cancel();
 		timer.purge();
 	}

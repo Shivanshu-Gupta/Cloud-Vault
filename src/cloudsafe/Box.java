@@ -99,9 +99,11 @@ public class Box implements Cloud {
 						.uploadFileRequestObject(CloudVaultFolderID, fileID,
 								UPLOAD_FILE);
 				client.getFilesManager().uploadFile(requestObj);
-			} catch (BoxRestException | BoxJSONException | BoxServerException
-					| AuthFatalFailureException | InterruptedException e) {
-				e.printStackTrace();
+			} catch(BoxJSONException | AuthFatalFailureException e) {
+				//TODO
+			} catch (BoxRestException | BoxServerException
+					 | InterruptedException e) {
+				available = false;
 			}
 
 			// System.out.println("file_uploaded");
@@ -141,7 +143,7 @@ public class Box implements Cloud {
 			} catch (BoxRestException | BoxServerException
 					| AuthFatalFailureException | InterruptedException
 					| BoxJSONException e) {
-				available = false;
+				e.printStackTrace();
 			}
 
 		}

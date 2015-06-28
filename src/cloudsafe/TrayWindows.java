@@ -9,10 +9,21 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import javax.swing.*;
 
 public class TrayWindows {
-	private AtomicBoolean restart = new AtomicBoolean(false);
-    TrayWindows(Setup cloudVaultSetup, JTabbedPane settings, AtomicBoolean restart) {
-       this.restart = restart;
-    	/* Use an appropriate Look and Feel */
+	private AtomicBoolean restart = new AtomicBoolean(false);	
+	static JTabbedPane settings = new JTabbedPane();
+	ProxyConfig proxySettings;
+	CloudConfig cloudSettings;
+	
+    TrayWindows(String configPath, Setup cloudVaultSetup, AtomicBoolean restart) {
+    	this.restart = restart;
+		proxySettings = new ProxyConfig(configPath);
+		settings.addTab("Proxy Settings", null, proxySettings,
+				"Proxy Settings");
+		cloudSettings = new CloudConfig(configPath,
+				cloudVaultSetup);
+		settings.addTab("Clouds", null, cloudSettings, "Clouds");
+		
+        /* Use an appropriate Look and Feel */
         try {
             UIManager.setLookAndFeel("com.sun.java.swing.plaf.windows.WindowsLookAndFeel");
             //UIManager.setLookAndFeel("javax.swing.plaf.metal.MetalLookAndFeel");
@@ -31,12 +42,12 @@ public class TrayWindows {
         //adding TrayIcon.
         SwingUtilities.invokeLater(new Runnable() {
             public void run() {
-                createAndShowGUI(cloudVaultSetup, settings);
+                createAndShowGUI();
             }
         });
     }
     
-    private static void createAndShowGUI(Setup cloudVaultSetup, JTabbedPane settings) {
+    private static void createAndShowGUI() {
         //Check the SystemTray support
         if (!SystemTray.isSupported()) {
             System.out.println("SystemTray is not supported");

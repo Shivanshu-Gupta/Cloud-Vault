@@ -24,5 +24,9 @@ public interface Cloud {
 	public void deleteFile(String path);
 	
 	public boolean searchFile(String fileID);
+	
+	public String getID();
+	
+	public void setID(String ID);
 
 }

@@ -67,6 +67,7 @@ import org.apache.logging.log4j.Logger;
  * </ul>
  */
 public class GoogleDrive implements Cloud {
+	private String ID;
 	private final static Logger logger = LogManager
 			.getLogger(GoogleDrive.class.getName());
 
@@ -107,7 +108,8 @@ public class GoogleDrive implements Cloud {
 
 	static String CloudVaultFolderID = null;
 
-	public GoogleDrive(Proxy proxy, int userIndex) {
+	public GoogleDrive(String ID, Proxy proxy, int userIndex) {
+		this.ID = ID;
 		GoogleDrive.userIndex = userIndex;
 		mainOld(proxy);
 	}
@@ -370,5 +372,13 @@ public class GoogleDrive implements Cloud {
 		} catch (NullPointerException e) {
 		}
 		return;
+	}
+
+	public String getID() {
+		return ID;
+	}
+
+	public void setID(String iD) {
+		ID = iD;
 	}
 }

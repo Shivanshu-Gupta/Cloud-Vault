@@ -32,7 +32,8 @@ import org.apache.http.client.HttpClient;
 import org.apache.http.conn.params.ConnRoutePNames;
 
 public class Box implements Cloud {
-
+	private String ID;
+	
 	private static final int PORT = 4000;
 	private static final String key = "okg0mkf7xmbx371w0awevez9m7jxuhes";
 	private static final String secret = "trrTxLEN8x5ZtOZbg45pPZp4uFpBERbx";
@@ -41,9 +42,9 @@ public class Box implements Cloud {
 	public String metadata = "";
 	String CloudVaultFolderID = "";
 
-	public Box(Proxy proxy) throws BoxRestException, BoxServerException,
+	public Box(String cloudID, Proxy proxy) throws BoxRestException, BoxServerException,
 			AuthFatalFailureException {
-
+		this.setID(cloudID);
 		String url = "https://www.box.com/api/oauth2/authorize?response_type=code&client_id="
 				+ key + "&redirect_uri=http%3A//localhost%3A" + PORT;
 		try {
@@ -368,6 +369,14 @@ public class Box implements Cloud {
 			}
 		}
 		return "";
+	}
+
+	public String getID() {
+		return ID;
+	}
+
+	public void setID(String iD) {
+		ID = iD;
 	}
 
 }

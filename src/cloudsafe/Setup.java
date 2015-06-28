@@ -6,8 +6,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
+import java.io.OutputStream;
 import java.net.Authenticator;
 import java.net.InetSocketAddress;
 import java.net.PasswordAuthentication;
@@ -15,21 +14,17 @@ import java.net.Proxy;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Properties;
-import java.util.Scanner;
 
 import javax.swing.JOptionPane;
 //import javax.swing.JTabbedPane;
 
-
-import org.apache.commons.io.input.CloseShieldInputStream;
-import org.apache.commons.lang3.ArrayUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import cloudsafe.cloud.Cloud;
 import cloudsafe.exceptions.AuthenticationException;
-import cloudsafe.util.Pair;
 
 import com.box.boxjavalibv2.exceptions.AuthFatalFailureException;
 import com.box.boxjavalibv2.exceptions.BoxServerException;
@@ -38,52 +33,57 @@ import com.box.restclientv2.exceptions.BoxRestException;
 public class Setup {
 	private final static Logger logger = LogManager.getLogger(Setup.class
 			.getName());
-	
-	
 
-	String[] possibleValues = { "DropBox", "GoogleDrive", "OneDrive", "Box",
-			"FolderCloud" };
+	ArrayList<String> availableClouds = new ArrayList<String>(Arrays.asList("DropBox", "GoogleDrive", "OneDrive", "Box",
+	"FolderCloud"));
 	int cloudcounter = 0;
 	String vaultPath = "trials/Cloud Vault";
 	int userIndex = 1;
 	String configPath = "trials/config";
-	String cloudMetadataPath = configPath + "/cloudmetadata.ser";
-	ArrayList<Pair<String, String>> cloudMetaData = new ArrayList<Pair<String, String>>();
-
-	@SuppressWarnings("unchecked")
+	private File cloudConfigFile = null;
+	private Properties cloudConfigProps;
+	
 	public Setup(String vaultPath, String configPath) {
 		this.vaultPath = vaultPath;
 		this.configPath = configPath;
-		this.cloudMetadataPath = configPath + "/cloudmetadata.ser";
+		this.cloudConfigFile = new File(configPath + "/clouds.properties");
+		
 		// create the directory to store configuration data
 		try {
-//			Files.createDirectories(Paths.get(configPath));
 			Files.createDirectories(Paths.get(configPath + "/uploadQueues"));
 		} catch (IOException e1) {
 			e1.printStackTrace();
 		}
 		
-		if (Files.exists(Paths.get(cloudMetadataPath))) {
-			try {
-				FileInputStream fileIn = new FileInputStream(cloudMetadataPath);
-				ObjectInputStream in = new ObjectInputStream(fileIn);
-				cloudMetaData = (ArrayList<Pair<String, String>>) in
-						.readObject();
-				in.close();
-				fileIn.close();
-			} catch (IOException x) {
-//				logger.error("IOException while adding cloud " + x);
-			} catch (ClassNotFoundException cfe) {
-				cfe.printStackTrace();
+		Properties defaultProps = new Properties();
+		// sets default properties
+		defaultProps.setProperty("Number of clouds", "0");	
+		cloudConfigProps = new Properties(defaultProps);
+		try {
+			if(Files.exists(Paths.get(cloudConfigFile.toString()))) {
+				InputStream inputStream = new FileInputStream(cloudConfigFile);
+				cloudConfigProps.load(inputStream);
+				inputStream.close();
 			}
+		} catch (FileNotFoundException e) {
+			JOptionPane.showMessageDialog(null, "<html>Error loading cloud configuration: "
+					+ "cloud config file not found.<br>"
+					+ "</html>", "Error",
+					JOptionPane.ERROR_MESSAGE);
+			e.printStackTrace();
+		} catch (IOException e) {
+			JOptionPane.showMessageDialog(null, "<html>Error loading cloud configuration: "
+					+ "cloud settings could not be read.<br>"
+					+ "</html>", "Error",
+					JOptionPane.ERROR_MESSAGE);
+			e.printStackTrace();
 		}
 		
-		cloudcounter = cloudMetaData.size();
-		
-		
-//		settings.addTab("Clouds", null, cloudSettings, "Clouds");
-//		JOptionPane.showMessageDialog(null, settings, "Settings", JOptionPane.PLAIN_MESSAGE);
-	};	
+		cloudcounter = Integer.parseInt(cloudConfigProps.getProperty("Number of Clouds"));
+		// settings.addTab("Clouds", null, cloudSettings, "Clouds");
+		// JOptionPane.showMessageDialog(null, settings, "Settings",
+		// JOptionPane.PLAIN_MESSAGE);
+	};
 
 	private Proxy getProxy() {
 		Proxy proxy = Proxy.NO_PROXY;
@@ -119,26 +119,23 @@ public class Setup {
 		return proxy;
 	}
 
-	String static_message1 = "Minimum 4 Clouds Required\n";
-	String static_message2 = "Choose Your Cloud\n";
-	String dynamic_message = "Cloud 1 : ";
+	private String static_message1 = "Minimum 4 Clouds Required\n";
+	private String static_message2 = "Choose Your Cloud\n";
+	private String dynamic_message = "Cloud 1 : ";
 
 	void addCloud() throws Exception {
-		String info_message = "You have added " + (cloudcounter)
-				+ " clouds\n";
+		String info_message = "You have added " + (cloudcounter) + " clouds\n";
 		Proxy proxy = getProxy();
-		// Scanner in = new Scanner(new CloseShieldInputStream(System.in));
-
 		String code;
-
+		
 		while (true) {
-			code = (String) JOptionPane.showInputDialog(null, static_message1 + info_message
-					+ dynamic_message + static_message2,
-					"Cloud " + (cloudcounter + 1), JOptionPane.INFORMATION_MESSAGE,
-					null, possibleValues, possibleValues[0]);
-
+			code = (String) JOptionPane.showInputDialog(null, static_message1
+					+ info_message + dynamic_message + static_message2,
+					"Cloud " + (cloudcounter + 1),
+					JOptionPane.INFORMATION_MESSAGE, null, availableClouds.toArray(),
+					availableClouds.get(0));
+			
 			if (code == null) {
-				
 				if (cloudcounter < 4) {
 					int n = JOptionPane.showConfirmDialog(null,
 							"Do you really want to exit?", "Exit",
@@ -149,11 +146,10 @@ public class Setup {
 						undoSetup.delete(vaultPath, true);
 						undoSetup.delete(configPath, true);
 						System.exit(0);
-					}  else {
+					} else {
 						continue;
 					}
-				}
-				else {
+				} else {
 					throw new Exception("No Clouds Added");
 				}
 			} else {
@@ -166,20 +162,23 @@ public class Setup {
 				&& !code.equals("FolderCloud")) {
 			code = (String) JOptionPane.showInputDialog(null,
 					"Choose Your Cloud", "Cloud " + (cloudcounter + 1),
-					JOptionPane.INFORMATION_MESSAGE, null, possibleValues,
-					possibleValues[0]);
+					JOptionPane.INFORMATION_MESSAGE, null, availableClouds.toArray(),
+					availableClouds.get(0));
 			code.trim();
 		}
 		// Deciding value of choice
 
 		Cloud cloud;
+		String cloudID = "cloud" + cloudcounter;
 		String meta;
 		switch (code) {
 		case "DropBox":
 			try {
-				cloud = new Dropbox(proxy);
+				cloud = new Dropbox(cloudID, proxy);
 				meta = cloud.metadata();
-				cloudMetaData.add(Pair.of("dropbox", meta));
+				cloudConfigProps.setProperty(cloudID + ".type", code);
+				cloudConfigProps.setProperty(cloudID + ".code", meta);
+				cloudConfigProps.setProperty(cloudID + ".status", "1");
 			} catch (AuthenticationException e) {
 				logger.error("AuthenticationException: " + e.getMessage());
 				JOptionPane.showMessageDialog(null,
@@ -187,23 +186,23 @@ public class Setup {
 				addCloud();
 				return;
 			}
-			// possibleValues = ArrayUtils.removeElement(possibleValues,
-			// "DropBox");
 			updateDynamicMessage(cloudcounter, "DropBox");
 			break;
 		case "GoogleDrive":
-			cloud = new GoogleDrive(proxy, userIndex++);
+			cloud = new GoogleDrive(cloudID, proxy, userIndex++);
 			meta = cloud.metadata();
-			cloudMetaData.add(Pair.of("googledrive", meta));
-			// possibleValues = ArrayUtils.removeElement(possibleValues,
-			// "GoogleDrive");
+			cloudConfigProps.setProperty(cloudID + ".type", code);
+			cloudConfigProps.setProperty(cloudID + ".code", meta);
+			cloudConfigProps.setProperty(cloudID + ".status", "1");
 			updateDynamicMessage(cloudcounter, "GoogleDrive");
 			break;
 		case "OneDrive":
 			try {
-				cloud = new FolderCloud();
+				cloud = new FolderCloud(cloudID);
 				meta = cloud.metadata();
-				cloudMetaData.add(Pair.of("folder", meta));
+				cloudConfigProps.setProperty(cloudID + ".type", code);
+				cloudConfigProps.setProperty(cloudID + ".code", meta);
+				cloudConfigProps.setProperty(cloudID + ".status", "1");
 			} catch (Exception e) {
 				e.printStackTrace();
 				JOptionPane.showMessageDialog(null,
@@ -211,15 +210,16 @@ public class Setup {
 				addCloud();
 				return;
 			}
-			possibleValues = ArrayUtils.removeElement(possibleValues,
-					"OneDrive");
+			availableClouds.remove("onedrive");
 			updateDynamicMessage(cloudcounter, "OneDrive");
 			break;
 		case "Box":
 			try {
-				cloud = new Box(proxy);
+				cloud = new Box(cloudID, proxy);
 				meta = cloud.metadata();
-				cloudMetaData.add(Pair.of("box", meta));
+				cloudConfigProps.setProperty(cloudID + ".type", code);
+				cloudConfigProps.setProperty(cloudID + ".code", meta);
+				cloudConfigProps.setProperty(cloudID + ".status", "1");
 			} catch (BoxRestException | BoxServerException
 					| AuthFatalFailureException e) {
 				e.printStackTrace();
@@ -228,14 +228,16 @@ public class Setup {
 				addCloud();
 				return;
 			}
-			possibleValues = ArrayUtils.removeElement(possibleValues, "Box");
+			availableClouds.remove("box");
 			updateDynamicMessage(cloudcounter, "Box");
 			break;
 		case "FolderCloud":
 			try {
-				cloud = new FolderCloud();
+				cloud = new FolderCloud(cloudID);
 				meta = cloud.metadata();
-				cloudMetaData.add(Pair.of("folder", meta));
+				cloudConfigProps.setProperty(cloudID + ".type", code);
+				cloudConfigProps.setProperty(cloudID + ".code", meta);
+				cloudConfigProps.setProperty(cloudID + ".status", "1");
 			} catch (Exception e) {
 				e.printStackTrace();
 				JOptionPane.showMessageDialog(null,
@@ -248,33 +250,21 @@ public class Setup {
 		}
 	}
 
-	// in.close();
-
 	public void updateDynamicMessage(int index, String CloudName) {
 		dynamic_message = dynamic_message + CloudName + "\nCloud "
 				+ (index + 2) + " : ";
 		cloudcounter++;
-//		cloudSettings.addEntry(CloudName);
-		
+		// cloudSettings.addEntry(CloudName);
+
 	}
 
-	void deleteCloud(int index)
-	{
-		cloudMetaData.remove(index);
-		cloudcounter--;
+	void deleteCloud(int index) {
+		cloudConfigProps.setProperty("cloud" + index, "-1");
 	}
-	
-//	void openSettings()
-//	{
-//		JOptionPane.showMessageDialog(null, settings, "Settings", JOptionPane.PLAIN_MESSAGE);
-//		return;
-//	}
-	
+
 	public void configureCloudAccess() {
-
-		try (Scanner in = new Scanner(new CloseShieldInputStream(System.in))) {
-			int i;
-			for (i = (cloudcounter+1); i <= 4; i++) {
+		try{
+			for (int i = (cloudcounter + 1); i <= 4; i++) {
 				System.out.println("CLOUD " + i);
 				addCloud();
 			}
@@ -286,8 +276,6 @@ public class Setup {
 
 			while ((choice == JOptionPane.YES_OPTION)) {
 				addCloud();
-				// System.out.println("Add more Clouds (Yes/No)?");
-				// s = in.nextLine();
 				choice = JOptionPane
 						.showOptionDialog(null,
 								"Do You Want to Add more Clouds?",
@@ -302,15 +290,19 @@ public class Setup {
 
 		// save the meta data
 		try {
-			FileOutputStream fileOut = new FileOutputStream(cloudMetadataPath);
-			ObjectOutputStream out = new ObjectOutputStream(fileOut);
-			out.writeObject(cloudMetaData);
-			out.close();
-			fileOut.close();
-			logger.info("Serialized data is saved in cloudmetadata.ser");
-			Files.createDirectories(Paths.get(vaultPath));
-		} catch (IOException i) {
-			i.printStackTrace();
+			OutputStream outputStream = new FileOutputStream(cloudConfigFile);
+			cloudConfigProps.store(outputStream, "host setttings");
+			outputStream.close();
+		} catch (FileNotFoundException e) {
+			JOptionPane.showMessageDialog(null, "<html>Error saving cloud configuration: "
+					+ "config file not found.<br>"
+					+ "</html>");
+			e.printStackTrace();
+		} catch (IOException ex) {
+			JOptionPane.showMessageDialog(null, 
+					"Error saving properties file: " + ex.getMessage(),
+					"Error",
+					JOptionPane.ERROR_MESSAGE);		
 		}
 	}
 }

@@ -15,6 +15,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Properties;
 
+import javax.swing.JOptionPane;
+
 import org.apache.http.util.*;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -68,7 +70,6 @@ public class VaultClientDesktop {
 
 	ArrayList<String> currentFiles = new ArrayList<String>();
 
-	@SuppressWarnings("unchecked")
 	public VaultClientDesktop(String vaultPath, String configPath) {
 		logger.entry("Setting up VaultClient");
 		this.vaultPath = vaultPath;
@@ -78,54 +79,73 @@ public class VaultClientDesktop {
 		logger.info("databasePath: " + databasePath);
 		logger.info("databaseMetaPath: " + databaseMetaPath);
 		proxy = getProxy();
+		int index = 1;
+		String cloudConfigPath = configPath + "/clouds.properties";
+		Properties defaultProps = new Properties();
+		// sets default properties
+		defaultProps.setProperty("Number of clouds", "0");	
+		Properties cloudConfigProps = new Properties(defaultProps);
 		try {
-			int index = 1;
-			String cloudMetadataPath = configPath + "/cloudmetadata.ser";
-			FileInputStream fileIn = new FileInputStream(cloudMetadataPath);
-			ObjectInputStream in = new ObjectInputStream(fileIn);
-			ArrayList<Pair<String, String>> cloudMetaData = (ArrayList<Pair<String, String>>) in
-					.readObject();
+			if(Files.exists(Paths.get(cloudConfigPath))) {
+				InputStream inputStream = new FileInputStream(cloudConfigPath);
+				cloudConfigProps.load(inputStream);
+				inputStream.close();
+			}
+		} catch (FileNotFoundException e) {
+			JOptionPane.showMessageDialog(null, "<html>Error loading cloud configuration: "
+					+ "cloud config file not found.<br>"
+					+ "</html>", "Error",
+					JOptionPane.ERROR_MESSAGE);
+			e.printStackTrace();
+		} catch (IOException e) {
+			JOptionPane.showMessageDialog(null, "<html>Error loading cloud configuration: "
+					+ "cloud settings could not be read.<br>"
+					+ "</html>", "Error",
+					JOptionPane.ERROR_MESSAGE);
+			e.printStackTrace();
+		}
 
-			ArrayList<Cloud> clouds = new ArrayList<Cloud>();
-			for (Pair<String, String> metadata : cloudMetaData) {
-				logger.info("adding cloud: " + metadata.first);
+		ArrayList<Cloud> clouds = new ArrayList<Cloud>();
+		int cloudcounter = Integer.parseInt(cloudConfigProps.getProperty("Number of Clouds"));
+		String cloudID, type, status, code;
+		for (int i=0; i < cloudcounter; i++) {
+			cloudID = "cloud" + i;
+			type = cloudConfigProps.getProperty(cloudID + ".type");
+			code = cloudConfigProps.getProperty(cloudID + ".code");
+			status = cloudConfigProps.getProperty(cloudID + ".status");
+			if(Integer.parseInt(status) == 1) {
+				logger.info("adding " + cloudID + " of type: " + type);
 				try {
-					switch (metadata.first) {
-					case "dropbox":
-						clouds.add(new Dropbox(metadata.second, proxy));
+					switch (type) {
+					case "Dropbox":
+						clouds.add(new Dropbox(cloudID, code, proxy));
 						break;
-					case "googledrive":
-						clouds.add(new GoogleDrive(proxy, index++));
+					case "GoogleDrive":
+						clouds.add(new GoogleDrive(cloudID, proxy, index++));
 						break;
-					case "onedrive":
-						clouds.add(new FolderCloud(metadata.second));
+					case "OneDrive":
+						clouds.add(new FolderCloud(cloudID, code));
 						break;
-					case "box":
+					case "Box":
 						try {
-							clouds.add(new Box(proxy));
+							clouds.add(new Box(cloudID, proxy));
 						} catch (BoxRestException | BoxServerException
 								| AuthFatalFailureException e) {
 							// e.printStackTrace();
 						}
 						break;
-					case "folder":
-						clouds.add(new FolderCloud(metadata.second));
+					case "FolderCloud":
+						clouds.add(new FolderCloud(cloudID, code));
 						break;
 					}
 				} catch (Exception e) {
-					logger.error("couldn't add cloud " + metadata.first, e);
+					logger.error("couldn't add " + cloudID + " of type: " + type, e);
 				}
 			}
-			in.close();
-			fileIn.close();
-			cloudsHandler = new CloudsHandler(clouds, configPath);
-			cloudNum = clouds.size();
-		} catch (IOException x) {
-			logger.error("IOException while adding cloud " + x);
-		} catch (ClassNotFoundException cfe) {
-			cfe.printStackTrace();
 		}
-
+		
+		cloudsHandler = new CloudsHandler(clouds, configPath);
+		cloudNum = clouds.size();
 		boolean newUser = cloudsHandler.checkIfNewUser();
 		if (newUser)
 			createNewTable();

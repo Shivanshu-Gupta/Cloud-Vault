@@ -27,7 +27,8 @@ import cloudsafe.exceptions.AuthenticationException;
 
 ;
 public class Dropbox implements Cloud {
-
+	private String ID;
+	
 	private final static Logger logger = LogManager
 			.getLogger(Dropbox.class.getName());
 	private final String APP_KEY = "jahcg9ypjnokceh";
@@ -37,7 +38,8 @@ public class Dropbox implements Cloud {
 	String accessToken = null;
 	Boolean available = true;
 
-	public Dropbox(Proxy proxy) throws AuthenticationException {
+	public Dropbox(String ID, Proxy proxy) throws AuthenticationException {
+		this.setID(ID);
 		DbxAppInfo appInfo = new DbxAppInfo(APP_KEY, APP_SECRET);
 		DbxRequestConfig config;
 		HttpRequestor requ = new StandardHttpRequestor(proxy);
@@ -91,8 +93,8 @@ public class Dropbox implements Cloud {
 		}
 	}
 
-	public Dropbox(String accessToken, Proxy proxy) {
-		// System.out.println("Access Token: " + accessToken);
+	public Dropbox(String ID, String accessToken, Proxy proxy) {
+		this.setID(ID);
 		this.accessToken = accessToken;
 		DbxRequestConfig config;
 		// HttpRequestor requ = getProxy();
@@ -234,5 +236,13 @@ public class Dropbox implements Cloud {
 			logger.info("DbxException: " + dbe);
 			dbe.printStackTrace();
 		}
+	}
+
+	public String getID() {
+		return ID;
+	}
+
+	public void setID(String iD) {
+		ID = iD;
 	}
 }

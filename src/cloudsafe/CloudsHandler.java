@@ -32,7 +32,6 @@ public class CloudsHandler {
 	ArrayList<Cloud> clouds = new ArrayList<Cloud>();
 
 	ArrayList<ConcurrentHashMap<String, byte[]>> cloudUploadQueues = new ArrayList<ConcurrentHashMap<String, byte[]>>();
-//	ArrayList<CloudUploader> cloudUploaders = new ArrayList<CloudUploader>();
 	ArrayList<Timer> cloudPeriodicUploaders = new ArrayList<Timer>();
 	ArrayList<String> cloudQueueFilePaths = new ArrayList<String>();
 
@@ -41,10 +40,10 @@ public class CloudsHandler {
 	@SuppressWarnings("unchecked")
 	public CloudsHandler(ArrayList<Cloud> clouds, String configPath) {
 		this.clouds = clouds;
-		int cloudID = 0;
-		while (cloudID < clouds.size()) {
-			String cloudQueueFilePath = configPath + "/uploadQueues/cloud"
-					+ cloudID;
+		int cloudIdx = 0;
+		while (cloudIdx < clouds.size()) {
+			String cloudQueueFilePath = configPath + "/uploadQueues/"
+					+ clouds.get(cloudIdx).getID();
 			cloudQueueFilePaths.add(cloudQueueFilePath);
 			ConcurrentHashMap<String, byte[]> uploadQueue = null;
 			if (Files.exists(Paths.get(cloudQueueFilePath))) {
@@ -68,9 +67,9 @@ public class CloudsHandler {
 			}
 			cloudUploadQueues.add(uploadQueue);
 			Timer timer = new Timer();
-			timer.schedule(new CloudUploader(cloudID, uploadQueue), 0, 60000);
+			timer.schedule(new CloudUploader(cloudIdx, uploadQueue), 0, 60000);
 			cloudPeriodicUploaders.add(timer);
-			cloudID++;
+			cloudIdx++;
 		}
 		executor = Executors.newFixedThreadPool(clouds.size());
 		

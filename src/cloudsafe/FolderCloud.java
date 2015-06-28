@@ -27,19 +27,21 @@ import cloudsafe.exceptions.AuthenticationException;
 // import net.fec.openrq.cloud.Cloud;
 
 public final class FolderCloud implements Cloud{
-
+	private String ID;
 	private final static Logger logger = LogManager
 			.getLogger(FolderCloud.class.getName());
 	
 	Path cloudPath;
 
-	public FolderCloud(String cloudPath)
+	public FolderCloud(String ID, String cloudPath)
 	{
+		this.setID(ID);
 		this.cloudPath = Paths.get(cloudPath);
 	}
 	
-	public FolderCloud() throws Exception
+	public FolderCloud(String ID) throws Exception
 	{
+		this.setID(ID);
     	File yourFolder = null;
     	JFileChooser fc = new JFileChooser();
     	fc.setCurrentDirectory(new java.io.File(".")); // start at application current directory
@@ -145,5 +147,13 @@ public final class FolderCloud implements Cloud{
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+	}
+
+	public String getID() {
+		return ID;
+	}
+
+	public void setID(String iD) {
+		ID = iD;
 	}
 }

@@ -255,7 +255,6 @@ public class WatchDir {
 			}
 		}
 	}
-
 	// add all the files of newly created folder in uploadqueue
 	void addAllFiles(Path start) throws IOException {
 

@@ -1,6 +1,7 @@
 package cloudsafe;
 
 import java.io.File;
+import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.Files;
@@ -20,7 +21,8 @@ import cloudsafe.cloud.Cloud;
  * The entry point for the CloudVault Application.
  */
 public class MainDesktop {
-	private final static Logger logger = LogManager.getLogger(MainDesktop.class.getName());
+	private final static Logger logger = LogManager.getLogger(MainDesktop.class
+			.getName());
 
 	VaultClientDesktop client;
 	static String vaultPath = "trials/Cloud Vault";
@@ -33,7 +35,7 @@ public class MainDesktop {
 	static int cloudNum = 4; // Co
 	static int cloudDanger = 1; // Cd
 	final static int overHead = 4; // epsilon
-	
+
 	public static void main(String[] args) {
 		try {
 			System.out.println("Welcome to your Cloud Vault!");
@@ -49,48 +51,56 @@ public class MainDesktop {
 	public void run() {
 		try {
 			String devicePath = getDevicePath();
-			
+
 			vaultPath = devicePath + "/Cloud Vault";
 			configPath = devicePath + "/config";
-//			vaultPath = getDevicePath() + "/Cloud Vault";
-//			configPath = "config";
+			// vaultPath = getDevicePath() + "/Cloud Vault";
+			// configPath = "config";
 			logger.info("vaultPath: " + vaultPath);
 			logger.info("configPath: " + configPath);
-			
+
 			Setup cloudVaultSetup = new Setup(vaultPath, configPath);
 			JTabbedPane settings = new JTabbedPane();
 			ProxyConfig proxySettings = new ProxyConfig(configPath);
-			settings.addTab("Proxy Settings", null, proxySettings, "Proxy Settings");
-			CloudConfig cloudSettings = new CloudConfig(configPath, cloudVaultSetup);
-			settings.addTab("Clouds", null, cloudSettings,
-					"Clouds");
-			
+			settings.addTab("Proxy Settings", null, proxySettings,
+					"Proxy Settings");
+			CloudConfig cloudSettings = new CloudConfig(configPath,
+					cloudVaultSetup);
+			settings.addTab("Clouds", null, cloudSettings, "Clouds");
+
 			if (!Files.exists(Paths.get(vaultPath))) {
 				logger.entry("New Setup");
-				JOptionPane.showMessageDialog(null, settings, "Settings", JOptionPane.PLAIN_MESSAGE);
+				JOptionPane.showMessageDialog(null, settings, "Settings",
+						JOptionPane.PLAIN_MESSAGE);
 				cloudVaultSetup.configureCloudAccess();
+				// create the directory to store configuration data
+				try {
+					Files.createDirectories(Paths.get(vaultPath));
+				} catch (IOException e1) {
+					e1.printStackTrace();
+				}
 				logger.exit("Setup complete!");
 			}
-//			cloudSettings.saveMetadata(cloudVaultSetup);
+			// cloudSettings.saveMetadata(cloudVaultSetup);
 			cloudSettings.clearPage();
 			cloudSettings.refreshPage();
 			client = new VaultClientDesktop(vaultPath, configPath);
-			TrayWindows trayWindows = new TrayWindows(cloudVaultSetup,settings);
-			
-			//--------Watchdir starts here--------------
-	    	String targetdir = vaultPath;
-	        boolean recursive = true;
-	        // register directory and process its events
-	        Path dir = Paths.get(targetdir);
-	        new WatchDir(dir, recursive, client).processEvents();
-			
-			//--------Watchdir ends here----------------
+			new TrayWindows(cloudVaultSetup, settings);
+
+			// --------Watchdir starts here--------------
+			String targetdir = vaultPath;
+			boolean recursive = true;
+			// register directory and process its events
+			Path dir = Paths.get(targetdir);
+			new WatchDir(dir, recursive, client).processEvents();
+
+			// --------Watchdir ends here----------------
 		} catch (Exception e) {
 			System.out.println(e);
 			e.printStackTrace();
 		}
 	}
-	
+
 	// temporary for testing syncing
 	private String getDevicePath() {
 		File yourFolder = null;

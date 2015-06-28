@@ -1,25 +1,34 @@
 package cloudsafe;  
 
-import java.awt.*;
-import java.awt.event.*;
+import java.awt.AWTException;
+import java.awt.Image;
+import java.awt.MenuItem;
+import java.awt.PopupMenu;
+import java.awt.SystemTray;
+import java.awt.TrayIcon;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.CountDownLatch;
 
-import javax.swing.*;
+import javax.swing.ImageIcon;
+import javax.swing.JOptionPane;
+import javax.swing.JTabbedPane;
+import javax.swing.SwingUtilities;
+import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
 
 public class TrayWindows {
-	private AtomicBoolean restart = new AtomicBoolean(false);	
-	static JTabbedPane settings = new JTabbedPane();
-	ProxyConfig proxySettings;
-	CloudConfig cloudSettings;
+	private static CountDownLatch restart = null;	
+	private static JTabbedPane settings = new JTabbedPane();
 	
-    TrayWindows(String configPath, Setup cloudVaultSetup, AtomicBoolean restart) {
-    	this.restart = restart;
-		proxySettings = new ProxyConfig(configPath);
+    TrayWindows(String configPath, Setup cloudVaultSetup, CountDownLatch restart) {
+    	TrayWindows.restart = restart;
+    	ProxyConfig proxySettings = new ProxyConfig(configPath);
 		settings.addTab("Proxy Settings", null, proxySettings,
 				"Proxy Settings");
-		cloudSettings = new CloudConfig(configPath,
+		CloudConfig cloudSettings = new CloudConfig(configPath,
 				cloudVaultSetup);
 		settings.addTab("Clouds", null, cloudSettings, "Clouds");
 		
@@ -95,8 +104,10 @@ public class TrayWindows {
 //        });
         
         settingItem.addActionListener(new ActionListener() {
+        	CountDownLatch res = restart;
         	public void actionPerformed(ActionEvent e) {
         		JOptionPane.showMessageDialog(null, settings, "Settings", JOptionPane.PLAIN_MESSAGE);
+        		res.countDown();
         		return;
         	}
         });

@@ -46,10 +46,6 @@ import org.apache.logging.log4j.Logger;
 import cloudsafe.exceptions.LockNotAcquiredException;
 import cloudsafe.util.Pair;
 
-/**
- * Example to watch a directory (or tree) for changes to files.
- */
-
 public class WatchDir {
 	
 	private final static Logger logger = LogManager
@@ -237,6 +233,8 @@ public class WatchDir {
 					if (uploadQueue.remove(AbsoluteFilePath)) {
 						logger.info("UPLOADQUEUE - File Removed : "
 								+ AbsoluteFilePath);
+						if (!deleteQueue.contains(AbsoluteFilePath))
+							deleteQueue.add(AbsoluteFilePath);			
 					} else {
 						if (!deleteQueue.contains(AbsoluteFilePath))
 							deleteQueue.add(AbsoluteFilePath);
@@ -256,9 +254,7 @@ public class WatchDir {
 				}
 			}
 		}
-
 	}
-
 	// add all the files of newly created folder in uploadqueue
 	void addAllFiles(Path start) throws IOException {
 
@@ -426,8 +422,7 @@ public class WatchDir {
 		try {
 			watcher.close();
 		} catch (IOException | ClosedWatchServiceException e) {
-			// TODO Auto-generated catch block
-			//e.printStackTrace();
+//			logger.error(");
 		}
 		timer.cancel();
 		timer.purge();

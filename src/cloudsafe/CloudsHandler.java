@@ -390,4 +390,11 @@ public class CloudsHandler {
 		}
 	}
 
+	public void shutdown() {
+		for(Timer periodicUploader : cloudPeriodicUploaders) {
+			periodicUploader.cancel();
+		}
+		executor.shutdown();
+	}
+
 }

@@ -5,7 +5,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.CountDownLatch;
 
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
@@ -22,16 +22,18 @@ public class MainDesktop {
 			.getName());
 
 	VaultClientDesktop client;
-	static String vaultPath = "trials/Cloud Vault";
-	static String configPath = "trials/config";
-	private AtomicBoolean restart = new AtomicBoolean(false);
-	
+	private static String vaultPath = "trials/Cloud Vault";
+	private static String configPath = "trials/config";
+	private WatchDir watchdir = null;
+//	private static AtomicBoolean restart = new AtomicBoolean(false);
+	private static CountDownLatch restart = null; 
 	public static void main(String[] args) {
 		try {
 			System.out.println("Welcome to your Cloud Vault!");
 			logger.entry("Application Starting!");
 			MainDesktop prog = new MainDesktop();
 			prog.run();
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -47,40 +49,33 @@ public class MainDesktop {
 			// configPath = "config";
 			logger.info("vaultPath: " + vaultPath);
 			logger.info("configPath: " + configPath);
-
-			Setup cloudVaultSetup = new Setup(vaultPath, configPath);
-			JTabbedPane settings = new JTabbedPane();
-			ProxyConfig proxySettings = new ProxyConfig(configPath);
-			settings.addTab("Proxy Settings", null, proxySettings,
-					"Proxy Settings");
-//			CloudConfig cloudSettings = new CloudConfig(configPath,
-//					cloudVaultSetup);
-//			settings.addTab("Clouds", null, cloudSettings, "Clouds");
-
-			if (!Files.exists(Paths.get(vaultPath))) {
-				logger.entry("New Setup");
-				JOptionPane.showMessageDialog(null, settings, "Settings",
-						JOptionPane.PLAIN_MESSAGE);
-				cloudVaultSetup.configureCloudAccess();
-				// create the directory to store configuration data
-				try {
-					Files.createDirectories(Paths.get(vaultPath));
-				} catch (IOException e1) {
-					e1.printStackTrace();
+			while(true) {
+				Setup cloudVaultSetup = new Setup(vaultPath, configPath);
+				JTabbedPane settings = new JTabbedPane();
+				ProxyConfig proxySettings = new ProxyConfig(configPath);
+				settings.addTab("Proxy Settings", null, proxySettings,
+						"Proxy Settings");
+	
+				if (!Files.exists(Paths.get(vaultPath))) {
+					logger.entry("New Setup");
+					JOptionPane.showMessageDialog(null, settings, "Settings",
+							JOptionPane.PLAIN_MESSAGE);
+					cloudVaultSetup.configureCloudAccess();
+					// create the directory to store configuration data
+					try {
+						Files.createDirectories(Paths.get(vaultPath));
+					} catch (IOException e1) {
+						e1.printStackTrace();
+					}
+					logger.exit("Setup complete!");
 				}
-				logger.exit("Setup complete!");
+				
+				launch();
+				new TrayWindows(configPath, cloudVaultSetup, restart);
+				restart.await();
+				watchdir.shutdown();
+				client.shutdown();
 			}
-			client = new VaultClientDesktop(vaultPath, configPath);
-			new TrayWindows(configPath, cloudVaultSetup, restart);
-
-			// --------Watchdir starts here--------------
-			String targetdir = vaultPath;
-			boolean recursive = true;
-			// register directory and process its events
-			Path dir = Paths.get(targetdir);
-			new WatchDir(dir, recursive, client).processEvents();
-
-			// --------Watchdir ends here----------------
 		} catch (Exception e) {
 			System.out.println(e);
 			e.printStackTrace();
@@ -88,6 +83,7 @@ public class MainDesktop {
 	}
 	
 	public void launch() {
+		restart = new CountDownLatch(1);
 		client = new VaultClientDesktop(vaultPath, configPath);
 
 		// --------Watchdir starts here--------------
@@ -96,7 +92,8 @@ public class MainDesktop {
 		// register directory and process its events
 		Path dir = Paths.get(targetdir);
 		try {
-			new WatchDir(dir, recursive, client).processEvents();
+			watchdir = new WatchDir(dir, recursive, client);
+			watchdir.processEvents();
 		} catch (IOException e) {
 			logger.error("Error in WatchDir!", e);
 		}

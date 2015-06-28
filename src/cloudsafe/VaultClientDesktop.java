@@ -767,4 +767,8 @@ public class VaultClientDesktop {
 		logger.trace("Sync done;");
 		return changes;
 	}
+
+	public void shutdown() {
+		cloudsHandler.shutdown();
+	}
 }

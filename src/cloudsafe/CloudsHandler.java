@@ -78,9 +78,9 @@ public class CloudsHandler {
 	public boolean acquireLock() {
 		boolean lockAcquired = true;
 		String lockFile = "tablelock";
-		int cloudID = 0;
+		int cloudIdx = 0;
 		ArrayList<Future<Void>> results = new ArrayList<Future<Void>>();
-		for (int i = 0; i < clouds.size(); i++, cloudID++) {
+		for (int i = 0; i < clouds.size(); i++, cloudIdx++) {
 			Cloud cloud = clouds.get(i);
 			if (cloud.isAvailable()) {
 				if (cloud.searchFile("tablelock")) {
@@ -104,7 +104,7 @@ public class CloudsHandler {
 		logger.trace("lock could not be acquired");
 		if(!lockAcquired) {
 			byte[] lock = {};
-			for(int i=0; i<cloudID; i++){
+			for(int i=0; i<cloudIdx; i++){
 				Cloud cloud = clouds.get(i);
 				if (cloud.isAvailable()) {
 					logger.trace("recreating lock in cloud " + i);
@@ -289,15 +289,15 @@ public class CloudsHandler {
 
 	class Uploader implements Callable<Void> {
 		Cloud cloud;
-		int cloudID;
+		int cloudIdx;
 		byte[] data;
 		String fileID;
 		WriteMode mode;
 
-		public Uploader(int cloudID, byte[] data, String fileID, WriteMode mode) {
+		public Uploader(int cloudIdx, byte[] data, String fileID, WriteMode mode) {
 			super();
-			this.cloud = clouds.get(cloudID);
-			this.cloudID = cloudID;
+			this.cloud = clouds.get(cloudIdx);
+			this.cloudIdx = cloudIdx;
 			this.data = data;
 			this.fileID = fileID;
 			this.mode = mode;
@@ -306,83 +306,86 @@ public class CloudsHandler {
 		@Override
 		public Void call() throws Exception {
 			try {
-				logger.trace("Uploading to cloud" + cloudID);
+				logger.trace("Uploading to cloud" + cloudIdx);
 				cloud.uploadFile(data, fileID, mode);
-			} catch (IOException e) {
+			}catch (Exception e) {
+				logger.error("error while uploading " + fileID, e);
+				cloudUploadQueues.get(cloudIdx).put(fileID, data);
 				throw e;
-			} catch (Exception e1) {
-				cloudUploadQueues.get(cloudID).put(fileID, data);
 			}
 			return null;
 		}
 	}
 
 	class Downloader implements Callable<byte[]> {
-		private int cloudID;
+		private int cloudIdx;
 		private Cloud cloud;
 		private String fileID;
 
-		public Downloader(int cloudID, String fileID) {
+		public Downloader(int cloudIdx, String fileID) {
 			super();
-			this.cloudID = cloudID;
-			this.cloud = clouds.get(cloudID);
+			this.cloudIdx = cloudIdx;
+			this.cloud = clouds.get(cloudIdx);
 			this.fileID = fileID;
 		}
 
 		@Override
 		public byte[] call() throws Exception {
-			logger.trace("Downloading from cloud" + cloudID);
+			logger.trace("Downloading from cloud" + cloudIdx);
 			return cloud.downloadFile(fileID);
 		}
 	}
 
 	class Deleter implements Callable<Void> {
-		private int cloudID;
+		private int cloudIdx;
 		private Cloud cloud;
 		private String fileID;
 
-		public Deleter(int cloudID, String fileID) {
+		public Deleter(int cloudIdx, String fileID) {
 			super();
-			this.cloudID = cloudID;
-			this.cloud = clouds.get(cloudID);
+			this.cloudIdx = cloudIdx;
+			this.cloud = clouds.get(cloudIdx);
 			this.fileID = fileID;
 		}
 
 		@Override
 		public Void call() throws Exception {
-			logger.trace("Deleting in cloud" + cloudID);
+			logger.trace("Deleting in cloud" + cloudIdx);
 			cloud.deleteFile(fileID);
 			return null;
 		}
 	}
 
 	private class CloudUploader extends TimerTask {
-		int cloudID;
+		int cloudIdx;
 		Cloud cloud;
 		ConcurrentHashMap<String, byte[]> uploadQueue;
 
-		public CloudUploader(int cloudID,
+		public CloudUploader(int cloudIdx,
 				ConcurrentHashMap<String, byte[]> uploadQueue) {
-			this.cloudID = cloudID;
-			this.cloud = clouds.get(cloudID);
+			this.cloudIdx = cloudIdx;
+			this.cloud = clouds.get(cloudIdx);
 			this.uploadQueue = uploadQueue;
 		}
 
 		public void run() {
-			logger.trace("starting periodic upload for cloud" + cloudID);
+			logger.trace("starting periodic upload for cloud" + cloudIdx);
 			if(cloud.isAvailable() && !uploadQueue.isEmpty()){
 				Set<String> fileNames = uploadQueue.keySet();
-				try {
-					for (String fileName : fileNames) {
-						cloud.uploadFile(uploadQueue.get(fileName), fileName,
-								WriteMode.OVERWRITE);
-						uploadQueue.remove(fileName);
+				for (String fileName : fileNames) {
+					if (cloud.isAvailable()) {
+						try {
+							cloud.uploadFile(uploadQueue.get(fileName),
+									fileName, WriteMode.OVERWRITE);
+							uploadQueue.remove(fileName);
+						} catch (IOException e) {
+							logger.error("error while uploading " + fileName, e);
+						}
+					} else {
+						break;
 					}
-				} catch (IOException e) {
-					logger.error("error in periodic upload to cloud. ", e);
-					e.printStackTrace();
 				}
-				writeQueueToFile(cloudID);
+				writeQueueToFile(cloudIdx);
 			}
 		}
 	}

@@ -14,6 +14,9 @@ import java.util.Locale;
 
 
 
+
+
+
 //import javax.servlet.http.HttpServletRequest;
 //import javax.servlet.http.HttpServletRequestWrapper;
 import javax.swing.JOptionPane;
@@ -64,55 +67,45 @@ public class Dropbox implements Cloud {
 				Runtime runtime = Runtime.getRuntime();
 				runtime.exec("/usr/bin/firefox -new-window " + authorizeUrl);
 			}
+		} catch (IOException e) {
+			throw new AuthenticationException("Authentication URL couldn't be opened.");
+		}
 
-			String code = JOptionPane.showInputDialog(null,
-					"Copy the Authorization Code here",
-					"Dropbox Authorization", JOptionPane.QUESTION_MESSAGE);
-			if (code == null) {
-				throw new AuthenticationException(
-						"User cancelled Authentication");
-			}
-			code = code.trim();
+		String code = JOptionPane.showInputDialog(null,
+				"Copy the Authorization Code here",
+				"Dropbox Authorization", JOptionPane.QUESTION_MESSAGE);
+		if (code == null) {
+			throw new AuthenticationException(
+					"User cancelled Authentication");
+		}
+		code = code.trim();
 
+		try {
 			DbxAuthFinish authFinish = webAuth.finish(code);
 			accessToken = authFinish.accessToken;
 			client = new DbxClient(config, accessToken);
 
 			logger.info("Linked account: "
 					+ client.getAccountInfo().displayName);
-		} catch (DbxException.NetworkIO | DbxException.ServerError
-				| DbxException.ProtocolError dbe) {
-			logger.info("Exception: " + dbe);
-			available = false;
-		} catch (DbxException dbe) {
-			logger.info("DbxException: " + dbe);
-			dbe.printStackTrace();
-		} catch (IOException x) {
-			logger.info("IOException: " + x);
-			x.printStackTrace();
+		} catch (DbxException e) {
+			throw new AuthenticationException(e);
 		}
 	}
 
-	public Dropbox(String ID, String accessToken, Proxy proxy) {
+	public Dropbox(String ID, String accessToken, Proxy proxy) throws DbxException {
 		this.setID(ID);
 		this.accessToken = accessToken;
 		DbxRequestConfig config;
-		// HttpRequestor requ = getProxy();
 		HttpRequestor requ = new StandardHttpRequestor(proxy);
 		config = new DbxRequestConfig("CloudVault/1.0", Locale.getDefault()
 				.toString(), requ);
 		try {
-
 			client = new DbxClient(config, accessToken);
-
 			logger.info("Linked account: "
 					+ client.getAccountInfo().displayName);
-		} catch (DbxException.NetworkIO | DbxException.ServerError
-				| DbxException.ProtocolError | DbxException.InvalidAccessToken dbe) {
-			available = false;
-		} catch (DbxException dbe) {
-			logger.info("DbxException: " + dbe);
-			dbe.printStackTrace();
+		} catch (DbxException e) {
+			logger.error("Error linking to Dropbox. ", e);
+			throw e;
 		}
 	}
 
@@ -122,6 +115,17 @@ public class Dropbox implements Cloud {
 
 	@Override
 	public boolean isAvailable() {
+		if(!available){
+			try{
+				client.getAccountInfo();
+				available = true;
+			} catch (DbxException.RetryLater|DbxException.NetworkIO|DbxException.InvalidAccessToken e) {
+				//TODO wrap these exceptions in a common 'CloudExcpetion' and throw.
+//				throw e;
+			} catch (DbxException e) {
+				available = false;
+			}
+		}
 		return available;
 	}
 
@@ -137,12 +141,11 @@ public class Dropbox implements Cloud {
 				client.uploadFile("/CloudVault/" + fileID,
 						DbxWriteMode.force(), data.length, inputStream);
 			}
-		} catch (DbxException.NetworkIO | DbxException.ServerError
-				| DbxException.ProtocolError dbe) {
+		} catch (DbxException.RetryLater|DbxException.NetworkIO|DbxException.InvalidAccessToken e) {
+			//TODO wrap these exceptions in a common 'CloudExcpetion' and throw.
+//			throw e;
+		} catch (DbxException e) {
 			available = false;
-		} catch (DbxException dbe) {
-			logger.info("DbxException: " + dbe);
-			dbe.printStackTrace();
 		} finally {
 			inputStream.close();
 		}
@@ -162,12 +165,11 @@ public class Dropbox implements Cloud {
 				client.uploadFile("/CloudVault/" + fileID,
 						DbxWriteMode.force(), inputFile.length(), inputStream);
 			}
-		} catch (DbxException.NetworkIO | DbxException.ServerError
-				| DbxException.ProtocolError dbe) {
+		} catch (DbxException.RetryLater|DbxException.NetworkIO|DbxException.InvalidAccessToken e) {
+			//TODO wrap these exceptions in a common 'CloudExcpetion' and throw.
+//			throw e;
+		} catch (DbxException e) {
 			available = false;
-		} catch (DbxException dbe) {
-			logger.info("DbxException: " + dbe);
-			dbe.printStackTrace();
 		} finally {
 			inputStream.close();
 		}
@@ -178,12 +180,11 @@ public class Dropbox implements Cloud {
 		ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
 		try {
 			client.getFile("/CloudVault/" + fileID, null, outputStream);
-		} catch (DbxException.NetworkIO | DbxException.ServerError
-				| DbxException.ProtocolError dbe) {
+		} catch (DbxException.RetryLater|DbxException.NetworkIO|DbxException.InvalidAccessToken e) {
+			//TODO wrap these exceptions in a common 'CloudExcpetion' and throw.
+//			throw e;
+		} catch (DbxException e) {
 			available = false;
-		} catch (DbxException dbe) {
-			logger.info("DbxException: " + dbe);
-			dbe.printStackTrace();
 		} finally {
 			outputStream.close();
 		}
@@ -195,12 +196,11 @@ public class Dropbox implements Cloud {
 		FileOutputStream outputStream = new FileOutputStream(filename);
 		try {
 			client.getFile("/CloudVault/" + fileID, null, outputStream);
-		} catch (DbxException.NetworkIO | DbxException.ServerError
-				| DbxException.ProtocolError dbe) {
+		} catch (DbxException.RetryLater|DbxException.NetworkIO|DbxException.InvalidAccessToken e) {
+			//TODO wrap these exceptions in a common 'CloudExcpetion' and throw.
+//			throw e;
+		} catch (DbxException e) {
 			available = false;
-		} catch (DbxException dbe) {
-			logger.info("DbxException: " + dbe);
-			dbe.printStackTrace();
 		} finally {
 			outputStream.close();
 		}
@@ -215,12 +215,11 @@ public class Dropbox implements Cloud {
 				return false;
 			else
 				return true;
-		} catch (DbxException.NetworkIO | DbxException.ServerError
-				| DbxException.ProtocolError dbe) {
+		} catch (DbxException.RetryLater|DbxException.NetworkIO|DbxException.InvalidAccessToken e) {
+			//TODO wrap these exceptions in a common 'CloudExcpetion' and throw.
+//			throw e;
+		} catch (DbxException e) {
 			available = false;
-		} catch (DbxException dbe) {
-			logger.info("DbxException: " + dbe);
-			dbe.printStackTrace();
 		}
 		return false;
 	}
@@ -229,12 +228,11 @@ public class Dropbox implements Cloud {
 	public void deleteFile(String path) {
 		try {
 			client.delete("/CloudVault/" + path);
-		} catch (DbxException.NetworkIO | DbxException.ServerError
-				| DbxException.ProtocolError dbe) {
+		} catch (DbxException.RetryLater|DbxException.NetworkIO|DbxException.InvalidAccessToken e) {
+			//TODO wrap these exceptions in a common 'CloudExcpetion' and throw.
+//			throw e;
+		} catch (DbxException e) {
 			available = false;
-		} catch (DbxException dbe) {
-			logger.info("DbxException: " + dbe);
-			dbe.printStackTrace();
 		}
 	}
 

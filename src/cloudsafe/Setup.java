@@ -176,16 +176,16 @@ public class Setup {
 			try {
 				cloud = new Dropbox(cloudID, proxy);
 				meta = cloud.metadata();
-				cloudConfigProps.setProperty(cloudID + ".type", code);
-				cloudConfigProps.setProperty(cloudID + ".code", meta);
-				cloudConfigProps.setProperty(cloudID + ".status", "1");
 			} catch (AuthenticationException e) {
 				logger.error("AuthenticationException: " + e.getMessage());
 				JOptionPane.showMessageDialog(null,
-						"Authentication Interrupted : Dropbox");
+						"Authentication could not be completed");
 				addCloud();
 				return;
 			}
+			cloudConfigProps.setProperty(cloudID + ".type", code);
+			cloudConfigProps.setProperty(cloudID + ".code", meta);
+			cloudConfigProps.setProperty(cloudID + ".status", "1");
 			updateDynamicMessage(cloudcounter, "DropBox");
 			break;
 		case "GoogleDrive":
@@ -200,9 +200,6 @@ public class Setup {
 			try {
 				cloud = new FolderCloud(cloudID);
 				meta = cloud.metadata();
-				cloudConfigProps.setProperty(cloudID + ".type", code);
-				cloudConfigProps.setProperty(cloudID + ".code", meta);
-				cloudConfigProps.setProperty(cloudID + ".status", "1");
 			} catch (Exception e) {
 				e.printStackTrace();
 				JOptionPane.showMessageDialog(null,
@@ -210,6 +207,9 @@ public class Setup {
 				addCloud();
 				return;
 			}
+			cloudConfigProps.setProperty(cloudID + ".type", code);
+			cloudConfigProps.setProperty(cloudID + ".code", meta);
+			cloudConfigProps.setProperty(cloudID + ".status", "1");
 			availableClouds.remove("onedrive");
 			updateDynamicMessage(cloudcounter, "OneDrive");
 			break;
@@ -217,9 +217,6 @@ public class Setup {
 			try {
 				cloud = new Box(cloudID, proxy);
 				meta = cloud.metadata();
-				cloudConfigProps.setProperty(cloudID + ".type", code);
-				cloudConfigProps.setProperty(cloudID + ".code", meta);
-				cloudConfigProps.setProperty(cloudID + ".status", "1");
 			} catch (BoxRestException | BoxServerException
 					| AuthFatalFailureException e) {
 				e.printStackTrace();
@@ -228,6 +225,9 @@ public class Setup {
 				addCloud();
 				return;
 			}
+			cloudConfigProps.setProperty(cloudID + ".type", code);
+			cloudConfigProps.setProperty(cloudID + ".code", meta);
+			cloudConfigProps.setProperty(cloudID + ".status", "1");
 			availableClouds.remove("box");
 			updateDynamicMessage(cloudcounter, "Box");
 			break;
@@ -235,9 +235,6 @@ public class Setup {
 			try {
 				cloud = new FolderCloud(cloudID);
 				meta = cloud.metadata();
-				cloudConfigProps.setProperty(cloudID + ".type", code);
-				cloudConfigProps.setProperty(cloudID + ".code", meta);
-				cloudConfigProps.setProperty(cloudID + ".status", "1");
 			} catch (Exception e) {
 				e.printStackTrace();
 				JOptionPane.showMessageDialog(null,
@@ -245,6 +242,9 @@ public class Setup {
 				addCloud();
 				return;
 			}
+			cloudConfigProps.setProperty(cloudID + ".type", code);
+			cloudConfigProps.setProperty(cloudID + ".code", meta);
+			cloudConfigProps.setProperty(cloudID + ".status", "1");
 			updateDynamicMessage(cloudcounter, "FolderCloud");
 			break;
 		}

@@ -40,6 +40,7 @@ import com.google.api.services.drive.model.ParentReference;
 import cloudsafe.cloud.Cloud;
 import cloudsafe.cloud.WriteMode;
 
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 //import java.io.InputStreamReader;
@@ -68,6 +69,8 @@ import org.apache.logging.log4j.Logger;
  */
 public class GoogleDrive implements Cloud {
 	private String ID;
+	private Proxy proxy;
+	private boolean available = true;
 	private final static Logger logger = LogManager
 			.getLogger(GoogleDrive.class.getName());
 
@@ -110,12 +113,13 @@ public class GoogleDrive implements Cloud {
 
 	public GoogleDrive(String ID, Proxy proxy, int userIndex) {
 		this.ID = ID;
+		this.proxy = proxy;
 		GoogleDrive.userIndex = userIndex;
 		mainOld(proxy);
 	}
 
 	/** Authorizes the installed application to access user's protected data. */
-	private static Credential authorize() throws Exception {
+	private static Credential authorize() throws IOException {
 
 		GoogleClientSecrets.Details installedDetails = new GoogleClientSecrets.Details();
 		installedDetails
@@ -126,10 +130,6 @@ public class GoogleDrive implements Cloud {
 		clientSecrets.setInstalled(installedDetails);
 
 		// load client secrets
-		// GoogleClientSecrets clientSecrets =
-		// GoogleClientSecrets.load(JSON_FACTORY,
-		// new
-		// InputStreamReader(GoogleDrive.class.getResourceAsStream("/client_secrets.json")));
 		if (clientSecrets.getDetails().getClientId().startsWith("Enter")
 				|| clientSecrets.getDetails().getClientSecret()
 						.startsWith("Enter ")) {
@@ -147,7 +147,14 @@ public class GoogleDrive implements Cloud {
 		return new AuthorizationCodeInstalledApp(flow, recieve)
 				.authorize("user");
 	}
-
+	
+	public boolean isAvailable() {
+		if(!available)
+		{
+			available = mainOld(proxy);
+		}
+		return available;
+	}
 	static HttpTransport newProxyTransport(Proxy proxy)
 			throws GeneralSecurityException, IOException {
 		NetHttpTransport.Builder builder = new NetHttpTransport.Builder();
@@ -157,7 +164,6 @@ public class GoogleDrive implements Cloud {
 
 	public static boolean mainOld(Proxy proxy) {
 		try {
-			// httpTransport = GoogleNetHttpTransport.newTrustedTransport();
 			httpTransport = newProxyTransport(proxy);
 			if(userIndex == 1)
 				dataStoreFactory = new FileDataStoreFactory(DATA_STORE_DIR);
@@ -188,10 +194,8 @@ public class GoogleDrive implements Cloud {
 			}
 
 			return true;
-		} catch (IOException e) {
+		} catch (IOException | GeneralSecurityException e) {
 			System.err.println(e.getMessage());
-		} catch (Throwable t) {
-			t.printStackTrace();
 		}
 		return false;
 	}
@@ -200,63 +204,57 @@ public class GoogleDrive implements Cloud {
 		return "";
 	}
 
-	public boolean isAvailable() {
-		// TODO Auto-generated method stub
-		// return mainOld();
-		return true;
-	}
 
-	public void uploadFile(byte[] data, String fileID, WriteMode mode)
-			throws IOException {
+
+	public void uploadFile(byte[] data, String fileID, WriteMode mode) {
 		String tempPath = assistingFolder + "/" + fileID;
-		if (!Files.exists(Paths.get(tempPath))) {
-			Files.createDirectories(Paths.get(tempPath).getParent());
+		try {
+			if (!Files.exists(Paths.get(tempPath))) {
+				Files.createDirectories(Paths.get(tempPath).getParent());
+			}
+			FileOutputStream fos = new FileOutputStream(tempPath);
+			fos.write(data);
+			fos.close();
+			uploadFile(tempPath, fileID, mode);
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
 		}
-		FileOutputStream fos = new FileOutputStream(tempPath);
-		fos.write(data);
-		fos.close();
-		uploadFile(tempPath, fileID, mode);
-//		 try {
-//		 Process p =
-//		 Runtime.getRuntime().exec("rm -rf "+tempPath);
-//		 p.waitFor();
-//		 //System.out.println("file deleted from Downloads");
-//		 } catch (IOException e1) {
-//		 } catch (InterruptedException e2) {
-//		 }
 	}
 
 	public void uploadFile(String path, String fileID, WriteMode mode)
-			throws IOException {
-		if (mode == WriteMode.ADD) {
-			java.io.File UPLOAD_FILE = new java.io.File(path);
-			File uploadedFile = uploadFile(false, UPLOAD_FILE); // resumable
-																// media upload
-			updateFileWithTestSuffix(uploadedFile.getId(), fileID);
-		} else if (mode == WriteMode.OVERWRITE) {
-			Drive.Files.List file_list = drive
-					.files()
-					.list()
-					.setQ("title = '" + fileID + "' and '" + CloudVaultFolderID
-							+ "' in parents and" + " trashed=false");
-			FileList Files = file_list.execute();
-
-			java.util.List<File> FileActualList = Files.getItems();
-			if (FileActualList.size() == 0) {
-				uploadFile(path, fileID, WriteMode.ADD);
-			} else {
-
-//				drive.files().delete(FileActualList.get(0).getId()).execute();
-//				uploadFile(path, fileID, WriteMode.ADD);
+	{
+		try {
+			if (mode == WriteMode.ADD) {
 				java.io.File UPLOAD_FILE = new java.io.File(path);
-				File fileMetadata = new File();
-				FileContent mediaContent = new FileContent("image/jpeg",
-						UPLOAD_FILE);
-				Drive.Files.Update update = drive.files().update(
-						FileActualList.get(0).getId(), fileMetadata,
-						mediaContent);
-				update.execute();
+				File uploadedFile = uploadFile(false, UPLOAD_FILE); // resumable
+																	// media upload
+				updateFileWithTestSuffix(uploadedFile.getId(), fileID);
+			} else if (mode == WriteMode.OVERWRITE) {
+				Drive.Files.List file_list = drive
+						.files()
+						.list()
+						.setQ("title = '" + fileID + "' and '" + CloudVaultFolderID
+								+ "' in parents and" + " trashed=false");
+				FileList Files = file_list.execute();
+
+				java.util.List<File> FileActualList = Files.getItems();
+				if (FileActualList.size() == 0) {
+					uploadFile(path, fileID, WriteMode.ADD);
+				} else {
+					java.io.File UPLOAD_FILE = new java.io.File(path);
+					File fileMetadata = new File();
+					FileContent mediaContent = new FileContent("image/jpeg",
+							UPLOAD_FILE);
+					Drive.Files.Update update = drive.files().update(
+							FileActualList.get(0).getId(), fileMetadata,
+							mediaContent);
+					update.execute();
+				}
 			}
+		} catch (IOException e) {
+			available  = false;
 		}
 
 	}
@@ -264,7 +262,6 @@ public class GoogleDrive implements Cloud {
 	/** Uploads a file using either resumable or direct media upload. */
 	private static File uploadFile(boolean useDirectUpload,
 			java.io.File UPLOAD_FILE) throws IOException {
-
 		File fileMetadata = new File();
 		fileMetadata.setTitle(UPLOAD_FILE.getName());
 		fileMetadata.setParents(Arrays.asList(new ParentReference()
@@ -287,34 +284,45 @@ public class GoogleDrive implements Cloud {
 	}
 
 	@Override
-	public byte[] downloadFile(String fileID) throws IOException {
-		Drive.Files.List file_list = drive
-				.files()
-				.list()
-				.setQ("title = '" + fileID + "' and '" + CloudVaultFolderID
-						+ "' in parents and" + " trashed=false");
-		FileList FilesPresent = file_list.execute();
-		java.util.List<File> FileActualList = FilesPresent.getItems();
-		OutputStream out = new FileOutputStream(new java.io.File(
-				assistingFolder, fileID));
-		MediaHttpDownloader downloader = new MediaHttpDownloader(httpTransport,
-				drive.getRequestFactory().getInitializer());
-		downloader.setDirectDownloadEnabled(false);
-		downloader.download(new GenericUrl(FileActualList.get(0)
-				.getDownloadUrl()), out);
-		Path path = Paths.get(assistingFolder + "/" + fileID);
-		return Files.readAllBytes(path);
+	public byte[] downloadFile(String fileID){
+		try {
+			Drive.Files.List file_list = drive
+					.files()
+					.list()
+					.setQ("title = '" + fileID + "' and '" + CloudVaultFolderID
+							+ "' in parents and" + " trashed=false");
+			FileList FilesPresent = file_list.execute();
+			java.util.List<File> FileActualList = FilesPresent.getItems();
+			OutputStream out = new FileOutputStream(new java.io.File(
+					assistingFolder, fileID));
+			MediaHttpDownloader downloader = new MediaHttpDownloader(httpTransport,
+					drive.getRequestFactory().getInitializer());
+			downloader.setDirectDownloadEnabled(false);
+			downloader.download(new GenericUrl(FileActualList.get(0)
+					.getDownloadUrl()), out);
+			Path path = Paths.get(assistingFolder + "/" + fileID);
+			return Files.readAllBytes(path);
+			
+		} catch (IOException e) {
+			available = false;
+			return null;
+		}
+
 	}
 
-	public void downloadFile(String path, String fileID) throws IOException {
-		Drive.Files.List file_list = drive
-				.files()
-				.list()
-				.setQ("title = '" + fileID + "' and '" + CloudVaultFolderID
-						+ "' in parents and" + " trashed=false");
-		FileList Files = file_list.execute();
-		java.util.List<File> FileActualList = Files.getItems();
-		downloadFile(false, FileActualList.get(0), path);
+	public void downloadFile(String path, String fileID){
+		try {
+			Drive.Files.List file_list = drive
+					.files()
+					.list()
+					.setQ("title = '" + fileID + "' and '" + CloudVaultFolderID
+							+ "' in parents and" + " trashed=false");
+			FileList Files = file_list.execute();
+			java.util.List<File> FileActualList = Files.getItems();
+			downloadFile(false, FileActualList.get(0), path);
+		} catch (IOException e) {
+			available = false;
+		}
 	}
 
 	/** Downloads a file using either resumable or direct media download. */
@@ -347,7 +355,9 @@ public class GoogleDrive implements Cloud {
 			else
 				return false;
 		} catch (IOException e1) {
+			available = false;
 		} catch (NullPointerException e) {
+			return false;
 		}
 		return false;
 	}
@@ -369,7 +379,9 @@ public class GoogleDrive implements Cloud {
 			else
 				return;
 		} catch (IOException e1) {
+			available = false;
 		} catch (NullPointerException e) {
+			return;
 		}
 		return;
 	}

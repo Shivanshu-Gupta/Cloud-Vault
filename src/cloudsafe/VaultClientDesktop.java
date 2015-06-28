@@ -106,7 +106,7 @@ public class VaultClientDesktop {
 		}
 
 		ArrayList<Cloud> clouds = new ArrayList<Cloud>();
-		int cloudcounter = Integer.parseInt(cloudConfigProps.getProperty("Number of Clouds"));
+		int cloudcounter = Integer.parseInt(cloudConfigProps.getProperty("Number of clouds"));
 		String cloudID, type, status, code;
 		for (int i=0; i < cloudcounter; i++) {
 			cloudID = "cloud" + i;

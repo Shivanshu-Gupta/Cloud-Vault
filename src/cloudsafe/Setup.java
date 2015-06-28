@@ -17,8 +17,12 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Properties;
 
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 //import javax.swing.JTabbedPane;
+
+
+import javax.swing.JRadioButton;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -40,8 +44,8 @@ public class Setup {
 	String vaultPath = "trials/Cloud Vault";
 	int userIndex = 1;
 	String configPath = "trials/config";
-	private File cloudConfigFile = null;
-	private Properties cloudConfigProps;
+	File cloudConfigFile = null;
+	Properties cloudConfigProps;
 	
 	public Setup(String vaultPath, String configPath) {
 		this.vaultPath = vaultPath;
@@ -78,8 +82,7 @@ public class Setup {
 					JOptionPane.ERROR_MESSAGE);
 			e.printStackTrace();
 		}
-		
-		cloudcounter = Integer.parseInt(cloudConfigProps.getProperty("Number of Clouds"));
+		cloudcounter = Integer.parseInt(cloudConfigProps.getProperty("Number of clouds"));
 		// settings.addTab("Clouds", null, cloudSettings, "Clouds");
 		// JOptionPane.showMessageDialog(null, settings, "Settings",
 		// JOptionPane.PLAIN_MESSAGE);
@@ -176,9 +179,6 @@ public class Setup {
 			try {
 				cloud = new Dropbox(cloudID, proxy);
 				meta = cloud.metadata();
-				cloudConfigProps.setProperty(cloudID + ".type", code);
-				cloudConfigProps.setProperty(cloudID + ".code", meta);
-				cloudConfigProps.setProperty(cloudID + ".status", "1");
 			} catch (AuthenticationException e) {
 				logger.error("AuthenticationException: " + e.getMessage());
 				JOptionPane.showMessageDialog(null,
@@ -186,6 +186,9 @@ public class Setup {
 				addCloud();
 				return;
 			}
+			cloudConfigProps.setProperty(cloudID + ".type", code);
+			cloudConfigProps.setProperty(cloudID + ".code", meta);
+			cloudConfigProps.setProperty(cloudID + ".status", "1");
 			updateDynamicMessage(cloudcounter, "DropBox");
 			break;
 		case "GoogleDrive":
@@ -200,9 +203,6 @@ public class Setup {
 			try {
 				cloud = new FolderCloud(cloudID);
 				meta = cloud.metadata();
-				cloudConfigProps.setProperty(cloudID + ".type", code);
-				cloudConfigProps.setProperty(cloudID + ".code", meta);
-				cloudConfigProps.setProperty(cloudID + ".status", "1");
 			} catch (Exception e) {
 				e.printStackTrace();
 				JOptionPane.showMessageDialog(null,
@@ -210,6 +210,9 @@ public class Setup {
 				addCloud();
 				return;
 			}
+			cloudConfigProps.setProperty(cloudID + ".type", code);
+			cloudConfigProps.setProperty(cloudID + ".code", meta);
+			cloudConfigProps.setProperty(cloudID + ".status", "1");
 			availableClouds.remove("onedrive");
 			updateDynamicMessage(cloudcounter, "OneDrive");
 			break;
@@ -217,9 +220,6 @@ public class Setup {
 			try {
 				cloud = new Box(cloudID, proxy);
 				meta = cloud.metadata();
-				cloudConfigProps.setProperty(cloudID + ".type", code);
-				cloudConfigProps.setProperty(cloudID + ".code", meta);
-				cloudConfigProps.setProperty(cloudID + ".status", "1");
 			} catch (BoxRestException | BoxServerException
 					| AuthFatalFailureException e) {
 				e.printStackTrace();
@@ -228,6 +228,9 @@ public class Setup {
 				addCloud();
 				return;
 			}
+			cloudConfigProps.setProperty(cloudID + ".type", code);
+			cloudConfigProps.setProperty(cloudID + ".code", meta);
+			cloudConfigProps.setProperty(cloudID + ".status", "1");
 			availableClouds.remove("box");
 			updateDynamicMessage(cloudcounter, "Box");
 			break;
@@ -235,9 +238,6 @@ public class Setup {
 			try {
 				cloud = new FolderCloud(cloudID);
 				meta = cloud.metadata();
-				cloudConfigProps.setProperty(cloudID + ".type", code);
-				cloudConfigProps.setProperty(cloudID + ".code", meta);
-				cloudConfigProps.setProperty(cloudID + ".status", "1");
 			} catch (Exception e) {
 				e.printStackTrace();
 				JOptionPane.showMessageDialog(null,
@@ -245,6 +245,9 @@ public class Setup {
 				addCloud();
 				return;
 			}
+			cloudConfigProps.setProperty(cloudID + ".type", code);
+			cloudConfigProps.setProperty(cloudID + ".code", meta);
+			cloudConfigProps.setProperty(cloudID + ".status", "1");
 			updateDynamicMessage(cloudcounter, "FolderCloud");
 			break;
 		}
@@ -254,12 +257,14 @@ public class Setup {
 		dynamic_message = dynamic_message + CloudName + "\nCloud "
 				+ (index + 2) + " : ";
 		cloudcounter++;
+		cloudConfigProps.setProperty("Number of clouds", Integer.toString(cloudcounter));
 		// cloudSettings.addEntry(CloudName);
 
 	}
 
-	void deleteCloud(int index) {
-		cloudConfigProps.setProperty("cloud" + index, "-1");
+	void deleteCloud(String cloudID) {
+		System.out.println(cloudID);
+		cloudConfigProps.setProperty(cloudID + ".status", "-1");
 	}
 
 	public void configureCloudAccess() {
@@ -288,6 +293,10 @@ public class Setup {
 			e.printStackTrace();
 		}
 
+		saveMetadata();
+	}
+	
+	public void saveMetadata() {
 		// save the meta data
 		try {
 			OutputStream outputStream = new FileOutputStream(cloudConfigFile);
@@ -303,6 +312,38 @@ public class Setup {
 					"Error saving properties file: " + ex.getMessage(),
 					"Error",
 					JOptionPane.ERROR_MESSAGE);		
+		}
+	}
+	
+	public void readMetadata(){
+		System.out.println("reading meta data");
+		Properties defaultProps = new Properties();
+		// sets default properties
+		defaultProps.setProperty("Number of clouds", "0");	
+		cloudConfigProps = new Properties(defaultProps);
+		try {
+			if(Files.exists(Paths.get(cloudConfigFile.toString()))) {
+				InputStream inputStream = new FileInputStream(cloudConfigFile);
+				cloudConfigProps.load(inputStream);
+				inputStream.close();
+			}
+		} catch (FileNotFoundException e) {
+			JOptionPane.showMessageDialog(null, "<html>Error loading cloud configuration: "
+					+ "cloud config file not found.<br>"
+					+ "</html>", "Error",
+					JOptionPane.ERROR_MESSAGE);
+			e.printStackTrace();
+		} catch (IOException e) {
+			JOptionPane.showMessageDialog(null, "<html>Error loading cloud configuration: "
+					+ "cloud settings could not be read.<br>"
+					+ "</html>", "Error",
+					JOptionPane.ERROR_MESSAGE);
+			e.printStackTrace();
+		}
+		cloudcounter = Integer.parseInt(cloudConfigProps.getProperty("Number of clouds"));
+		for (int i = 0; i < cloudcounter; i++) {
+			String cloudID = "cloud" + i;
+			System.out.println(cloudConfigProps.getProperty(cloudID + ".status"));
 		}
 	}
 }

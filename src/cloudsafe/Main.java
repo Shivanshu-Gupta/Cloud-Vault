@@ -1,6 +1,7 @@
 package cloudsafe;
 
 import java.io.File;
+import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.Files;
@@ -72,6 +73,12 @@ public class Main {
 				JOptionPane.showMessageDialog(null, settings, "Settings",
 						JOptionPane.PLAIN_MESSAGE);
 				cloudVaultSetup.configureCloudAccess();
+				// create the directory to store configuration data
+				try {
+					Files.createDirectories(Paths.get(vaultPath));
+				} catch (IOException e1) {
+					e1.printStackTrace();
+				}
 				logger.exit("Setup complete!");
 			}
 			// cloudSettings.saveMetadata(cloudVaultSetup);

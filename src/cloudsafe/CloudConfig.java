@@ -5,12 +5,15 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileOutputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
+import java.io.InputStream;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Properties;
 
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
@@ -19,7 +22,6 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 
-import cloudsafe.util.Pair;
 
 public class CloudConfig extends JPanel implements ActionListener {
 
@@ -28,32 +30,35 @@ public class CloudConfig extends JPanel implements ActionListener {
 	private ArrayList<JLabel> labelCloud = new ArrayList<JLabel>();
 	private ArrayList<JLabel> cloudValue = new ArrayList<JLabel>();
 	private ArrayList<JRadioButton> radio = new ArrayList<JRadioButton>();
+	private ArrayList<String> cloudIdList = new ArrayList<String>();
 	private JLabel noCloudLabel = new JLabel("No Clouds Added");
 	
 	private JButton addButton = new JButton("Add More");
 	private JButton removeButton = new JButton("Remove");
 
-	private String cloudMetadataPath = null;
-	
 	GridBagConstraints constraints = new GridBagConstraints();
 	int y = 2;
-	ArrayList<Pair<String, String>> cloudMetaData = new ArrayList<Pair<String,String>>();
+//	ArrayList<Pair<String, String>> cloudMetaData = new ArrayList<Pair<String,String>>();
+	
+	File cloudConfigFile = null;
+	Properties cloudConfigProps;
+	private int cloudcounter;
 
-	@SuppressWarnings("unchecked")
 	public CloudConfig(String configPath, Setup cloudVaultSetup) {
-		try {
-			cloudMetadataPath = configPath + "/cloudmetadata.ser";
-			FileInputStream fileIn = new FileInputStream(cloudMetadataPath);
-			ObjectInputStream in = new ObjectInputStream(fileIn);
-			cloudMetaData = (ArrayList<Pair<String, String>>) in
-					.readObject();
-			in.close();
-			fileIn.close();
-		} catch (IOException x) {
-//			logger.error("IOException while adding cloud " + x);
-		} catch (ClassNotFoundException cfe) {
-			cfe.printStackTrace();
-		}
+		cloudConfigFile = cloudVaultSetup.cloudConfigFile;
+//		try {
+//			cloudMetadataPath = configPath + "/cloudmetadata.ser";
+//			FileInputStream fileIn = new FileInputStream(cloudMetadataPath);
+//			ObjectInputStream in = new ObjectInputStream(fileIn);
+//			cloudMetaData = (ArrayList<Pair<String, String>>) in
+//					.readObject();
+//			in.close();
+//			fileIn.close();
+//		} catch (IOException x) {
+////			logger.error("IOException while adding cloud " + x);
+//		} catch (ClassNotFoundException cfe) {
+//			cfe.printStackTrace();
+//		}
 		cloudConfigDraw(cloudVaultSetup);
 		
 	}
@@ -73,14 +78,13 @@ public class CloudConfig extends JPanel implements ActionListener {
 			public void actionPerformed(ActionEvent arg0) {
 				try {
 					cloudVaultSetup.addCloud();
-					saveMetadata(cloudVaultSetup);
+					cloudVaultSetup.saveMetadata();
 					JOptionPane.showMessageDialog(null, "Added");
 					clearPage();
 					refreshPage();
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
-
 			}
 		});
 		
@@ -88,9 +92,9 @@ public class CloudConfig extends JPanel implements ActionListener {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				if (removeIndex != -1) {
-					cloudVaultSetup.deleteCloud(removeIndex);
-					saveMetadata(cloudVaultSetup);
-					JOptionPane.showMessageDialog(null, "Removed");
+					cloudVaultSetup.deleteCloud(cloudIdList.get(removeIndex));
+					cloudVaultSetup.saveMetadata();
+					JOptionPane.showMessageDialog(null, "Removed : " + removeIndex);
 					clearPage();
 					refreshPage();
 				}
@@ -106,46 +110,48 @@ public class CloudConfig extends JPanel implements ActionListener {
 		removeIndex = Integer.parseInt(e.getActionCommand());
 	}
 
-	public void saveMetadata(Setup cloudVaultSetup) {
-		// save the meta data
-		try {
-			FileOutputStream fileOut = new FileOutputStream(
-					cloudVaultSetup.cloudMetadataPath);
-			ObjectOutputStream out = new ObjectOutputStream(fileOut);
-			out.writeObject(cloudVaultSetup.cloudMetaData);
-			out.close();
-			fileOut.close();
-//			Files.createDirectories(Paths.get(cloudVaultSetup.vaultPath));
-		} catch (IOException i) {
-			i.printStackTrace();
-		}	
-	}
-
-	@SuppressWarnings("unchecked")
 	public void refreshPage() {	
+
+		Properties defaultProps = new Properties();
+		// sets default properties
+		defaultProps.setProperty("Number of clouds", "0");	
+		cloudConfigProps = new Properties(defaultProps);
 		try {
-			FileInputStream fileIn = new FileInputStream(cloudMetadataPath);
-			ObjectInputStream in = new ObjectInputStream(fileIn);
-			cloudMetaData = (ArrayList<Pair<String, String>>) in
-					.readObject();
-			in.close();
-			fileIn.close();
-		} catch (IOException x) {
-//			logger.error("IOException while adding cloud " + x);
-		} catch (ClassNotFoundException cfe) {
-			cfe.printStackTrace();
+			if(Files.exists(Paths.get(cloudConfigFile.toString()))) {
+				InputStream inputStream = new FileInputStream(cloudConfigFile);
+				cloudConfigProps.load(inputStream);
+				inputStream.close();
+			}
+		} catch (FileNotFoundException e) {
+			JOptionPane.showMessageDialog(null, "<html>Error loading cloud configuration: "
+					+ "cloud config file not found.<br>"
+					+ "</html>", "Error",
+					JOptionPane.ERROR_MESSAGE);
+			e.printStackTrace();
+		} catch (IOException e) {
+			JOptionPane.showMessageDialog(null, "<html>Error loading cloud configuration: "
+					+ "cloud settings could not be read.<br>"
+					+ "</html>", "Error",
+					JOptionPane.ERROR_MESSAGE);
+			e.printStackTrace();
 		}
-		
+		cloudcounter = Integer.parseInt(cloudConfigProps.getProperty("Number of clouds"));
 		y = 2;
+		radio.clear();
 		labelCloud.clear();
 		cloudValue.clear();
-		for (int i = 0; i < cloudMetaData.size(); i++) {
-			int index = labelCloud.size();
-			radio.add(new JRadioButton(""));
-			labelCloud.add(new JLabel("Cloud " + Integer.toString(index + 1)
-					+ " : "));
-			cloudValue.add(new JLabel(
-					cloudMetaData.get(i).first));
+		cloudIdList.clear();
+		for (int i = 0; i < cloudcounter; i++) {
+			String cloudID = "cloud" + i;
+			if(cloudConfigProps.getProperty(cloudID + ".status").equals("1"))
+			{
+				int index = labelCloud.size();
+				radio.add(new JRadioButton(""));
+				labelCloud.add(new JLabel("Cloud " + Integer.toString(index + 1)
+						+ " : "));
+				cloudValue.add(new JLabel(cloudConfigProps.getProperty(cloudID + ".type")));			
+				cloudIdList.add(cloudID);
+			}
 		}
 
 		if (labelCloud.size() == 0) {
@@ -159,7 +165,7 @@ public class CloudConfig extends JPanel implements ActionListener {
 			for (int i = 0; i < labelCloud.size(); i++) {
 				constraints.gridy = y++;
 				constraints.gridx = 0;
-				radio.get(i).setActionCommand(Integer.toString(i+1));
+				radio.get(i).setActionCommand(Integer.toString(i));
 				proxyButtons.add(radio.get(i));
 				radio.get(i).addActionListener(this);
 				add(radio.get(i), constraints);
@@ -169,7 +175,6 @@ public class CloudConfig extends JPanel implements ActionListener {
 
 				constraints.gridx = 2;
 				add(cloudValue.get(i), constraints);
-
 			}
 		}
 			

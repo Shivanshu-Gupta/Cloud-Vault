@@ -4,19 +4,18 @@ import java.awt.*;
 import java.awt.event.*;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 import javax.swing.*;
 
 public class TrayWindows {
-	
+	private AtomicBoolean restart = new AtomicBoolean(false);	
 	static JTabbedPane settings = new JTabbedPane();
 	ProxyConfig proxySettings;
 	CloudConfig cloudSettings;
 	
-    TrayWindows(String configPath, Setup cloudVaultSetup) {
-    	
-    	
-
+    TrayWindows(String configPath, Setup cloudVaultSetup, AtomicBoolean restart) {
+    	this.restart = restart;
 		proxySettings = new ProxyConfig(configPath);
 		settings.addTab("Proxy Settings", null, proxySettings,
 				"Proxy Settings");

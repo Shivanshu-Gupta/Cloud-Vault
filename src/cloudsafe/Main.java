@@ -2,10 +2,10 @@ package cloudsafe;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.nio.file.Files;
-import java.util.ArrayList;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
@@ -13,9 +13,6 @@ import javax.swing.JTabbedPane;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-
-import cloudsafe.util.Pair;
-import cloudsafe.cloud.Cloud;
 
 /**
  * The entry point for the CloudVault Application.
@@ -27,15 +24,8 @@ public class Main {
 	VaultClientDesktop client;
 	static String vaultPath = "trials/Cloud Vault";
 	static String configPath = "trials/config";
-	String cloudMetadataPath = configPath + "/cloudmetadata.ser";
-
-	static ArrayList<Cloud> clouds = new ArrayList<Cloud>();
-	static ArrayList<Pair<String, String>> cloudMetaData = new ArrayList<Pair<String, String>>();
-
-	static int cloudNum = 4; // Co
-	static int cloudDanger = 1; // Cd
-	final static int overHead = 4; // epsilon
-
+	private AtomicBoolean restart = new AtomicBoolean(false);
+	
 	public static void main(String[] args) {
 		try {
 			System.out.println("Welcome to your Cloud Vault!");
@@ -45,7 +35,6 @@ public class Main {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-
 	}
 
 	public void run() {
@@ -82,7 +71,7 @@ public class Main {
 				logger.exit("Setup complete!");
 			}
 			client = new VaultClientDesktop(vaultPath, configPath);
-			new TrayWindows(configPath, cloudVaultSetup);
+			new TrayWindows(configPath, cloudVaultSetup, restart);
 
 			// --------Watchdir starts here--------------
 			String targetdir = vaultPath;
@@ -96,6 +85,23 @@ public class Main {
 			System.out.println(e);
 			e.printStackTrace();
 		}
+	}
+	
+	public void launch() {
+		client = new VaultClientDesktop(vaultPath, configPath);
+
+		// --------Watchdir starts here--------------
+		String targetdir = vaultPath;
+		boolean recursive = true;
+		// register directory and process its events
+		Path dir = Paths.get(targetdir);
+		try {
+			new WatchDir(dir, recursive, client).processEvents();
+		} catch (IOException e) {
+			logger.error("Error in WatchDir!", e);
+		}
+
+		// --------Watchdir ends here----------------
 	}
 
 	// temporary for testing syncing

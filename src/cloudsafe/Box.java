@@ -13,6 +13,7 @@ import com.box.restclientv2.requestsbase.BoxDefaultRequestObject;
 import com.box.restclientv2.requestsbase.BoxFileUploadRequestObject;
 //import com.box.restclientv2.requestsbase.BoxOAuthRequestObject;
 
+
 import cloudsafe.cloud.Cloud;
 import cloudsafe.cloud.WriteMode;
 
@@ -37,6 +38,9 @@ public class Box implements Cloud {
 	private static final int PORT = 4000;
 	private static final String key = "okg0mkf7xmbx371w0awevez9m7jxuhes";
 	private static final String secret = "trrTxLEN8x5ZtOZbg45pPZp4uFpBERbx";
+	
+	Boolean available = true;			// for availability of cloud
+	
 	String code = null;
 	BoxClient client;
 	public String metadata = "";
@@ -137,7 +141,7 @@ public class Box implements Cloud {
 			} catch (BoxRestException | BoxServerException
 					| AuthFatalFailureException | InterruptedException
 					| BoxJSONException e) {
-				e.printStackTrace();
+				available = false;
 			}
 
 		}

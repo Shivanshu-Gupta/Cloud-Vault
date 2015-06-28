@@ -4,12 +4,15 @@ import java.awt.*;
 import java.awt.event.*;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 import javax.swing.*;
 
 public class TrayWindows {
-    TrayWindows(Setup cloudVaultSetup, JTabbedPane settings) {
-        /* Use an appropriate Look and Feel */
+	private AtomicBoolean restart = new AtomicBoolean(false);
+    TrayWindows(Setup cloudVaultSetup, JTabbedPane settings, AtomicBoolean restart) {
+       this.restart = restart;
+    	/* Use an appropriate Look and Feel */
         try {
             UIManager.setLookAndFeel("com.sun.java.swing.plaf.windows.WindowsLookAndFeel");
             //UIManager.setLookAndFeel("javax.swing.plaf.metal.MetalLookAndFeel");

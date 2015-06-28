@@ -64,9 +64,9 @@ public class Main {
 			ProxyConfig proxySettings = new ProxyConfig(configPath);
 			settings.addTab("Proxy Settings", null, proxySettings,
 					"Proxy Settings");
-			CloudConfig cloudSettings = new CloudConfig(configPath,
-					cloudVaultSetup);
-			settings.addTab("Clouds", null, cloudSettings, "Clouds");
+//			CloudConfig cloudSettings = new CloudConfig(configPath,
+//					cloudVaultSetup);
+//			settings.addTab("Clouds", null, cloudSettings, "Clouds");
 
 			if (!Files.exists(Paths.get(vaultPath))) {
 				logger.entry("New Setup");
@@ -82,10 +82,10 @@ public class Main {
 				logger.exit("Setup complete!");
 			}
 			// cloudSettings.saveMetadata(cloudVaultSetup);
-			cloudSettings.clearPage();
-			cloudSettings.refreshPage();
+//			cloudSettings.clearPage();
+//			cloudSettings.refreshPage();
 			client = new VaultClientDesktop(vaultPath, configPath);
-			new TrayWindows(cloudVaultSetup, settings);
+			new TrayWindows(configPath, cloudVaultSetup);
 
 			// --------Watchdir starts here--------------
 			String targetdir = vaultPath;

@@ -42,7 +42,22 @@ import java.nio.file.Paths;
 import javax.swing.*;
 
 public class TrayWindows {
-    TrayWindows(Setup cloudVaultSetup, JTabbedPane settings) {
+	
+	static JTabbedPane settings = new JTabbedPane();
+	ProxyConfig proxySettings;
+	CloudConfig cloudSettings;
+	
+    TrayWindows(String configPath, Setup cloudVaultSetup) {
+    	
+    	
+
+		proxySettings = new ProxyConfig(configPath);
+		settings.addTab("Proxy Settings", null, proxySettings,
+				"Proxy Settings");
+		cloudSettings = new CloudConfig(configPath,
+				cloudVaultSetup);
+		settings.addTab("Clouds", null, cloudSettings, "Clouds");
+		
         /* Use an appropriate Look and Feel */
         try {
             UIManager.setLookAndFeel("com.sun.java.swing.plaf.windows.WindowsLookAndFeel");
@@ -62,12 +77,12 @@ public class TrayWindows {
         //adding TrayIcon.
         SwingUtilities.invokeLater(new Runnable() {
             public void run() {
-                createAndShowGUI(cloudVaultSetup, settings);
+                createAndShowGUI();
             }
         });
     }
     
-    private static void createAndShowGUI(Setup cloudVaultSetup, JTabbedPane settings) {
+    private static void createAndShowGUI() {
         //Check the SystemTray support
         if (!SystemTray.isSupported()) {
             System.out.println("SystemTray is not supported");

@@ -6,6 +6,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Authenticator;
 import java.net.InetSocketAddress;
@@ -18,7 +19,8 @@ import java.util.Properties;
 import java.util.Scanner;
 
 import javax.swing.JOptionPane;
-import javax.swing.JTabbedPane;
+//import javax.swing.JTabbedPane;
+
 
 import org.apache.commons.io.input.CloseShieldInputStream;
 import org.apache.commons.lang3.ArrayUtils;
@@ -38,8 +40,7 @@ public class Setup {
 			.getName());
 	
 	
-	JTabbedPane settings = new JTabbedPane();
-	
+
 	String[] possibleValues = { "DropBox", "GoogleDrive", "OneDrive", "Box",
 			"FolderCloud" };
 	int cloudcounter = 0;
@@ -49,6 +50,7 @@ public class Setup {
 	String cloudMetadataPath = configPath + "/cloudmetadata.ser";
 	ArrayList<Pair<String, String>> cloudMetaData = new ArrayList<Pair<String, String>>();
 
+	@SuppressWarnings("unchecked")
 	public Setup(String vaultPath, String configPath) {
 		this.vaultPath = vaultPath;
 		this.configPath = configPath;
@@ -60,9 +62,27 @@ public class Setup {
 		} catch (IOException e1) {
 			e1.printStackTrace();
 		}
-		ProxyConfig proxySettings = new ProxyConfig(configPath);
-		settings.addTab("Proxy Settings", null, proxySettings, "Proxy Settings");
-		JOptionPane.showMessageDialog(null, settings, "Settings", JOptionPane.PLAIN_MESSAGE);
+		
+		if (Files.exists(Paths.get(cloudMetadataPath))) {
+			try {
+				FileInputStream fileIn = new FileInputStream(cloudMetadataPath);
+				ObjectInputStream in = new ObjectInputStream(fileIn);
+				cloudMetaData = (ArrayList<Pair<String, String>>) in
+						.readObject();
+				in.close();
+				fileIn.close();
+			} catch (IOException x) {
+//				logger.error("IOException while adding cloud " + x);
+			} catch (ClassNotFoundException cfe) {
+				cfe.printStackTrace();
+			}
+		}
+		
+		cloudcounter = cloudMetaData.size();
+		
+		
+//		settings.addTab("Clouds", null, cloudSettings, "Clouds");
+//		JOptionPane.showMessageDialog(null, settings, "Settings", JOptionPane.PLAIN_MESSAGE);
 	};	
 
 	private Proxy getProxy() {
@@ -99,11 +119,12 @@ public class Setup {
 		return proxy;
 	}
 
-	String static_message = "Choose Your Cloud\n";
+	String static_message1 = "Minimum 4 Clouds Required\n";
+	String static_message2 = "Choose Your Cloud\n";
 	String dynamic_message = "Cloud 1 : ";
 
-	void addCloud() {
-		String info_message = "You have added " + (cloudcounter - 1)
+	void addCloud() throws Exception {
+		String info_message = "You have added " + (cloudcounter)
 				+ " clouds\n";
 		Proxy proxy = getProxy();
 		// Scanner in = new Scanner(new CloseShieldInputStream(System.in));
@@ -111,23 +132,29 @@ public class Setup {
 		String code;
 
 		while (true) {
-			code = (String) JOptionPane.showInputDialog(null, info_message
-					+ dynamic_message + static_message,
-					"Cloud " + cloudcounter, JOptionPane.INFORMATION_MESSAGE,
+			code = (String) JOptionPane.showInputDialog(null, static_message1 + info_message
+					+ dynamic_message + static_message2,
+					"Cloud " + (cloudcounter + 1), JOptionPane.INFORMATION_MESSAGE,
 					null, possibleValues, possibleValues[0]);
 
 			if (code == null) {
-				int n = JOptionPane.showConfirmDialog(null,
-						"Do you really want to exit?", "Exit",
-						JOptionPane.YES_NO_OPTION,
-						JOptionPane.QUESTION_MESSAGE, null);
-				if (n == JOptionPane.YES_OPTION) {
-					UndoSetup undoSetup = new UndoSetup();
-					undoSetup.delete(vaultPath, true);
-					undoSetup.delete(configPath, true);
-					System.exit(0);
-				} else {
-					continue;
+				
+				if (cloudcounter < 4) {
+					int n = JOptionPane.showConfirmDialog(null,
+							"Do you really want to exit?", "Exit",
+							JOptionPane.YES_NO_OPTION,
+							JOptionPane.QUESTION_MESSAGE, null);
+					if (n == JOptionPane.YES_OPTION) {
+						UndoSetup undoSetup = new UndoSetup();
+						undoSetup.delete(vaultPath, true);
+						undoSetup.delete(configPath, true);
+						System.exit(0);
+					}  else {
+						continue;
+					}
+				}
+				else {
+					throw new Exception("No Clouds Added");
 				}
 			} else {
 				break;
@@ -138,7 +165,7 @@ public class Setup {
 				&& !code.equals("OneDrive") && !code.equals("Box")
 				&& !code.equals("FolderCloud")) {
 			code = (String) JOptionPane.showInputDialog(null,
-					"Choose Your Cloud", "Cloud " + cloudcounter,
+					"Choose Your Cloud", "Cloud " + (cloudcounter + 1),
 					JOptionPane.INFORMATION_MESSAGE, null, possibleValues,
 					possibleValues[0]);
 			code.trim();
@@ -225,7 +252,8 @@ public class Setup {
 
 	public void updateDynamicMessage(int index, String CloudName) {
 		dynamic_message = dynamic_message + CloudName + "\nCloud "
-				+ (index + 1) + " : ";
+				+ (index + 2) + " : ";
+		cloudcounter++;
 //		cloudSettings.addEntry(CloudName);
 		
 	}
@@ -233,13 +261,21 @@ public class Setup {
 	void deleteCloud(int index)
 	{
 		cloudMetaData.remove(index);
+		cloudcounter--;
 	}
+	
+//	void openSettings()
+//	{
+//		JOptionPane.showMessageDialog(null, settings, "Settings", JOptionPane.PLAIN_MESSAGE);
+//		return;
+//	}
 	
 	public void configureCloudAccess() {
 
 		try (Scanner in = new Scanner(new CloseShieldInputStream(System.in))) {
-			for (cloudcounter = 1; cloudcounter <= 4; cloudcounter++) {
-				System.out.println("CLOUD " + cloudcounter);
+			int i;
+			for (i = (cloudcounter+1); i <= 4; i++) {
+				System.out.println("CLOUD " + i);
 				addCloud();
 			}
 			Object[] options = { "Yes", "No" };
@@ -250,7 +286,6 @@ public class Setup {
 
 			while ((choice == JOptionPane.YES_OPTION)) {
 				addCloud();
-				cloudcounter++;
 				// System.out.println("Add more Clouds (Yes/No)?");
 				// s = in.nextLine();
 				choice = JOptionPane

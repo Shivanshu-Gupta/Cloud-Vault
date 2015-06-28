@@ -7,6 +7,8 @@ import java.nio.file.Files;
 import java.util.ArrayList;
 
 import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
+import javax.swing.JTabbedPane;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -22,9 +24,7 @@ public class MainDesktop {
 
 	VaultClientDesktop client;
 	static String vaultPath = "trials/Cloud Vault";
-
 	static String configPath = "trials/config";
-
 	String cloudMetadataPath = configPath + "/cloudmetadata.ser";
 
 	static ArrayList<Cloud> clouds = new ArrayList<Cloud>();
@@ -49,24 +49,36 @@ public class MainDesktop {
 	public void run() {
 		try {
 			String devicePath = getDevicePath();
+			
 			vaultPath = devicePath + "/Cloud Vault";
 			configPath = devicePath + "/config";
+//			vaultPath = getDevicePath() + "/Cloud Vault";
+//			configPath = "config";
 			logger.info("vaultPath: " + vaultPath);
 			logger.info("configPath: " + configPath);
+			
+			Setup cloudVaultSetup = new Setup(vaultPath, configPath);
+			JTabbedPane settings = new JTabbedPane();
+			ProxyConfig proxySettings = new ProxyConfig(configPath);
+			settings.addTab("Proxy Settings", null, proxySettings, "Proxy Settings");
+			CloudConfig cloudSettings = new CloudConfig(configPath, cloudVaultSetup);
+			settings.addTab("Clouds", null, cloudSettings,
+					"Clouds");
+			
 			if (!Files.exists(Paths.get(vaultPath))) {
 				logger.entry("New Setup");
-				Setup cloudVaultSetup = new Setup(vaultPath, configPath);
-				CloudConfig cloudSettings = new CloudConfig(cloudVaultSetup);
-				cloudVaultSetup.settings.addTab("Clouds", null, cloudSettings, "Clouds");
+				JOptionPane.showMessageDialog(null, settings, "Settings", JOptionPane.PLAIN_MESSAGE);
 				cloudVaultSetup.configureCloudAccess();
 				logger.exit("Setup complete!");
 			}
+//			cloudSettings.saveMetadata(cloudVaultSetup);
+			cloudSettings.clearPage();
+			cloudSettings.refreshPage();
 			client = new VaultClientDesktop(vaultPath, configPath);
-
+			TrayWindows trayWindows = new TrayWindows(cloudVaultSetup,settings);
 			
 			//--------Watchdir starts here--------------
 	    	String targetdir = vaultPath;
-	        // parse arguments
 	        boolean recursive = true;
 	        // register directory and process its events
 	        Path dir = Paths.get(targetdir);

@@ -17,12 +17,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Properties;
 
-import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 //import javax.swing.JTabbedPane;
-
-
-import javax.swing.JRadioButton;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -83,9 +79,6 @@ public class Setup {
 			e.printStackTrace();
 		}
 		cloudcounter = Integer.parseInt(cloudConfigProps.getProperty("Number of clouds"));
-		// settings.addTab("Clouds", null, cloudSettings, "Clouds");
-		// JOptionPane.showMessageDialog(null, settings, "Settings",
-		// JOptionPane.PLAIN_MESSAGE);
 	};
 
 	private Proxy getProxy() {

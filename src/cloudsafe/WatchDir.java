@@ -61,6 +61,8 @@ public class WatchDir {
 	private final boolean recursive;
 	private boolean trace = false;
 
+	private boolean terminate = true;
+	
 	WatchEvent.Kind kindBuffer = null;
 	String childBuffer = null;
 	WatchEvent.Kind kindBufferPrev = null;
@@ -147,33 +149,31 @@ public class WatchDir {
 
 	private int updateCounter = 0;
 	
-	void processEvents() {
-		class Execution extends TimerTask {
-			public void run() {
-				if(updateCounter <= 8){
-					executeUpdate();
-				}
-				else{
-					executeSync();
-				}
-				updateCounter = (updateCounter + 1) % 10;
+	class Execution extends TimerTask {
+		public void run() {
+			if(updateCounter <= 8){
+				executeUpdate();
 			}
+			else{
+				executeSync();
+			}
+			updateCounter = (updateCounter + 1) % 10;
 		}
-
-		Timer timer = new Timer();
+	}
+	
+	Timer timer = new Timer();
+	
+	void processEvents() {
 		timer.schedule(new Execution(), 0, 5000);
-
-		for (;;) {
+		for (;!terminate;) {
 
 			// wait for key to be signalled
 			WatchKey key;
 			try {
-
-				// System.out.println("Waiting for take()");
 				key = watcher.take();
-
-				// System.out.println("Wait finished");
 			} catch (InterruptedException x) {
+				timer.cancel();
+				timer.purge();
 				return;
 			}
 
@@ -207,7 +207,7 @@ public class WatchDir {
 							addAllFiles(child);
 						}
 					} catch (IOException x) {
-						// ignore to keep sample readbale
+						// ignore to keep sample readable
 					}
 				}
 				String AbsoluteFilePath = child.toAbsolutePath().toString();
@@ -245,7 +245,6 @@ public class WatchDir {
 				logger.info("Upload Size : " + uploadQueue.size()
 						+ "\tDelete Size : " + deleteQueue.size());
 			}
-			// System.out.println("pollevents loop exited, count : " + counter);
 			// reset key and remove from set if directory no longer accessible
 			boolean valid = key.reset();
 			if (!valid) {
@@ -257,11 +256,7 @@ public class WatchDir {
 				}
 			}
 		}
-	}
 
-	static void usage() {
-		logger.error("usage: java WatchDir [-r] dir");
-		System.exit(-1);
 	}
 
 	// add all the files of newly created folder in uploadqueue
@@ -423,6 +418,12 @@ public class WatchDir {
 			e.printStackTrace();
 			return;
 		}
-
+	}
+	
+	public void shutdown()
+	{
+		terminate = true;
+		timer.cancel();
+		timer.purge();
 	}
 }

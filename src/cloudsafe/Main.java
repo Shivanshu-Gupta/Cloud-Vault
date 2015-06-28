@@ -81,9 +81,6 @@ public class Main {
 				}
 				logger.exit("Setup complete!");
 			}
-			// cloudSettings.saveMetadata(cloudVaultSetup);
-//			cloudSettings.clearPage();
-//			cloudSettings.refreshPage();
 			client = new VaultClientDesktop(vaultPath, configPath);
 			new TrayWindows(configPath, cloudVaultSetup);
 

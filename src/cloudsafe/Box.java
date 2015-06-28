@@ -14,6 +14,8 @@ import com.box.restclientv2.requestsbase.BoxFileUploadRequestObject;
 //import com.box.restclientv2.requestsbase.BoxOAuthRequestObject;
 
 
+
+
 import cloudsafe.cloud.Cloud;
 import cloudsafe.cloud.WriteMode;
 
@@ -31,14 +33,21 @@ import org.apache.commons.io.IOUtils;
 import org.apache.http.HttpHost;
 import org.apache.http.client.HttpClient;
 import org.apache.http.conn.params.ConnRoutePNames;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class Box implements Cloud {
+	
+	private final static Logger logger = LogManager
+			.getLogger(Box.class.getName());
+	
+	
 	private String ID;
 	
 	private static final int PORT = 4000;
 	private static final String key = "okg0mkf7xmbx371w0awevez9m7jxuhes";
 	private static final String secret = "trrTxLEN8x5ZtOZbg45pPZp4uFpBERbx";
-	
+	private Proxy proxy;
 	Boolean available = true;			// for availability of cloud
 	
 	String code = null;
@@ -48,6 +57,7 @@ public class Box implements Cloud {
 
 	public Box(String cloudID, Proxy proxy) throws BoxRestException, BoxServerException,
 			AuthFatalFailureException {
+		this.proxy = proxy;
 		this.setID(cloudID);
 		String url = "https://www.box.com/api/oauth2/authorize?response_type=code&client_id="
 				+ key + "&redirect_uri=http%3A//localhost%3A" + PORT;
@@ -69,10 +79,21 @@ public class Box implements Cloud {
 
 	@Override
 	public boolean isAvailable() {
-		return true;
+		if(!available){
+			try {
+				client = getAuthenticatedClient(code, proxy);
+				available = true;
+			} catch (AuthFatalFailureException e) {
+				//TODO
+			} catch (BoxRestException | BoxServerException e) {
+				available = false;
+			}
+			;
+		}
+		return available;
 	}
 
-	public void uploadFile(byte[] data, String fileID, WriteMode mode) {
+	public void uploadFile(byte[] data, String fileID, WriteMode mode) throws IOException {
 		FileOutputStream fos;
 		String tempPath = GoogleDrive.assistingFolder+"/"+fileID;
 		try {
@@ -84,7 +105,7 @@ public class Box implements Cloud {
 			fos.close();
 			uploadFile(tempPath, fileID, mode);
 		} catch (IOException e) {
-			e.printStackTrace();
+			throw e;
 		}
 
 	}
@@ -170,9 +191,10 @@ public class Box implements Cloud {
 			InputStream in = client.getFilesManager().downloadFile(
 					RequiredFileID, null);
 			return IOUtils.toByteArray(in);
-		} catch (BoxRestException | BoxServerException
-				| AuthFatalFailureException e) {
-			e.printStackTrace();
+		}catch (IOException | AuthFatalFailureException e) {
+			//TODO
+		} catch (BoxRestException | BoxServerException e) {
+			available = false;
 		}
 		return byteArray;
 
@@ -205,9 +227,10 @@ public class Box implements Cloud {
 			while ((read = in.read(bytes)) != -1) {
 				out.write(bytes, 0, read);
 			}
-		} catch (BoxRestException | BoxServerException
-				| AuthFatalFailureException | IOException e) {
-			e.printStackTrace();
+		} catch (IOException | AuthFatalFailureException e) {
+			//TODO
+		} catch (BoxRestException | BoxServerException e) {
+			available = false;
 		}
 	}
 
@@ -229,9 +252,10 @@ public class Box implements Cloud {
 					return true;
 				}
 			}
-		} catch (BoxRestException | BoxServerException
-				| AuthFatalFailureException e) {
-			e.printStackTrace();
+		} catch (AuthFatalFailureException e) {
+			//TODO
+		} catch (BoxRestException | BoxServerException e) {
+			available = false;
 		}
 		return false;
 	}
@@ -257,9 +281,10 @@ public class Box implements Cloud {
 					return;
 				}
 			}
-		} catch (BoxRestException | BoxServerException
-				| AuthFatalFailureException e) {
-			e.printStackTrace();
+		}catch (AuthFatalFailureException e) {
+			//TODO
+		} catch (BoxRestException | BoxServerException e) {
+			available = false;
 		}
 		return;
 	}
@@ -285,19 +310,15 @@ public class Box implements Cloud {
 
 			BoxFolderRequestObject requestObj;
 
-			try {
-				requestObj = BoxFolderRequestObject.createFolderRequestObject(
+			requestObj = BoxFolderRequestObject.createFolderRequestObject(
 						"CloudVault", "0");
-				return client.getFoldersManager().createFolder(requestObj).getId();
-			} catch (BoxRestException | BoxServerException
-					| AuthFatalFailureException e) {
-				e.printStackTrace();
-			}
+			return client.getFoldersManager().createFolder(requestObj).getId();
 
-		} catch (BoxRestException | BoxServerException
-				| AuthFatalFailureException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+
+		}catch (AuthFatalFailureException e) {
+			//TODO
+		} catch (BoxRestException | BoxServerException e) {
+			available = false;
 		}
 		return null;
 
@@ -366,15 +387,12 @@ public class Box implements Cloud {
 				}
 
 				out.close();
-
 				return code;
 			} catch (IOException e) {
-				// error ("System: " + "Connection to server lost!");
-				System.exit(1);
-				break;
+				logger.error ("System: " + "Connection to server lost!");
+				throw e;
 			}
 		}
-		return "";
 	}
 
 	public String getID() {

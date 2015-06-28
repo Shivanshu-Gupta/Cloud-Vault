@@ -38,7 +38,6 @@ public class CloudConfig extends JPanel implements ActionListener {
 
 	GridBagConstraints constraints = new GridBagConstraints();
 	int y = 2;
-//	ArrayList<Pair<String, String>> cloudMetaData = new ArrayList<Pair<String,String>>();
 	
 	File cloudConfigFile = null;
 	Properties cloudConfigProps;
@@ -46,19 +45,6 @@ public class CloudConfig extends JPanel implements ActionListener {
 
 	public CloudConfig(String configPath, Setup cloudVaultSetup) {
 		cloudConfigFile = cloudVaultSetup.cloudConfigFile;
-//		try {
-//			cloudMetadataPath = configPath + "/cloudmetadata.ser";
-//			FileInputStream fileIn = new FileInputStream(cloudMetadataPath);
-//			ObjectInputStream in = new ObjectInputStream(fileIn);
-//			cloudMetaData = (ArrayList<Pair<String, String>>) in
-//					.readObject();
-//			in.close();
-//			fileIn.close();
-//		} catch (IOException x) {
-////			logger.error("IOException while adding cloud " + x);
-//		} catch (ClassNotFoundException cfe) {
-//			cfe.printStackTrace();
-//		}
 		cloudConfigDraw(cloudVaultSetup);
 		
 	}

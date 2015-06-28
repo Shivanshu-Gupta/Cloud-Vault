@@ -139,7 +139,7 @@ public class VaultClientDesktop {
 						break;
 					}
 				} catch (Exception e) {
-					logger.error("couldn't add " + cloudID + " of type: " + type, e);
+					logger.error("couldn't add " + cloudID + " of type: " + type);
 				}
 			}
 		}

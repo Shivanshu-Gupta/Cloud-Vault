@@ -182,7 +182,7 @@ public class Setup {
 			} catch (AuthenticationException e) {
 				logger.error("AuthenticationException: " + e.getMessage());
 				JOptionPane.showMessageDialog(null,
-						"Authentication Interrupted : Dropbox");
+						"Authentication could not be completed");
 				addCloud();
 				return;
 			}

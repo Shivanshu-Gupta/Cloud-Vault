@@ -101,8 +101,8 @@ public class CloudsHandler {
 				e.printStackTrace();
 			}
 		}
-		logger.trace("lock could not be acquired");
 		if(!lockAcquired) {
+			logger.trace("lock could not be acquired");
 			byte[] lock = {};
 			for(int i=0; i<cloudIdx; i++){
 				Cloud cloud = clouds.get(i);

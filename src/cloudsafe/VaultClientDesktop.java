@@ -212,11 +212,13 @@ public class VaultClientDesktop {
 		int symSize = (int) Math.round(Math.sqrt((float) fileSize * 8
 				/ (float) overHead)); // symbol header length = 8, T =
 										// sqrt(D * delta / epsilon)
-		int blockCount = 1;
+//		int blockCount = 1;
+		int blockCount = (int) Math.ceil((float)fileSize / (float)30000000);
 		FECParameters fecParams = FECParameters.newParameters(fileSize,
 				symSize, blockCount);
 
-		int k = (int) Math.ceil((float) fileSize / (float) symSize);
+		int blockSize = (int) Math.ceil((float)fileSize / (float)fecParams.numberOfSourceBlocks()); 
+		int k = (int) Math.ceil((float) blockSize / (float) symSize);
 		// System.out.println("k = " + k);
 
 		// double k_cloud = (int) Math.ceil( (float)k / (float)cloudNum );
@@ -332,7 +334,8 @@ public class VaultClientDesktop {
 			Pair<FECParameters, Integer> params = getParams(fileSize);
 			FECParameters fecParams = params.first;
 			int symSize = fecParams.symbolSize();
-			int k = (int) Math.ceil((float) fileSize / (float) symSize);
+			int blockSize = (int) Math.ceil((float)fileSize / (float)fecParams.numberOfSourceBlocks()); 
+			int k = (int) Math.ceil((float) blockSize / (float) symSize);
 			int r = params.second;
 
 			ArrayDataEncoder dataEncoder = OpenRQ.newEncoder(data, fecParams);

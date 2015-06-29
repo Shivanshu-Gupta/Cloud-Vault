@@ -147,13 +147,13 @@ public class WatchDir {
 	
 	class Execution extends TimerTask {
 		public void run() {
-			if(updateCounter <= 8){
+			if(updateCounter == 0){
 				executeUpdate();
 			}
 			else{
 				executeSync();
 			}
-			updateCounter = (updateCounter + 1) % 10;
+			updateCounter = (updateCounter + 1) % 2;
 		}
 	}
 	

@@ -43,7 +43,8 @@ public class CloudConfig extends JPanel implements ActionListener {
 	Properties cloudConfigProps;
 	private int cloudcounter;
 
-	public CloudConfig(String configPath, Setup cloudVaultSetup) {
+	public CloudConfig(String configPath, String vaultPath) {
+		Setup cloudVaultSetup = new Setup(vaultPath, configPath);
 		cloudConfigFile = cloudVaultSetup.cloudConfigFile;
 		cloudConfigDraw(cloudVaultSetup);
 		
@@ -78,11 +79,21 @@ public class CloudConfig extends JPanel implements ActionListener {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				if (removeIndex != -1) {
-					cloudVaultSetup.deleteCloud(cloudIdList.get(removeIndex));
-					cloudVaultSetup.saveMetadata();
-					JOptionPane.showMessageDialog(null, "Removed : " + removeIndex);
-					clearPage();
-					refreshPage();
+					if(labelCloud.size()>4){
+						int choice = JOptionPane.showConfirmDialog(null, "<html>Are you Sure?<br><br>"
+								+ "Note: Data uploaded to this cloud will no longer be accessible</html>",
+								"",JOptionPane.YES_NO_OPTION,
+								JOptionPane.QUESTION_MESSAGE, null);
+						if(choice == JOptionPane.YES_OPTION){
+							cloudVaultSetup.deleteCloud(cloudIdList.get(removeIndex));
+							cloudVaultSetup.saveMetadata();
+							JOptionPane.showMessageDialog(null, "Removed : " + removeIndex);
+							clearPage();
+							refreshPage();
+						}
+					} else {
+						JOptionPane.showMessageDialog(null, "Sorry Cloud Vault needs to atleast 4 cloud services to work properly");
+					}
 				}
 			}
 		});

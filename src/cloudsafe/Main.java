@@ -48,36 +48,33 @@ public class Main {
 			// configPath = "config";
 			logger.info("vaultPath: " + vaultPath);
 			logger.info("configPath: " + configPath);
-			while(true) {
+			if (!Files.exists(Paths.get(vaultPath))) {
+				logger.entry("New Setup");
 				Setup cloudVaultSetup = new Setup(vaultPath, configPath);
 				JTabbedPane settings = new JTabbedPane();
 				ProxyConfig proxySettings = new ProxyConfig(configPath);
 				settings.addTab("Proxy Settings", null, proxySettings,
 						"Proxy Settings");
-	
-				if (!Files.exists(Paths.get(vaultPath))) {
-					logger.entry("New Setup");
-					JOptionPane.showMessageDialog(null, settings, "Settings",
-							JOptionPane.PLAIN_MESSAGE);
-					cloudVaultSetup.configureCloudAccess();
-					// create the directory to store configuration data
-					try {
-						Files.createDirectories(Paths.get(vaultPath));
-					} catch (IOException e1) {
-						e1.printStackTrace();
-					}
-					logger.exit("Setup complete!");
+				JOptionPane.showMessageDialog(null, settings, "Settings",
+						JOptionPane.PLAIN_MESSAGE);
+				cloudVaultSetup.configureCloudAccess();
+				// create the directory to store configuration data
+				try {
+					Files.createDirectories(Paths.get(vaultPath));
+				} catch (IOException e1) {
+					e1.printStackTrace();
 				}
-				
+				logger.exit("Setup complete!");
+			}
+			while(true) {
 				launch();
-				new TrayWindows(configPath, cloudVaultSetup, restart);
+				new TrayWindows(configPath, vaultPath, restart);
 				restart.await();
 				watchdir.shutdown();
 				client.shutdown();
 			}
 		} catch (Exception e) {
-			System.out.println(e);
-			e.printStackTrace();
+			logger.error("Exception Occurred!", e);
 		}
 	}
 	

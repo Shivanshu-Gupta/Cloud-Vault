@@ -25,7 +25,6 @@ public class MainDesktop {
 	private static String vaultPath = "trials/Cloud Vault";
 	private static String configPath = "trials/config";
 	private WatchDir watchdir = null;
-//	private static AtomicBoolean restart = new AtomicBoolean(false);
 	private static CountDownLatch restart = null; 
 	public static void main(String[] args) {
 		try {
@@ -49,36 +48,33 @@ public class MainDesktop {
 			// configPath = "config";
 			logger.info("vaultPath: " + vaultPath);
 			logger.info("configPath: " + configPath);
-			while(true) {
+			if (!Files.exists(Paths.get(vaultPath))) {
+				logger.entry("New Setup");
 				Setup cloudVaultSetup = new Setup(vaultPath, configPath);
 				JTabbedPane settings = new JTabbedPane();
 				ProxyConfig proxySettings = new ProxyConfig(configPath);
 				settings.addTab("Proxy Settings", null, proxySettings,
 						"Proxy Settings");
-	
-				if (!Files.exists(Paths.get(vaultPath))) {
-					logger.entry("New Setup");
-					JOptionPane.showMessageDialog(null, settings, "Settings",
-							JOptionPane.PLAIN_MESSAGE);
-					cloudVaultSetup.configureCloudAccess();
-					// create the directory to store configuration data
-					try {
-						Files.createDirectories(Paths.get(vaultPath));
-					} catch (IOException e1) {
-						e1.printStackTrace();
-					}
-					logger.exit("Setup complete!");
+				JOptionPane.showMessageDialog(null, settings, "Settings",
+						JOptionPane.PLAIN_MESSAGE);
+				cloudVaultSetup.configureCloudAccess();
+				// create the directory to store configuration data
+				try {
+					Files.createDirectories(Paths.get(vaultPath));
+				} catch (IOException e1) {
+					e1.printStackTrace();
 				}
-				
+				logger.exit("Setup complete!");
+			}
+			while(true) {
 				launch();
-				new TrayWindows(configPath, cloudVaultSetup, restart);
+				new TrayWindows(configPath, vaultPath, restart);
 				restart.await();
 				watchdir.shutdown();
 				client.shutdown();
 			}
 		} catch (Exception e) {
-			System.out.println(e);
-			e.printStackTrace();
+			logger.error("Exception Occurred!", e);
 		}
 	}
 	
@@ -93,7 +89,15 @@ public class MainDesktop {
 		Path dir = Paths.get(targetdir);
 		try {
 			watchdir = new WatchDir(dir, recursive, client);
-			watchdir.processEvents();
+			Thread t = new Thread(new Runnable(){
+//				WatchDir watch = watchdir;
+				@Override
+				public void run() {
+					watchdir.processEvents();
+				}
+				
+			});
+			t.start();
 		} catch (IOException e) {
 			logger.error("Error in WatchDir!", e);
 		}

@@ -33,8 +33,9 @@ import com.box.restclientv2.exceptions.BoxRestException;
 public class Setup {
 	private final static Logger logger = LogManager.getLogger(Setup.class
 			.getName());
-
-	ArrayList<String> availableClouds = new ArrayList<String>(Arrays.asList("DropBox", "GoogleDrive", "OneDrive", "Box",
+	
+	//removing OneDrive from the list for now
+	ArrayList<String> availableClouds = new ArrayList<String>(Arrays.asList("DropBox", "GoogleDrive", "Box",
 	"FolderCloud"));
 	int cloudcounter = 0;
 	String vaultPath = "trials/Cloud Vault";
@@ -142,8 +143,6 @@ public class Setup {
 						undoSetup.delete(vaultPath, true);
 						undoSetup.delete(configPath, true);
 						System.exit(0);
-					} else {
-						continue;
 					}
 				} else {
 					throw new Exception("No Clouds Added");
@@ -263,7 +262,6 @@ public class Setup {
 	public void configureCloudAccess() {
 		try{
 			for (int i = (cloudcounter + 1); i <= 4; i++) {
-				System.out.println("CLOUD " + i);
 				addCloud();
 			}
 			Object[] options = { "Yes", "No" };
@@ -282,10 +280,8 @@ public class Setup {
 								options[0]);
 			}
 		} catch (Exception e) {
-			logger.error("Exception: " + e);
-			e.printStackTrace();
+			logger.error("Exception: ", e);
 		}
-
 		saveMetadata();
 	}
 	

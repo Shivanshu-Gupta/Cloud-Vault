@@ -23,13 +23,12 @@ public class TrayWindows {
 	private static CountDownLatch restart = null;	
 	private static JTabbedPane settings = new JTabbedPane();
 	
-    TrayWindows(String configPath, Setup cloudVaultSetup, CountDownLatch restart) {
+    TrayWindows(String configPath, String vaultPath, CountDownLatch restart) {
     	TrayWindows.restart = restart;
     	ProxyConfig proxySettings = new ProxyConfig(configPath);
 		settings.addTab("Proxy Settings", null, proxySettings,
 				"Proxy Settings");
-		CloudConfig cloudSettings = new CloudConfig(configPath,
-				cloudVaultSetup);
+		CloudConfig cloudSettings = new CloudConfig(configPath, vaultPath);
 		settings.addTab("Clouds", null, cloudSettings, "Clouds");
 		
         /* Use an appropriate Look and Feel */

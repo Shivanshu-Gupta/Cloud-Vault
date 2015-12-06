@@ -37,6 +37,7 @@ import cloudsafe.cloud.Cloud;
 //import cloudsafe.cloud.CloudType;
 import cloudsafe.cloud.WriteMode;
 import cloudsafe.database.*;
+import cloudsafe.exceptions.AuthenticationException;
 import cloudsafe.exceptions.LockNotAcquiredException;
 
 //import cloudsafe.exceptions.AuthenticationException;
@@ -68,7 +69,7 @@ public class VaultClient {
 	String localDatabaseMetaPath = configPath + "/tablemeta.txt";
 
 	@SuppressWarnings("unchecked")
-	public VaultClient(String vaultPath, String configPath) {
+	public VaultClient(String vaultPath, String configPath) throws Exception {
 		logger.entry("Setting up VaultClient");
 //		 this.vaultPath = Paths.get(vaultPath).toAbsolutePath().toString();
 		this.vaultPath = vaultPath;
@@ -93,13 +94,13 @@ public class VaultClient {
 					clouds.add(new Dropbox(metadata.second, proxy));
 					break;
 				case "googledrive":
-					clouds.add(new GoogleDrive(proxy, index++));
+					clouds.add(new GoogleDrive(metadata.second, proxy, index++));
 					break;
 				case "onedrive":
 					clouds.add(new FolderCloud(metadata.second));
 					break;
 				case "box":
-					clouds.add(new Box(proxy));
+					clouds.add(new Box(metadata.second,proxy));
 					break;
 				case "folder":
 					clouds.add(new FolderCloud(metadata.second));

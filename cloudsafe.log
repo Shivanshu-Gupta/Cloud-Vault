@@ -1,0 +1,33 @@
+2015-12-05 19:34:57,903 main INFO  cloudsafe.VaultWindow - devicePath: C:\Users\Noman Sheikh\Documents\workspace\gitTemp\cloud-vault\Noman
+2015-12-05 19:34:57,914 main INFO  cloudsafe.VaultWindow - vaultPath: C:\Users\Noman Sheikh\Documents\workspace\gitTemp\cloud-vault\Noman/Cloud Vault
+2015-12-05 19:34:57,916 main INFO  cloudsafe.VaultWindow - configPath: C:\Users\Noman Sheikh\Documents\workspace\gitTemp\cloud-vault\Noman/config
+2015-12-05 19:53:59,457 main INFO  cloudsafe.VaultWindow - devicePath: C:\Users\Noman Sheikh\Documents\workspace\gitTemp\cloud-vault\trials
+2015-12-05 19:53:59,489 main INFO  cloudsafe.VaultWindow - vaultPath: C:\Users\Noman Sheikh\Documents\workspace\gitTemp\cloud-vault\trials/Cloud Vault
+2015-12-05 19:53:59,489 main INFO  cloudsafe.VaultWindow - configPath: C:\Users\Noman Sheikh\Documents\workspace\gitTemp\cloud-vault\trials/config
+2015-12-05 19:55:19,828 main TRACE cloudsafe.VaultClientDesktop - entry params(Setting up VaultClient)
+2015-12-05 19:55:19,828 main INFO  cloudsafe.VaultClientDesktop - cloudMetadataPath: C:\Users\Noman Sheikh\Documents\workspace\gitTemp\cloud-vault\trials/config/cloudmetadata.ser
+2015-12-05 19:55:19,834 main INFO  cloudsafe.VaultClientDesktop - localDatabasePath: C:\Users\Noman Sheikh\Documents\workspace\gitTemp\cloud-vault\trials/config/table.ser
+2015-12-05 19:55:19,834 main INFO  cloudsafe.VaultClientDesktop - localDatabaseMetaPath: C:\Users\Noman Sheikh\Documents\workspace\gitTemp\cloud-vault\trials/config/tablemeta.txt
+2015-12-05 19:55:19,835 main TRACE cloudsafe.VaultClientDesktop - entry params(getting proxy)
+2015-12-05 19:55:19,836 main ERROR cloudsafe.VaultClientDesktop - Proxy Configuretion File Not Found
+2015-12-05 19:55:19,836 main TRACE cloudsafe.VaultClientDesktop - exit with(proxy configured.)
+2015-12-05 19:55:19,836 main ERROR cloudsafe.VaultClientDesktop - IOException: 
+java.io.FileNotFoundException: C:\Users\Noman Sheikh\Documents\workspace\gitTemp\cloud-vault\trials\config\cloudmetadata.ser (The system cannot find the file specified)
+	at java.io.FileInputStream.open0(Native Method) ~[?:1.8.0_40]
+	at java.io.FileInputStream.open(Unknown Source) ~[?:1.8.0_40]
+	at java.io.FileInputStream.<init>(Unknown Source) ~[?:1.8.0_40]
+	at java.io.FileInputStream.<init>(Unknown Source) ~[?:1.8.0_40]
+	at cloudsafe.VaultClient.<init>(VaultClient.java:86) [bin/:?]
+	at cloudsafe.VaultWindow.run(VaultWindow.java:81) [bin/:?]
+	at cloudsafe.VaultWindow.main(VaultWindow.java:65) [bin/:?]
+2015-12-05 19:55:19,993 main TRACE cloudsafe.VaultClientDesktop - entry params(createNewtable)
+2015-12-05 19:55:20,133 main INFO  cloudsafe.VaultClientDesktop - Uploading new Table: Size=82 Hash=0
+2015-12-05 19:55:20,133 main TRACE cloudsafe.VaultClientDesktop - entry params(Update Table Meta)
+2015-12-05 19:55:20,133 main INFO  cloudsafe.VaultClientDesktop - Table Size:82 Hash:0
+2015-12-05 19:55:20,133 main TRACE cloudsafe.VaultClientDesktop - exit with(Update Table Meta)
+2015-12-05 19:55:20,133 main INFO  cloudsafe.VaultClientDesktop - Uploading: C:\Users\Noman Sheikh\Documents\workspace\gitTemp\cloud-vault\trials/config/table.ser
+2015-12-05 19:55:21,180 main ERROR cloudsafe.VaultClientDesktop - Exception in upload: java.lang.IndexOutOfBoundsException: Index: 0, Size: 0
+2015-12-05 19:55:21,180 main TRACE cloudsafe.VaultClientDesktop - Releasing Lock
+2015-12-05 19:55:21,180 main TRACE cloudsafe.VaultClientDesktop - Lock Released
+2015-12-05 19:55:21,180 main TRACE cloudsafe.VaultClientDesktop - exit with(createNewTable)
+2015-12-05 19:55:21,180 main TRACE cloudsafe.VaultClientDesktop - exit with(VaultClient Setup)

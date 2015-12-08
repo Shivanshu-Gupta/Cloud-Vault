@@ -68,7 +68,7 @@ public class VaultWindow extends JFrame {
 		}
 	}
 
-	public void run() {
+	public void run() throws Exception {
 		String devicePath = getDevicePath();
 		vaultPath = devicePath + "/Cloud Vault";
 		configPath = devicePath + "/config";

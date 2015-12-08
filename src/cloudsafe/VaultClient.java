@@ -3,6 +3,9 @@ package cloudsafe;
 import java.io.*;
 import java.nio.file.*;
 import java.nio.file.attribute.BasicFileAttributes;
+
+//import static java.nio.file.StandardOpenOption.*;		//for READ, WRITE etc
+
 import java.net.Proxy;
 import java.net.Authenticator;
 import java.net.InetSocketAddress;
@@ -11,6 +14,8 @@ import java.util.List;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Properties;
+
+import javax.swing.JOptionPane;
 
 import org.apache.http.util.*;
 import org.apache.logging.log4j.LogManager;
@@ -46,86 +51,120 @@ import cloudsafe.exceptions.LockNotAcquiredException;
  */
 public class VaultClient {
 	private final static Logger logger = LogManager
-			.getLogger(VaultClientDesktop.class.getName());
+			.getLogger(VaultClient.class.getName());
 
 	String vaultPath = Paths.get("trials/Cloud Vault").toAbsolutePath()
 			.toString();
 	String configPath = "trials/config";
-	String cloudMetadataPath = configPath + "/cloudmetadata.ser";
-	static int cloudNum = 4; // Co
-	
-	static int cloudDanger = 1; // Cd
-	final static int overHead = 4; // epsilon
+
 	Proxy proxy = Proxy.NO_PROXY;
+	int cloudNum = 4;
+	int cloudDanger = 1; // Cd
+	CloudsHandler cloudsHandler;
 
-	ArrayList<Cloud> clouds = new ArrayList<Cloud>();
-	ArrayList<Pair<String, String>> cloudMetaData = new ArrayList<Pair<String, String>>();
 	Table table;
-
 	long databaseSize;
 	int databaseHash;
-	String localDatabasePath = configPath + "/table.ser";
-	String localDatabaseMetaPath = configPath + "/tablemeta.txt";
+	String databasePath = configPath + "/table.ser";
+	String databaseMetaPath = configPath + "/tablemeta.txt";
 
-	@SuppressWarnings("unchecked")
+	ArrayList<String> currentFiles = new ArrayList<String>();
+
 	public VaultClient(String vaultPath, String configPath) {
 		logger.entry("Setting up VaultClient");
-//		 this.vaultPath = Paths.get(vaultPath).toAbsolutePath().toString();
 		this.vaultPath = vaultPath;
 		this.configPath = configPath;
-		this.cloudMetadataPath = configPath + "/cloudmetadata.ser";
-		this.localDatabasePath = configPath + "/table.ser";
-		this.localDatabaseMetaPath = configPath + "/tablemeta.txt";
-		logger.info("cloudMetadataPath: " + cloudMetadataPath);
-		logger.info("localDatabasePath: " + localDatabasePath);
-		logger.info("localDatabaseMetaPath: " + localDatabaseMetaPath);
+		this.databasePath = configPath + "/table.ser";
+		this.databaseMetaPath = configPath + "/tablemeta.txt";
+		logger.info("databasePath: " + databasePath);
+		logger.info("databaseMetaPath: " + databaseMetaPath);
 		proxy = getProxy();
+		int index = 1;
+		String cloudConfigPath = configPath + "/clouds.properties";
+		Properties defaultProps = new Properties();
+		// sets default properties
+		defaultProps.setProperty("Number of clouds", "0");	
+		Properties cloudConfigProps = new Properties(defaultProps);
 		try {
-			int index = 1;
-			FileInputStream fileIn = new FileInputStream(cloudMetadataPath);
-			ObjectInputStream in = new ObjectInputStream(fileIn);
-			cloudMetaData = (ArrayList<Pair<String, String>>) in.readObject();
-
-			for (Pair<String, String> metadata : cloudMetaData) {
-				logger.info("adding cloud: " + metadata.first);
-				switch (metadata.first) {
-				case "dropbox":
-					clouds.add(new Dropbox(metadata.second, proxy));
-					break;
-				case "googledrive":
-					clouds.add(new GoogleDrive(proxy, index++));
-					break;
-				case "onedrive":
-					clouds.add(new FolderCloud(metadata.second));
-					break;
-				case "box":
-					clouds.add(new Box(proxy));
-					break;
-				case "folder":
-					clouds.add(new FolderCloud(metadata.second));
-					break;
-				}
+			if(Files.exists(Paths.get(cloudConfigPath))) {
+				InputStream inputStream = new FileInputStream(cloudConfigPath);
+				cloudConfigProps.load(inputStream);
+				inputStream.close();
 			}
-			in.close();
-			fileIn.close();
-		} catch (IOException x) {
-			logger.error("IOException: ", x);
-			// x.printStackTrace();
-		} catch (ClassNotFoundException cfe) {
-			logger.error("ClassNotFoundException: ", cfe);
-			// cfe.printStackTrace();
-		} catch (BoxRestException | BoxServerException
-				| AuthFatalFailureException e) {
-			// e.printStackTrace();
+		} catch (FileNotFoundException e) {
+			JOptionPane.showMessageDialog(null, "<html>Error loading cloud configuration: "
+					+ "cloud config file not found.<br>"
+					+ "</html>", "Error",
+					JOptionPane.ERROR_MESSAGE);
+			e.printStackTrace();
+		} catch (IOException e) {
+			JOptionPane.showMessageDialog(null, "<html>Error loading cloud configuration: "
+					+ "cloud settings could not be read.<br>"
+					+ "</html>", "Error",
+					JOptionPane.ERROR_MESSAGE);
+			e.printStackTrace();
 		}
 
-		boolean newUser = checkIfNewUser();
+		ArrayList<Cloud> clouds = new ArrayList<Cloud>();
+		int cloudcounter = Integer.parseInt(cloudConfigProps.getProperty("Number of clouds"));
+		String cloudID, type, status, code;
+		for (int i=0; i < cloudcounter; i++) {
+			cloudID = "cloud" + i;
+			type = cloudConfigProps.getProperty(cloudID + ".type");
+			code = cloudConfigProps.getProperty(cloudID + ".code");
+			status = cloudConfigProps.getProperty(cloudID + ".status");
+			if(Integer.parseInt(status) == 1) {
+				logger.info("adding " + cloudID + " of type: " + type);
+				try {
+					switch (type) {
+					case "Dropbox":
+						clouds.add(new Dropbox(cloudID, code, proxy));
+						break;
+					case "GoogleDrive":
+						clouds.add(new GoogleDrive(cloudID, proxy, index++));
+						break;
+					case "OneDrive":
+						clouds.add(new FolderCloud(cloudID, code));
+						break;
+					case "Box":
+						try {
+							clouds.add(new Box(cloudID, proxy));
+						} catch (BoxRestException | BoxServerException
+								| AuthFatalFailureException e) {
+							// e.printStackTrace();
+						}
+						break;
+					case "FolderCloud":
+						clouds.add(new FolderCloud(cloudID, code));
+						break;
+					}
+				} catch (Exception e) {
+					logger.error("couldn't add " + cloudID + " of type: " + type);
+				}
+			}
+		}
+		
+		cloudsHandler = new CloudsHandler(clouds, configPath);
+		cloudNum = clouds.size();
+		boolean newUser = cloudsHandler.checkIfNewUser();
 		if (newUser)
 			createNewTable();
 		else {
-			if(Files.exists(Paths.get(localDatabasePath))){
-				table = new Table(localDatabasePath);
+			if (Files.exists(Paths.get(databasePath))) {
+				logger.info("Found a local copy of the database");
+				table = new Table(databasePath);
+				try (DataInputStream in = new DataInputStream(
+						new FileInputStream(databaseMetaPath))) {
+					databaseHash = in.readInt();
+					databaseSize = in.readLong();
+				} catch (FileNotFoundException e) {
+					logger.error("tablemeta.txt not found", e);
+				} catch (IOException e) {
+					logger.error("tablemeta.txt could not be loaded ", e);
+					e.printStackTrace();
+				}
 			} else {
+				logger.info("Could not find a local copy of the database. Setting up a new detabase");
 				table = new Table();
 			}
 			downloadTable();
@@ -159,180 +198,129 @@ public class VaultClient {
 						port));
 			}
 		} catch (FileNotFoundException e) {
-			logger.error("Proxy Configuretion File Not Found");
+			logger.error("Proxy Configuration File Not Found", e);
 		} catch (IOException e) {
-			logger.error("IOException: " + e);
+			logger.error("Error while reading config.properties. ",  e);
 		}
 		logger.exit("proxy configured.");
 		return proxy;
 	}
 
 	private Pair<FECParameters, Integer> getParams(long fileSize) {
-		Pair<FECParameters, Integer> params = null;
-		try {
-			int symSize = (int) Math.round(Math.sqrt((float) fileSize * 8
-					/ (float) overHead)); // symbol header length = 8, T =
-											// sqrt(D * delta / epsilon)
-			int blockCount = 1;
-			FECParameters fecParams = FECParameters.newParameters(fileSize,
-					symSize, blockCount);
+		// epsilon
+		int overHead = 4;
+		int symSize = (int) Math.round(Math.sqrt((float) fileSize * 8
+				/ (float) overHead)); // symbol header length = 8, T =
+										// sqrt(D * delta / epsilon)
+//		int blockCount = 1;
+		int blockCount = (int) Math.ceil((float)fileSize / (float)30000000);
+		FECParameters fecParams = FECParameters.newParameters(fileSize,
+				symSize, blockCount);
 
-			int k = (int) Math.ceil((float) fileSize / (float) symSize);
-			// System.out.println("k = " + k);
+		int blockSize = (int) Math.ceil((float)fileSize / (float)fecParams.numberOfSourceBlocks()); 
+		int k = (int) Math.ceil((float) blockSize / (float) symSize);
+		// System.out.println("k = " + k);
 
-			// double k_cloud = (int) Math.ceil( (float)k / (float)cloudNum );
-			// System.out.println("source symbols/packets per cloud = " +
-			// k_cloud);
+		// double k_cloud = (int) Math.ceil( (float)k / (float)cloudNum );
+		// System.out.println("source symbols/packets per cloud = " +
+		// k_cloud);
+		float gamma = (float) cloudDanger / (float) cloudNum;
+		// System.out.println("Cloud Burst CoefficientL: " + gamma);
 
-			float gamma = (float) cloudDanger / (float) cloudNum;
-			// System.out.println("Cloud Burst CoefficientL: " + gamma);
+		int r = (int) Math.ceil((gamma * k + overHead) / (1 - gamma));
+		// System.out.println("r = " + r);
 
-			int r = (int) Math.ceil((gamma * k + overHead) / (1 - gamma));
-			// System.out.println("r = " + r);
-
-			params = Pair.of(fecParams, r);
-		} catch (Exception x) {
-			logger.error("Exception: " + x);
-		}
-		return params;
+		return Pair.of(fecParams, r);
 	}
 
-	public void upload(String localFilePath, String uploadPath) {
-		Path path = Paths.get(localFilePath).normalize();
+	public void upload(ArrayList<String> localFilePaths)
+			throws LockNotAcquiredException {
 		try {
-			Files.walkFileTree(path, new SimpleFileVisitor<Path>() {
-				String parent = uploadPath;
-
-				@Override
-				public FileVisitResult visitFile(Path file,
-						BasicFileAttributes attrs) throws IOException {
-					long fileSize = attrs.size();
-					String cloudFilePath = file.getFileName().toString();
-					if (parent.length() > 0) {
-						cloudFilePath = parent + "/" + cloudFilePath;
-					}
-					logger.info(cloudFilePath);
-					
-					downloadTable();
-					try {
-						acquireLock();
-					} catch (LockNotAcquiredException e) {
-						// TODO handle this exception
-						logger.error("Could Not acquire lock");
-					}
-					if (path == file) {
-						int version = table.version(cloudFilePath);
-						if (version > 0) {
-							cloudFilePath = cloudFilePath + " ("
-									+ table.version(cloudFilePath) + ")";
-						}
-					}
-					// no need to append version as inside folder
-					table.addNewFile(cloudFilePath, fileSize);
-					cloudFilePath = (new PathManip(cloudFilePath))
-							.toCloudFormat();
-					uploadTable();
-					releaseLock();
-					if (fileSize > 50) {
-						uploadFile(file.toString(), cloudFilePath);
-					} else {
-						uploadTinyFile(file.toString(), cloudFilePath);
-					}
-					return FileVisitResult.CONTINUE;
+			acquireLock();
+		} catch (LockNotAcquiredException e) {
+			logger.warn("Could Not acquire lock");
+			throw e;
+		}
+		ArrayList<String> cloudFilePaths = new ArrayList<String>();
+		ArrayList<Long> fileSizes = new ArrayList<Long>();
+		for (int i = 0; i < localFilePaths.size(); i++) {
+			String localFilePath = localFilePaths.get(i);
+			Path path = Paths.get(localFilePath).normalize();
+			Path temp = Paths.get(vaultPath).relativize(path).getParent();
+			String uploadPath = "";
+			if (temp != null) {
+				uploadPath = temp.toString();
+			}
+			try {
+				long fileSize = -1;
+				if (!Files.isDirectory(path)) {
+					BasicFileAttributes attrs = null;
+					attrs = Files.readAttributes(path,
+							BasicFileAttributes.class);
+					fileSize = attrs.size();
 				}
 
-				@Override
-				public FileVisitResult preVisitDirectory(Path dir,
-						BasicFileAttributes attrs) throws IOException {
-					String cloudFilePath = dir.getFileName().toString();
-					if (parent.length() > 0) {
-						cloudFilePath = parent + "/" + cloudFilePath;
-					}
-					logger.info(cloudFilePath);
-					downloadTable();
-					try {
-						acquireLock();
-					} catch (LockNotAcquiredException e) {
-						// TODO handle this exception
-						logger.error("Could Not acquire lock");
-					}
-					if (path == dir) {
-						int version = table.version(cloudFilePath);
-						if (version > 0) {
-							cloudFilePath = cloudFilePath + " ("
-									+ table.version(cloudFilePath) + ")";
-						}
-					}
-					table.addNewFile(cloudFilePath, -1);
-					parent = cloudFilePath;
-					uploadTable();
-					releaseLock();
-					return FileVisitResult.CONTINUE;
+				String localFileName = path.getFileName().toString();
+				String cloudFilePath = null;
+
+				if (uploadPath.length() > 0) {
+					cloudFilePath = uploadPath + "/" + localFileName;
+				} else {
+					cloudFilePath = localFileName;
 				}
 
-				@Override
-				public FileVisitResult postVisitDirectory(Path dir,
-						IOException e) throws IOException {
-					if (dir != path) {
-						int index = parent.lastIndexOf("/");
-						parent = parent.substring(0, index);
-					}
-					return FileVisitResult.CONTINUE;
+				currentFiles.add(cloudFilePath);
+				cloudFilePath = (new PathManip(cloudFilePath)).toCloudFormat();
+				cloudFilePaths.add(cloudFilePath);
+				fileSizes.add(fileSize);
+			} catch (Exception e) {
+				logger.error("Exception uploading " + localFilePath,  e);
+				localFilePaths.remove(i);
+			}
+		}
+
+		downloadTable();
+		for (int i = 0; i < currentFiles.size(); i++) {
+			table.addNewFile(currentFiles.get(i), fileSizes.get(i));
+		}
+		uploadTable();
+		currentFiles.clear();
+		releaseLock();
+
+		for (int i = 0; i < localFilePaths.size(); i++) {
+			String localFilePath = localFilePaths.get(i);
+			String cloudFilePath = cloudFilePaths.get(i);
+			long fileSize = fileSizes.get(i);
+			if (!Files.isDirectory(Paths.get(localFilePath))) {
+				if (fileSize > 50) {
+					uploadFile(localFilePath, cloudFilePath);
+				} else {
+					uploadTinyFile(localFilePath, cloudFilePath);
 				}
-			});
-		} catch (IOException e) {
-			e.printStackTrace();
+			}
 		}
 	}
 
 	private void acquireLock() throws LockNotAcquiredException {
 		logger.trace("Acquiring lock");
-		for (int i = 0; i < clouds.size(); i++) {
-			Cloud cloud = clouds.get(i);
-			if (cloud.isAvailable()) {
-				if(cloud.searchFile("tablelock")) {
-					logger.trace("Deleting in cloud " + i);
-					cloud.deleteFile("tablelock");
-				} else {
-					releaseLock();
-					throw new LockNotAcquiredException("lock file not found");
-				}
-			}
+		if (!cloudsHandler.acquireLock()) {
+			throw new LockNotAcquiredException("lock file not found");
 		}
 		logger.trace("Lock Acquired");
 	}
-	
+
 	private void releaseLock() {
 		logger.trace("Releasing Lock");
-		byte[] lock = {};
-		for (int i = 0; i < clouds.size(); i++) {
-			Cloud cloud = clouds.get(i);
-			if (cloud.isAvailable()) {
-				try {
-					cloud.uploadFile(lock,
-							"tablelock",
-							WriteMode.OVERWRITE);
-				} catch (IOException e) {
-					//TODO handle this exception
-					logger.error("IOException: " + e);
-				}
-			}
-		}
+		cloudsHandler.releaseLock();
 		logger.trace("Lock Released");
 	}
 
 	public void uploadTinyFile(String localFilePath, String cloudFilePath) {
-		for (int i = 0; i < clouds.size(); i++) {
-			Cloud cloud = clouds.get(i);
-			if (cloud.isAvailable()) {
-				try {
-					cloud.uploadFile(localFilePath, cloudFilePath,
-							WriteMode.OVERWRITE);
-				} catch (IOException e) {
-					logger.error("IOException: " + e);
-					// e.printStackTrace();
-				}
-			}
+		try {
+			cloudsHandler.uploadFile(localFilePath, cloudFilePath,
+					WriteMode.OVERWRITE);
+		} catch (IOException e) {
+			logger.error("Exception while uploading tiny file " + cloudFilePath, e);
 		}
 	}
 
@@ -346,7 +334,8 @@ public class VaultClient {
 			Pair<FECParameters, Integer> params = getParams(fileSize);
 			FECParameters fecParams = params.first;
 			int symSize = fecParams.symbolSize();
-			int k = (int) Math.ceil((float) fileSize / (float) symSize);
+			int blockSize = (int) Math.ceil((float)fileSize / (float)fecParams.numberOfSourceBlocks()); 
+			int k = (int) Math.ceil((float) blockSize / (float) symSize);
 			int r = params.second;
 
 			ArrayDataEncoder dataEncoder = OpenRQ.newEncoder(data, fecParams);
@@ -358,8 +347,8 @@ public class VaultClient {
 
 			for (SourceBlockEncoder srcBlkEnc : srcBlkEncoders) {
 				ArrayList<ByteArrayBuffer> dataArrays = new ArrayList<ByteArrayBuffer>(
-						clouds.size());
-				for (int i = 0; i < clouds.size(); i++) {
+						cloudNum);
+				for (int i = 0; i < cloudNum; i++) {
 					int blockDataLength = (k + r) * (symSize + 8);
 					dataArrays.add(new ByteArrayBuffer(blockDataLength));
 				}
@@ -375,19 +364,13 @@ public class VaultClient {
 					dataArrays.set(cloudID, dataArray);
 					packetID++;
 				}
-				for (int i = 0; i < clouds.size(); i++) {
-					Cloud cloud = clouds.get(i);
-					if (cloud.isAvailable()) {
-						cloud.uploadFile(dataArrays.get(i).toByteArray(),
-								cloudFilePath + "_" + blockID,
-								WriteMode.OVERWRITE);
-					}
-				}
+				cloudsHandler.uploadFile(dataArrays, cloudFilePath + "_"
+						+ blockID, WriteMode.OVERWRITE);
 				blockID++;
 			}
 		} catch (Exception e) {
-			logger.error("Exception in upload: " + e);
-			e.printStackTrace();
+			logger.error("Exception in uploading File " + cloudFilePath, e);
+			// e.printStackTrace();
 		}
 		// logger.exit();
 	}
@@ -400,20 +383,16 @@ public class VaultClient {
 			writePath = vaultPath + "/" + cloudFilePath;
 			fileSize = table.fileSize(cloudFilePath);
 			if (fileSize < 0) {
+				throw new FileNotFoundException();
+			} else {
 				try {
-					Files.createDirectories(Paths.get(writePath));
-					// appending a slash to ensure that only children have there
-					// paths as the prefix
-					Iterable<FileMetadata> childrendata = table
-							.getChildren(cloudFilePath + "/");
-					for (FileMetadata childdata : childrendata) {
-						logger.trace("Child: " + childdata.fileName());
-						download(childdata.fileName());
+					if (Paths.get(writePath).getParent() != null) {
+						Files.createDirectories(Paths.get(writePath)
+								.getParent());
 					}
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
-			} else {
 				cloudFilePath = (new PathManip(cloudFilePath)).toCloudFormat();
 				if (fileSize > 50) {
 					downloadFile(cloudFilePath, writePath, fileSize);
@@ -429,17 +408,11 @@ public class VaultClient {
 
 	public void downloadTinyFile(String cloudFileName, String writePath,
 			long fileSize) {
-		for (int i = 0; i < clouds.size(); i++) {
-			Cloud cloud = clouds.get(i);
-			if (cloud.isAvailable()) {
-				try {
-					cloud.downloadFile(writePath, cloudFileName);
-					break;
-				} catch (IOException e) {
-					logger.error("IOException: " + e);
-					// e.printStackTrace();
-				}
-			}
+		try {
+			cloudsHandler.downloadFile(writePath, cloudFileName);
+		} catch (IOException e) {
+			logger.error("error while downloading tiny file to" + writePath,  e);
+			// e.printStackTrace();
 		}
 	}
 
@@ -455,7 +428,7 @@ public class VaultClient {
 		int packetlength = symSize + 8;
 		String blockFileName = null;
 		try {
-			byte[] blockdata;
+			ArrayList<byte[]> blockdatas;
 			byte[] packetdata;
 			ArrayDataDecoder dataDecoder = OpenRQ.newDecoder(fecParams, 3);
 
@@ -463,22 +436,18 @@ public class VaultClient {
 			List<byte[]> packetList = new ArrayList<byte[]>();
 			while (blockID < blockCount) {
 				blockFileName = cloudFileName + "_" + blockID;
-				for (int i = 0; i < clouds.size(); i++) {
-					Cloud cloud = clouds.get(i);
-					if (cloud.isAvailable() && cloud.searchFile(blockFileName)) {
-						blockdata = cloud.downloadFile(blockFileName);
-						packetCount = blockdata.length / packetlength;
-						for (int j = 0; j < packetCount; j++) {
-							packetdata = Arrays.copyOfRange(blockdata, j
-									* packetlength, (j + 1) * packetlength);
-							packetList.add(packetdata);
-						}
+				blockdatas = cloudsHandler.downloadFile(blockFileName);
+				for (byte[] blockdata : blockdatas) {
+					packetCount = blockdata.length / packetlength;
+					for (int j = 0; j < packetCount; j++) {
+						packetdata = Arrays.copyOfRange(blockdata, j
+								* packetlength, (j + 1) * packetlength);
+						packetList.add(packetdata);
 					}
 				}
 				blockID++;
 			}
 			logger.trace("packets have been downloaded!");
-
 			packetID = 0;
 			packetCount = packetList.size();
 			while (!dataDecoder.isDataDecoded() && packetID < packetList.size()) {
@@ -487,7 +456,6 @@ public class VaultClient {
 						.value();
 				int sbn = encPack.sourceBlockNumber();
 				SourceBlockDecoder srcBlkDec = dataDecoder.sourceBlock(sbn);
-
 				srcBlkDec.putEncodingPacket(encPack);
 				packetID++;
 			}
@@ -496,40 +464,79 @@ public class VaultClient {
 			Path pathNew = Paths.get(writePath);
 			Files.write(pathNew, dataNew);
 		} catch (Exception e) {
-			logger.error("Exception in download: " + e);
+			logger.error("Exception in downloading to " + writePath, e);
 			e.printStackTrace();
 		}
 		logger.exit("DownloadFile");
 	}
 
-	public void delete(String cloudFilePath) throws FileNotFoundException {
+	public void delete(ArrayList<String> vaultFolderAbsolutePaths)
+			throws LockNotAcquiredException {
+
 		logger.entry("delete");
-		long fileSize = 0;
-		if (table.hasFile(cloudFilePath)) {
-			fileSize = table.fileSize(cloudFilePath);
-			downloadTable();
-			try {
-				acquireLock();
-			} catch (LockNotAcquiredException e) {
-				// TODO handle this exception
-				logger.error("Could Not acquire lock");
+		try {
+			acquireLock();
+		} catch (LockNotAcquiredException e) {
+			logger.warn("Could Not acquire lock");
+			throw e;
+		}
+		// downloadTable();
+
+		ArrayList<String> cloudFilePaths = new ArrayList<String>();
+		ArrayList<Long> fileSizes = new ArrayList<Long>();
+		for (int i = 0; i < vaultFolderAbsolutePaths.size(); i++) {
+			String vaultFolderAbsolutePath = vaultFolderAbsolutePaths.get(i);
+			Path path = Paths.get(vaultFolderAbsolutePath).normalize();
+			logger.info("Deleting: " + path.toString());
+			Path temp = Paths.get(vaultPath).relativize(path).getParent();
+			String deletePath = "";
+			if (temp != null) {
+				deletePath = temp.toString();
 			}
-			table.removeFile(cloudFilePath);
-			uploadTable();
-			releaseLock();
-			if (fileSize < 0) {
-				try {
-					Iterable<FileMetadata> childrendata = table
-							.getChildren(cloudFilePath + "/");
-					for (FileMetadata childdata : childrendata) {
-						logger.trace("Child: " + childdata.fileName());
-						delete(childdata.fileName());
-					}
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-			} else if (fileSize > 50) {
+			String localFileName = path.getFileName().toString();
+			String cloudFilePath = null;
+			if (deletePath.length() > 0) {
+				cloudFilePath = deletePath + "/" + localFileName;
+			} else {
+				cloudFilePath = localFileName;
+			}
+
+			logger.info("CloudFilePath : " + cloudFilePath.toString());
+			if (table.hasFile(cloudFilePath)) {
+				currentFiles.add(cloudFilePath);
+				fileSizes.add(table.fileSize(cloudFilePath));
 				cloudFilePath = (new PathManip(cloudFilePath)).toCloudFormat();
+				cloudFilePaths.add(cloudFilePath);
+
+				// cloudFilePaths.add(cloudFilePath);
+				// fileSizes.add(table.fileSize(cloudFilePath));
+				// currentFiles.add(cloudFilePath);
+				// table.removeFile(cloudFilePath);
+
+			} else {
+				logger.error("file" + cloudFilePath
+						+ "to be deleted not found in database hence skipping");
+				vaultFolderAbsolutePaths.remove(i);
+			}
+		}
+
+		downloadTable();
+		for (int i = 0; i < currentFiles.size(); i++) {
+			table.removeFile(currentFiles.get(i));
+		}
+
+		uploadTable();
+		currentFiles.clear();
+		releaseLock();
+
+		for (int i = 0; i < cloudFilePaths.size(); i++) {
+			long fileSize = fileSizes.get(i);
+			String cloudFilePath = cloudFilePaths.get(i);
+			if (fileSize < 0) {
+				// throw new FileNotFoundException();
+			} else if (fileSize > 50) {
+				// cloudFilePath = (new
+				// PathManip(cloudFilePath)).toCloudFormat();
 				Pair<FECParameters, Integer> params = getParams(fileSize);
 				FECParameters fecParams = params.first;
 				int blockID = 0, blockCount = fecParams.numberOfSourceBlocks();
@@ -537,28 +544,14 @@ public class VaultClient {
 				while (blockID < blockCount) {
 					blockFileName = cloudFilePath + "_" + blockID;
 					logger.info("Deleteing block file" + blockFileName);
-					for (int i = 0; i < clouds.size(); i++) {
-						Cloud cloud = clouds.get(i);
-						if (cloud.isAvailable()
-								&& cloud.searchFile(blockFileName)) {
-							logger.trace("Deleting in cloud " + i);
-							cloud.deleteFile(blockFileName);
-						}
-					}
+					cloudsHandler.deleteFile(blockFileName);
 					blockID++;
 				}
 			} else {
 				cloudFilePath = (new PathManip(cloudFilePath)).toCloudFormat();
-				for (int i = 0; i < clouds.size(); i++) {
-					Cloud cloud = clouds.get(i);
-					if (cloud.isAvailable() && cloud.searchFile(cloudFilePath)) {
-						logger.trace("Deleting in cloud " + i);
-						cloud.deleteFile(cloudFilePath);
-					}
-				}
+				logger.info("Deleteing file" + cloudFilePath);
+				cloudsHandler.deleteFile(cloudFilePath);
 			}
-		} else {
-			throw new FileNotFoundException();
 		}
 		logger.exit("delete");
 	}
@@ -567,19 +560,23 @@ public class VaultClient {
 		logger.entry("createNewtable");
 		try {
 			table = new Table();
-			table.writeToFile(localDatabasePath);
-			byte[] tableBytes = Files
-					.readAllBytes(Paths.get(localDatabasePath));
+			table.writeToFile(databasePath);
+			byte[] tableBytes = Files.readAllBytes(Paths.get(databasePath));
 			databaseSize = tableBytes.length;
 			databaseHash = table.hash();
 			logger.info("Uploading new Table: Size=" + databaseSize + " Hash="
 					+ databaseHash);
 
 			updateTableMetaFile(databaseSize, databaseHash);
-			uploadTinyFile(localDatabaseMetaPath, "tablemeta.txt");
-			uploadFile(localDatabasePath, "table.ser");
+			// upload(cloudDatabaseMetaPath);
+			uploadTinyFile(databaseMetaPath, "tablemeta.txt");
+
+			// Files.write(Paths.get(cloudDatabasePath), tableBytes, CREATE,
+			// WRITE, TRUNCATE_EXISTING);
+			// upload(cloudDatabasePath);
+			uploadFile(databasePath, "table.ser");
 		} catch (Exception x) {
-			logger.error("Exception in creating new table: " + x);
+			logger.error("Error while creating new table.", x);
 		}
 		releaseLock();
 		logger.exit("createNewTable");
@@ -588,20 +585,28 @@ public class VaultClient {
 	public void uploadTable() {
 		logger.entry("UploadTable");
 		try {
-			table.writeToFile(localDatabasePath);
-			byte[] tableBytes = Files
-					.readAllBytes(Paths.get(localDatabasePath));
+			table.writeToFile(databasePath);
+			byte[] tableBytes = Files.readAllBytes(Paths.get(databasePath));
 			databaseSize = tableBytes.length;
 			databaseHash = table.hash();
 			logger.info("Uploading Table: Size=" + databaseSize + " Hash="
 					+ databaseHash);
 
+			// this will write to local config folder then copy to local vault
+			// no need to upload as watchDir will do that.
 			updateTableMetaFile(databaseSize, databaseHash);
-			uploadTinyFile(localDatabaseMetaPath, "tablemeta.txt");
-			uploadFile(localDatabasePath, "table.ser");
+			// upload(cloudDatabaseMetaPath);
+			uploadTinyFile(databaseMetaPath, "tablemeta.txt");
+
+			// write the table to local vault too;
+			// no need to upload as watchDir will do that.
+			// Files.write(Paths.get(cloudDatabasePath), tableBytes, CREATE,
+			// WRITE, TRUNCATE_EXISTING);
+			// upload(cloudDatabasePath);
+			uploadFile(databasePath, "table.ser");
 
 		} catch (IOException e) {
-			logger.error("Exception while uploading database" + e);
+			logger.error("Exception while uploading database.", e);
 		}
 		logger.exit("UploadTable");
 	}
@@ -609,9 +614,9 @@ public class VaultClient {
 	public void downloadTable() {
 		logger.entry("DownloadTable");
 		boolean databaseChanged = false;
-		downloadTinyFile("tablemeta.txt", localDatabaseMetaPath, 12);
+		downloadTinyFile("tablemeta.txt", databaseMetaPath, 12);
 		try (DataInputStream in = new DataInputStream(new FileInputStream(
-				localDatabaseMetaPath))) {
+				databaseMetaPath))) {
 			int tableHash = in.readInt();
 			if (databaseHash != tableHash) {
 				databaseChanged = true;
@@ -623,12 +628,12 @@ public class VaultClient {
 					+ tableHash);
 			if (databaseChanged) {
 				logger.trace("table hash mismatch: downloading database");
-				downloadFile("table.ser", localDatabasePath, tableSize);
-				Table newTable = new Table(localDatabasePath);
+				downloadFile("table.ser", databasePath, tableSize);
+				Table newTable = new Table(databasePath);
 				sync(newTable);
 			}
 		} catch (IOException e) {
-			logger.error("IOException: " + e);
+			logger.error("IOException while downloading table. ", e);
 		}
 		logger.exit("DownloadTable");
 	}
@@ -637,8 +642,7 @@ public class VaultClient {
 		logger.entry("Update Table Meta");
 		logger.info("Table Size:" + tableSize + " Hash:" + tableHash);
 		try {
-			FileOutputStream fileOut = new FileOutputStream(
-					localDatabaseMetaPath);
+			FileOutputStream fileOut = new FileOutputStream(databaseMetaPath);
 			DataOutputStream out = new DataOutputStream(fileOut);
 			out.writeInt(tableHash);
 			out.writeLong(tableSize);
@@ -653,59 +657,121 @@ public class VaultClient {
 		logger.exit("Update Table Meta");
 	}
 
-	public boolean checkIfNewUser() {
-		boolean newUser = true;
-		for (int i = 0; i < clouds.size(); i++) {
-			if (clouds.get(i).searchFile("table.ser_0")) {
-				logger.trace("Found table.ser");
-				newUser = false;
-				break;
-			}
-		}
-		return newUser;
-	}
+	// public boolean checkIfNewUser() {
+	// boolean newUser = true;
+	// for (int i = 0; i < clouds.size(); i++) {
+	// if (clouds.get(i).searchFile("table.ser_0")) {
+	// logger.trace("Found table.ser");
+	// newUser = false;
+	// break;
+	// }
+	// }
+	// return newUser;
+	// }
 
-	public Object[] getFileList() {
-//		downloadTable();
-		return table.getFileList();
-	}
-
-	private void sync(Table newTable) {
+	public Pair<ArrayList<String>, ArrayList<String>> sync(Table newTable) {
 		logger.entry("syncing local and downloaded table.");
 		logger.trace("Syncing with new table");
 		Object[] localFiles = table.getFileList();
 		Object[] filesInVault = newTable.getFileList();
+		logger.info("no of table entries locally: " + localFiles.length);
+		logger.info("no of table entries on cloud: " + filesInVault.length);
+		ArrayList<String> downloads = new ArrayList<String>();
+		ArrayList<String> deletes = new ArrayList<String>();
 		for (Object file : filesInVault) {
-			if (!table.hasFile((String) file)) {
-				logger.info("File in Cloud not present locally: "
-						+ (String) file);
-				table.addNewFile((String) file,
-						newTable.fileSize((String) file));
-				try {
-					download((String) file);
-				} catch (FileNotFoundException e) {
-					logger.error(e);
+			String fileName = (String) file;
+			if (!currentFiles.contains(fileName)) {
+				if (!table.hasFile(fileName)
+						|| (table.lastModified(fileName).before(newTable
+								.lastModified(fileName)))) {
+					logger.info("Sync -- File to be updated: " + fileName);
+					Path filePath = Paths.get(vaultPath + "/" + fileName);
+					downloads.add(filePath.toString());
+					table.addNewFile(fileName, newTable.fileSize(fileName));
+					if (newTable.fileSize(fileName) > 0) {
+						try {
+							Files.createDirectories(filePath.getParent());
+						} catch (IOException e) {
+							logger.error("sync -- unable to create directories to download file into");
+						}
+						downloadFile(fileName, filePath.toString(),
+								newTable.fileSize(fileName));
+					}
 				}
 			}
 		}
 		for (Object file : localFiles) {
-			if (!newTable.hasFile((String) file)) {
-				logger.info("File present locally not in Cloud : "
-						+ (String) file);
+			String fileName = (String) file;
+			if (!currentFiles.contains(fileName) && !newTable.hasFile(fileName)) {
+				logger.info("Sync -- File to be deleted: " + fileName);
 				try {
-					Path filePath = Paths.get(vaultPath + "/" + (String) file);
-					Files.delete(filePath);
+					Path filePath = Paths.get(vaultPath + "/" + fileName);
+					deletes.add(filePath.toString());
+					table.removeFile(fileName);
+					if (Files.exists(filePath)) {
+						if (table.fileSize(fileName) > 0)
+							Files.delete(filePath);
+						else {
+							Files.walkFileTree(filePath,
+									new SimpleFileVisitor<Path>() {
+										@Override
+										public FileVisitResult visitFile(
+												Path file,
+												BasicFileAttributes attrs)
+												throws IOException {
+											Files.delete(file);
+											return FileVisitResult.CONTINUE;
+										}
+
+										@Override
+										public FileVisitResult postVisitDirectory(
+												Path dir, IOException e)
+												throws IOException {
+											Files.delete(dir);
+											return FileVisitResult.CONTINUE;
+										}
+									});
+						}
+					}
 				} catch (IOException e) {
-					logger.error(e);
+					logger.error("sync -- unable to delete " + fileName, e);
 				}
 			}
 		}
 		logger.exit("syncing done");
+		return Pair.of(downloads, deletes);
 	}
 
-	public void sync() {
+	public Pair<ArrayList<String>, ArrayList<String>> sync() {
 		logger.trace("starting Sync");
-		downloadTable();
+		Pair<ArrayList<String>, ArrayList<String>> changes = null;
+		boolean databaseChanged = false;
+		downloadTinyFile("tablemeta.txt", databaseMetaPath, 12);
+		try (DataInputStream in = new DataInputStream(new FileInputStream(
+				databaseMetaPath))) {
+			int tableHash = in.readInt();
+			if (databaseHash != tableHash) {
+				databaseChanged = true;
+			}
+			long tableSize = in.readLong();
+			logger.info("Local Table: Size=" + databaseSize + " Hash="
+					+ databaseHash);
+			logger.info("Table on cloud: Size=" + tableSize + " Hash="
+					+ tableHash);
+			if (databaseChanged) {
+				logger.trace("table hash mismatch: downloading database");
+				downloadFile("table.ser", databasePath, tableSize);
+				Table newTable = new Table(databasePath);
+				changes = sync(newTable);
+			}
+		} catch (IOException e) {
+			logger.error("sync error. " , e);
+		}
 		logger.trace("Sync done;");
+		return changes;
+	}
+
+	public void shutdown() {
+		cloudsHandler.shutdown();
 	}
 }

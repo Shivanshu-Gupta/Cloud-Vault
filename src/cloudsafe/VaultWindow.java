@@ -39,7 +39,7 @@ public class VaultWindow extends JFrame {
 	private final static Logger logger = LogManager.getLogger(VaultWindow.class
 			.getName());
 
-	VaultClient client;
+	VaultClientPhone client;
 	String vaultPath = "trials/Cloud Vault";
 	String configPath = "trials/config";
 
@@ -78,7 +78,7 @@ public class VaultWindow extends JFrame {
 			Setup cloudVaultSetup = new Setup(vaultPath, configPath);
 			cloudVaultSetup.configureCloudAccess();
 		}
-		client = new VaultClient(vaultPath, configPath);
+		client = new VaultClientPhone(vaultPath, configPath);
 //		ClientHandler handler = new ClientHandler(client, uploadRequests,
 //				downloadRequests, deleteRequests, tasks);
 		ClientHandler handler = new ClientHandler(client, tasks, tableChanged);

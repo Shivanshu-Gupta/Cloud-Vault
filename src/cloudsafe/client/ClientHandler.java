@@ -8,19 +8,19 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import cloudsafe.Main;
-import cloudsafe.VaultClient;
+import cloudsafe.VaultClientPhone;
 
 public class ClientHandler implements Runnable {
 	private final static Logger logger = LogManager.getLogger(Main.class
 			.getName());
-	VaultClient client;
+	VaultClientPhone client;
 //	private ConcurrentHashMap<UploadTask, Date> uploadRequests;
 //	private ConcurrentHashMap<DownloadTask, Date> downloadRequests;
 //	private ConcurrentHashMap<DeleteTask, Date> deleteRequests;
 	private BlockingQueue<ClientTask> tasks;
 	AtomicBoolean tableChanged;
 
-	public ClientHandler(VaultClient client,
+	public ClientHandler(VaultClientPhone client,
 //			ConcurrentHashMap<UploadTask, Date> uploadRequests,
 //			ConcurrentHashMap<DownloadTask, Date> downloadRequests,
 //			ConcurrentHashMap<DeleteTask, Date> deleteRequests,

@@ -20,7 +20,7 @@ import org.apache.logging.log4j.Logger;
 public class MainPhone {
 	private final static Logger logger = LogManager.getLogger(MainPhone.class.getName());
 
-	VaultClient client;
+	VaultClientPhone client;
 	String vaultPath = "trials/Cloud Vault";
 	String configPath = "trials/config";
 
@@ -118,7 +118,7 @@ public class MainPhone {
 				Setup cloudVaultSetup = new Setup(vaultPath, configPath);
 				cloudVaultSetup.configureCloudAccess();
 			}
-			client = new VaultClient(vaultPath, configPath);
+			client = new VaultClientPhone(vaultPath, configPath);
 			
 			int choice;
 			do {

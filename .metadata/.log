@@ -1,0 +1,31 @@
+!SESSION 2015-09-29 08:23:53.372 -----------------------------------------------
+eclipse.buildId=4.4.2.M20150204-1700
+java.version=1.8.0_45
+java.vendor=Oracle Corporation
+BootLoader constants: OS=win32, ARCH=x86_64, WS=win32, NL=en_US
+Framework arguments:  -product org.eclipse.epp.package.java.product
+Command-line arguments:  -os win32 -ws win32 -arch x86_64 -product org.eclipse.epp.package.java.product
+
+!ENTRY org.eclipse.core.net 1 0 2015-09-29 08:24:15.201
+!MESSAGE System property http.proxyHost is not set but should be 10.10.78.61.
+
+!ENTRY org.eclipse.core.net 1 0 2015-09-29 08:24:15.216
+!MESSAGE System property http.proxyPort is not set but should be 3128.
+
+!ENTRY org.eclipse.core.net 1 0 2015-09-29 08:24:15.216
+!MESSAGE System property https.proxyHost is not set but should be 10.10.78.61.
+
+!ENTRY org.eclipse.core.net 1 0 2015-09-29 08:24:15.216
+!MESSAGE System property https.proxyPort is not set but should be 3128.
+
+!ENTRY org.eclipse.core.net 1 0 2015-09-29 08:24:15.216
+!MESSAGE System property https.proxyHost is not set but should be 10.10.78.61.
+
+!ENTRY org.eclipse.core.net 1 0 2015-09-29 08:24:15.216
+!MESSAGE System property https.proxyPort is not set but should be 3128.
+
+!ENTRY com.android.ide.eclipse.ddms 4 0 2015-09-29 08:24:25.802
+!MESSAGE DDMS files not found: D:\android tool kit\android tool kit\android kit\android-sdk\platform-tools\hprof-conv.exe 
+
+!ENTRY com.android.ide.eclipse.ddms 4 0 2015-09-29 08:24:25.802
+!MESSAGE DDMS files not found: D:\android tool kit\android tool kit\android kit\android-sdk\platform-tools\hprof-conv.exe 

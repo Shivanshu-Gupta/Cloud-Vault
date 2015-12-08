@@ -21,7 +21,7 @@ public class MainDesktop {
 	private final static Logger logger = LogManager.getLogger(MainDesktop.class
 			.getName());
 
-	VaultClientDesktop client;
+	VaultClient client;
 	private static String vaultPath = "trials/Cloud Vault";
 	private static String configPath = "trials/config";
 	private WatchDir watchdir = null;
@@ -80,7 +80,7 @@ public class MainDesktop {
 	
 	public void launch() {
 		restart = new CountDownLatch(1);
-		client = new VaultClientDesktop(vaultPath, configPath);
+		client = new VaultClient(vaultPath, configPath);
 
 		// --------Watchdir starts here--------------
 		String targetdir = vaultPath;

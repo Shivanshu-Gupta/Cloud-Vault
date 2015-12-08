@@ -52,7 +52,7 @@ public class WatchDir {
 			.getLogger(WatchDir.class.getName());
 
 	private final WatchService watcher;
-	private VaultClientDesktop client;
+	private VaultClient client;
 	private final Map<WatchKey, Path> keys;
 	private final boolean recursive;
 	private boolean trace = false;
@@ -118,7 +118,7 @@ public class WatchDir {
 	/**
 	 * Creates a WatchService and registers the given directory
 	 */
-	WatchDir(Path dir, boolean recursive, VaultClientDesktop client)
+	WatchDir(Path dir, boolean recursive, VaultClient client)
 			throws IOException {
 		this.client = client;
 		this.watcher = FileSystems.getDefault().newWatchService();

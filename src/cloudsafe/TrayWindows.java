@@ -25,7 +25,7 @@ public class TrayWindows {
 	
     TrayWindows(String configPath, String vaultPath, CountDownLatch restart) {
     	TrayWindows.restart = restart;
-    	ProxyConfig proxySettings = new ProxyConfig(configPath);
+    	ProxyConfig proxySettings = new ProxyConfig();
 		settings.addTab("Proxy Settings", null, proxySettings,
 				"Proxy Settings");
 		CloudConfig cloudSettings = new CloudConfig(configPath, vaultPath);

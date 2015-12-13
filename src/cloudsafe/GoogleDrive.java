@@ -52,6 +52,7 @@ import java.nio.file.Paths;
 import java.security.GeneralSecurityException;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.concurrent.ConcurrentHashMap;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -68,7 +69,7 @@ import org.apache.logging.log4j.Logger;
  * </ul>
  */
 public class GoogleDrive implements Cloud {
-	private String ID;
+	public static final String NAME = "GOOGLEDRIVE";
 	private Proxy proxy;
 	private boolean available = true;
 	private final static Logger logger = LogManager
@@ -111,8 +112,7 @@ public class GoogleDrive implements Cloud {
 
 	static String CloudVaultFolderID = null;
 
-	public GoogleDrive(String ID, Proxy proxy, int userIndex) {
-		this.ID = ID;
+	public GoogleDrive(Proxy proxy, int userIndex) {
 		this.proxy = proxy;
 		GoogleDrive.userIndex = userIndex;
 		mainOld(proxy);
@@ -200,8 +200,9 @@ public class GoogleDrive implements Cloud {
 		return false;
 	}
 
-	public String metadata() {
-		return "";
+	public ConcurrentHashMap<String, String> getMetaData() {
+		//TODO return Account Info and any other meta data required 
+		return new ConcurrentHashMap<String, String>();
 	}
 
 
@@ -384,13 +385,5 @@ public class GoogleDrive implements Cloud {
 			return;
 		}
 		return;
-	}
-
-	public String getID() {
-		return ID;
-	}
-
-	public void setID(String iD) {
-		ID = iD;
 	}
 }

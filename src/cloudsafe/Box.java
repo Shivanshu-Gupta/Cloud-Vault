@@ -16,6 +16,7 @@ import com.box.restclientv2.requestsbase.BoxFileUploadRequestObject;
 
 
 
+
 import cloudsafe.cloud.Cloud;
 import cloudsafe.cloud.WriteMode;
 
@@ -28,6 +29,7 @@ import java.net.Socket;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.concurrent.ConcurrentHashMap;
 
 import org.apache.commons.io.IOUtils;
 import org.apache.http.HttpHost;
@@ -37,12 +39,9 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 public class Box implements Cloud {
-	
+	public static final String NAME = "BOX";
 	private final static Logger logger = LogManager
 			.getLogger(Box.class.getName());
-	
-	
-	private String ID;
 	
 	private static final int PORT = 4000;
 	private static final String key = "okg0mkf7xmbx371w0awevez9m7jxuhes";
@@ -55,10 +54,9 @@ public class Box implements Cloud {
 	public String metadata = "";
 	String CloudVaultFolderID = "";
 
-	public Box(String cloudID, Proxy proxy) throws BoxRestException, BoxServerException,
+	public Box(Proxy proxy) throws BoxRestException, BoxServerException,
 			AuthFatalFailureException {
 		this.proxy = proxy;
-		this.setID(cloudID);
 		String url = "https://www.box.com/api/oauth2/authorize?response_type=code&client_id="
 				+ key + "&redirect_uri=http%3A//localhost%3A" + PORT;
 		try {
@@ -73,8 +71,11 @@ public class Box implements Cloud {
 		CloudVaultFolderID = getCloudVaultFolderID();
 	}
 
-	public String metadata() {
-		return code;
+	public ConcurrentHashMap<String, String> getMetaData() {
+		//TODO return Account Info and any other meta data required
+		ConcurrentHashMap<String, String> meta = new ConcurrentHashMap<>();
+		meta.put("code", code);
+		return meta;
 	}
 
 	@Override
@@ -394,13 +395,4 @@ public class Box implements Cloud {
 			}
 		}
 	}
-
-	public String getID() {
-		return ID;
-	}
-
-	public void setID(String iD) {
-		ID = iD;
-	}
-
 }

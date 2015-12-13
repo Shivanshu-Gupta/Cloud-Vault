@@ -2,7 +2,7 @@ package cloudsafe.exceptions;
 
 public class LockNotAcquiredException extends Exception {
 	
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 123435432;
 	private String message = null;
 	 
     public LockNotAcquiredException() {

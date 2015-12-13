@@ -2,7 +2,7 @@ package cloudsafe.exceptions;
 
 public class AuthenticationException extends Exception{
 
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 145435435;
 	private String message = null;
 	 
     public AuthenticationException() {

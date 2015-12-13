@@ -14,6 +14,8 @@ import javax.swing.JTabbedPane;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import cloudsafe.exceptions.DatabaseException;
+
 /**
  * The entry point for the CloudVault Application.
  */
@@ -52,18 +54,23 @@ public class Main {
 				logger.entry("New Setup");
 				Setup cloudVaultSetup = new Setup(vaultPath, configPath);
 				JTabbedPane settings = new JTabbedPane();
-				ProxyConfig proxySettings = new ProxyConfig(configPath);
+				ProxyConfig proxySettings = new ProxyConfig();
 				settings.addTab("Proxy Settings", null, proxySettings,
 						"Proxy Settings");
 				JOptionPane.showMessageDialog(null, settings, "Settings",
 						JOptionPane.PLAIN_MESSAGE);
-				cloudVaultSetup.configureCloudAccess();
-				// create the directory to store configuration data
+				
+				// create the required directories
 				try {
-					Files.createDirectories(Paths.get(vaultPath));
-				} catch (IOException e1) {
-					e1.printStackTrace();
+					cloudVaultSetup.createDirectories();
+				} catch (Exception e) {
+					logger.error("Unable to create directories!", e);
+					System.exit(0);
 				}
+				cloudVaultSetup.configureCloudAccess();
+				client = new VaultClient(vaultPath, configPath);
+				client.uploadTable();
+				client.releaseLock();			
 				logger.exit("Setup complete!");
 			}
 			while(true) {
@@ -80,7 +87,13 @@ public class Main {
 	
 	public void launch() {
 		restart = new CountDownLatch(1);
-		client = new VaultClient(vaultPath, configPath);
+		try {
+			client = new VaultClient(vaultPath, configPath);
+		} catch (DatabaseException e) {
+			logger.error(e);
+			//TODO : Inform user
+			System.exit(0);
+		}
 
 		// --------Watchdir starts here--------------
 		String targetdir = vaultPath;

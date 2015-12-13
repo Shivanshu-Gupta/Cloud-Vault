@@ -8,6 +8,7 @@ import java.io.ObjectOutputStream;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Set;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -23,27 +24,30 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import cloudsafe.cloud.Cloud;
+import cloudsafe.cloud.CloudMeta;
 import cloudsafe.cloud.WriteMode;
 
 public class CloudsHandler {
 	private final static Logger logger = LogManager
 			.getLogger(CloudsHandler.class.getName());
 
-	ArrayList<Cloud> clouds = new ArrayList<Cloud>();
+	ArrayList<Cloud> clouds = new ArrayList<>();
+	ArrayList<CloudMeta> cloudMetas = new ArrayList<>();
 
 	ArrayList<ConcurrentHashMap<String, byte[]>> cloudUploadQueues = new ArrayList<ConcurrentHashMap<String, byte[]>>();
-	ArrayList<Timer> cloudPeriodicUploaders = new ArrayList<Timer>();
-	ArrayList<String> cloudQueueFilePaths = new ArrayList<String>();
+	ArrayList<Timer> cloudPeriodicUploaders = new ArrayList<>();
+	ArrayList<String> cloudQueueFilePaths = new ArrayList<>();
 
 	ExecutorService executor = Executors.newFixedThreadPool(10);
 
 	@SuppressWarnings("unchecked")
-	public CloudsHandler(ArrayList<Cloud> clouds, String configPath) {
+	public CloudsHandler(ArrayList<Cloud> clouds, ArrayList<CloudMeta> cloudMetas, String configPath) {
 		this.clouds = clouds;
-		int cloudIdx = 0;
-		while (cloudIdx < clouds.size()) {
+		this.cloudMetas = cloudMetas;
+		int idx = 0;
+		while (idx < clouds.size()) {
 			String cloudQueueFilePath = configPath + "/uploadQueues/"
-					+ clouds.get(cloudIdx).getID();
+					+ cloudMetas.get(idx).getId();
 			cloudQueueFilePaths.add(cloudQueueFilePath);
 			ConcurrentHashMap<String, byte[]> uploadQueue = null;
 			if (Files.exists(Paths.get(cloudQueueFilePath))) {
@@ -67,9 +71,9 @@ public class CloudsHandler {
 			}
 			cloudUploadQueues.add(uploadQueue);
 			Timer timer = new Timer();
-			timer.schedule(new CloudUploader(cloudIdx, uploadQueue), 0, 60000);
+			timer.schedule(new CloudUploader(idx, uploadQueue), 0, 60000);
 			cloudPeriodicUploaders.add(timer);
-			cloudIdx++;
+			idx++;
 		}
 		executor = Executors.newFixedThreadPool(clouds.size());
 		
@@ -88,7 +92,8 @@ public class CloudsHandler {
 					Future<Void> future = executor.submit(new Deleter(i, lockFile));
 					results.add(future);
 				} else {
-					releaseLock();
+					// redundant
+//					releaseLock();
 					lockAcquired = false;
 					break;
 				}
@@ -101,9 +106,11 @@ public class CloudsHandler {
 				e.printStackTrace();
 			}
 		}
+		results.clear();
 		if(!lockAcquired) {
 			logger.trace("lock could not be acquired");
 			byte[] lock = {};
+			// recreate lock in all those clouds where it got deleted.
 			for(int i=0; i<cloudIdx; i++){
 				Cloud cloud = clouds.get(i);
 				if (cloud.isAvailable()) {
@@ -143,61 +150,86 @@ public class CloudsHandler {
 		}
 	}
 
-	public void uploadFile(ArrayList<ByteArrayBuffer> dataArrays,
+	public String[] uploadFile(ArrayList<ByteArrayBuffer> dataArrays,
 			String fileID, WriteMode mode) throws IOException {
 //		Pattern p = Pattern.compile(".*table.ser.*");
 //		boolean isTable = p.matcher(fileID).matches();
+		HashSet<String> cloudsUsed = new HashSet<>();
 		ArrayList<Future<Void>> results = new ArrayList<Future<Void>>();
+		ArrayList<CloudMeta> cloudsBeingUsed = new ArrayList<>();
 		for (int i = 0; i < clouds.size(); i++) {
 			Cloud cloud = clouds.get(i);
+			CloudMeta cloudMeta = cloudMetas.get(i);
 			if (cloud.isAvailable() && cloudUploadQueues.get(i).isEmpty()) {
 				Future<Void> future = executor.submit(new Uploader(i,
 						dataArrays.get(i).toByteArray(), fileID,
 						WriteMode.OVERWRITE));
+				cloudsBeingUsed.add(cloudMeta);
 				results.add(future);
 			} else {
 				cloudUploadQueues.get(i).put(fileID,
 						dataArrays.get(i).toByteArray());
 				writeQueueToFile(i);
+				
+				// TODO : Do Something Better:
+				// AS OF NOW I AM ALSO ADDING ALL THE CLOUDS CONFIGURED 
+				// EVEN IF THEY ARE NOT USED RIGHT AWAY
+				cloudsUsed.add(cloudMeta.getGenericName());
 			}
 		}
-		for (Future<Void> result : results) {
+		for(int i=0; i<results.size(); i++) {
 			try {
+				Future<Void> result = results.get(i);
 				result.get();
+				cloudsUsed.add(cloudsBeingUsed.get(i).getGenericName());
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			} catch (ExecutionException e) {
 				e.printStackTrace();
-			}
+			}			
 		}
+		logger.debug("Number of clouds used: " + cloudsUsed.size());
+        return cloudsUsed.toArray(new String[cloudsUsed.size()]);
 	}
 
-	public void uploadFile(String path, String fileID, WriteMode mode)
+	public String[] uploadFile(String path, String fileID, WriteMode mode)
 			throws IOException {
 //		Pattern p = Pattern.compile(".*tablemeta.txt.*");
 //		boolean isTablemeta = p.matcher(fileID).matches();
-		byte[] filedata = Files.readAllBytes(Paths.get(path));
+		HashSet<String> cloudsUsed = new HashSet<>();
 		ArrayList<Future<Void>> results = new ArrayList<Future<Void>>();
+		ArrayList<CloudMeta> cloudsBeingUsed = new ArrayList<>();
+		byte[] filedata = Files.readAllBytes(Paths.get(path));
 		for (int i = 0; i < clouds.size(); i++) {
 			Cloud cloud = clouds.get(i);
+			CloudMeta cloudMeta = cloudMetas.get(i);
 			if (cloud.isAvailable() && cloudUploadQueues.get(i).isEmpty()) {
 				Future<Void> future = executor.submit(new Uploader(i,
 						filedata, fileID, WriteMode.OVERWRITE));
+				cloudsBeingUsed.add(cloudMeta);
 				results.add(future);
 			} else {
 				cloudUploadQueues.get(i).put(fileID, filedata);
 				writeQueueToFile(i);
+				// TODO : Do Something Better:
+				// AS OF NOW I AM ALSO ADDING ALL THE CLOUDS CONFIGURED 
+				// EVEN IF THEY ARE NOT USED RIGHT AWAY
+				cloudsUsed.add(cloudMeta.getGenericName());
 			}
 		}
-		for (Future<Void> result : results) {
+		for(int i=0; i<results.size(); i++) {
 			try {
+				Future<Void> result = results.get(i);
 				result.get();
+				cloudsUsed.add(cloudsBeingUsed.get(i).getGenericName());
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			} catch (ExecutionException e) {
 				e.printStackTrace();
-			}
+			}			
 		}
+		logger.debug("Number of clouds used: " + cloudsUsed.size());
+        return cloudsUsed.toArray(new String[cloudsUsed.size()]);
 	}
 
 	private void writeQueueToFile(int i) {
@@ -215,7 +247,7 @@ public class CloudsHandler {
 		}
 	}
 	
-	public ArrayList<byte[]> downloadFile(String fileID) throws IOException {
+	public ArrayList<byte[]> downloadFile(String fileID) {
 		ArrayList<byte[]> filedatas = new ArrayList<byte[]>();
 		ArrayList<Future<byte[]>> results = new ArrayList<Future<byte[]>>();
 		for (int i = 0; i < clouds.size(); i++) {
@@ -240,18 +272,22 @@ public class CloudsHandler {
 	}
 
 	public void downloadFile(String path, String fileID) throws IOException {
+		boolean downloaded = false;
 		for (int i = 0; i < clouds.size(); i++) {
 			Cloud cloud = clouds.get(i);
 			if (cloud.isAvailable() && cloudUploadQueues.get(i).isEmpty()
 					&& cloud.searchFile(fileID)) {
 				try {
 					cloud.downloadFile(path, fileID);
+					downloaded = true;
 					break;
 				} catch (IOException e) {
-					logger.error("Exception while downloading file from cloud. ", e);
-					// e.printStackTrace();
+					logger.error("Error downloading file from cloud : " + fileID, e);
 				}
 			}
+		}
+		if(!downloaded) {
+			throw new IOException();
 		}
 	}
 

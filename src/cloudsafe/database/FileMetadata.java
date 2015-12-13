@@ -1,27 +1,30 @@
 package cloudsafe.database;
 
 import java.io.Serializable;
-import java.util.Date;
+import java.sql.Timestamp;
 
 public final class FileMetadata implements Serializable {
 	private static final long serialVersionUID = 10L;
 	
 	String fileName;
-//	int version;
 	long fileSize;
-	Date timestamp;
+	String cloudList;
+	int minClouds;
+	Timestamp timestamp;
 
-	public FileMetadata(String fileName, long fileSize) {
+	public FileMetadata(String fileName, long fileSize, String cloudList, int minClouds) {
 		this.fileName = fileName;
-//		this.version = version;
 		this.fileSize = fileSize;
-		this.timestamp = new Date();
+		this.cloudList = cloudList;
+		this.minClouds = minClouds;
+		this.timestamp = new Timestamp(System.currentTimeMillis());
 	}
 	
-	public FileMetadata(String fileName, long fileSize, Date timestamp) {
+	public FileMetadata(String fileName, long fileSize, String cloudList, int minClouds, Timestamp timestamp) {
 		this.fileName = fileName;
-//		this.version = version;
 		this.fileSize = fileSize;
+		this.cloudList = cloudList;
+		this.minClouds = minClouds;
 		this.timestamp = timestamp;
 	}
 	
@@ -29,15 +32,19 @@ public final class FileMetadata implements Serializable {
 		return fileName;
 	}
 
-//	public int version() {
-//		return version;
-//	}
-
 	public long fileSize() {
 		return fileSize;
 	}
+	
+	public String cloudList() {
+		return cloudList;
+	}
+	
+	public int minClouds() {
+		return minClouds;
+	}
 
-	public Date timestamp() {
+	public Timestamp timestamp() {
 		return timestamp;
 	}
 
@@ -57,10 +64,13 @@ public final class FileMetadata implements Serializable {
 							.equals(other.fileName))) {
 				return false;
 			}
-//			if (this.version != other.version) {
-//				return false;
-//			}
 			if (this.fileSize != other.fileSize) {
+				return false;
+			}
+			if (!this.cloudList.equals(other.cloudList)){
+				return false;
+			}
+			if(this.minClouds != other.minClouds){
 				return false;
 			}
 		} catch (ClassCastException ce) {
@@ -75,8 +85,9 @@ public final class FileMetadata implements Serializable {
 		int hash = 7;
 		if (this.fileName != null) {
 			hash = 13 * hash + this.fileName.hashCode();
-//			hash = 13 * hash + this.version;
 			hash = 13 * hash + (int)this.fileSize;
+			hash = 13 * hash + this.cloudList.hashCode();
+			hash = 13 * hash + this.minClouds;
 		}
 		return hash;
 	}

@@ -1,6 +1,7 @@
 package cloudsafe.cloud;
 
 import java.io.IOException;
+import java.util.concurrent.ConcurrentHashMap;
 
 import cloudsafe.cloud.WriteMode;
 
@@ -9,7 +10,7 @@ public interface Cloud {
 //	private void setupNewAccess() throws IOException;
 //	
 //	public void setupAccess() throws IOException;
-	public String metadata();
+	public ConcurrentHashMap<String, String> getMetaData();
 	
 	public boolean isAvailable();
 	
@@ -23,10 +24,5 @@ public interface Cloud {
 	
 	public void deleteFile(String path);
 	
-	public boolean searchFile(String fileID);
-	
-	public String getID();
-	
-	public void setID(String ID);
-
+	public boolean searchFile(String fileID);	
 }

@@ -17,6 +17,7 @@ import com.box.restclientv2.requestsbase.BoxFileUploadRequestObject;
 
 
 
+
 import cloudsafe.cloud.Cloud;
 import cloudsafe.cloud.WriteMode;
 
@@ -70,11 +71,24 @@ public class Box implements Cloud {
 		client = getAuthenticatedClient(code, proxy);
 		CloudVaultFolderID = getCloudVaultFolderID();
 	}
-
+	
+	public ConcurrentHashMap<String, String> getUserInfo() {
+		ConcurrentHashMap<String, String> meta = new ConcurrentHashMap<String, String>();
+		try {
+			BoxUser boxuser = client.getUsersManager().getCurrentUser(new BoxDefaultRequestObject());
+			meta.put("uid", boxuser.getId());
+			meta.put("username", boxuser.getName());
+		} catch (BoxRestException | BoxServerException | AuthFatalFailureException e) {
+			e.printStackTrace();
+		}
+		return meta;
+	}
+	
 	public ConcurrentHashMap<String, String> getMetaData() {
 		//TODO return Account Info and any other meta data required
 		ConcurrentHashMap<String, String> meta = new ConcurrentHashMap<>();
-		meta.put("code", code);
+		meta.put("Accesscode", code);
+		meta.putAll(getUserInfo());
 		return meta;
 	}
 

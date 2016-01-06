@@ -14,7 +14,6 @@
 
 package cloudsafe;
 
-
 import com.google.api.client.auth.oauth2.Credential;
 import com.google.api.client.extensions.java6.auth.oauth2.AuthorizationCodeInstalledApp;
 import com.google.api.client.extensions.jetty.auth.oauth2.LocalServerReceiver;
@@ -33,6 +32,7 @@ import com.google.api.client.util.store.DataStoreFactory;
 import com.google.api.client.util.store.FileDataStoreFactory;
 import com.google.api.services.drive.Drive;
 import com.google.api.services.drive.DriveScopes;
+import com.google.api.services.drive.model.About;
 import com.google.api.services.drive.model.File;
 import com.google.api.services.drive.model.FileList;
 import com.google.api.services.drive.model.ParentReference;
@@ -200,9 +200,22 @@ public class GoogleDrive implements Cloud {
 		return false;
 	}
 
+	public ConcurrentHashMap<String, String> getUserInfo() {
+		ConcurrentHashMap<String, String> meta = new ConcurrentHashMap<String, String>();
+		try {
+			About about = drive.about().get().execute();
+			meta.put("uid", String.valueOf(about.getPermissionId()));
+			meta.put("username", about.getName());
+			//email id not available in desktop api.
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return meta;
+	}
+	
+	
 	public ConcurrentHashMap<String, String> getMetaData() {
-		//TODO return Account Info and any other meta data required 
-		return new ConcurrentHashMap<String, String>();
+		return getUserInfo();
 	}
 
 

@@ -34,10 +34,12 @@ import org.apache.http.util.ByteArrayBuffer;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import cloudsafe.cloud.Box;
 import cloudsafe.cloud.Cloud;
 import cloudsafe.cloud.CloudMeta;
 import cloudsafe.cloud.Dropbox;
 import cloudsafe.cloud.FolderCloud;
+import cloudsafe.cloud.GoogleDrive;
 import cloudsafe.cloud.WriteMode;
 import cloudsafe.database.Database;
 import cloudsafe.database.FileMetadata;

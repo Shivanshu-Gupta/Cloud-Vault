@@ -1,4 +1,4 @@
-package cloudsafe;
+package cloudsafe.cloud;
 
 import com.box.boxjavalibv2.*;
 import com.box.boxjavalibv2.dao.*;
@@ -18,8 +18,6 @@ import com.box.restclientv2.requestsbase.BoxFileUploadRequestObject;
 
 
 
-import cloudsafe.cloud.Cloud;
-import cloudsafe.cloud.WriteMode;
 
 import java.io.*;
 import java.awt.Desktop;

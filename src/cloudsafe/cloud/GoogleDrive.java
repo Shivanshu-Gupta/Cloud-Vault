@@ -12,7 +12,7 @@
  * the License.
  */
 
-package cloudsafe;
+package cloudsafe.cloud;
 
 import com.google.api.client.auth.oauth2.Credential;
 import com.google.api.client.extensions.java6.auth.oauth2.AuthorizationCodeInstalledApp;
@@ -36,9 +36,6 @@ import com.google.api.services.drive.model.About;
 import com.google.api.services.drive.model.File;
 import com.google.api.services.drive.model.FileList;
 import com.google.api.services.drive.model.ParentReference;
-
-import cloudsafe.cloud.Cloud;
-import cloudsafe.cloud.WriteMode;
 
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;

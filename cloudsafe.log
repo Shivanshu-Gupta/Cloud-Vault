@@ -873,3 +873,615 @@ java.sql.SQLException: [SQLITE_CONSTRAINT]  Abort due to constraint violation (U
 2015-12-13 14:24:05,703 Thread-10 INFO  cloudsafe.WatchDir - ENTRY_MODIFY: C:\Users\Dell\Dropbox\SURA\APPS\Desktop\cloud-vault\trials\Device 2\Cloud Vault\Aircel_USSD_codes.jpg
 
 2015-12-13 14:24:05,703 Thread-10 INFO  cloudsafe.WatchDir - Upload Size : 1	Delete Size : 0
+2016-01-07 18:44:34,945 main TRACE cloudsafe.Main - entry params(Application Starting!)
+2016-01-07 18:45:04,296 main INFO  cloudsafe.Main - devicePath: C:\Users\Dell\Dropbox\SURA\APPS\Desktop\cloud-vault\trials\Device 1
+2016-01-07 18:45:04,296 main INFO  cloudsafe.Main - vaultPath: C:\Users\Dell\Dropbox\SURA\APPS\Desktop\cloud-vault\trials\Device 1/Cloud Vault
+2016-01-07 18:45:04,296 main INFO  cloudsafe.Main - configPath: C:\Users\Dell\Dropbox\SURA\APPS\Desktop\cloud-vault\trials\Device 1/config
+2016-01-07 18:45:04,298 main TRACE cloudsafe.Main - entry params(New Setup)
+2016-01-07 18:46:29,826 main ERROR cloudsafe.Setup - Exception: 
+java.lang.Exception: No Clouds Added
+	at cloudsafe.Setup.addCloud(Setup.java:104) ~[bin/:?]
+	at cloudsafe.Setup.configureCloudAccess(Setup.java:228) [bin/:?]
+	at cloudsafe.Main.run(Main.java:70) [bin/:?]
+	at cloudsafe.Main.main(Main.java:36) [bin/:?]
+2016-01-07 18:46:29,886 main TRACE cloudsafe.VaultClient - entry params(Setting up VaultClient)
+2016-01-07 18:46:29,889 main DEBUG database.Database - Connecting to database: trials\Device 1\config\vault.db
+2016-01-07 18:46:30,156 main INFO  database.Database - Opened Database Successfully
+2016-01-07 18:46:30,158 main INFO  cloudsafe.VaultClient - databasePath: C:\Users\Dell\Dropbox\SURA\APPS\Desktop\cloud-vault\trials\Device 1/config/vault.db
+2016-01-07 18:46:30,158 main INFO  cloudsafe.VaultClient - databaseMetaPath: C:\Users\Dell\Dropbox\SURA\APPS\Desktop\cloud-vault\trials\Device 1/config/dbmeta.txt
+2016-01-07 18:46:30,159 main INFO  cloudsafe.VaultClient - adding cloud 0 of type: FOLDERCLOUD
+2016-01-07 18:46:30,160 main INFO  cloudsafe.VaultClient - adding cloud 1 of type: FOLDERCLOUD
+2016-01-07 18:46:30,160 main INFO  cloudsafe.VaultClient - adding cloud 2 of type: FOLDERCLOUD
+2016-01-07 18:46:30,160 main INFO  cloudsafe.VaultClient - adding cloud 3 of type: FOLDERCLOUD
+2016-01-07 18:46:30,162 Timer-0 TRACE cloudsafe.CloudsHandler - starting periodic upload for cloud0
+2016-01-07 18:46:30,163 Timer-1 TRACE cloudsafe.CloudsHandler - starting periodic upload for cloud1
+2016-01-07 18:46:30,163 Timer-2 TRACE cloudsafe.CloudsHandler - starting periodic upload for cloud2
+2016-01-07 18:46:30,163 Timer-3 TRACE cloudsafe.CloudsHandler - starting periodic upload for cloud3
+2016-01-07 18:46:30,364 main INFO  cloudsafe.VaultClient - Uploading Table: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-07 18:46:30,365 main TRACE cloudsafe.VaultClient - entry params(Update Table Meta)
+2016-01-07 18:46:30,365 main INFO  cloudsafe.VaultClient - Table Size:3072 Hash:[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-07 18:46:30,369 main TRACE cloudsafe.VaultClient - exit with(Update Table Meta)
+2016-01-07 18:46:30,372 pool-4-thread-1 TRACE cloudsafe.CloudsHandler - Uploading to cloud0
+2016-01-07 18:46:30,372 pool-4-thread-2 TRACE cloudsafe.CloudsHandler - Uploading to cloud1
+2016-01-07 18:46:30,372 pool-4-thread-3 TRACE cloudsafe.CloudsHandler - Uploading to cloud2
+2016-01-07 18:46:30,372 pool-4-thread-4 TRACE cloudsafe.CloudsHandler - Uploading to cloud3
+2016-01-07 18:46:30,377 main DEBUG cloudsafe.CloudsHandler - Number of clouds used: 4
+2016-01-07 18:46:30,377 main INFO  cloudsafe.VaultClient - Uploading: C:\Users\Dell\Dropbox\SURA\APPS\Desktop\cloud-vault\trials\Device 1/config/vault.db
+2016-01-07 18:46:30,532 pool-4-thread-4 TRACE cloudsafe.CloudsHandler - Uploading to cloud0
+2016-01-07 18:46:30,532 pool-4-thread-1 TRACE cloudsafe.CloudsHandler - Uploading to cloud1
+2016-01-07 18:46:30,532 pool-4-thread-2 TRACE cloudsafe.CloudsHandler - Uploading to cloud2
+2016-01-07 18:46:30,532 pool-4-thread-3 TRACE cloudsafe.CloudsHandler - Uploading to cloud3
+2016-01-07 18:46:30,539 main DEBUG cloudsafe.CloudsHandler - Number of clouds used: 4
+2016-01-07 18:46:30,539 main DEBUG database.Database - Connecting to database: trials\Device 1\config\vault.db
+2016-01-07 18:46:30,540 main TRACE cloudsafe.VaultClient - Releasing Lock
+2016-01-07 18:46:30,540 pool-4-thread-4 TRACE cloudsafe.CloudsHandler - Uploading to cloud0
+2016-01-07 18:46:30,540 pool-4-thread-3 TRACE cloudsafe.CloudsHandler - Uploading to cloud1
+2016-01-07 18:46:30,540 pool-4-thread-1 TRACE cloudsafe.CloudsHandler - Uploading to cloud2
+2016-01-07 18:46:30,541 pool-4-thread-2 TRACE cloudsafe.CloudsHandler - Uploading to cloud3
+2016-01-07 18:46:30,541 main TRACE cloudsafe.VaultClient - Lock Released
+2016-01-07 18:46:30,541 main TRACE cloudsafe.Main - exit with(Setup complete!)
+2016-01-07 18:46:30,542 main TRACE cloudsafe.VaultClient - entry params(Setting up VaultClient)
+2016-01-07 18:46:30,542 main DEBUG database.Database - Connecting to database: trials\Device 1\config\vault.db
+2016-01-07 18:46:30,542 main INFO  cloudsafe.VaultClient - databasePath: C:\Users\Dell\Dropbox\SURA\APPS\Desktop\cloud-vault\trials\Device 1/config/vault.db
+2016-01-07 18:46:30,542 main INFO  cloudsafe.VaultClient - databaseMetaPath: C:\Users\Dell\Dropbox\SURA\APPS\Desktop\cloud-vault\trials\Device 1/config/dbmeta.txt
+2016-01-07 18:46:30,543 main INFO  cloudsafe.VaultClient - adding cloud 0 of type: FOLDERCLOUD
+2016-01-07 18:46:30,544 main INFO  cloudsafe.VaultClient - adding cloud 1 of type: FOLDERCLOUD
+2016-01-07 18:46:30,544 main INFO  cloudsafe.VaultClient - adding cloud 2 of type: FOLDERCLOUD
+2016-01-07 18:46:30,544 main INFO  cloudsafe.VaultClient - adding cloud 3 of type: FOLDERCLOUD
+2016-01-07 18:46:30,545 Timer-4 TRACE cloudsafe.CloudsHandler - starting periodic upload for cloud0
+2016-01-07 18:46:30,545 Timer-5 TRACE cloudsafe.CloudsHandler - starting periodic upload for cloud1
+2016-01-07 18:46:30,545 Timer-6 TRACE cloudsafe.CloudsHandler - starting periodic upload for cloud2
+2016-01-07 18:46:30,545 Timer-7 TRACE cloudsafe.CloudsHandler - starting periodic upload for cloud3
+2016-01-07 18:46:30,547 main INFO  cloudsafe.WatchDir - Scanning C:\Users\Dell\Dropbox\SURA\APPS\Desktop\cloud-vault\trials\Device 1\Cloud Vault ...
+
+2016-01-07 18:46:30,550 main INFO  cloudsafe.WatchDir - Done.
+2016-01-07 18:46:30,550 Timer-8 TRACE cloudsafe.WatchDir - ExecuteUpdate Called
+2016-01-07 18:46:35,551 Timer-8 TRACE cloudsafe.WatchDir - ExecuteSync Called
+2016-01-07 18:46:35,551 Timer-8 TRACE cloudsafe.VaultClient - Starting Sync
+2016-01-07 18:46:35,553 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Local Files DB: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-07 18:46:35,554 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Files DB on cloud: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-07 18:46:40,551 Timer-8 TRACE cloudsafe.WatchDir - ExecuteUpdate Called
+2016-01-07 18:46:45,551 Timer-8 TRACE cloudsafe.WatchDir - ExecuteSync Called
+2016-01-07 18:46:45,552 Timer-8 TRACE cloudsafe.VaultClient - Starting Sync
+2016-01-07 18:46:45,556 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Local Files DB: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-07 18:46:45,556 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Files DB on cloud: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-07 18:46:50,551 Timer-8 TRACE cloudsafe.WatchDir - ExecuteUpdate Called
+2016-01-07 18:46:55,552 Timer-8 TRACE cloudsafe.WatchDir - ExecuteSync Called
+2016-01-07 18:46:55,552 Timer-8 TRACE cloudsafe.VaultClient - Starting Sync
+2016-01-07 18:46:55,555 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Local Files DB: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-07 18:46:55,556 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Files DB on cloud: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-07 18:47:00,552 Timer-8 TRACE cloudsafe.WatchDir - ExecuteUpdate Called
+2016-01-07 18:47:05,552 Timer-8 TRACE cloudsafe.WatchDir - ExecuteSync Called
+2016-01-07 18:47:05,553 Timer-8 TRACE cloudsafe.VaultClient - Starting Sync
+2016-01-07 18:47:05,557 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Local Files DB: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-07 18:47:05,557 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Files DB on cloud: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-07 18:47:10,552 Timer-8 TRACE cloudsafe.WatchDir - ExecuteUpdate Called
+2016-01-07 18:47:15,553 Timer-8 TRACE cloudsafe.WatchDir - ExecuteSync Called
+2016-01-07 18:47:15,554 Timer-8 TRACE cloudsafe.VaultClient - Starting Sync
+2016-01-07 18:47:15,557 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Local Files DB: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-07 18:47:15,558 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Files DB on cloud: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-07 18:47:20,553 Timer-8 TRACE cloudsafe.WatchDir - ExecuteUpdate Called
+2016-01-07 18:47:25,553 Timer-8 TRACE cloudsafe.WatchDir - ExecuteSync Called
+2016-01-07 18:47:25,554 Timer-8 TRACE cloudsafe.VaultClient - Starting Sync
+2016-01-07 18:47:25,562 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Local Files DB: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-07 18:47:25,562 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Files DB on cloud: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-07 18:47:30,163 Timer-0 TRACE cloudsafe.CloudsHandler - starting periodic upload for cloud0
+2016-01-07 18:47:30,164 Timer-2 TRACE cloudsafe.CloudsHandler - starting periodic upload for cloud2
+2016-01-07 18:47:30,164 Timer-1 TRACE cloudsafe.CloudsHandler - starting periodic upload for cloud1
+2016-01-07 18:47:30,164 Timer-3 TRACE cloudsafe.CloudsHandler - starting periodic upload for cloud3
+2016-01-07 18:47:30,546 Timer-7 TRACE cloudsafe.CloudsHandler - starting periodic upload for cloud3
+2016-01-07 18:47:30,546 Timer-6 TRACE cloudsafe.CloudsHandler - starting periodic upload for cloud2
+2016-01-07 18:47:30,546 Timer-5 TRACE cloudsafe.CloudsHandler - starting periodic upload for cloud1
+2016-01-07 18:47:30,546 Timer-4 TRACE cloudsafe.CloudsHandler - starting periodic upload for cloud0
+2016-01-07 18:47:30,554 Timer-8 TRACE cloudsafe.WatchDir - ExecuteUpdate Called
+2016-01-07 18:47:35,554 Timer-8 TRACE cloudsafe.WatchDir - ExecuteSync Called
+2016-01-07 18:47:35,555 Timer-8 TRACE cloudsafe.VaultClient - Starting Sync
+2016-01-07 18:47:35,559 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Local Files DB: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-07 18:47:35,559 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Files DB on cloud: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-07 18:47:40,554 Timer-8 TRACE cloudsafe.WatchDir - ExecuteUpdate Called
+2016-01-07 18:47:45,554 Timer-8 TRACE cloudsafe.WatchDir - ExecuteSync Called
+2016-01-07 18:47:45,554 Timer-8 TRACE cloudsafe.VaultClient - Starting Sync
+2016-01-07 18:47:45,558 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Local Files DB: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-07 18:47:45,559 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Files DB on cloud: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-07 18:47:50,555 Timer-8 TRACE cloudsafe.WatchDir - ExecuteUpdate Called
+2016-01-07 18:47:54,966 Thread-14 INFO  cloudsafe.WatchDir - ENTRY_CREATE: C:\Users\Dell\Dropbox\SURA\APPS\Desktop\cloud-vault\trials\Device 1\Cloud Vault\Sci-Fi-Ships-Updated-PIC.jpg
+
+2016-01-07 18:47:55,000 Thread-14 INFO  cloudsafe.WatchDir - Upload Size : 1	Delete Size : 0
+2016-01-07 18:47:55,001 Thread-14 INFO  cloudsafe.WatchDir - ENTRY_MODIFY: C:\Users\Dell\Dropbox\SURA\APPS\Desktop\cloud-vault\trials\Device 1\Cloud Vault\Sci-Fi-Ships-Updated-PIC.jpg
+
+2016-01-07 18:47:55,001 Thread-14 INFO  cloudsafe.WatchDir - UPLOADQUEUE - File Already Present : C:\Users\Dell\Dropbox\SURA\APPS\Desktop\cloud-vault\trials\Device 1\Cloud Vault\Sci-Fi-Ships-Updated-PIC.jpg
+2016-01-07 18:47:55,001 Thread-14 INFO  cloudsafe.WatchDir - Upload Size : 1	Delete Size : 0
+2016-01-07 18:47:55,041 Thread-14 INFO  cloudsafe.WatchDir - ENTRY_MODIFY: C:\Users\Dell\Dropbox\SURA\APPS\Desktop\cloud-vault\trials\Device 1\Cloud Vault\Sci-Fi-Ships-Updated-PIC.jpg
+
+2016-01-07 18:47:55,045 Thread-14 INFO  cloudsafe.WatchDir - UPLOADQUEUE - File Already Present : C:\Users\Dell\Dropbox\SURA\APPS\Desktop\cloud-vault\trials\Device 1\Cloud Vault\Sci-Fi-Ships-Updated-PIC.jpg
+2016-01-07 18:47:55,045 Thread-14 INFO  cloudsafe.WatchDir - Upload Size : 1	Delete Size : 0
+2016-01-07 18:47:55,046 Thread-14 INFO  cloudsafe.WatchDir - ENTRY_MODIFY: C:\Users\Dell\Dropbox\SURA\APPS\Desktop\cloud-vault\trials\Device 1\Cloud Vault\Sci-Fi-Ships-Updated-PIC.jpg
+
+2016-01-07 18:47:55,046 Thread-14 INFO  cloudsafe.WatchDir - UPLOADQUEUE - File Already Present : C:\Users\Dell\Dropbox\SURA\APPS\Desktop\cloud-vault\trials\Device 1\Cloud Vault\Sci-Fi-Ships-Updated-PIC.jpg
+2016-01-07 18:47:55,047 Thread-14 INFO  cloudsafe.WatchDir - Upload Size : 1	Delete Size : 0
+2016-01-07 18:47:55,556 Timer-8 TRACE cloudsafe.WatchDir - ExecuteSync Called
+2016-01-07 18:47:55,556 Timer-8 TRACE cloudsafe.VaultClient - Starting Sync
+2016-01-07 18:47:55,560 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Local Files DB: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-07 18:47:55,560 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Files DB on cloud: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-07 18:47:58,299 Thread-14 INFO  cloudsafe.WatchDir - ENTRY_MODIFY: C:\Users\Dell\Dropbox\SURA\APPS\Desktop\cloud-vault\trials\Device 1\Cloud Vault\Sci-Fi-Ships-Updated-PIC.jpg
+
+2016-01-07 18:47:58,300 Thread-14 INFO  cloudsafe.WatchDir - UPLOADQUEUE - File Already Present : C:\Users\Dell\Dropbox\SURA\APPS\Desktop\cloud-vault\trials\Device 1\Cloud Vault\Sci-Fi-Ships-Updated-PIC.jpg
+2016-01-07 18:47:58,300 Thread-14 INFO  cloudsafe.WatchDir - Upload Size : 1	Delete Size : 0
+2016-01-07 18:48:00,556 Timer-8 TRACE cloudsafe.WatchDir - ExecuteUpdate Called
+2016-01-07 18:48:00,557 Timer-8 INFO  cloudsafe.WatchDir - Executing UPLOAD QUEUE : C:\Users\Dell\Dropbox\SURA\APPS\Desktop\cloud-vault\trials\Device 1\Cloud Vault\Sci-Fi-Ships-Updated-PIC.jpg
+2016-01-07 18:48:00,557 Timer-8 DEBUG cloudsafe.VaultClient - upload : Acquiring Lock...
+2016-01-07 18:48:00,558 Timer-8 TRACE cloudsafe.VaultClient - Acquiring lock
+2016-01-07 18:48:00,559 Timer-8 TRACE cloudsafe.CloudsHandler - Deleting lock in cloud 0
+2016-01-07 18:48:00,561 pool-6-thread-1 TRACE cloudsafe.CloudsHandler - Deleting in cloud0
+2016-01-07 18:48:00,562 Timer-8 TRACE cloudsafe.CloudsHandler - Deleting lock in cloud 1
+2016-01-07 18:48:00,563 pool-6-thread-2 TRACE cloudsafe.CloudsHandler - Deleting in cloud1
+2016-01-07 18:48:00,563 Timer-8 TRACE cloudsafe.CloudsHandler - Deleting lock in cloud 2
+2016-01-07 18:48:00,564 pool-6-thread-3 TRACE cloudsafe.CloudsHandler - Deleting in cloud2
+2016-01-07 18:48:00,565 Timer-8 TRACE cloudsafe.CloudsHandler - Deleting lock in cloud 3
+2016-01-07 18:48:00,566 pool-6-thread-4 TRACE cloudsafe.CloudsHandler - Deleting in cloud3
+2016-01-07 18:48:00,568 Timer-8 TRACE cloudsafe.VaultClient - Lock Acquired
+2016-01-07 18:48:00,572 Timer-8 INFO  cloudsafe.VaultClient - upload : Downloading Database...
+2016-01-07 18:48:00,577 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : downloadTable : Local Files DB: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-07 18:48:00,578 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : downloadTable : Files DB on cloud: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-07 18:48:00,591 Timer-8 INFO  cloudsafe.VaultClient - Uploading: C:\Users\Dell\Dropbox\SURA\APPS\Desktop\cloud-vault\trials\Device 1\Cloud Vault\Sci-Fi-Ships-Updated-PIC.jpg
+2016-01-07 18:48:01,785 pool-6-thread-1 TRACE cloudsafe.CloudsHandler - Uploading to cloud0
+2016-01-07 18:48:01,786 pool-6-thread-2 TRACE cloudsafe.CloudsHandler - Uploading to cloud1
+2016-01-07 18:48:01,787 pool-6-thread-3 TRACE cloudsafe.CloudsHandler - Uploading to cloud2
+2016-01-07 18:48:01,787 pool-6-thread-4 TRACE cloudsafe.CloudsHandler - Uploading to cloud3
+2016-01-07 18:48:01,794 Timer-8 DEBUG cloudsafe.CloudsHandler - Number of clouds used: 4
+2016-01-07 18:48:02,028 Timer-8 INFO  cloudsafe.VaultClient - Uploading Table: Size=3072 Hash=[116, -70, -108, -36, 9, -42, 94, -26, 14, -68, 91, 38, -124, -23, 84, -55]
+2016-01-07 18:48:02,029 Timer-8 TRACE cloudsafe.VaultClient - entry params(Update Table Meta)
+2016-01-07 18:48:02,029 Timer-8 INFO  cloudsafe.VaultClient - Table Size:3072 Hash:[116, -70, -108, -36, 9, -42, 94, -26, 14, -68, 91, 38, -124, -23, 84, -55]
+2016-01-07 18:48:02,031 Timer-8 TRACE cloudsafe.VaultClient - exit with(Update Table Meta)
+2016-01-07 18:48:02,031 pool-6-thread-1 TRACE cloudsafe.CloudsHandler - Uploading to cloud0
+2016-01-07 18:48:02,031 pool-6-thread-2 TRACE cloudsafe.CloudsHandler - Uploading to cloud1
+2016-01-07 18:48:02,031 pool-6-thread-3 TRACE cloudsafe.CloudsHandler - Uploading to cloud2
+2016-01-07 18:48:02,032 pool-6-thread-4 TRACE cloudsafe.CloudsHandler - Uploading to cloud3
+2016-01-07 18:48:02,032 Timer-8 DEBUG cloudsafe.CloudsHandler - Number of clouds used: 4
+2016-01-07 18:48:02,032 Timer-8 INFO  cloudsafe.VaultClient - Uploading: C:\Users\Dell\Dropbox\SURA\APPS\Desktop\cloud-vault\trials\Device 1/config/vault.db
+2016-01-07 18:48:02,037 pool-6-thread-1 TRACE cloudsafe.CloudsHandler - Uploading to cloud0
+2016-01-07 18:48:02,037 pool-6-thread-3 TRACE cloudsafe.CloudsHandler - Uploading to cloud1
+2016-01-07 18:48:02,037 pool-6-thread-2 TRACE cloudsafe.CloudsHandler - Uploading to cloud2
+2016-01-07 18:48:02,037 pool-6-thread-4 TRACE cloudsafe.CloudsHandler - Uploading to cloud3
+2016-01-07 18:48:02,040 Timer-8 DEBUG cloudsafe.CloudsHandler - Number of clouds used: 4
+2016-01-07 18:48:02,041 Timer-8 DEBUG database.Database - Connecting to database: trials\Device 1\config\vault.db
+2016-01-07 18:48:02,041 Timer-8 TRACE cloudsafe.VaultClient - Releasing Lock
+2016-01-07 18:48:02,041 pool-6-thread-4 TRACE cloudsafe.CloudsHandler - Uploading to cloud0
+2016-01-07 18:48:02,042 pool-6-thread-1 TRACE cloudsafe.CloudsHandler - Uploading to cloud1
+2016-01-07 18:48:02,042 pool-6-thread-3 TRACE cloudsafe.CloudsHandler - Uploading to cloud2
+2016-01-07 18:48:02,042 pool-6-thread-2 TRACE cloudsafe.CloudsHandler - Uploading to cloud3
+2016-01-07 18:48:02,042 Timer-8 TRACE cloudsafe.VaultClient - Lock Released
+2016-01-07 18:48:05,556 Timer-8 TRACE cloudsafe.WatchDir - ExecuteSync Called
+2016-01-07 18:48:05,556 Timer-8 TRACE cloudsafe.VaultClient - Starting Sync
+2016-01-07 18:48:05,558 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Local Files DB: Size=3072 Hash=[116, -70, -108, -36, 9, -42, 94, -26, 14, -68, 91, 38, -124, -23, 84, -55]
+2016-01-07 18:48:05,558 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Files DB on cloud: Size=3072 Hash=[116, -70, -108, -36, 9, -42, 94, -26, 14, -68, 91, 38, -124, -23, 84, -55]
+2016-01-07 18:48:10,557 Timer-8 TRACE cloudsafe.WatchDir - ExecuteUpdate Called
+2016-01-07 18:48:12,412 main TRACE cloudsafe.Main - entry params(Application Starting!)
+2016-01-07 18:48:15,558 Timer-8 TRACE cloudsafe.WatchDir - ExecuteSync Called
+2016-01-07 18:48:15,559 Timer-8 TRACE cloudsafe.VaultClient - Starting Sync
+2016-01-07 18:48:15,562 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Local Files DB: Size=3072 Hash=[116, -70, -108, -36, 9, -42, 94, -26, 14, -68, 91, 38, -124, -23, 84, -55]
+2016-01-07 18:48:15,563 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Files DB on cloud: Size=3072 Hash=[116, -70, -108, -36, 9, -42, 94, -26, 14, -68, 91, 38, -124, -23, 84, -55]
+2016-01-07 18:48:18,172 main INFO  cloudsafe.Main - devicePath: C:\Users\Dell\Dropbox\SURA\APPS\Desktop\cloud-vault\trials\Device 2
+2016-01-07 18:48:18,172 main INFO  cloudsafe.Main - vaultPath: C:\Users\Dell\Dropbox\SURA\APPS\Desktop\cloud-vault\trials\Device 2/Cloud Vault
+2016-01-07 18:48:18,172 main INFO  cloudsafe.Main - configPath: C:\Users\Dell\Dropbox\SURA\APPS\Desktop\cloud-vault\trials\Device 2/config
+2016-01-07 18:48:18,174 main TRACE cloudsafe.Main - entry params(New Setup)
+2016-01-07 18:48:20,558 Timer-8 TRACE cloudsafe.WatchDir - ExecuteUpdate Called
+2016-01-07 18:48:21,309 main TRACE cloudsafe.VaultClient - entry params(Setting up VaultClient)
+2016-01-07 18:48:21,310 main DEBUG database.Database - Connecting to database: trials\Device 2\config\vault.db
+2016-01-07 18:48:21,432 main INFO  database.Database - Opened Database Successfully
+2016-01-07 18:48:21,434 main INFO  cloudsafe.VaultClient - databasePath: C:\Users\Dell\Dropbox\SURA\APPS\Desktop\cloud-vault\trials\Device 2/config/vault.db
+2016-01-07 18:48:21,434 main INFO  cloudsafe.VaultClient - databaseMetaPath: C:\Users\Dell\Dropbox\SURA\APPS\Desktop\cloud-vault\trials\Device 2/config/dbmeta.txt
+2016-01-07 18:48:21,435 main INFO  cloudsafe.VaultClient - adding cloud 0 of type: FOLDERCLOUD
+2016-01-07 18:48:21,436 main INFO  cloudsafe.VaultClient - adding cloud 1 of type: FOLDERCLOUD
+2016-01-07 18:48:21,436 main INFO  cloudsafe.VaultClient - adding cloud 2 of type: FOLDERCLOUD
+2016-01-07 18:48:21,436 main INFO  cloudsafe.VaultClient - adding cloud 3 of type: FOLDERCLOUD
+2016-01-07 18:48:21,438 Timer-0 TRACE cloudsafe.CloudsHandler - starting periodic upload for cloud0
+2016-01-07 18:48:21,439 Timer-1 TRACE cloudsafe.CloudsHandler - starting periodic upload for cloud1
+2016-01-07 18:48:21,439 Timer-2 TRACE cloudsafe.CloudsHandler - starting periodic upload for cloud2
+2016-01-07 18:48:21,439 Timer-3 TRACE cloudsafe.CloudsHandler - starting periodic upload for cloud3
+2016-01-07 18:48:21,601 main INFO  cloudsafe.VaultClient - Uploading Table: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-07 18:48:21,602 main TRACE cloudsafe.VaultClient - entry params(Update Table Meta)
+2016-01-07 18:48:21,602 main INFO  cloudsafe.VaultClient - Table Size:3072 Hash:[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-07 18:48:21,604 main TRACE cloudsafe.VaultClient - exit with(Update Table Meta)
+2016-01-07 18:48:21,607 pool-4-thread-1 TRACE cloudsafe.CloudsHandler - Uploading to cloud0
+2016-01-07 18:48:21,607 pool-4-thread-2 TRACE cloudsafe.CloudsHandler - Uploading to cloud1
+2016-01-07 18:48:21,607 pool-4-thread-3 TRACE cloudsafe.CloudsHandler - Uploading to cloud2
+2016-01-07 18:48:21,608 pool-4-thread-4 TRACE cloudsafe.CloudsHandler - Uploading to cloud3
+2016-01-07 18:48:21,613 main DEBUG cloudsafe.CloudsHandler - Number of clouds used: 4
+2016-01-07 18:48:21,615 main INFO  cloudsafe.VaultClient - Uploading: C:\Users\Dell\Dropbox\SURA\APPS\Desktop\cloud-vault\trials\Device 2/config/vault.db
+2016-01-07 18:48:21,745 pool-4-thread-3 TRACE cloudsafe.CloudsHandler - Uploading to cloud0
+2016-01-07 18:48:21,745 pool-4-thread-4 TRACE cloudsafe.CloudsHandler - Uploading to cloud1
+2016-01-07 18:48:21,745 pool-4-thread-2 TRACE cloudsafe.CloudsHandler - Uploading to cloud2
+2016-01-07 18:48:21,745 pool-4-thread-1 TRACE cloudsafe.CloudsHandler - Uploading to cloud3
+2016-01-07 18:48:21,748 main DEBUG cloudsafe.CloudsHandler - Number of clouds used: 4
+2016-01-07 18:48:21,748 main DEBUG database.Database - Connecting to database: trials\Device 2\config\vault.db
+2016-01-07 18:48:21,749 main TRACE cloudsafe.VaultClient - Releasing Lock
+2016-01-07 18:48:21,749 pool-4-thread-3 TRACE cloudsafe.CloudsHandler - Uploading to cloud0
+2016-01-07 18:48:21,749 pool-4-thread-1 TRACE cloudsafe.CloudsHandler - Uploading to cloud1
+2016-01-07 18:48:21,749 pool-4-thread-2 TRACE cloudsafe.CloudsHandler - Uploading to cloud2
+2016-01-07 18:48:21,749 pool-4-thread-4 TRACE cloudsafe.CloudsHandler - Uploading to cloud3
+2016-01-07 18:48:21,750 main TRACE cloudsafe.VaultClient - Lock Released
+2016-01-07 18:48:21,750 main TRACE cloudsafe.Main - exit with(Setup complete!)
+2016-01-07 18:48:21,750 main TRACE cloudsafe.VaultClient - entry params(Setting up VaultClient)
+2016-01-07 18:48:21,750 main DEBUG database.Database - Connecting to database: trials\Device 2\config\vault.db
+2016-01-07 18:48:21,750 main INFO  cloudsafe.VaultClient - databasePath: C:\Users\Dell\Dropbox\SURA\APPS\Desktop\cloud-vault\trials\Device 2/config/vault.db
+2016-01-07 18:48:21,750 main INFO  cloudsafe.VaultClient - databaseMetaPath: C:\Users\Dell\Dropbox\SURA\APPS\Desktop\cloud-vault\trials\Device 2/config/dbmeta.txt
+2016-01-07 18:48:21,751 main INFO  cloudsafe.VaultClient - adding cloud 0 of type: FOLDERCLOUD
+2016-01-07 18:48:21,752 main INFO  cloudsafe.VaultClient - adding cloud 1 of type: FOLDERCLOUD
+2016-01-07 18:48:21,752 main INFO  cloudsafe.VaultClient - adding cloud 2 of type: FOLDERCLOUD
+2016-01-07 18:48:21,752 main INFO  cloudsafe.VaultClient - adding cloud 3 of type: FOLDERCLOUD
+2016-01-07 18:48:21,752 Timer-4 TRACE cloudsafe.CloudsHandler - starting periodic upload for cloud0
+2016-01-07 18:48:21,753 Timer-5 TRACE cloudsafe.CloudsHandler - starting periodic upload for cloud1
+2016-01-07 18:48:21,753 Timer-6 TRACE cloudsafe.CloudsHandler - starting periodic upload for cloud2
+2016-01-07 18:48:21,753 Timer-7 TRACE cloudsafe.CloudsHandler - starting periodic upload for cloud3
+2016-01-07 18:48:21,755 main INFO  cloudsafe.WatchDir - Scanning C:\Users\Dell\Dropbox\SURA\APPS\Desktop\cloud-vault\trials\Device 2\Cloud Vault ...
+
+2016-01-07 18:48:21,757 main INFO  cloudsafe.WatchDir - Done.
+2016-01-07 18:48:21,758 Timer-8 TRACE cloudsafe.WatchDir - ExecuteUpdate Called
+2016-01-07 18:48:25,559 Timer-8 TRACE cloudsafe.WatchDir - ExecuteSync Called
+2016-01-07 18:48:25,559 Timer-8 TRACE cloudsafe.VaultClient - Starting Sync
+2016-01-07 18:48:25,566 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Local Files DB: Size=3072 Hash=[116, -70, -108, -36, 9, -42, 94, -26, 14, -68, 91, 38, -124, -23, 84, -55]
+2016-01-07 18:48:25,567 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Files DB on cloud: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-07 18:48:25,567 Timer-8 TRACE cloudsafe.VaultClient - table hash mismatch: downloading database
+2016-01-07 18:48:25,568 Timer-8 TRACE cloudsafe.VaultClient - entry params(DownloadFile)
+2016-01-07 18:48:25,568 Timer-8 INFO  cloudsafe.VaultClient - Downloading: vault.db
+2016-01-07 18:48:25,581 pool-6-thread-4 TRACE cloudsafe.CloudsHandler - Downloading from cloud0
+2016-01-07 18:48:25,582 pool-6-thread-1 TRACE cloudsafe.CloudsHandler - Downloading from cloud1
+2016-01-07 18:48:25,582 pool-6-thread-3 TRACE cloudsafe.CloudsHandler - Downloading from cloud2
+2016-01-07 18:48:25,583 pool-6-thread-2 TRACE cloudsafe.CloudsHandler - Downloading from cloud3
+2016-01-07 18:48:25,585 Timer-8 TRACE cloudsafe.VaultClient - packets have been downloaded!
+2016-01-07 18:48:25,604 Timer-8 TRACE cloudsafe.VaultClient - exit with(DownloadFile)
+2016-01-07 18:48:25,607 Timer-8 DEBUG cloudsafe.Setup - Connecting to database: trials\Device 1\config\downloaded.db
+2016-01-07 18:48:25,609 Timer-8 INFO  cloudsafe.Setup - Opened Files Database Successfully
+2016-01-07 18:48:25,611 Timer-8 TRACE cloudsafe.VaultClient - Syncing local and downloaded table.
+2016-01-07 18:48:25,613 Timer-8 TRACE cloudsafe.VaultClient - starting to look for files to be updated
+2016-01-07 18:48:25,614 Timer-8 TRACE cloudsafe.VaultClient - done looking for files to update.
+2016-01-07 18:48:25,614 Timer-8 TRACE cloudsafe.VaultClient - starting to look for files to be deleted
+2016-01-07 18:48:25,614 Timer-8 TRACE cloudsafe.VaultClient - sync : local table : filename : Sci-Fi-Ships-Updated-PIC.jpg
+2016-01-07 18:48:25,615 Timer-8 TRACE cloudsafe.VaultClient - sync : local table : filesize : 4712617
+2016-01-07 18:48:25,615 Timer-8 INFO  cloudsafe.VaultClient - Sync : File to be deleted: Sci-Fi-Ships-Updated-PIC.jpg
+2016-01-07 18:48:25,617 Thread-14 INFO  cloudsafe.WatchDir - ENTRY_DELETE: C:\Users\Dell\Dropbox\SURA\APPS\Desktop\cloud-vault\trials\Device 1\Cloud Vault\Sci-Fi-Ships-Updated-PIC.jpg
+
+2016-01-07 18:48:25,618 Thread-14 INFO  cloudsafe.WatchDir - Upload Size : 0	Delete Size : 1
+2016-01-07 18:48:25,784 Timer-8 DEBUG database.Database - deleted from database: Sci-Fi-Ships-Updated-PIC.jpg
+2016-01-07 18:48:25,785 Timer-8 TRACE cloudsafe.VaultClient - done looking for files to delete.
+2016-01-07 18:48:25,786 Timer-8 INFO  cloudsafe.VaultClient - Uploading Table: Size=3072 Hash=[-16, 59, -11, 123, -93, -29, -105, 33, 89, 92, -34, 8, -125, -26, 4, 37]
+2016-01-07 18:48:25,786 Timer-8 TRACE cloudsafe.VaultClient - entry params(Update Table Meta)
+2016-01-07 18:48:25,786 Timer-8 INFO  cloudsafe.VaultClient - Table Size:3072 Hash:[-16, 59, -11, 123, -93, -29, -105, 33, 89, 92, -34, 8, -125, -26, 4, 37]
+2016-01-07 18:48:25,788 Timer-8 TRACE cloudsafe.VaultClient - exit with(Update Table Meta)
+2016-01-07 18:48:25,788 Timer-8 DEBUG database.Database - Connecting to database: trials\Device 1\config\vault.db
+2016-01-07 18:48:26,758 Timer-8 TRACE cloudsafe.WatchDir - ExecuteSync Called
+2016-01-07 18:48:26,758 Timer-8 TRACE cloudsafe.VaultClient - Starting Sync
+2016-01-07 18:48:26,760 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Local Files DB: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-07 18:48:26,760 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Files DB on cloud: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-07 18:48:30,164 Timer-0 TRACE cloudsafe.CloudsHandler - starting periodic upload for cloud0
+2016-01-07 18:48:30,165 Timer-2 TRACE cloudsafe.CloudsHandler - starting periodic upload for cloud2
+2016-01-07 18:48:30,165 Timer-1 TRACE cloudsafe.CloudsHandler - starting periodic upload for cloud1
+2016-01-07 18:48:30,165 Timer-3 TRACE cloudsafe.CloudsHandler - starting periodic upload for cloud3
+2016-01-07 18:48:30,546 Timer-7 TRACE cloudsafe.CloudsHandler - starting periodic upload for cloud3
+2016-01-07 18:48:30,546 Timer-5 TRACE cloudsafe.CloudsHandler - starting periodic upload for cloud1
+2016-01-07 18:48:30,546 Timer-4 TRACE cloudsafe.CloudsHandler - starting periodic upload for cloud0
+2016-01-07 18:48:30,546 Timer-6 TRACE cloudsafe.CloudsHandler - starting periodic upload for cloud2
+2016-01-07 18:48:30,560 Timer-8 TRACE cloudsafe.WatchDir - ExecuteUpdate Called
+2016-01-07 18:48:30,560 Timer-8 INFO  cloudsafe.WatchDir - Executing DELETE QUEUE : C:\Users\Dell\Dropbox\SURA\APPS\Desktop\cloud-vault\trials\Device 1\Cloud Vault\Sci-Fi-Ships-Updated-PIC.jpg
+2016-01-07 18:48:30,560 Timer-8 TRACE cloudsafe.VaultClient - entry params(delete)
+2016-01-07 18:48:30,560 Timer-8 TRACE cloudsafe.VaultClient - Acquiring lock
+2016-01-07 18:48:30,561 Timer-8 TRACE cloudsafe.CloudsHandler - Deleting lock in cloud 0
+2016-01-07 18:48:30,561 pool-6-thread-4 TRACE cloudsafe.CloudsHandler - Deleting in cloud0
+2016-01-07 18:48:30,562 Timer-8 TRACE cloudsafe.CloudsHandler - Deleting lock in cloud 1
+2016-01-07 18:48:30,562 pool-6-thread-4 TRACE cloudsafe.CloudsHandler - Deleting in cloud1
+2016-01-07 18:48:30,562 Timer-8 TRACE cloudsafe.CloudsHandler - Deleting lock in cloud 2
+2016-01-07 18:48:30,562 pool-6-thread-3 TRACE cloudsafe.CloudsHandler - Deleting in cloud2
+2016-01-07 18:48:30,563 Timer-8 TRACE cloudsafe.CloudsHandler - Deleting lock in cloud 3
+2016-01-07 18:48:30,563 pool-6-thread-3 TRACE cloudsafe.CloudsHandler - Deleting in cloud3
+2016-01-07 18:48:30,564 Timer-8 TRACE cloudsafe.VaultClient - Lock Acquired
+2016-01-07 18:48:30,564 Timer-8 INFO  cloudsafe.VaultClient - Deleting: C:\Users\Dell\Dropbox\SURA\APPS\Desktop\cloud-vault\trials\Device 1\Cloud Vault\Sci-Fi-Ships-Updated-PIC.jpg
+2016-01-07 18:48:30,565 Timer-8 INFO  cloudsafe.VaultClient - CloudFilePath : Sci-Fi-Ships-Updated-PIC.jpg
+2016-01-07 18:48:30,566 Timer-8 ERROR cloudsafe.VaultClient - file Sci-Fi-Ships-Updated-PIC.jpg to be deleted not found in database hence skipping
+2016-01-07 18:48:30,566 Timer-8 TRACE cloudsafe.VaultClient - exit with(delete)
+2016-01-07 18:48:31,759 Timer-8 TRACE cloudsafe.WatchDir - ExecuteUpdate Called
+2016-01-07 18:48:35,560 Timer-8 TRACE cloudsafe.WatchDir - ExecuteSync Called
+2016-01-07 18:48:35,560 Timer-8 TRACE cloudsafe.VaultClient - Starting Sync
+2016-01-07 18:48:35,564 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Local Files DB: Size=3072 Hash=[-16, 59, -11, 123, -93, -29, -105, 33, 89, 92, -34, 8, -125, -26, 4, 37]
+2016-01-07 18:48:35,564 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Files DB on cloud: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-07 18:48:35,565 Timer-8 TRACE cloudsafe.VaultClient - table hash mismatch: downloading database
+2016-01-07 18:48:35,565 Timer-8 TRACE cloudsafe.VaultClient - entry params(DownloadFile)
+2016-01-07 18:48:35,566 Timer-8 INFO  cloudsafe.VaultClient - Downloading: vault.db
+2016-01-07 18:48:35,567 pool-6-thread-1 TRACE cloudsafe.CloudsHandler - Downloading from cloud0
+2016-01-07 18:48:35,568 pool-6-thread-4 TRACE cloudsafe.CloudsHandler - Downloading from cloud1
+2016-01-07 18:48:35,568 pool-6-thread-2 TRACE cloudsafe.CloudsHandler - Downloading from cloud2
+2016-01-07 18:48:35,569 pool-6-thread-3 TRACE cloudsafe.CloudsHandler - Downloading from cloud3
+2016-01-07 18:48:35,570 Timer-8 TRACE cloudsafe.VaultClient - packets have been downloaded!
+2016-01-07 18:48:35,586 Timer-8 TRACE cloudsafe.VaultClient - exit with(DownloadFile)
+2016-01-07 18:48:35,587 Timer-8 DEBUG cloudsafe.Setup - Connecting to database: trials\Device 1\config\downloaded.db
+2016-01-07 18:48:35,588 Timer-8 TRACE cloudsafe.VaultClient - Syncing local and downloaded table.
+2016-01-07 18:48:35,589 Timer-8 TRACE cloudsafe.VaultClient - starting to look for files to be updated
+2016-01-07 18:48:35,589 Timer-8 TRACE cloudsafe.VaultClient - done looking for files to update.
+2016-01-07 18:48:35,589 Timer-8 TRACE cloudsafe.VaultClient - starting to look for files to be deleted
+2016-01-07 18:48:35,590 Timer-8 TRACE cloudsafe.VaultClient - done looking for files to delete.
+2016-01-07 18:48:35,591 Timer-8 INFO  cloudsafe.VaultClient - Uploading Table: Size=3072 Hash=[-16, 59, -11, 123, -93, -29, -105, 33, 89, 92, -34, 8, -125, -26, 4, 37]
+2016-01-07 18:48:35,591 Timer-8 TRACE cloudsafe.VaultClient - entry params(Update Table Meta)
+2016-01-07 18:48:35,591 Timer-8 INFO  cloudsafe.VaultClient - Table Size:3072 Hash:[-16, 59, -11, 123, -93, -29, -105, 33, 89, 92, -34, 8, -125, -26, 4, 37]
+2016-01-07 18:48:35,593 Timer-8 TRACE cloudsafe.VaultClient - exit with(Update Table Meta)
+2016-01-07 18:48:35,593 Timer-8 DEBUG database.Database - Connecting to database: trials\Device 1\config\vault.db
+2016-01-07 18:48:36,759 Timer-8 TRACE cloudsafe.WatchDir - ExecuteSync Called
+2016-01-07 18:48:36,760 Timer-8 TRACE cloudsafe.VaultClient - Starting Sync
+2016-01-07 18:48:36,764 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Local Files DB: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-07 18:48:36,765 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Files DB on cloud: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-07 18:48:40,560 Timer-8 TRACE cloudsafe.WatchDir - ExecuteUpdate Called
+2016-01-07 18:48:41,760 Timer-8 TRACE cloudsafe.WatchDir - ExecuteUpdate Called
+2016-01-07 18:48:45,561 Timer-8 TRACE cloudsafe.WatchDir - ExecuteSync Called
+2016-01-07 18:48:45,562 Timer-8 TRACE cloudsafe.VaultClient - Starting Sync
+2016-01-07 18:48:45,566 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Local Files DB: Size=3072 Hash=[-16, 59, -11, 123, -93, -29, -105, 33, 89, 92, -34, 8, -125, -26, 4, 37]
+2016-01-07 18:48:45,566 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Files DB on cloud: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-07 18:48:45,567 Timer-8 TRACE cloudsafe.VaultClient - table hash mismatch: downloading database
+2016-01-07 18:48:45,568 Timer-8 TRACE cloudsafe.VaultClient - entry params(DownloadFile)
+2016-01-07 18:48:45,568 Timer-8 INFO  cloudsafe.VaultClient - Downloading: vault.db
+2016-01-07 18:48:45,570 pool-6-thread-1 TRACE cloudsafe.CloudsHandler - Downloading from cloud0
+2016-01-07 18:48:45,571 pool-6-thread-4 TRACE cloudsafe.CloudsHandler - Downloading from cloud1
+2016-01-07 18:48:45,571 pool-6-thread-2 TRACE cloudsafe.CloudsHandler - Downloading from cloud2
+2016-01-07 18:48:45,571 pool-6-thread-3 TRACE cloudsafe.CloudsHandler - Downloading from cloud3
+2016-01-07 18:48:45,572 Timer-8 TRACE cloudsafe.VaultClient - packets have been downloaded!
+2016-01-07 18:48:45,584 Timer-8 TRACE cloudsafe.VaultClient - exit with(DownloadFile)
+2016-01-07 18:48:45,585 Timer-8 DEBUG cloudsafe.Setup - Connecting to database: trials\Device 1\config\downloaded.db
+2016-01-07 18:48:45,586 Timer-8 TRACE cloudsafe.VaultClient - Syncing local and downloaded table.
+2016-01-07 18:48:45,587 Timer-8 TRACE cloudsafe.VaultClient - starting to look for files to be updated
+2016-01-07 18:48:45,588 Timer-8 TRACE cloudsafe.VaultClient - done looking for files to update.
+2016-01-07 18:48:45,588 Timer-8 TRACE cloudsafe.VaultClient - starting to look for files to be deleted
+2016-01-07 18:48:45,588 Timer-8 TRACE cloudsafe.VaultClient - done looking for files to delete.
+2016-01-07 18:48:45,589 Timer-8 INFO  cloudsafe.VaultClient - Uploading Table: Size=3072 Hash=[-16, 59, -11, 123, -93, -29, -105, 33, 89, 92, -34, 8, -125, -26, 4, 37]
+2016-01-07 18:48:45,590 Timer-8 TRACE cloudsafe.VaultClient - entry params(Update Table Meta)
+2016-01-07 18:48:45,590 Timer-8 INFO  cloudsafe.VaultClient - Table Size:3072 Hash:[-16, 59, -11, 123, -93, -29, -105, 33, 89, 92, -34, 8, -125, -26, 4, 37]
+2016-01-07 18:48:45,595 Timer-8 TRACE cloudsafe.VaultClient - exit with(Update Table Meta)
+2016-01-07 18:48:45,596 Timer-8 DEBUG database.Database - Connecting to database: trials\Device 1\config\vault.db
+2016-01-07 18:48:46,761 Timer-8 TRACE cloudsafe.WatchDir - ExecuteSync Called
+2016-01-07 18:48:46,761 Timer-8 TRACE cloudsafe.VaultClient - Starting Sync
+2016-01-07 18:48:46,765 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Local Files DB: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-07 18:48:46,766 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Files DB on cloud: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-07 18:48:50,561 Timer-8 TRACE cloudsafe.WatchDir - ExecuteUpdate Called
+2016-01-07 18:48:51,761 Timer-8 TRACE cloudsafe.WatchDir - ExecuteUpdate Called
+2016-01-07 18:48:55,563 Timer-8 TRACE cloudsafe.WatchDir - ExecuteSync Called
+2016-01-07 18:48:55,563 Timer-8 TRACE cloudsafe.VaultClient - Starting Sync
+2016-01-07 18:48:55,567 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Local Files DB: Size=3072 Hash=[-16, 59, -11, 123, -93, -29, -105, 33, 89, 92, -34, 8, -125, -26, 4, 37]
+2016-01-07 18:48:55,567 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Files DB on cloud: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-07 18:48:55,568 Timer-8 TRACE cloudsafe.VaultClient - table hash mismatch: downloading database
+2016-01-07 18:48:55,568 Timer-8 TRACE cloudsafe.VaultClient - entry params(DownloadFile)
+2016-01-07 18:48:55,568 Timer-8 INFO  cloudsafe.VaultClient - Downloading: vault.db
+2016-01-07 18:48:55,569 pool-6-thread-1 TRACE cloudsafe.CloudsHandler - Downloading from cloud0
+2016-01-07 18:48:55,570 pool-6-thread-4 TRACE cloudsafe.CloudsHandler - Downloading from cloud1
+2016-01-07 18:48:55,570 pool-6-thread-2 TRACE cloudsafe.CloudsHandler - Downloading from cloud2
+2016-01-07 18:48:55,571 pool-6-thread-3 TRACE cloudsafe.CloudsHandler - Downloading from cloud3
+2016-01-07 18:48:55,572 Timer-8 TRACE cloudsafe.VaultClient - packets have been downloaded!
+2016-01-07 18:48:55,587 Timer-8 TRACE cloudsafe.VaultClient - exit with(DownloadFile)
+2016-01-07 18:48:55,588 Timer-8 DEBUG cloudsafe.Setup - Connecting to database: trials\Device 1\config\downloaded.db
+2016-01-07 18:48:55,589 Timer-8 TRACE cloudsafe.VaultClient - Syncing local and downloaded table.
+2016-01-07 18:48:55,591 Timer-8 TRACE cloudsafe.VaultClient - starting to look for files to be updated
+2016-01-07 18:48:55,591 Timer-8 TRACE cloudsafe.VaultClient - done looking for files to update.
+2016-01-07 18:48:55,591 Timer-8 TRACE cloudsafe.VaultClient - starting to look for files to be deleted
+2016-01-07 18:48:55,592 Timer-8 TRACE cloudsafe.VaultClient - done looking for files to delete.
+2016-01-07 18:48:55,593 Timer-8 INFO  cloudsafe.VaultClient - Uploading Table: Size=3072 Hash=[-16, 59, -11, 123, -93, -29, -105, 33, 89, 92, -34, 8, -125, -26, 4, 37]
+2016-01-07 18:48:55,593 Timer-8 TRACE cloudsafe.VaultClient - entry params(Update Table Meta)
+2016-01-07 18:48:55,593 Timer-8 INFO  cloudsafe.VaultClient - Table Size:3072 Hash:[-16, 59, -11, 123, -93, -29, -105, 33, 89, 92, -34, 8, -125, -26, 4, 37]
+2016-01-07 18:48:55,594 Timer-8 TRACE cloudsafe.VaultClient - exit with(Update Table Meta)
+2016-01-07 18:48:55,595 Timer-8 DEBUG database.Database - Connecting to database: trials\Device 1\config\vault.db
+2016-01-07 18:48:56,761 Timer-8 TRACE cloudsafe.WatchDir - ExecuteSync Called
+2016-01-07 18:48:56,761 Timer-8 TRACE cloudsafe.VaultClient - Starting Sync
+2016-01-07 18:48:56,763 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Local Files DB: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-07 18:48:56,764 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Files DB on cloud: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-07 18:48:57,525 Thread-14 INFO  cloudsafe.WatchDir - ENTRY_CREATE: C:\Users\Dell\Dropbox\SURA\APPS\Desktop\cloud-vault\trials\Device 1\Cloud Vault\Sci-Fi-Ships-Updated-PIC.jpg
+
+2016-01-07 18:48:57,534 Thread-14 INFO  cloudsafe.WatchDir - Upload Size : 1	Delete Size : 0
+2016-01-07 18:48:57,535 Thread-14 INFO  cloudsafe.WatchDir - ENTRY_MODIFY: C:\Users\Dell\Dropbox\SURA\APPS\Desktop\cloud-vault\trials\Device 1\Cloud Vault\Sci-Fi-Ships-Updated-PIC.jpg
+
+2016-01-07 18:48:57,536 Thread-14 INFO  cloudsafe.WatchDir - UPLOADQUEUE - File Already Present : C:\Users\Dell\Dropbox\SURA\APPS\Desktop\cloud-vault\trials\Device 1\Cloud Vault\Sci-Fi-Ships-Updated-PIC.jpg
+2016-01-07 18:48:57,537 Thread-14 INFO  cloudsafe.WatchDir - Upload Size : 1	Delete Size : 0
+2016-01-07 18:49:00,563 Timer-8 TRACE cloudsafe.WatchDir - ExecuteUpdate Called
+2016-01-07 18:49:00,563 Timer-8 INFO  cloudsafe.WatchDir - Executing UPLOAD QUEUE : C:\Users\Dell\Dropbox\SURA\APPS\Desktop\cloud-vault\trials\Device 1\Cloud Vault\Sci-Fi-Ships-Updated-PIC.jpg
+2016-01-07 18:49:00,564 Timer-8 DEBUG cloudsafe.VaultClient - upload : Acquiring Lock...
+2016-01-07 18:49:00,564 Timer-8 TRACE cloudsafe.VaultClient - Acquiring lock
+2016-01-07 18:49:00,565 Timer-8 TRACE cloudsafe.CloudsHandler - lock could not be acquired
+2016-01-07 18:49:00,566 Timer-8 WARN  cloudsafe.VaultClient - Could Not acquire lock
+2016-01-07 18:49:00,953 Thread-14 INFO  cloudsafe.WatchDir - ENTRY_MODIFY: C:\Users\Dell\Dropbox\SURA\APPS\Desktop\cloud-vault\trials\Device 1\Cloud Vault\Sci-Fi-Ships-Updated-PIC.jpg
+
+2016-01-07 18:49:00,953 Thread-14 INFO  cloudsafe.WatchDir - Upload Size : 1	Delete Size : 0
+2016-01-07 18:49:01,761 Timer-8 TRACE cloudsafe.WatchDir - ExecuteUpdate Called
+2016-01-07 18:49:05,564 Timer-8 TRACE cloudsafe.WatchDir - ExecuteSync Called
+2016-01-07 18:49:05,564 Timer-8 TRACE cloudsafe.VaultClient - Starting Sync
+2016-01-07 18:49:05,568 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Local Files DB: Size=3072 Hash=[-16, 59, -11, 123, -93, -29, -105, 33, 89, 92, -34, 8, -125, -26, 4, 37]
+2016-01-07 18:49:05,568 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Files DB on cloud: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-07 18:49:05,568 Timer-8 TRACE cloudsafe.VaultClient - table hash mismatch: downloading database
+2016-01-07 18:49:05,569 Timer-8 TRACE cloudsafe.VaultClient - entry params(DownloadFile)
+2016-01-07 18:49:05,569 Timer-8 INFO  cloudsafe.VaultClient - Downloading: vault.db
+2016-01-07 18:49:05,570 pool-6-thread-1 TRACE cloudsafe.CloudsHandler - Downloading from cloud0
+2016-01-07 18:49:05,570 pool-6-thread-4 TRACE cloudsafe.CloudsHandler - Downloading from cloud1
+2016-01-07 18:49:05,571 pool-6-thread-2 TRACE cloudsafe.CloudsHandler - Downloading from cloud2
+2016-01-07 18:49:05,572 pool-6-thread-3 TRACE cloudsafe.CloudsHandler - Downloading from cloud3
+2016-01-07 18:49:05,573 Timer-8 TRACE cloudsafe.VaultClient - packets have been downloaded!
+2016-01-07 18:49:05,591 Timer-8 TRACE cloudsafe.VaultClient - exit with(DownloadFile)
+2016-01-07 18:49:05,592 Timer-8 DEBUG cloudsafe.Setup - Connecting to database: trials\Device 1\config\downloaded.db
+2016-01-07 18:49:05,594 Timer-8 TRACE cloudsafe.VaultClient - Syncing local and downloaded table.
+2016-01-07 18:49:05,596 Timer-8 TRACE cloudsafe.VaultClient - starting to look for files to be updated
+2016-01-07 18:49:05,597 Timer-8 TRACE cloudsafe.VaultClient - done looking for files to update.
+2016-01-07 18:49:05,598 Timer-8 TRACE cloudsafe.VaultClient - starting to look for files to be deleted
+2016-01-07 18:49:05,598 Timer-8 TRACE cloudsafe.VaultClient - done looking for files to delete.
+2016-01-07 18:49:05,600 Timer-8 INFO  cloudsafe.VaultClient - Uploading Table: Size=3072 Hash=[-16, 59, -11, 123, -93, -29, -105, 33, 89, 92, -34, 8, -125, -26, 4, 37]
+2016-01-07 18:49:05,600 Timer-8 TRACE cloudsafe.VaultClient - entry params(Update Table Meta)
+2016-01-07 18:49:05,601 Timer-8 INFO  cloudsafe.VaultClient - Table Size:3072 Hash:[-16, 59, -11, 123, -93, -29, -105, 33, 89, 92, -34, 8, -125, -26, 4, 37]
+2016-01-07 18:49:05,603 Timer-8 TRACE cloudsafe.VaultClient - exit with(Update Table Meta)
+2016-01-07 18:49:05,603 Timer-8 DEBUG database.Database - Connecting to database: trials\Device 1\config\vault.db
+2016-01-07 18:49:06,762 Timer-8 TRACE cloudsafe.WatchDir - ExecuteSync Called
+2016-01-07 18:49:06,762 Timer-8 TRACE cloudsafe.VaultClient - Starting Sync
+2016-01-07 18:49:06,763 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Local Files DB: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-07 18:49:06,763 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Files DB on cloud: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-07 18:49:10,564 Timer-8 TRACE cloudsafe.WatchDir - ExecuteUpdate Called
+2016-01-07 18:49:10,564 Timer-8 INFO  cloudsafe.WatchDir - Executing UPLOAD QUEUE : C:\Users\Dell\Dropbox\SURA\APPS\Desktop\cloud-vault\trials\Device 1\Cloud Vault\Sci-Fi-Ships-Updated-PIC.jpg
+2016-01-07 18:49:10,564 Timer-8 DEBUG cloudsafe.VaultClient - upload : Acquiring Lock...
+2016-01-07 18:49:10,565 Timer-8 TRACE cloudsafe.VaultClient - Acquiring lock
+2016-01-07 18:49:10,566 Timer-8 TRACE cloudsafe.CloudsHandler - lock could not be acquired
+2016-01-07 18:49:10,566 Timer-8 WARN  cloudsafe.VaultClient - Could Not acquire lock
+2016-01-07 18:49:11,762 Timer-8 TRACE cloudsafe.WatchDir - ExecuteUpdate Called
+2016-01-07 18:49:15,565 Timer-8 TRACE cloudsafe.WatchDir - ExecuteSync Called
+2016-01-07 18:49:15,565 Timer-8 TRACE cloudsafe.VaultClient - Starting Sync
+2016-01-07 18:49:15,568 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Local Files DB: Size=3072 Hash=[-16, 59, -11, 123, -93, -29, -105, 33, 89, 92, -34, 8, -125, -26, 4, 37]
+2016-01-07 18:49:15,568 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Files DB on cloud: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-07 18:49:15,568 Timer-8 TRACE cloudsafe.VaultClient - table hash mismatch: downloading database
+2016-01-07 18:49:15,568 Timer-8 TRACE cloudsafe.VaultClient - entry params(DownloadFile)
+2016-01-07 18:49:15,568 Timer-8 INFO  cloudsafe.VaultClient - Downloading: vault.db
+2016-01-07 18:49:15,569 pool-6-thread-1 TRACE cloudsafe.CloudsHandler - Downloading from cloud0
+2016-01-07 18:49:15,569 pool-6-thread-4 TRACE cloudsafe.CloudsHandler - Downloading from cloud1
+2016-01-07 18:49:15,569 pool-6-thread-2 TRACE cloudsafe.CloudsHandler - Downloading from cloud2
+2016-01-07 18:49:15,569 pool-6-thread-3 TRACE cloudsafe.CloudsHandler - Downloading from cloud3
+2016-01-07 18:49:15,569 Timer-8 TRACE cloudsafe.VaultClient - packets have been downloaded!
+2016-01-07 18:49:15,578 Timer-8 TRACE cloudsafe.VaultClient - exit with(DownloadFile)
+2016-01-07 18:49:15,579 Timer-8 DEBUG cloudsafe.Setup - Connecting to database: trials\Device 1\config\downloaded.db
+2016-01-07 18:49:15,580 Timer-8 TRACE cloudsafe.VaultClient - Syncing local and downloaded table.
+2016-01-07 18:49:15,581 Timer-8 TRACE cloudsafe.VaultClient - starting to look for files to be updated
+2016-01-07 18:49:15,581 Timer-8 TRACE cloudsafe.VaultClient - done looking for files to update.
+2016-01-07 18:49:15,581 Timer-8 TRACE cloudsafe.VaultClient - starting to look for files to be deleted
+2016-01-07 18:49:15,582 Timer-8 TRACE cloudsafe.VaultClient - done looking for files to delete.
+2016-01-07 18:49:15,583 Timer-8 INFO  cloudsafe.VaultClient - Uploading Table: Size=3072 Hash=[-16, 59, -11, 123, -93, -29, -105, 33, 89, 92, -34, 8, -125, -26, 4, 37]
+2016-01-07 18:49:15,583 Timer-8 TRACE cloudsafe.VaultClient - entry params(Update Table Meta)
+2016-01-07 18:49:15,584 Timer-8 INFO  cloudsafe.VaultClient - Table Size:3072 Hash:[-16, 59, -11, 123, -93, -29, -105, 33, 89, 92, -34, 8, -125, -26, 4, 37]
+2016-01-07 18:49:15,585 Timer-8 TRACE cloudsafe.VaultClient - exit with(Update Table Meta)
+2016-01-07 18:49:15,586 Timer-8 DEBUG database.Database - Connecting to database: trials\Device 1\config\vault.db
+2016-01-07 18:49:16,763 Timer-8 TRACE cloudsafe.WatchDir - ExecuteSync Called
+2016-01-07 18:49:16,763 Timer-8 TRACE cloudsafe.VaultClient - Starting Sync
+2016-01-07 18:49:16,765 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Local Files DB: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-07 18:49:16,765 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Files DB on cloud: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-07 18:49:20,565 Timer-8 TRACE cloudsafe.WatchDir - ExecuteUpdate Called
+2016-01-07 18:49:20,565 Timer-8 DEBUG cloudsafe.VaultClient - upload : Acquiring Lock...
+2016-01-07 18:49:20,565 Timer-8 TRACE cloudsafe.VaultClient - Acquiring lock
+2016-01-07 18:49:20,566 Timer-8 TRACE cloudsafe.CloudsHandler - lock could not be acquired
+2016-01-07 18:49:20,567 Timer-8 WARN  cloudsafe.VaultClient - Could Not acquire lock
+2016-01-07 18:49:21,439 Timer-0 TRACE cloudsafe.CloudsHandler - starting periodic upload for cloud0
+2016-01-07 18:49:21,440 Timer-2 TRACE cloudsafe.CloudsHandler - starting periodic upload for cloud2
+2016-01-07 18:49:21,440 Timer-1 TRACE cloudsafe.CloudsHandler - starting periodic upload for cloud1
+2016-01-07 18:49:21,440 Timer-3 TRACE cloudsafe.CloudsHandler - starting periodic upload for cloud3
+2016-01-07 18:49:21,752 Timer-4 TRACE cloudsafe.CloudsHandler - starting periodic upload for cloud0
+2016-01-07 18:49:21,753 Timer-5 TRACE cloudsafe.CloudsHandler - starting periodic upload for cloud1
+2016-01-07 18:49:21,753 Timer-7 TRACE cloudsafe.CloudsHandler - starting periodic upload for cloud3
+2016-01-07 18:49:21,753 Timer-6 TRACE cloudsafe.CloudsHandler - starting periodic upload for cloud2
+2016-01-07 18:49:21,763 Timer-8 TRACE cloudsafe.WatchDir - ExecuteUpdate Called
+2016-01-07 18:49:25,565 Timer-8 TRACE cloudsafe.WatchDir - ExecuteSync Called
+2016-01-07 18:49:25,565 Timer-8 TRACE cloudsafe.VaultClient - Starting Sync
+2016-01-07 18:49:25,572 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Local Files DB: Size=3072 Hash=[-16, 59, -11, 123, -93, -29, -105, 33, 89, 92, -34, 8, -125, -26, 4, 37]
+2016-01-07 18:49:25,573 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Files DB on cloud: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-07 18:49:25,573 Timer-8 TRACE cloudsafe.VaultClient - table hash mismatch: downloading database
+2016-01-07 18:49:25,573 Timer-8 TRACE cloudsafe.VaultClient - entry params(DownloadFile)
+2016-01-07 18:49:25,573 Timer-8 INFO  cloudsafe.VaultClient - Downloading: vault.db
+2016-01-07 18:49:25,575 pool-6-thread-1 TRACE cloudsafe.CloudsHandler - Downloading from cloud0
+2016-01-07 18:49:25,575 pool-6-thread-4 TRACE cloudsafe.CloudsHandler - Downloading from cloud1
+2016-01-07 18:49:25,576 pool-6-thread-2 TRACE cloudsafe.CloudsHandler - Downloading from cloud2
+2016-01-07 18:49:25,576 pool-6-thread-3 TRACE cloudsafe.CloudsHandler - Downloading from cloud3
+2016-01-07 18:49:25,577 Timer-8 TRACE cloudsafe.VaultClient - packets have been downloaded!
+2016-01-07 18:49:25,591 Timer-8 TRACE cloudsafe.VaultClient - exit with(DownloadFile)
+2016-01-07 18:49:25,592 Timer-8 DEBUG cloudsafe.Setup - Connecting to database: trials\Device 1\config\downloaded.db
+2016-01-07 18:49:25,593 Timer-8 TRACE cloudsafe.VaultClient - Syncing local and downloaded table.
+2016-01-07 18:49:25,595 Timer-8 TRACE cloudsafe.VaultClient - starting to look for files to be updated
+2016-01-07 18:49:25,595 Timer-8 TRACE cloudsafe.VaultClient - done looking for files to update.
+2016-01-07 18:49:25,595 Timer-8 TRACE cloudsafe.VaultClient - starting to look for files to be deleted
+2016-01-07 18:49:25,595 Timer-8 TRACE cloudsafe.VaultClient - done looking for files to delete.
+2016-01-07 18:49:25,597 Timer-8 INFO  cloudsafe.VaultClient - Uploading Table: Size=3072 Hash=[-16, 59, -11, 123, -93, -29, -105, 33, 89, 92, -34, 8, -125, -26, 4, 37]
+2016-01-07 18:49:25,597 Timer-8 TRACE cloudsafe.VaultClient - entry params(Update Table Meta)
+2016-01-07 18:49:25,597 Timer-8 INFO  cloudsafe.VaultClient - Table Size:3072 Hash:[-16, 59, -11, 123, -93, -29, -105, 33, 89, 92, -34, 8, -125, -26, 4, 37]
+2016-01-07 18:49:25,599 Timer-8 TRACE cloudsafe.VaultClient - exit with(Update Table Meta)
+2016-01-07 18:49:25,599 Timer-8 DEBUG database.Database - Connecting to database: trials\Device 1\config\vault.db
+2016-01-07 18:51:05,179 main TRACE cloudsafe.Main - entry params(Application Starting!)
+2016-01-07 18:51:11,884 main INFO  cloudsafe.Main - devicePath: C:\Users\Dell\Dropbox\SURA\APPS\Desktop\cloud-vault
+2016-01-07 18:51:11,884 main INFO  cloudsafe.Main - vaultPath: C:\Users\Dell\Dropbox\SURA\APPS\Desktop\cloud-vault/Cloud Vault
+2016-01-07 18:51:11,884 main INFO  cloudsafe.Main - configPath: C:\Users\Dell\Dropbox\SURA\APPS\Desktop\cloud-vault/config
+2016-01-07 18:51:11,887 main TRACE cloudsafe.Main - entry params(New Setup)
+2016-01-07 18:51:14,995 main TRACE cloudsafe.VaultClient - entry params(Setting up VaultClient)
+2016-01-07 18:51:14,997 main DEBUG database.Database - Connecting to database: config\vault.db
+2016-01-07 18:51:15,173 main INFO  database.Database - Opened Database Successfully
+2016-01-07 18:51:15,176 main INFO  cloudsafe.VaultClient - databasePath: C:\Users\Dell\Dropbox\SURA\APPS\Desktop\cloud-vault/config/vault.db
+2016-01-07 18:51:15,177 main INFO  cloudsafe.VaultClient - databaseMetaPath: C:\Users\Dell\Dropbox\SURA\APPS\Desktop\cloud-vault/config/dbmeta.txt
+2016-01-07 18:51:15,179 main INFO  cloudsafe.VaultClient - adding cloud 0 of type: FOLDERCLOUD
+2016-01-07 18:51:15,181 main INFO  cloudsafe.VaultClient - adding cloud 1 of type: FOLDERCLOUD
+2016-01-07 18:51:15,181 main INFO  cloudsafe.VaultClient - adding cloud 2 of type: FOLDERCLOUD
+2016-01-07 18:51:15,181 main INFO  cloudsafe.VaultClient - adding cloud 3 of type: FOLDERCLOUD
+2016-01-07 18:51:15,185 Timer-0 TRACE cloudsafe.CloudsHandler - starting periodic upload for cloud0
+2016-01-07 18:51:15,186 Timer-1 TRACE cloudsafe.CloudsHandler - starting periodic upload for cloud1
+2016-01-07 18:51:15,186 Timer-2 TRACE cloudsafe.CloudsHandler - starting periodic upload for cloud2
+2016-01-07 18:51:15,187 Timer-3 TRACE cloudsafe.CloudsHandler - starting periodic upload for cloud3
+2016-01-07 18:51:15,476 main INFO  cloudsafe.VaultClient - Uploading Table: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-07 18:51:15,476 main TRACE cloudsafe.VaultClient - entry params(Update Table Meta)
+2016-01-07 18:51:15,477 main INFO  cloudsafe.VaultClient - Table Size:3072 Hash:[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-07 18:51:15,478 main TRACE cloudsafe.VaultClient - exit with(Update Table Meta)
+2016-01-07 18:51:15,481 pool-4-thread-1 TRACE cloudsafe.CloudsHandler - Uploading to cloud0
+2016-01-07 18:51:15,482 pool-4-thread-2 TRACE cloudsafe.CloudsHandler - Uploading to cloud1
+2016-01-07 18:51:15,482 pool-4-thread-3 TRACE cloudsafe.CloudsHandler - Uploading to cloud2
+2016-01-07 18:51:15,483 pool-4-thread-4 TRACE cloudsafe.CloudsHandler - Uploading to cloud3
+2016-01-07 18:51:15,560 main DEBUG cloudsafe.CloudsHandler - Number of clouds used: 4
+2016-01-07 18:51:15,561 main INFO  cloudsafe.VaultClient - Uploading: C:\Users\Dell\Dropbox\SURA\APPS\Desktop\cloud-vault/config/vault.db
+2016-01-07 18:51:15,695 pool-4-thread-3 TRACE cloudsafe.CloudsHandler - Uploading to cloud1
+2016-01-07 18:51:15,695 pool-4-thread-4 TRACE cloudsafe.CloudsHandler - Uploading to cloud0
+2016-01-07 18:51:15,696 pool-4-thread-1 TRACE cloudsafe.CloudsHandler - Uploading to cloud2
+2016-01-07 18:51:15,696 pool-4-thread-2 TRACE cloudsafe.CloudsHandler - Uploading to cloud3
+2016-01-07 18:51:15,697 main DEBUG cloudsafe.CloudsHandler - Number of clouds used: 4
+2016-01-07 18:51:15,697 main DEBUG database.Database - Connecting to database: config\vault.db
+2016-01-07 18:51:15,699 main TRACE cloudsafe.VaultClient - Releasing Lock
+2016-01-07 18:51:15,699 pool-4-thread-2 TRACE cloudsafe.CloudsHandler - Uploading to cloud0
+2016-01-07 18:51:15,699 pool-4-thread-3 TRACE cloudsafe.CloudsHandler - Uploading to cloud1
+2016-01-07 18:51:15,699 pool-4-thread-4 TRACE cloudsafe.CloudsHandler - Uploading to cloud2
+2016-01-07 18:51:15,699 pool-4-thread-1 TRACE cloudsafe.CloudsHandler - Uploading to cloud3
+2016-01-07 18:51:15,699 main TRACE cloudsafe.VaultClient - Lock Released
+2016-01-07 18:51:15,699 main TRACE cloudsafe.Main - exit with(Setup complete!)
+2016-01-07 18:51:15,699 main TRACE cloudsafe.VaultClient - entry params(Setting up VaultClient)
+2016-01-07 18:51:15,699 main DEBUG database.Database - Connecting to database: config\vault.db
+2016-01-07 18:51:15,699 main INFO  cloudsafe.VaultClient - databasePath: C:\Users\Dell\Dropbox\SURA\APPS\Desktop\cloud-vault/config/vault.db
+2016-01-07 18:51:15,701 main INFO  cloudsafe.VaultClient - databaseMetaPath: C:\Users\Dell\Dropbox\SURA\APPS\Desktop\cloud-vault/config/dbmeta.txt
+2016-01-07 18:51:15,701 main INFO  cloudsafe.VaultClient - adding cloud 0 of type: FOLDERCLOUD
+2016-01-07 18:51:15,702 main INFO  cloudsafe.VaultClient - adding cloud 1 of type: FOLDERCLOUD
+2016-01-07 18:51:15,702 main INFO  cloudsafe.VaultClient - adding cloud 2 of type: FOLDERCLOUD
+2016-01-07 18:51:15,702 main INFO  cloudsafe.VaultClient - adding cloud 3 of type: FOLDERCLOUD
+2016-01-07 18:51:15,702 Timer-4 TRACE cloudsafe.CloudsHandler - starting periodic upload for cloud0
+2016-01-07 18:51:15,702 Timer-5 TRACE cloudsafe.CloudsHandler - starting periodic upload for cloud1
+2016-01-07 18:51:15,703 Timer-6 TRACE cloudsafe.CloudsHandler - starting periodic upload for cloud2
+2016-01-07 18:51:15,703 Timer-7 TRACE cloudsafe.CloudsHandler - starting periodic upload for cloud3
+2016-01-07 18:51:15,732 main INFO  cloudsafe.WatchDir - Scanning C:\Users\Dell\Dropbox\SURA\APPS\Desktop\cloud-vault\Cloud Vault ...
+
+2016-01-07 18:51:15,734 main INFO  cloudsafe.WatchDir - Done.
+2016-01-07 18:51:15,735 Timer-8 TRACE cloudsafe.WatchDir - ExecuteUpdate Called
+2016-01-07 18:51:20,735 Timer-8 TRACE cloudsafe.WatchDir - ExecuteSync Called
+2016-01-07 18:51:20,735 Timer-8 TRACE cloudsafe.VaultClient - Starting Sync
+2016-01-07 18:51:20,738 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Local Files DB: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-07 18:51:20,739 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Files DB on cloud: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-07 18:51:25,735 Timer-8 TRACE cloudsafe.WatchDir - ExecuteUpdate Called
+2016-01-07 18:51:30,736 Timer-8 TRACE cloudsafe.WatchDir - ExecuteSync Called
+2016-01-07 18:51:30,737 Timer-8 TRACE cloudsafe.VaultClient - Starting Sync
+2016-01-07 18:51:30,741 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Local Files DB: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-07 18:51:30,742 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Files DB on cloud: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-07 18:51:35,737 Timer-8 TRACE cloudsafe.WatchDir - ExecuteUpdate Called
+2016-01-07 18:51:40,737 Timer-8 TRACE cloudsafe.WatchDir - ExecuteSync Called
+2016-01-07 18:51:40,738 Timer-8 TRACE cloudsafe.VaultClient - Starting Sync
+2016-01-07 18:51:40,742 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Local Files DB: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-07 18:51:40,743 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Files DB on cloud: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-07 18:51:45,737 Timer-8 TRACE cloudsafe.WatchDir - ExecuteUpdate Called
+2016-01-07 18:51:50,737 Timer-8 TRACE cloudsafe.WatchDir - ExecuteSync Called
+2016-01-07 18:51:50,737 Timer-8 TRACE cloudsafe.VaultClient - Starting Sync
+2016-01-07 18:51:50,745 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Local Files DB: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-07 18:51:50,746 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Files DB on cloud: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-07 18:51:55,738 Timer-8 TRACE cloudsafe.WatchDir - ExecuteUpdate Called
+2016-01-07 18:52:00,738 Timer-8 TRACE cloudsafe.WatchDir - ExecuteSync Called
+2016-01-07 18:52:00,738 Timer-8 TRACE cloudsafe.VaultClient - Starting Sync
+2016-01-07 18:52:00,740 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Local Files DB: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-07 18:52:00,740 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Files DB on cloud: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-07 18:52:05,739 Timer-8 TRACE cloudsafe.WatchDir - ExecuteUpdate Called
+2016-01-07 18:52:10,739 Timer-8 TRACE cloudsafe.WatchDir - ExecuteSync Called
+2016-01-07 18:52:10,739 Timer-8 TRACE cloudsafe.VaultClient - Starting Sync
+2016-01-07 18:52:10,740 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Local Files DB: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-07 18:52:10,740 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Files DB on cloud: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-07 18:52:15,186 Timer-0 TRACE cloudsafe.CloudsHandler - starting periodic upload for cloud0
+2016-01-07 18:52:15,186 Timer-2 TRACE cloudsafe.CloudsHandler - starting periodic upload for cloud2
+2016-01-07 18:52:15,186 Timer-1 TRACE cloudsafe.CloudsHandler - starting periodic upload for cloud1
+2016-01-07 18:52:15,187 Timer-3 TRACE cloudsafe.CloudsHandler - starting periodic upload for cloud3
+2016-01-07 18:52:15,702 Timer-4 TRACE cloudsafe.CloudsHandler - starting periodic upload for cloud0
+2016-01-07 18:52:15,702 Timer-5 TRACE cloudsafe.CloudsHandler - starting periodic upload for cloud1
+2016-01-07 18:52:15,704 Timer-6 TRACE cloudsafe.CloudsHandler - starting periodic upload for cloud2
+2016-01-07 18:52:15,704 Timer-7 TRACE cloudsafe.CloudsHandler - starting periodic upload for cloud3
+2016-01-07 18:52:15,740 Timer-8 TRACE cloudsafe.WatchDir - ExecuteUpdate Called
+2016-01-07 18:52:20,740 Timer-8 TRACE cloudsafe.WatchDir - ExecuteSync Called
+2016-01-07 18:52:20,740 Timer-8 TRACE cloudsafe.VaultClient - Starting Sync
+2016-01-07 18:52:20,744 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Local Files DB: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-07 18:52:20,745 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Files DB on cloud: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]

@@ -203,8 +203,6 @@ public class GoogleDrive implements Cloud {
 			About about = drive.about().get().execute();
 			meta.put("uid", String.valueOf(about.getPermissionId()));
 			meta.put("username", about.getName());
-			//email id not available in desktop api.
-			//^so dropbox and googledrive do agree on something! -.-
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

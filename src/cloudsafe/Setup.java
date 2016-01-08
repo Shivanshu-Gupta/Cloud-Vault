@@ -32,37 +32,38 @@ import com.google.gson.Gson;
 public class Setup {
 	private final static Logger logger = LogManager.getLogger(Setup.class
 			.getName());
-	
+
 	public static final String CLOUDS_META = "CloudsMetaData";
 	public static final String CLOUDCOUNT = "Number of Clouds Configured";
 	public static final String NEXTID = "Next Unique ID Available";
 
-	private static final String minCloudMessage = "Minimum 4 Clouds Required\n";
-	private static final String chooseCloudMessage = "Choose Your Cloud\n";
-	private String dynamic_message = "Cloud 1 : ";
-	
-	//removing OneDrive from the list for now
-	ArrayList<String> availableClouds = new ArrayList<String>(Arrays.asList(FolderCloud.NAME, Dropbox.NAME, GoogleDrive.NAME, Box.NAME));
+	private static final String MIN_CLOUD_MSG = "Minimum 4 Clouds Required\n";
+	private static final String CHOOSE_CLOUD_MSG = "Choose Your Cloud\n";
+	private String cloudListMsg;
+
+	// removing OneDrive from the list for now
+	ArrayList<String> availableClouds = new ArrayList<>(Arrays.asList(
+			FolderCloud.NAME, Dropbox.NAME, GoogleDrive.NAME, Box.NAME));
 	ArrayList<CloudMeta> cloudMetas;
 	int cloudcounter = 0;
 	int nextID = 0;
 	String vaultPath = "trials/Cloud Vault";
 	String configPath = "trials/config";
-	//TODO : find out if it's correct to initialize userIndex with 1. 
+	// TODO : find out if it's correct to initialize userIndex with 1.
 	int userIndex = 1;
 	Preferences cloudConfigPrefs = Preferences.userNodeForPackage(Setup.class);
-	
+
 	public Setup(String vaultPath, String configPath) {
 		this.vaultPath = vaultPath;
 		this.configPath = configPath;
-		
+
 		cloudcounter = cloudConfigPrefs.getInt(CLOUDCOUNT, 0);
 		nextID = cloudConfigPrefs.getInt(NEXTID, 0);
-		
+
 		cloudMetas = new ArrayList<>();
 		String cloudsMetaString = cloudConfigPrefs.get(CLOUDS_META, null);
 		Gson gson = new Gson();
-		if(cloudsMetaString == null) {
+		if (cloudsMetaString == null) {
 			cloudConfigPrefs.put(CLOUDS_META, gson.toJson(cloudMetas));
 			try {
 				cloudConfigPrefs.flush();
@@ -74,21 +75,25 @@ public class Setup {
 					CloudMeta[].class);
 			cloudMetas = new ArrayList<>(Arrays.asList(cloudArray));
 		}
+
+		for (int i = 0; i < cloudMetas.size(); i++) {
+			cloudListMsg += "Cloud " + i + " : "
+					+ cloudMetas.get(i).getGenericName() + "\n";
+		}
 	};
 
-	void addCloud() throws Exception {
-		String cloudCountMessage = "You have added " + cloudcounter + " clouds\n";
-		Proxy proxy = UserProxy.getProxy();
-		String code;
-		
+	String getCloudChoice() throws Exception {
+		String cloudCountMessage = "You have added " + cloudcounter
+				+ " clouds\n";
+		String cloudName;
 		while (true) {
-			code = (String) JOptionPane.showInputDialog(null, minCloudMessage
-					+ cloudCountMessage + dynamic_message + chooseCloudMessage,
-					"Cloud " + (cloudcounter + 1),
-					JOptionPane.INFORMATION_MESSAGE, null, availableClouds.toArray(),
-					availableClouds.get(0));
-			
-			if (code == null) {
+			cloudName = (String) JOptionPane.showInputDialog(null,
+					MIN_CLOUD_MSG + cloudCountMessage + cloudListMsg
+							+ CHOOSE_CLOUD_MSG, "Cloud " + (cloudcounter + 1),
+					JOptionPane.INFORMATION_MESSAGE, null,
+					availableClouds.toArray(), availableClouds.get(0));
+
+			if (cloudName == null) {
 				if (cloudcounter < 4) {
 					int n = JOptionPane.showConfirmDialog(null,
 							"Do you really want to exit?", "Exit",
@@ -107,22 +112,24 @@ public class Setup {
 				break;
 			}
 		}
-		code.trim();
-		while (!code.equals(Dropbox.NAME) && !code.equals(GoogleDrive.NAME)
-				&& !code.equals("ONEDRIVE") && !code.equals(Box.NAME)
-				&& !code.equals(FolderCloud.NAME)) {
-			code = (String) JOptionPane.showInputDialog(null,
-					"Choose Your Cloud", "Cloud " + (cloudcounter + 1),
-					JOptionPane.INFORMATION_MESSAGE, null, availableClouds.toArray(),
-					availableClouds.get(0));
-			code.trim();
+		return cloudName;
+	}
+
+	void addCloud() {
+		Proxy proxy = UserProxy.getProxy();
+		String cloudName;
+
+		try {
+			cloudName = getCloudChoice();
+		} catch (Exception e) {
+			logger.error(e.getMessage());
+			return;
 		}
-		// Deciding value of choice
-		
+
 		Cloud cloud;
 		ConcurrentHashMap<String, String> meta = new ConcurrentHashMap<>();
 		CloudMeta cloudMeta = null;
-		switch (code) {
+		switch (cloudName) {
 		case Dropbox.NAME:
 			try {
 				cloud = new Dropbox(proxy);
@@ -135,13 +142,11 @@ public class Setup {
 				return;
 			}
 			cloudMeta = new CloudMeta(nextID, Dropbox.NAME, meta);
-			updateDynamicMessage(cloudcounter, "DropBox");
 			break;
 		case GoogleDrive.NAME:
 			cloud = new GoogleDrive(proxy, userIndex++);
 			meta = cloud.getMetaData();
 			cloudMeta = new CloudMeta(nextID, GoogleDrive.NAME, meta);
-			updateDynamicMessage(cloudcounter, "GoogleDrive");
 			break;
 		case "ONEDRIVE":
 			try {
@@ -156,7 +161,6 @@ public class Setup {
 			}
 			availableClouds.remove("onedrive");
 			cloudMeta = new CloudMeta(nextID, FolderCloud.NAME, meta);
-			updateDynamicMessage(cloudcounter, "FolderCloud");
 			break;
 		case Box.NAME:
 			try {
@@ -172,7 +176,6 @@ public class Setup {
 			}
 			availableClouds.remove("box");
 			cloudMeta = new CloudMeta(nextID, FolderCloud.NAME, meta);
-			updateDynamicMessage(cloudcounter, "Box");
 			break;
 		case FolderCloud.NAME:
 			try {
@@ -186,22 +189,30 @@ public class Setup {
 				return;
 			}
 			cloudMeta = new CloudMeta(nextID, FolderCloud.NAME, meta);
-			updateDynamicMessage(cloudcounter, "FolderCloud");
+			break;
 		}
-		
-		if(cloudMeta != null) {
-			cloudMetas.add(cloudMeta);
-		}		
-		Gson gson = new Gson();
-		cloudConfigPrefs.put(CLOUDS_META, gson .toJson(cloudMetas));
-		cloudConfigPrefs.flush();
-	}
 
-	public void updateDynamicMessage(int index, String CloudName) {
-		dynamic_message = dynamic_message + CloudName + "\nCloud "
-				+ (index + 2) + " : ";
-		cloudcounter++;
-		cloudConfigPrefs.put(CLOUDCOUNT, Integer.toString(cloudcounter));
+		if (cloudMeta != null) {
+			cloudMetas.add(cloudMeta);
+
+			cloudListMsg += "Cloud " + cloudcounter + " : "
+					+ cloudMeta.getGenericName() + "\n";
+
+			cloudcounter++;
+			cloudConfigPrefs.put(CLOUDCOUNT, Integer.toString(cloudcounter));
+
+			Gson gson = new Gson();
+			cloudConfigPrefs.put(CLOUDS_META, gson.toJson(cloudMetas));
+
+			try {
+				cloudConfigPrefs.flush();
+			} catch (BackingStoreException e) {
+				JOptionPane.showMessageDialog(null,
+						"Error saving preferences: " + e.getMessage(), "Error",
+						JOptionPane.ERROR_MESSAGE);
+				logger.error("Error saving Cloud Configurations!", e);
+			}
+		}
 	}
 
 	void deleteCloud(int removeIndex) {
@@ -214,45 +225,37 @@ public class Setup {
 	}
 
 	public void configureCloudAccess() {
-		try{
-			for (int i = (cloudcounter + 1); i <= 4; i++) {
-				addCloud();
-			}
-			Object[] options = { "Yes", "No" };
-			int choice = JOptionPane.showOptionDialog(null,
+		for (int i = (cloudcounter + 1); i <= 4; i++) {
+			addCloud();
+		}
+		Object[] options = { "Yes", "No" };
+		int choice = JOptionPane.showOptionDialog(null,
+				"Do You Want to Add more Clouds?", "More Clouds?",
+				JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null,
+				options, options[0]);
+
+		while ((choice == JOptionPane.YES_OPTION)) {
+			addCloud();
+			choice = JOptionPane.showOptionDialog(null,
 					"Do You Want to Add more Clouds?", "More Clouds?",
 					JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE,
 					null, options, options[0]);
-
-			while ((choice == JOptionPane.YES_OPTION)) {
-				addCloud();
-				choice = JOptionPane
-						.showOptionDialog(null,
-								"Do You Want to Add more Clouds?",
-								"More Clouds?", JOptionPane.YES_NO_OPTION,
-								JOptionPane.QUESTION_MESSAGE, null, options,
-								options[0]);
-			}
-		} catch (Exception e) {
-			logger.error("Exception: ", e);
 		}
 		saveMetadata();
 	}
-	
+
 	public void createDirectories() throws IOException {
 		Files.createDirectories(Paths.get(vaultPath));
 		Files.createDirectories(Paths.get(configPath));
 	}
-	
+
 	public void saveMetadata() {
 		// save the meta data
 		try {
 			cloudConfigPrefs.flush();
 		} catch (BackingStoreException e) {
-			JOptionPane.showMessageDialog(null, 
-					"Error saving preferences: " + e.getMessage(),
-					"Error",
-					JOptionPane.ERROR_MESSAGE);	
+			JOptionPane.showMessageDialog(null, "Error saving preferences: "
+					+ e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
 			e.printStackTrace();
 		}
 	}

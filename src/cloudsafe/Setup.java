@@ -175,7 +175,12 @@ public class Setup {
 				return;
 			}
 			availableClouds.remove("box");
-			cloudMeta = new CloudMeta(nextID, FolderCloud.NAME, meta);
+//<<<<<<< HEAD
+//			cloudMeta = new CloudMeta(nextID, Box.NAME, meta);
+//			updateDynamicMessage(cloudcounter, "Box");
+//=======
+			cloudMeta = new CloudMeta(nextID, Box.NAME, meta);
+//>>>>>>> 5d57c04733d34aa0a42679aa1a4e4f54a1d57770
 			break;
 		case FolderCloud.NAME:
 			try {

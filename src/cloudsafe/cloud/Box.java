@@ -83,7 +83,6 @@ public class Box implements Cloud {
 	}
 	
 	public ConcurrentHashMap<String, String> getMetaData() {
-		//TODO return Account Info and any other meta data required
 		ConcurrentHashMap<String, String> meta = new ConcurrentHashMap<>();
 		meta.put("Accesscode", code);
 		meta.putAll(getUserInfo());
@@ -350,10 +349,13 @@ public class Box implements Cloud {
 				HttpClient client = super.getRawHttpClient();
 				// System.out.println("client generated");
 				InetSocketAddress addr = (InetSocketAddress) netproxy.address();
-				HttpHost proxy = new HttpHost(addr.getHostString(),
-						addr.getPort(), "http");
-				client.getParams().setParameter(ConnRoutePNames.DEFAULT_PROXY,
-						proxy);
+				if(addr != null){
+					HttpHost proxy = new HttpHost(addr.getHostString(),
+							addr.getPort(), "http");
+					client.getParams().setParameter(ConnRoutePNames.DEFAULT_PROXY,
+							proxy);
+				}
+				
 
 				return client;
 			}
@@ -384,7 +386,6 @@ public class Box implements Cloud {
 				out.write("\r\n");
 
 				code = in.readLine();
-				//System.out.println(code);
 				String match = "code";
 				int loc = code.indexOf(match);
 

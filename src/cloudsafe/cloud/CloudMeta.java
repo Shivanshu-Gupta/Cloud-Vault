@@ -7,12 +7,12 @@ import java.util.concurrent.ConcurrentHashMap;
  */
 public class CloudMeta {
     private int id;
-    private String name;
+    private String type;
     private ConcurrentHashMap<String, String> meta;
 
-    public CloudMeta(int id, String name, ConcurrentHashMap<String,String> meta) {
+    public CloudMeta(int id, String type, ConcurrentHashMap<String,String> meta) {
         this.id = id;
-        this.name = name;
+        this.type = type;
         this.meta = meta;
     }
 
@@ -24,12 +24,12 @@ public class CloudMeta {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public String getType() {
+        return type;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setType(String type) {
+        this.type = type;
     }
 
     public ConcurrentHashMap<String, String> getMeta() {
@@ -39,21 +39,29 @@ public class CloudMeta {
     public void setMeta(ConcurrentHashMap<String, String> meta) {
         this.meta = meta;
     }
+    
+    public String getName() {
+    	if(type.equals(FolderCloud.NAME)){
+    		return meta.get("path");
+    	} else {
+    		return meta.get("username");
+    	}
+    }
 
     public String getGenericName() {
         String genericName = "";
-        switch (name) {
+        switch (type) {
             case FolderCloud.NAME:
-                genericName = name + "--" + meta.get("path");
+                genericName = type + " | " + meta.get("path");
                 break;
             case Dropbox.NAME:
-                genericName = name + "--" + meta.get("username");
+                genericName = type + " | " + meta.get("username");
                 break;
             case GoogleDrive.NAME:
-                genericName = name + "--" + meta.get("username");
+                genericName = type + " | " + meta.get("username");
                 break;
             case Box.NAME:
-            	genericName = name + "--" + meta.get("username");
+            	genericName = type + " | " + meta.get("username");
             	break;
         }
         return genericName;
@@ -83,7 +91,7 @@ public class CloudMeta {
 
     @Override
     public String toString() {
-        return "Product [id=" + id + ", Cloud name=" + name + ", Meta=" + meta + "]";
+        return "Product [id=" + id + ", Cloud name=" + type + ", Meta=" + meta + "]";
     }
 
 }

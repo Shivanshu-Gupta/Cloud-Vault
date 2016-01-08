@@ -22,7 +22,8 @@ public class CloudConfig extends JPanel implements ActionListener {
 	private static final long serialVersionUID = 1L;
 	private int removeIndex = -1;
 	private ArrayList<JLabel> labelCloud = new ArrayList<JLabel>();
-	private ArrayList<JLabel> cloudValue = new ArrayList<JLabel>();
+	private ArrayList<JLabel> cloudTypes = new ArrayList<JLabel>();
+	private ArrayList<JLabel> cloudNames = new ArrayList<JLabel>();
 	private ArrayList<JRadioButton> radio = new ArrayList<JRadioButton>();
 	private JLabel noCloudLabel = new JLabel("No Clouds Added");
 	
@@ -104,12 +105,13 @@ public class CloudConfig extends JPanel implements ActionListener {
 		y = 2;
 		radio.clear();
 		labelCloud.clear();
-		cloudValue.clear();
+		cloudTypes.clear();
+		cloudNames.clear();
 		for (int i = 0; i < cloudMetas.size(); i++) {
 			radio.add(new JRadioButton(""));
-			labelCloud.add(new JLabel("Cloud " + Integer.toString(i + 1)
-					+ " : "));
-			cloudValue.add(new JLabel(cloudMetas.get(i).getName()));
+			labelCloud.add(new JLabel(i+1 + " : "));
+			cloudTypes.add(new JLabel(cloudMetas.get(i).getType()));
+			cloudNames.add(new JLabel(cloudMetas.get(i).getName()));
 		}
 
 		if (labelCloud.size() == 0) {
@@ -132,17 +134,20 @@ public class CloudConfig extends JPanel implements ActionListener {
 				add(labelCloud.get(i), constraints);
 
 				constraints.gridx = 2;
-				add(cloudValue.get(i), constraints);
+				add(cloudTypes.get(i), constraints);
+				
+				constraints.gridx = 3;
+				add(cloudNames.get(i), constraints);
 			}
 		}
 			
 		constraints.gridy = y;
-		constraints.gridx = 1;
+		constraints.gridx = 2;
 		constraints.anchor = GridBagConstraints.CENTER;
 		add(addButton, constraints);
 
 		constraints.gridy = y;
-		constraints.gridx = 2;
+		constraints.gridx = 3;
 		constraints.anchor = GridBagConstraints.CENTER;
 		add(removeButton, constraints);
 
@@ -156,7 +161,7 @@ public class CloudConfig extends JPanel implements ActionListener {
 		for (int i = 0; i < labelCloud.size(); i++) {
 			remove(radio.get(i));
 			remove(labelCloud.get(i));
-			remove(cloudValue.get(i));
+			remove(cloudNames.get(i));
 		}
 	}
 	

@@ -114,7 +114,7 @@ public class VaultClient {
 		String cloudType;
 		for (int i = 0; i < cloudMetas.size(); i++) {
 			cloudMeta = cloudMetas.get(i);
-			cloudType = cloudMeta.getName();
+			cloudType = cloudMeta.getType();
 			logger.info("adding cloud " + i + " of type: " + cloudType);
 			try {
 				switch (cloudType) {

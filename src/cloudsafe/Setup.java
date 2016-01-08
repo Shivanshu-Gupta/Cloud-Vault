@@ -39,7 +39,7 @@ public class Setup {
 
 	private static final String MIN_CLOUD_MSG = "Minimum 4 Clouds Required\n";
 	private static final String CHOOSE_CLOUD_MSG = "Choose Your Cloud\n";
-	private String cloudListMsg;
+	private String cloudListMsg = "";
 
 	// removing OneDrive from the list for now
 	ArrayList<String> availableClouds = new ArrayList<>(Arrays.asList(
@@ -203,8 +203,9 @@ public class Setup {
 			cloudListMsg += "Cloud " + cloudcounter + " : "
 					+ cloudMeta.getGenericName() + "\n";
 
-			cloudcounter++;
+			cloudcounter++; nextID++;
 			cloudConfigPrefs.put(CLOUDCOUNT, Integer.toString(cloudcounter));
+			cloudConfigPrefs.put(NEXTID, Integer.toString(nextID));
 
 			Gson gson = new Gson();
 			cloudConfigPrefs.put(CLOUDS_META, gson.toJson(cloudMetas));

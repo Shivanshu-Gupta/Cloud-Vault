@@ -86,10 +86,10 @@ public class GoogleDrive implements Cloud {
 	// Set up a location to store retrieved credentials. This avoids having to
 	// ask for authorization
 	// every time the application is run
-	private static final java.io.File DATA_STORE_DIR = new java.io.File(
-			System.getProperty("user.home"), ".store/drive_sample8");
-	private static final java.io.File DATA_STORE_DIR2 = new java.io.File(
-			System.getProperty("user.home"), ".store/drive_sample_2_0");
+	private static java.io.File DATA_STORE_DIR = new java.io.File(
+			System.getProperty("user.home"), ".store/sura_01");
+//	private static final java.io.File DATA_STORE_DIR2 = new java.io.File(
+//			System.getProperty("user.home"), ".store/drive_sample_2_0");
 
 	/**
 	 * Global instance of the {@link DataStoreFactory}. The best practice is to
@@ -162,10 +162,17 @@ public class GoogleDrive implements Cloud {
 	public static boolean mainOld(Proxy proxy) {
 		try {
 			httpTransport = newProxyTransport(proxy);
-			if(userIndex == 1)
+//			if(userIndex == 1){
+				if(DATA_STORE_DIR.exists())
+				{
+					DATA_STORE_DIR.delete();
+					DATA_STORE_DIR = new java.io.File(
+							System.getProperty("user.home"), ".store/sura_01");
+				}
 				dataStoreFactory = new FileDataStoreFactory(DATA_STORE_DIR);
-			else
-				dataStoreFactory = new FileDataStoreFactory(DATA_STORE_DIR2);
+//			}
+//			else
+//				dataStoreFactory = new FileDataStoreFactory(DATA_STORE_DIR2);
 				
 			// authorization
 			Credential credential = authorize();
@@ -203,7 +210,6 @@ public class GoogleDrive implements Cloud {
 			About about = drive.about().get().execute();
 			meta.put("uid", String.valueOf(about.getPermissionId()));
 			meta.put("username", about.getName());
-			//email id not available in desktop api.
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

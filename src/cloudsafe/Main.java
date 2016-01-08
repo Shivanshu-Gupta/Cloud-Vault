@@ -101,9 +101,9 @@ public class Main {
 			undoSetup.clearPrefs();
 			System.exit(0);
 		}
+		new TrayWindows(configPath, vaultPath, restart);
 		while (true) {
 			launch();
-			new TrayWindows(configPath, vaultPath, restart);
 			try {
 				restart.await();
 			} catch (InterruptedException e) {

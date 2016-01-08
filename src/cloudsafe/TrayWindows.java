@@ -22,7 +22,12 @@ import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 public class TrayWindows {
+	private final static Logger logger = LogManager.getLogger(TrayWindows.class
+			.getName());
 	private static CountDownLatch restart = null;	
 	private static JTabbedPane settings = new JTabbedPane();
 	
@@ -62,6 +67,7 @@ public class TrayWindows {
     }
     
     private static void createAndShowGUI() {
+//    	logger.info("@@@@@ TrayWindows->createAndShowGUI: started");
         //Check the SystemTray support
         if (!SystemTray.isSupported()) {
             System.out.println("SystemTray is not supported");
@@ -111,6 +117,7 @@ public class TrayWindows {
         settingItem.addActionListener(new ActionListener() {
         	CountDownLatch res = restart;
         	public void actionPerformed(ActionEvent e) {
+//        		logger.info("@@@@@ TrayWindows->createAndShowGUI: settings action listener");
         		JOptionPane.showMessageDialog(null, settings, "Settings", JOptionPane.PLAIN_MESSAGE);
         		res.countDown();
         		return;

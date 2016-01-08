@@ -1,0 +1,3 @@
+1. First device will upload the table. - The check for first is by checking if clouds have database frags.
+1. Every new device thereafter will repeat the check and download the database.
+2. Hereon, the set of clouds (order irrelevant) on all device must be the same at all times i.e. if a cloud is added/deleted on one device, it should also be done on all the devices, before any file is uploaded.

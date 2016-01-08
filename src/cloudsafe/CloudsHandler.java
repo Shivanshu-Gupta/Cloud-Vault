@@ -26,6 +26,7 @@ import org.apache.logging.log4j.Logger;
 import cloudsafe.cloud.Cloud;
 import cloudsafe.cloud.CloudMeta;
 import cloudsafe.cloud.WriteMode;
+import cloudsafe.database.Database;
 
 public class CloudsHandler {
 	private final static Logger logger = LogManager
@@ -314,8 +315,8 @@ public class CloudsHandler {
 	public boolean checkIfNewUser() {
 		boolean newUser = true;
 		for (int i = 0; i < clouds.size(); i++) {
-			if (clouds.get(i).searchFile("table.ser_0")) {
-				logger.trace("Found table.ser");
+			if (clouds.get(i).searchFile(Database.DBNAME+"_0")) {
+				logger.trace("Found database on cloud");
 				newUser = false;
 				break;
 			}

@@ -46,6 +46,7 @@ import cloudsafe.database.FileMetadata;
 import cloudsafe.database.TempDatabase;
 import cloudsafe.exceptions.DatabaseException;
 import cloudsafe.exceptions.LockNotAcquiredException;
+import cloudsafe.exceptions.SetupException;
 import cloudsafe.util.Pair;
 import cloudsafe.util.PathManip;
 import cloudsafe.util.UserProxy;
@@ -748,6 +749,28 @@ public class VaultClient {
 			TempDatabase downloadedDB = TempDatabase.getInstance(downloadedDBPath);
 			sync(downloadedDB);
 			downloadedDB.close();
+		}
+	}
+	
+	public void setupTable() throws SetupException.DbError, SetupException.NetworkError {
+		if(cloudsHandler.checkIfNewUser()) {
+			try {
+				uploadTable();
+				releaseLock();
+			} catch (DatabaseException e) {
+				logger.error("Error uplaoding table", e);
+				throw new SetupException.DbError(e);
+			}
+		} else {
+			try {
+				downloadTable();
+			} catch (IOException e) {
+				logger.error("Error downloading table", e);
+				throw new SetupException.NetworkError(e);
+			} catch (SQLException e) {
+				logger.error("Error downloading table", e);
+				throw new SetupException.DbError(e);
+			}
 		}
 	}
 

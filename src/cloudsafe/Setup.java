@@ -22,6 +22,7 @@ import cloudsafe.cloud.Dropbox;
 import cloudsafe.cloud.FolderCloud;
 import cloudsafe.cloud.GoogleDrive;
 import cloudsafe.exceptions.AuthenticationException;
+import cloudsafe.exceptions.SetupException;
 import cloudsafe.util.UserProxy;
 
 import com.box.boxjavalibv2.exceptions.AuthFatalFailureException;
@@ -51,7 +52,7 @@ public class Setup {
 	String configPath = "trials/config";
 	// TODO : find out if it's correct to initialize userIndex with 1.
 	int userIndex = 1;
-	Preferences cloudConfigPrefs = Preferences.userNodeForPackage(Setup.class);
+	Preferences cloudConfigPrefs = Preferences.userNodeForPackage(Cloud.class);
 
 	public Setup(String vaultPath, String configPath) {
 		this.vaultPath = vaultPath;
@@ -82,7 +83,7 @@ public class Setup {
 		}
 	};
 
-	String getCloudChoice() throws Exception {
+	String getCloudChoice() throws SetupException.UserInterruptedSetup {
 		String cloudCountMessage = "You have added " + cloudcounter
 				+ " clouds\n";
 		String cloudName;
@@ -100,13 +101,12 @@ public class Setup {
 							JOptionPane.YES_NO_OPTION,
 							JOptionPane.QUESTION_MESSAGE, null);
 					if (n == JOptionPane.YES_OPTION) {
-						UndoSetup undoSetup = new UndoSetup();
-						undoSetup.delete(vaultPath, true);
-						undoSetup.delete(configPath, true);
-						System.exit(0);
+//						UndoSetup undoSetup = new UndoSetup();
+//						undoSetup.delete(vaultPath, true);
+//						undoSetup.delete(configPath, true);
+//						System.exit(0);
+						throw new SetupException.UserInterruptedSetup("User Interupted setup.");
 					}
-				} else {
-					throw new Exception("No Clouds Added");
 				}
 			} else {
 				break;
@@ -115,14 +115,17 @@ public class Setup {
 		return cloudName;
 	}
 
-	void addCloud() {
+	void addCloud() throws SetupException.UserInterruptedSetup {
 		Proxy proxy = UserProxy.getProxy();
 		String cloudName;
 
 		try {
 			cloudName = getCloudChoice();
-		} catch (Exception e) {
-			logger.error(e.getMessage());
+		} catch (SetupException.UserInterruptedSetup e1) {
+			throw e1;
+		}
+		
+		if(cloudName == null) {
 			return;
 		}
 
@@ -175,12 +178,7 @@ public class Setup {
 				return;
 			}
 			availableClouds.remove("box");
-//<<<<<<< HEAD
-//			cloudMeta = new CloudMeta(nextID, Box.NAME, meta);
-//			updateDynamicMessage(cloudcounter, "Box");
-//=======
 			cloudMeta = new CloudMeta(nextID, Box.NAME, meta);
-//>>>>>>> 5d57c04733d34aa0a42679aa1a4e4f54a1d57770
 			break;
 		case FolderCloud.NAME:
 			try {
@@ -204,8 +202,8 @@ public class Setup {
 					+ cloudMeta.getGenericName() + "\n";
 
 			cloudcounter++; nextID++;
-			cloudConfigPrefs.put(CLOUDCOUNT, Integer.toString(cloudcounter));
-			cloudConfigPrefs.put(NEXTID, Integer.toString(nextID));
+			cloudConfigPrefs.putInt(CLOUDCOUNT, cloudcounter);
+			cloudConfigPrefs.putInt(NEXTID, nextID);
 
 			Gson gson = new Gson();
 			cloudConfigPrefs.put(CLOUDS_META, gson.toJson(cloudMetas));
@@ -227,10 +225,11 @@ public class Setup {
 		Gson gson = new Gson();
 		cloudConfigPrefs.put(CLOUDS_META, gson.toJson(cloudMetas));
 		cloudcounter--;
-		cloudConfigPrefs.put(CLOUDCOUNT, Integer.toString(cloudcounter));
+		cloudConfigPrefs.putInt(CLOUDCOUNT, cloudcounter);
 	}
 
-	public void configureCloudAccess() {
+	// Setup Exception is thrown only when the user refuses to add enough clouds.
+	public void configureCloudAccess() throws SetupException.UserInterruptedSetup {
 		for (int i = (cloudcounter + 1); i <= 4; i++) {
 			addCloud();
 		}

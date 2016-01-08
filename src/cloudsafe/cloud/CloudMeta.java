@@ -47,9 +47,14 @@ public class CloudMeta {
                 genericName = name + "--" + meta.get("path");
                 break;
             case Dropbox.NAME:
-                genericName = name + "--" + meta.get("uid");
+                genericName = name + "--" + meta.get("username");
                 break;
-            // TODO : get uid for Google Drive and Box too
+            case GoogleDrive.NAME:
+                genericName = name + "--" + meta.get("username");
+                break;
+            case Box.NAME:
+            	genericName = name + "--" + meta.get("username");
+            	break;
         }
         return genericName;
     }

@@ -73,9 +73,10 @@ public class Main {
 				client.releaseLock();			
 				logger.exit("Setup complete!");
 			}
+			new TrayWindows(configPath, vaultPath, restart);
 			while(true) {
+//				logger.info("@@@@@ Main->run: starting while iteration");
 				launch();
-				new TrayWindows(configPath, vaultPath, restart);
 				restart.await();
 				watchdir.shutdown();
 				client.shutdown();

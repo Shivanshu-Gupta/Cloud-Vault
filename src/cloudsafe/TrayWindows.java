@@ -1,6 +1,7 @@
 package cloudsafe;  
 
 import java.awt.AWTException;
+import java.awt.BorderLayout;
 import java.awt.Image;
 import java.awt.MenuItem;
 import java.awt.PopupMenu;
@@ -14,6 +15,8 @@ import java.util.concurrent.CountDownLatch;
 
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
@@ -28,8 +31,11 @@ public class TrayWindows {
     	ProxyConfig proxySettings = new ProxyConfig();
 		settings.addTab("Proxy Settings", null, proxySettings,
 				"Proxy Settings");
+		JPanel panelCloud = new JPanel (new BorderLayout());
 		CloudConfig cloudSettings = new CloudConfig(configPath, vaultPath);
-		settings.addTab("Clouds", null, cloudSettings, "Clouds");
+		JScrollPane scrollPanel = new JScrollPane(cloudSettings);
+		panelCloud.add(scrollPanel,BorderLayout.CENTER);
+		settings.addTab("Clouds", null, panelCloud, "Clouds");
 		
         /* Use an appropriate Look and Feel */
         try {

@@ -41,11 +41,7 @@ public class CloudConfig extends JPanel implements ActionListener {
 	}
 	
 	public void cloudConfigDraw(Setup cloudVaultSetup) {
-		setLayout(new GridBagLayout());
-		constraints.gridx = 0;
-		constraints.gridy = 0;
-		constraints.insets = new Insets(10, 10, 5, 10);
-		constraints.anchor = GridBagConstraints.WEST;
+
 
 		refreshPage();
 		
@@ -97,7 +93,14 @@ public class CloudConfig extends JPanel implements ActionListener {
 		removeIndex = Integer.parseInt(e.getActionCommand());
 	}
 
-	public void refreshPage() {	
+	public void refreshPage() {
+		setLayout(new GridBagLayout());
+		constraints.gridx = 0;
+		constraints.gridy = 0;
+		constraints.insets = new Insets(10, 10, 5, 10);
+		constraints.anchor = GridBagConstraints.WEST;
+		
+		
 		y = 2;
 		radio.clear();
 		labelCloud.clear();

@@ -5533,3 +5533,1508 @@ java.util.concurrent.RejectedExecutionException: Task java.util.concurrent.Futur
 2016-01-08 16:41:27,512 Timer-2 TRACE cloudsafe.CloudsHandler - starting periodic upload for cloud2
 2016-01-08 16:41:27,512 Timer-4 TRACE cloudsafe.CloudsHandler - starting periodic upload for cloud4
 2016-01-08 16:41:27,512 Timer-0 TRACE cloudsafe.CloudsHandler - starting periodic upload for cloud0
+2016-01-08 16:51:25,989 main TRACE cloudsafe.Main - entry params(Application Starting!)
+2016-01-08 16:51:38,761 main INFO  cloudsafe.Main - devicePath: C:\Users\Noman Sheikh\Documents\workspace\gitTemp\cloud-vault\trials\Cloud Vault\Cloud Vault
+2016-01-08 16:51:38,761 main INFO  cloudsafe.Main - vaultPath: C:\Users\Noman Sheikh\Documents\workspace\gitTemp\cloud-vault\trials\Cloud Vault\Cloud Vault/Cloud Vault
+2016-01-08 16:51:38,771 main INFO  cloudsafe.Main - configPath: C:\Users\Noman Sheikh\Documents\workspace\gitTemp\cloud-vault\trials\Cloud Vault\Cloud Vault/config
+2016-01-08 16:51:38,773 main TRACE cloudsafe.Main - entry params(New Setup)
+2016-01-08 16:51:44,132 main TRACE cloudsafe.VaultClient - entry params(Setting up VaultClient)
+2016-01-08 16:51:44,145 main DEBUG database.Database - Connecting to database: trials\Cloud Vault\Cloud Vault\config\vault.db
+2016-01-08 16:51:45,045 main INFO  database.Database - Opened Database Successfully
+2016-01-08 16:51:45,050 main INFO  cloudsafe.VaultClient - databasePath: C:\Users\Noman Sheikh\Documents\workspace\gitTemp\cloud-vault\trials\Cloud Vault\Cloud Vault/config/vault.db
+2016-01-08 16:51:45,051 main INFO  cloudsafe.VaultClient - databaseMetaPath: C:\Users\Noman Sheikh\Documents\workspace\gitTemp\cloud-vault\trials\Cloud Vault\Cloud Vault/config/dbmeta.txt
+2016-01-08 16:51:45,056 main INFO  cloudsafe.VaultClient - adding cloud 0 of type: GOOGLEDRIVE
+2016-01-08 16:51:50,406 main INFO  cloudsafe.VaultClient - adding cloud 1 of type: FOLDERCLOUD
+2016-01-08 16:51:50,418 main ERROR cloudsafe.VaultClient - couldn't add cloud 1 of type: FOLDERCLOUD
+2016-01-08 16:51:50,418 main INFO  cloudsafe.VaultClient - adding cloud 2 of type: GOOGLEDRIVE
+2016-01-08 16:51:51,013 main INFO  cloudsafe.VaultClient - adding cloud 3 of type: FOLDERCLOUD
+2016-01-08 16:51:51,029 main ERROR cloudsafe.VaultClient - couldn't add cloud 3 of type: FOLDERCLOUD
+2016-01-08 16:51:51,029 main INFO  cloudsafe.VaultClient - adding cloud 4 of type: GOOGLEDRIVE
+2016-01-08 16:51:51,607 main INFO  cloudsafe.VaultClient - adding cloud 5 of type: BOX
+2016-01-08 16:52:22,089 Timer-0 TRACE cloudsafe.CloudsHandler - starting periodic upload for cloud0
+2016-01-08 16:52:22,096 Timer-1 TRACE cloudsafe.CloudsHandler - starting periodic upload for cloud1
+2016-01-08 16:52:22,112 Timer-2 TRACE cloudsafe.CloudsHandler - starting periodic upload for cloud2
+2016-01-08 16:52:22,112 Timer-3 TRACE cloudsafe.CloudsHandler - starting periodic upload for cloud3
+2016-01-08 16:52:22,237 main INFO  cloudsafe.VaultClient - Uploading Table: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 16:52:22,237 main TRACE cloudsafe.VaultClient - entry params(Update Table Meta)
+2016-01-08 16:52:22,237 main INFO  cloudsafe.VaultClient - Table Size:3072 Hash:[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 16:52:22,237 main TRACE cloudsafe.VaultClient - exit with(Update Table Meta)
+2016-01-08 16:52:22,253 pool-4-thread-1 TRACE cloudsafe.CloudsHandler - Uploading to cloud0
+2016-01-08 16:52:22,253 pool-4-thread-2 TRACE cloudsafe.CloudsHandler - Uploading to cloud1
+2016-01-08 16:52:22,253 pool-4-thread-3 TRACE cloudsafe.CloudsHandler - Uploading to cloud2
+2016-01-08 16:52:22,253 pool-4-thread-4 TRACE cloudsafe.CloudsHandler - Uploading to cloud3
+2016-01-08 16:52:28,836 main DEBUG cloudsafe.CloudsHandler - Number of clouds used: 2
+2016-01-08 16:52:28,844 main INFO  cloudsafe.VaultClient - Uploading: C:\Users\Noman Sheikh\Documents\workspace\gitTemp\cloud-vault\trials\Cloud Vault\Cloud Vault/config/vault.db
+2016-01-08 16:52:29,393 pool-4-thread-3 TRACE cloudsafe.CloudsHandler - Uploading to cloud0
+2016-01-08 16:52:29,393 pool-4-thread-1 TRACE cloudsafe.CloudsHandler - Uploading to cloud1
+2016-01-08 16:52:29,393 pool-4-thread-2 TRACE cloudsafe.CloudsHandler - Uploading to cloud2
+2016-01-08 16:52:29,393 pool-4-thread-4 TRACE cloudsafe.CloudsHandler - Uploading to cloud3
+2016-01-08 16:52:35,394 main DEBUG cloudsafe.CloudsHandler - Number of clouds used: 2
+2016-01-08 16:52:35,403 main DEBUG database.Database - Connecting to database: trials\Cloud Vault\Cloud Vault\config\vault.db
+2016-01-08 16:52:35,405 main TRACE cloudsafe.VaultClient - Releasing Lock
+2016-01-08 16:52:35,405 pool-4-thread-3 TRACE cloudsafe.CloudsHandler - Uploading to cloud0
+2016-01-08 16:52:35,405 pool-4-thread-1 TRACE cloudsafe.CloudsHandler - Uploading to cloud1
+2016-01-08 16:52:35,405 pool-4-thread-4 TRACE cloudsafe.CloudsHandler - Uploading to cloud3
+2016-01-08 16:52:35,405 pool-4-thread-2 TRACE cloudsafe.CloudsHandler - Uploading to cloud2
+2016-01-08 16:52:41,564 main TRACE cloudsafe.VaultClient - Lock Released
+2016-01-08 16:52:41,579 main TRACE cloudsafe.Main - exit with(Setup complete!)
+2016-01-08 16:52:41,581 main TRACE cloudsafe.VaultClient - entry params(Setting up VaultClient)
+2016-01-08 16:52:41,581 main DEBUG database.Database - Connecting to database: trials\Cloud Vault\Cloud Vault\config\vault.db
+2016-01-08 16:52:41,581 main INFO  cloudsafe.VaultClient - databasePath: C:\Users\Noman Sheikh\Documents\workspace\gitTemp\cloud-vault\trials\Cloud Vault\Cloud Vault/config/vault.db
+2016-01-08 16:52:41,581 main INFO  cloudsafe.VaultClient - databaseMetaPath: C:\Users\Noman Sheikh\Documents\workspace\gitTemp\cloud-vault\trials\Cloud Vault\Cloud Vault/config/dbmeta.txt
+2016-01-08 16:52:41,581 main INFO  cloudsafe.VaultClient - adding cloud 0 of type: GOOGLEDRIVE
+2016-01-08 16:52:42,391 main INFO  cloudsafe.VaultClient - adding cloud 1 of type: FOLDERCLOUD
+2016-01-08 16:52:42,391 main ERROR cloudsafe.VaultClient - couldn't add cloud 1 of type: FOLDERCLOUD
+2016-01-08 16:52:42,391 main INFO  cloudsafe.VaultClient - adding cloud 2 of type: GOOGLEDRIVE
+2016-01-08 16:52:43,032 main INFO  cloudsafe.VaultClient - adding cloud 3 of type: FOLDERCLOUD
+2016-01-08 16:52:43,032 main ERROR cloudsafe.VaultClient - couldn't add cloud 3 of type: FOLDERCLOUD
+2016-01-08 16:52:43,034 main INFO  cloudsafe.VaultClient - adding cloud 4 of type: GOOGLEDRIVE
+2016-01-08 16:52:43,573 main INFO  cloudsafe.VaultClient - adding cloud 5 of type: BOX
+2016-01-08 16:53:09,461 Timer-4 TRACE cloudsafe.CloudsHandler - starting periodic upload for cloud0
+2016-01-08 16:53:09,474 Timer-5 TRACE cloudsafe.CloudsHandler - starting periodic upload for cloud1
+2016-01-08 16:53:09,474 Timer-6 TRACE cloudsafe.CloudsHandler - starting periodic upload for cloud2
+2016-01-08 16:53:09,474 Timer-7 TRACE cloudsafe.CloudsHandler - starting periodic upload for cloud3
+2016-01-08 16:53:09,474 main INFO  cloudsafe.WatchDir - Scanning C:\Users\Noman Sheikh\Documents\workspace\gitTemp\cloud-vault\trials\Cloud Vault\Cloud Vault\Cloud Vault ...
+
+2016-01-08 16:53:09,490 main INFO  cloudsafe.WatchDir - Done.
+2016-01-08 16:53:09,490 Timer-8 TRACE cloudsafe.WatchDir - ExecuteUpdate Called
+2016-01-08 16:53:14,500 Timer-8 TRACE cloudsafe.WatchDir - ExecuteSync Called
+2016-01-08 16:53:14,500 Timer-8 TRACE cloudsafe.VaultClient - Starting Sync
+2016-01-08 16:53:21,353 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Local Files DB: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 16:53:21,353 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Files DB on cloud: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 16:53:21,363 Timer-8 TRACE cloudsafe.WatchDir - ExecuteUpdate Called
+2016-01-08 16:53:22,097 Timer-0 TRACE cloudsafe.CloudsHandler - starting periodic upload for cloud0
+2016-01-08 16:53:22,097 Timer-1 TRACE cloudsafe.CloudsHandler - starting periodic upload for cloud1
+2016-01-08 16:53:22,113 Timer-2 TRACE cloudsafe.CloudsHandler - starting periodic upload for cloud2
+2016-01-08 16:53:22,113 Timer-3 TRACE cloudsafe.CloudsHandler - starting periodic upload for cloud3
+2016-01-08 16:53:26,364 Timer-8 TRACE cloudsafe.WatchDir - ExecuteSync Called
+2016-01-08 16:53:26,364 Timer-8 TRACE cloudsafe.VaultClient - Starting Sync
+2016-01-08 16:53:29,070 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Local Files DB: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 16:53:29,070 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Files DB on cloud: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 16:53:31,365 Timer-8 TRACE cloudsafe.WatchDir - ExecuteUpdate Called
+2016-01-08 16:53:36,367 Timer-8 TRACE cloudsafe.WatchDir - ExecuteSync Called
+2016-01-08 16:53:36,367 Timer-8 TRACE cloudsafe.VaultClient - Starting Sync
+2016-01-08 16:53:39,102 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Local Files DB: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 16:53:39,102 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Files DB on cloud: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 16:53:41,375 Timer-8 TRACE cloudsafe.WatchDir - ExecuteUpdate Called
+2016-01-08 16:53:46,381 Timer-8 TRACE cloudsafe.WatchDir - ExecuteSync Called
+2016-01-08 16:53:46,381 Timer-8 TRACE cloudsafe.VaultClient - Starting Sync
+2016-01-08 16:53:48,212 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Local Files DB: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 16:53:48,212 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Files DB on cloud: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 16:53:51,385 Timer-8 TRACE cloudsafe.WatchDir - ExecuteUpdate Called
+2016-01-08 16:53:56,400 Timer-8 TRACE cloudsafe.WatchDir - ExecuteSync Called
+2016-01-08 16:53:56,400 Timer-8 TRACE cloudsafe.VaultClient - Starting Sync
+2016-01-08 16:53:58,982 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Local Files DB: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 16:53:58,982 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Files DB on cloud: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 16:54:01,408 Timer-8 TRACE cloudsafe.WatchDir - ExecuteUpdate Called
+2016-01-08 16:54:06,412 Timer-8 TRACE cloudsafe.WatchDir - ExecuteSync Called
+2016-01-08 16:54:06,412 Timer-8 TRACE cloudsafe.VaultClient - Starting Sync
+2016-01-08 16:54:09,473 Timer-4 TRACE cloudsafe.CloudsHandler - starting periodic upload for cloud0
+2016-01-08 16:54:09,474 Timer-7 TRACE cloudsafe.CloudsHandler - starting periodic upload for cloud3
+2016-01-08 16:54:09,474 Timer-6 TRACE cloudsafe.CloudsHandler - starting periodic upload for cloud2
+2016-01-08 16:54:09,474 Timer-5 TRACE cloudsafe.CloudsHandler - starting periodic upload for cloud1
+2016-01-08 16:54:10,101 AWT-EventQueue-0 INFO  cloud.Dropbox - Linked account: Nomu Sheikh
+2016-01-08 16:54:10,320 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Local Files DB: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 16:54:10,320 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Files DB on cloud: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 16:54:11,414 Timer-8 TRACE cloudsafe.WatchDir - ExecuteUpdate Called
+2016-01-08 16:54:16,414 Timer-8 TRACE cloudsafe.WatchDir - ExecuteSync Called
+2016-01-08 16:54:16,414 Timer-8 TRACE cloudsafe.VaultClient - Starting Sync
+2016-01-08 16:54:22,105 Timer-1 TRACE cloudsafe.CloudsHandler - starting periodic upload for cloud1
+2016-01-08 16:54:22,105 Timer-0 TRACE cloudsafe.CloudsHandler - starting periodic upload for cloud0
+2016-01-08 16:54:22,124 Timer-2 TRACE cloudsafe.CloudsHandler - starting periodic upload for cloud2
+2016-01-08 16:54:22,124 Timer-3 TRACE cloudsafe.CloudsHandler - starting periodic upload for cloud3
+2016-01-08 16:54:25,307 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Local Files DB: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 16:54:25,307 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Files DB on cloud: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 16:54:25,318 Timer-8 TRACE cloudsafe.WatchDir - ExecuteUpdate Called
+2016-01-08 16:54:30,323 Timer-8 TRACE cloudsafe.WatchDir - ExecuteSync Called
+2016-01-08 16:54:30,323 Timer-8 TRACE cloudsafe.VaultClient - Starting Sync
+2016-01-08 16:54:32,891 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Local Files DB: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 16:54:32,891 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Files DB on cloud: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 16:54:35,326 Timer-8 TRACE cloudsafe.WatchDir - ExecuteUpdate Called
+2016-01-08 16:54:40,327 Timer-8 TRACE cloudsafe.WatchDir - ExecuteSync Called
+2016-01-08 16:54:40,327 Timer-8 TRACE cloudsafe.VaultClient - Starting Sync
+2016-01-08 16:54:43,987 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Local Files DB: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 16:54:43,987 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Files DB on cloud: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 16:54:45,328 Timer-8 TRACE cloudsafe.WatchDir - ExecuteUpdate Called
+2016-01-08 16:54:50,342 Timer-8 TRACE cloudsafe.WatchDir - ExecuteSync Called
+2016-01-08 16:54:50,342 Timer-8 TRACE cloudsafe.VaultClient - Starting Sync
+2016-01-08 16:54:57,124 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Local Files DB: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 16:54:57,124 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Files DB on cloud: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 16:54:57,124 Timer-8 TRACE cloudsafe.WatchDir - ExecuteUpdate Called
+2016-01-08 16:55:02,134 Timer-8 TRACE cloudsafe.WatchDir - ExecuteSync Called
+2016-01-08 16:55:02,134 Timer-8 TRACE cloudsafe.VaultClient - Starting Sync
+2016-01-08 16:55:08,119 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Local Files DB: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 16:55:08,121 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Files DB on cloud: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 16:55:08,122 Timer-8 TRACE cloudsafe.WatchDir - ExecuteUpdate Called
+2016-01-08 16:55:09,480 Timer-5 TRACE cloudsafe.CloudsHandler - starting periodic upload for cloud1
+2016-01-08 16:55:09,480 Timer-6 TRACE cloudsafe.CloudsHandler - starting periodic upload for cloud2
+2016-01-08 16:55:09,480 Timer-4 TRACE cloudsafe.CloudsHandler - starting periodic upload for cloud0
+2016-01-08 16:55:09,480 Timer-7 TRACE cloudsafe.CloudsHandler - starting periodic upload for cloud3
+2016-01-08 16:55:13,132 Timer-8 TRACE cloudsafe.WatchDir - ExecuteSync Called
+2016-01-08 16:55:13,132 Timer-8 TRACE cloudsafe.VaultClient - Starting Sync
+2016-01-08 16:55:16,009 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Local Files DB: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 16:55:16,009 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Files DB on cloud: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 16:55:18,135 Timer-8 TRACE cloudsafe.WatchDir - ExecuteUpdate Called
+2016-01-08 16:55:22,116 Timer-0 TRACE cloudsafe.CloudsHandler - starting periodic upload for cloud0
+2016-01-08 16:55:22,116 Timer-1 TRACE cloudsafe.CloudsHandler - starting periodic upload for cloud1
+2016-01-08 16:55:22,135 Timer-2 TRACE cloudsafe.CloudsHandler - starting periodic upload for cloud2
+2016-01-08 16:55:22,135 Timer-3 TRACE cloudsafe.CloudsHandler - starting periodic upload for cloud3
+2016-01-08 16:55:23,151 Timer-8 TRACE cloudsafe.WatchDir - ExecuteSync Called
+2016-01-08 16:55:23,151 Timer-8 TRACE cloudsafe.VaultClient - Starting Sync
+2016-01-08 16:55:25,500 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Local Files DB: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 16:55:25,500 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Files DB on cloud: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 16:55:28,160 Timer-8 TRACE cloudsafe.WatchDir - ExecuteUpdate Called
+2016-01-08 16:55:33,172 Timer-8 TRACE cloudsafe.WatchDir - ExecuteSync Called
+2016-01-08 16:55:33,172 Timer-8 TRACE cloudsafe.VaultClient - Starting Sync
+2016-01-08 16:55:42,300 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Local Files DB: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 16:55:42,300 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Files DB on cloud: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 16:55:42,305 Timer-8 TRACE cloudsafe.WatchDir - ExecuteUpdate Called
+2016-01-08 16:55:47,310 Timer-8 TRACE cloudsafe.WatchDir - ExecuteSync Called
+2016-01-08 16:55:47,310 Timer-8 TRACE cloudsafe.VaultClient - Starting Sync
+2016-01-08 16:55:55,482 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Local Files DB: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 16:55:55,482 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Files DB on cloud: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 16:55:55,484 Timer-8 TRACE cloudsafe.WatchDir - ExecuteUpdate Called
+2016-01-08 16:56:00,489 Timer-8 TRACE cloudsafe.WatchDir - ExecuteSync Called
+2016-01-08 16:56:00,489 Timer-8 TRACE cloudsafe.VaultClient - Starting Sync
+2016-01-08 16:56:08,898 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Local Files DB: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 16:56:08,913 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Files DB on cloud: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 16:56:08,913 Timer-8 TRACE cloudsafe.WatchDir - ExecuteUpdate Called
+2016-01-08 16:56:09,480 Timer-5 TRACE cloudsafe.CloudsHandler - starting periodic upload for cloud1
+2016-01-08 16:56:09,480 Timer-6 TRACE cloudsafe.CloudsHandler - starting periodic upload for cloud2
+2016-01-08 16:56:09,480 Timer-4 TRACE cloudsafe.CloudsHandler - starting periodic upload for cloud0
+2016-01-08 16:56:09,480 Timer-7 TRACE cloudsafe.CloudsHandler - starting periodic upload for cloud3
+2016-01-08 16:56:13,914 Timer-8 TRACE cloudsafe.WatchDir - ExecuteSync Called
+2016-01-08 16:56:13,914 Timer-8 TRACE cloudsafe.VaultClient - Starting Sync
+2016-01-08 16:56:19,235 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Local Files DB: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 16:56:19,235 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Files DB on cloud: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 16:56:19,242 Timer-8 TRACE cloudsafe.WatchDir - ExecuteUpdate Called
+2016-01-08 16:56:22,118 Timer-1 TRACE cloudsafe.CloudsHandler - starting periodic upload for cloud1
+2016-01-08 16:56:22,118 Timer-0 TRACE cloudsafe.CloudsHandler - starting periodic upload for cloud0
+2016-01-08 16:56:22,136 Timer-2 TRACE cloudsafe.CloudsHandler - starting periodic upload for cloud2
+2016-01-08 16:56:22,136 Timer-3 TRACE cloudsafe.CloudsHandler - starting periodic upload for cloud3
+2016-01-08 16:56:24,246 Timer-8 TRACE cloudsafe.WatchDir - ExecuteSync Called
+2016-01-08 16:56:24,246 Timer-8 TRACE cloudsafe.VaultClient - Starting Sync
+2016-01-08 16:56:31,464 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Local Files DB: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 16:56:31,464 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Files DB on cloud: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 16:56:31,477 Timer-8 TRACE cloudsafe.WatchDir - ExecuteUpdate Called
+2016-01-08 16:56:36,478 Timer-8 TRACE cloudsafe.WatchDir - ExecuteSync Called
+2016-01-08 16:56:36,478 Timer-8 TRACE cloudsafe.VaultClient - Starting Sync
+2016-01-08 16:56:38,685 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Local Files DB: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 16:56:38,685 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Files DB on cloud: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 16:56:41,482 Timer-8 TRACE cloudsafe.WatchDir - ExecuteUpdate Called
+2016-01-08 16:56:46,485 Timer-8 TRACE cloudsafe.WatchDir - ExecuteSync Called
+2016-01-08 16:56:46,485 Timer-8 TRACE cloudsafe.VaultClient - Starting Sync
+2016-01-08 16:56:52,456 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Local Files DB: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 16:56:52,456 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Files DB on cloud: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 16:56:52,466 Timer-8 TRACE cloudsafe.WatchDir - ExecuteUpdate Called
+2016-01-08 16:56:57,476 Timer-8 TRACE cloudsafe.WatchDir - ExecuteSync Called
+2016-01-08 16:56:57,477 Timer-8 TRACE cloudsafe.VaultClient - Starting Sync
+2016-01-08 16:57:04,276 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Local Files DB: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 16:57:04,276 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Files DB on cloud: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 16:57:04,286 Timer-8 TRACE cloudsafe.WatchDir - ExecuteUpdate Called
+2016-01-08 16:57:09,299 Timer-8 TRACE cloudsafe.WatchDir - ExecuteSync Called
+2016-01-08 16:57:09,299 Timer-8 TRACE cloudsafe.VaultClient - Starting Sync
+2016-01-08 16:57:09,489 Timer-7 TRACE cloudsafe.CloudsHandler - starting periodic upload for cloud3
+2016-01-08 16:57:09,489 Timer-4 TRACE cloudsafe.CloudsHandler - starting periodic upload for cloud0
+2016-01-08 16:57:09,489 Timer-5 TRACE cloudsafe.CloudsHandler - starting periodic upload for cloud1
+2016-01-08 16:57:09,489 Timer-6 TRACE cloudsafe.CloudsHandler - starting periodic upload for cloud2
+2016-01-08 16:57:14,755 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Local Files DB: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 16:57:14,755 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Files DB on cloud: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 16:57:14,767 Timer-8 TRACE cloudsafe.WatchDir - ExecuteUpdate Called
+2016-01-08 16:57:19,770 Timer-8 TRACE cloudsafe.WatchDir - ExecuteSync Called
+2016-01-08 16:57:19,770 Timer-8 TRACE cloudsafe.VaultClient - Starting Sync
+2016-01-08 16:57:22,126 Timer-0 TRACE cloudsafe.CloudsHandler - starting periodic upload for cloud0
+2016-01-08 16:57:22,126 Timer-1 TRACE cloudsafe.CloudsHandler - starting periodic upload for cloud1
+2016-01-08 16:57:22,145 Timer-3 TRACE cloudsafe.CloudsHandler - starting periodic upload for cloud3
+2016-01-08 16:57:22,145 Timer-2 TRACE cloudsafe.CloudsHandler - starting periodic upload for cloud2
+2016-01-08 16:57:26,938 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Local Files DB: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 16:57:26,938 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Files DB on cloud: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 16:57:26,949 Timer-8 TRACE cloudsafe.WatchDir - ExecuteUpdate Called
+2016-01-08 16:57:31,961 Timer-8 TRACE cloudsafe.WatchDir - ExecuteSync Called
+2016-01-08 16:57:31,961 Timer-8 TRACE cloudsafe.VaultClient - Starting Sync
+2016-01-08 16:57:37,828 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Local Files DB: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 16:57:37,828 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Files DB on cloud: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 16:57:37,841 Timer-8 TRACE cloudsafe.WatchDir - ExecuteUpdate Called
+2016-01-08 16:57:42,848 Timer-8 TRACE cloudsafe.WatchDir - ExecuteSync Called
+2016-01-08 16:57:42,848 Timer-8 TRACE cloudsafe.VaultClient - Starting Sync
+2016-01-08 16:57:48,033 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Local Files DB: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 16:57:48,034 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Files DB on cloud: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 16:57:48,035 Timer-8 TRACE cloudsafe.WatchDir - ExecuteUpdate Called
+2016-01-08 16:57:53,049 Timer-8 TRACE cloudsafe.WatchDir - ExecuteSync Called
+2016-01-08 16:57:53,049 Timer-8 TRACE cloudsafe.VaultClient - Starting Sync
+2016-01-08 16:57:59,298 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Local Files DB: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 16:57:59,298 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Files DB on cloud: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 16:57:59,304 Timer-8 TRACE cloudsafe.WatchDir - ExecuteUpdate Called
+2016-01-08 16:58:04,305 Timer-8 TRACE cloudsafe.WatchDir - ExecuteSync Called
+2016-01-08 16:58:04,305 Timer-8 TRACE cloudsafe.VaultClient - Starting Sync
+2016-01-08 16:58:06,681 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Local Files DB: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 16:58:06,681 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Files DB on cloud: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 16:58:09,305 Timer-8 TRACE cloudsafe.WatchDir - ExecuteUpdate Called
+2016-01-08 16:58:09,504 Timer-6 TRACE cloudsafe.CloudsHandler - starting periodic upload for cloud2
+2016-01-08 16:58:09,504 Timer-7 TRACE cloudsafe.CloudsHandler - starting periodic upload for cloud3
+2016-01-08 16:58:09,504 Timer-5 TRACE cloudsafe.CloudsHandler - starting periodic upload for cloud1
+2016-01-08 16:58:09,504 Timer-4 TRACE cloudsafe.CloudsHandler - starting periodic upload for cloud0
+2016-01-08 16:58:14,305 Timer-8 TRACE cloudsafe.WatchDir - ExecuteSync Called
+2016-01-08 16:58:14,305 Timer-8 TRACE cloudsafe.VaultClient - Starting Sync
+2016-01-08 16:58:16,426 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Local Files DB: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 16:58:16,427 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Files DB on cloud: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 16:58:19,306 Timer-8 TRACE cloudsafe.WatchDir - ExecuteUpdate Called
+2016-01-08 16:58:22,136 Timer-0 TRACE cloudsafe.CloudsHandler - starting periodic upload for cloud0
+2016-01-08 16:58:22,136 Timer-1 TRACE cloudsafe.CloudsHandler - starting periodic upload for cloud1
+2016-01-08 16:58:22,155 Timer-2 TRACE cloudsafe.CloudsHandler - starting periodic upload for cloud2
+2016-01-08 16:58:22,155 Timer-3 TRACE cloudsafe.CloudsHandler - starting periodic upload for cloud3
+2016-01-08 16:58:24,315 Timer-8 TRACE cloudsafe.WatchDir - ExecuteSync Called
+2016-01-08 16:58:24,315 Timer-8 TRACE cloudsafe.VaultClient - Starting Sync
+2016-01-08 16:58:32,922 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Local Files DB: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 16:58:32,922 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Files DB on cloud: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 16:58:32,925 Timer-8 TRACE cloudsafe.WatchDir - ExecuteUpdate Called
+2016-01-08 16:58:37,932 Timer-8 TRACE cloudsafe.WatchDir - ExecuteSync Called
+2016-01-08 16:58:37,932 Timer-8 TRACE cloudsafe.VaultClient - Starting Sync
+2016-01-08 16:58:40,376 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Local Files DB: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 16:58:40,376 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Files DB on cloud: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 16:58:42,933 Timer-8 TRACE cloudsafe.WatchDir - ExecuteUpdate Called
+2016-01-08 16:58:47,941 Timer-8 TRACE cloudsafe.WatchDir - ExecuteSync Called
+2016-01-08 16:58:47,941 Timer-8 TRACE cloudsafe.VaultClient - Starting Sync
+2016-01-08 16:58:51,831 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Local Files DB: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 16:58:51,831 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Files DB on cloud: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 16:58:52,956 Timer-8 TRACE cloudsafe.WatchDir - ExecuteUpdate Called
+2016-01-08 16:58:57,965 Timer-8 TRACE cloudsafe.WatchDir - ExecuteSync Called
+2016-01-08 16:58:57,965 Timer-8 TRACE cloudsafe.VaultClient - Starting Sync
+2016-01-08 16:59:03,284 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Local Files DB: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 16:59:03,284 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Files DB on cloud: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 16:59:03,284 Timer-8 TRACE cloudsafe.WatchDir - ExecuteUpdate Called
+2016-01-08 16:59:08,298 Timer-8 TRACE cloudsafe.WatchDir - ExecuteSync Called
+2016-01-08 16:59:08,298 Timer-8 TRACE cloudsafe.VaultClient - Starting Sync
+2016-01-08 16:59:09,505 Timer-4 TRACE cloudsafe.CloudsHandler - starting periodic upload for cloud0
+2016-01-08 16:59:09,505 Timer-7 TRACE cloudsafe.CloudsHandler - starting periodic upload for cloud3
+2016-01-08 16:59:09,505 Timer-5 TRACE cloudsafe.CloudsHandler - starting periodic upload for cloud1
+2016-01-08 16:59:09,505 Timer-6 TRACE cloudsafe.CloudsHandler - starting periodic upload for cloud2
+2016-01-08 16:59:18,202 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Local Files DB: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 16:59:18,202 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Files DB on cloud: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 16:59:18,202 Timer-8 TRACE cloudsafe.WatchDir - ExecuteUpdate Called
+2016-01-08 16:59:22,148 Timer-1 TRACE cloudsafe.CloudsHandler - starting periodic upload for cloud1
+2016-01-08 16:59:22,148 Timer-0 TRACE cloudsafe.CloudsHandler - starting periodic upload for cloud0
+2016-01-08 16:59:22,167 Timer-2 TRACE cloudsafe.CloudsHandler - starting periodic upload for cloud2
+2016-01-08 16:59:22,167 Timer-3 TRACE cloudsafe.CloudsHandler - starting periodic upload for cloud3
+2016-01-08 16:59:23,214 Timer-8 TRACE cloudsafe.WatchDir - ExecuteSync Called
+2016-01-08 16:59:23,214 Timer-8 TRACE cloudsafe.VaultClient - Starting Sync
+2016-01-08 16:59:30,109 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Local Files DB: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 16:59:30,109 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Files DB on cloud: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 16:59:30,122 Timer-8 TRACE cloudsafe.WatchDir - ExecuteUpdate Called
+2016-01-08 16:59:35,126 Timer-8 TRACE cloudsafe.WatchDir - ExecuteSync Called
+2016-01-08 16:59:35,126 Timer-8 TRACE cloudsafe.VaultClient - Starting Sync
+2016-01-08 16:59:40,315 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Local Files DB: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 16:59:40,315 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Files DB on cloud: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 16:59:40,322 Timer-8 TRACE cloudsafe.WatchDir - ExecuteUpdate Called
+2016-01-08 16:59:45,324 Timer-8 TRACE cloudsafe.WatchDir - ExecuteSync Called
+2016-01-08 16:59:45,324 Timer-8 TRACE cloudsafe.VaultClient - Starting Sync
+2016-01-08 16:59:51,100 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Local Files DB: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 16:59:51,100 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Files DB on cloud: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 16:59:51,108 Timer-8 TRACE cloudsafe.WatchDir - ExecuteUpdate Called
+2016-01-08 16:59:56,103 Timer-8 TRACE cloudsafe.WatchDir - ExecuteSync Called
+2016-01-08 16:59:56,103 Timer-8 TRACE cloudsafe.VaultClient - Starting Sync
+2016-01-08 16:59:59,643 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Local Files DB: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 16:59:59,644 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Files DB on cloud: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 17:00:01,105 Timer-8 TRACE cloudsafe.WatchDir - ExecuteUpdate Called
+2016-01-08 17:00:06,115 Timer-8 TRACE cloudsafe.WatchDir - ExecuteSync Called
+2016-01-08 17:00:06,115 Timer-8 TRACE cloudsafe.VaultClient - Starting Sync
+2016-01-08 17:00:09,510 Timer-4 TRACE cloudsafe.CloudsHandler - starting periodic upload for cloud0
+2016-01-08 17:00:09,510 Timer-5 TRACE cloudsafe.CloudsHandler - starting periodic upload for cloud1
+2016-01-08 17:00:09,510 Timer-6 TRACE cloudsafe.CloudsHandler - starting periodic upload for cloud2
+2016-01-08 17:00:09,510 Timer-7 TRACE cloudsafe.CloudsHandler - starting periodic upload for cloud3
+2016-01-08 17:00:10,833 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Local Files DB: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 17:00:10,833 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Files DB on cloud: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 17:00:11,124 Timer-8 TRACE cloudsafe.WatchDir - ExecuteUpdate Called
+2016-01-08 17:00:16,124 Timer-8 TRACE cloudsafe.WatchDir - ExecuteSync Called
+2016-01-08 17:00:16,124 Timer-8 TRACE cloudsafe.VaultClient - Starting Sync
+2016-01-08 17:00:22,153 Timer-1 TRACE cloudsafe.CloudsHandler - starting periodic upload for cloud1
+2016-01-08 17:00:22,153 Timer-0 TRACE cloudsafe.CloudsHandler - starting periodic upload for cloud0
+2016-01-08 17:00:22,171 Timer-2 TRACE cloudsafe.CloudsHandler - starting periodic upload for cloud2
+2016-01-08 17:00:22,171 Timer-3 TRACE cloudsafe.CloudsHandler - starting periodic upload for cloud3
+2016-01-08 17:00:23,233 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Local Files DB: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 17:00:23,233 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Files DB on cloud: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 17:00:23,236 Timer-8 TRACE cloudsafe.WatchDir - ExecuteUpdate Called
+2016-01-08 17:00:28,238 Timer-8 TRACE cloudsafe.WatchDir - ExecuteSync Called
+2016-01-08 17:00:28,238 Timer-8 TRACE cloudsafe.VaultClient - Starting Sync
+2016-01-08 17:00:34,371 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Local Files DB: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 17:00:34,371 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Files DB on cloud: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 17:00:34,380 Timer-8 TRACE cloudsafe.WatchDir - ExecuteUpdate Called
+2016-01-08 17:00:39,381 Timer-8 TRACE cloudsafe.WatchDir - ExecuteSync Called
+2016-01-08 17:00:39,381 Timer-8 TRACE cloudsafe.VaultClient - Starting Sync
+2016-01-08 17:00:46,045 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Local Files DB: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 17:00:46,045 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Files DB on cloud: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 17:00:46,045 Timer-8 TRACE cloudsafe.WatchDir - ExecuteUpdate Called
+2016-01-08 17:00:51,058 Timer-8 TRACE cloudsafe.WatchDir - ExecuteSync Called
+2016-01-08 17:00:51,058 Timer-8 TRACE cloudsafe.VaultClient - Starting Sync
+2016-01-08 17:00:58,061 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Local Files DB: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 17:00:58,061 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Files DB on cloud: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 17:00:58,066 Timer-8 TRACE cloudsafe.WatchDir - ExecuteUpdate Called
+2016-01-08 17:01:03,066 Timer-8 TRACE cloudsafe.WatchDir - ExecuteSync Called
+2016-01-08 17:01:03,066 Timer-8 TRACE cloudsafe.VaultClient - Starting Sync
+2016-01-08 17:01:07,974 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Local Files DB: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 17:01:07,974 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Files DB on cloud: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 17:01:08,074 Timer-8 TRACE cloudsafe.WatchDir - ExecuteUpdate Called
+2016-01-08 17:01:09,512 Timer-5 TRACE cloudsafe.CloudsHandler - starting periodic upload for cloud1
+2016-01-08 17:01:09,512 Timer-7 TRACE cloudsafe.CloudsHandler - starting periodic upload for cloud3
+2016-01-08 17:01:09,512 Timer-6 TRACE cloudsafe.CloudsHandler - starting periodic upload for cloud2
+2016-01-08 17:01:09,512 Timer-4 TRACE cloudsafe.CloudsHandler - starting periodic upload for cloud0
+2016-01-08 17:01:13,078 Timer-8 TRACE cloudsafe.WatchDir - ExecuteSync Called
+2016-01-08 17:01:13,078 Timer-8 TRACE cloudsafe.VaultClient - Starting Sync
+2016-01-08 17:01:18,053 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Local Files DB: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 17:01:18,053 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Files DB on cloud: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 17:01:18,089 Timer-8 TRACE cloudsafe.WatchDir - ExecuteUpdate Called
+2016-01-08 17:01:22,164 Timer-0 TRACE cloudsafe.CloudsHandler - starting periodic upload for cloud0
+2016-01-08 17:01:22,164 Timer-1 TRACE cloudsafe.CloudsHandler - starting periodic upload for cloud1
+2016-01-08 17:01:22,182 Timer-2 TRACE cloudsafe.CloudsHandler - starting periodic upload for cloud2
+2016-01-08 17:01:22,182 Timer-3 TRACE cloudsafe.CloudsHandler - starting periodic upload for cloud3
+2016-01-08 17:01:23,104 Timer-8 TRACE cloudsafe.WatchDir - ExecuteSync Called
+2016-01-08 17:01:23,104 Timer-8 TRACE cloudsafe.VaultClient - Starting Sync
+2016-01-08 17:01:32,838 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Local Files DB: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 17:01:32,838 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Files DB on cloud: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 17:01:32,838 Timer-8 TRACE cloudsafe.WatchDir - ExecuteUpdate Called
+2016-01-08 17:01:37,849 Timer-8 TRACE cloudsafe.WatchDir - ExecuteSync Called
+2016-01-08 17:01:37,849 Timer-8 TRACE cloudsafe.VaultClient - Starting Sync
+2016-01-08 17:01:46,305 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Local Files DB: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 17:01:46,305 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Files DB on cloud: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 17:01:46,313 Timer-8 TRACE cloudsafe.WatchDir - ExecuteUpdate Called
+2016-01-08 17:01:51,306 Timer-8 TRACE cloudsafe.WatchDir - ExecuteSync Called
+2016-01-08 17:01:51,306 Timer-8 TRACE cloudsafe.VaultClient - Starting Sync
+2016-01-08 17:02:01,652 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Local Files DB: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 17:02:01,652 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Files DB on cloud: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 17:02:01,661 Timer-8 TRACE cloudsafe.WatchDir - ExecuteUpdate Called
+2016-01-08 17:02:06,672 Timer-8 TRACE cloudsafe.WatchDir - ExecuteSync Called
+2016-01-08 17:02:06,672 Timer-8 TRACE cloudsafe.VaultClient - Starting Sync
+2016-01-08 17:02:09,518 Timer-6 TRACE cloudsafe.CloudsHandler - starting periodic upload for cloud2
+2016-01-08 17:02:09,518 Timer-4 TRACE cloudsafe.CloudsHandler - starting periodic upload for cloud0
+2016-01-08 17:02:09,518 Timer-5 TRACE cloudsafe.CloudsHandler - starting periodic upload for cloud1
+2016-01-08 17:02:09,518 Timer-7 TRACE cloudsafe.CloudsHandler - starting periodic upload for cloud3
+2016-01-08 17:02:12,522 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Local Files DB: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 17:02:12,522 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Files DB on cloud: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 17:02:12,537 Timer-8 TRACE cloudsafe.WatchDir - ExecuteUpdate Called
+2016-01-08 17:02:17,539 Timer-8 TRACE cloudsafe.WatchDir - ExecuteSync Called
+2016-01-08 17:02:17,539 Timer-8 TRACE cloudsafe.VaultClient - Starting Sync
+2016-01-08 17:02:22,179 Timer-1 TRACE cloudsafe.CloudsHandler - starting periodic upload for cloud1
+2016-01-08 17:02:22,179 Timer-0 TRACE cloudsafe.CloudsHandler - starting periodic upload for cloud0
+2016-01-08 17:02:22,197 Timer-3 TRACE cloudsafe.CloudsHandler - starting periodic upload for cloud3
+2016-01-08 17:02:22,197 Timer-2 TRACE cloudsafe.CloudsHandler - starting periodic upload for cloud2
+2016-01-08 17:02:23,576 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Local Files DB: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 17:02:23,576 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Files DB on cloud: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 17:02:23,588 Timer-8 TRACE cloudsafe.WatchDir - ExecuteUpdate Called
+2016-01-08 17:02:28,589 Timer-8 TRACE cloudsafe.WatchDir - ExecuteSync Called
+2016-01-08 17:02:28,589 Timer-8 TRACE cloudsafe.VaultClient - Starting Sync
+2016-01-08 17:02:36,301 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Local Files DB: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 17:02:36,301 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Files DB on cloud: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 17:02:36,308 Timer-8 TRACE cloudsafe.WatchDir - ExecuteUpdate Called
+2016-01-08 17:02:41,311 Timer-8 TRACE cloudsafe.WatchDir - ExecuteSync Called
+2016-01-08 17:02:41,311 Timer-8 TRACE cloudsafe.VaultClient - Starting Sync
+2016-01-08 17:02:48,126 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Local Files DB: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 17:02:48,126 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Files DB on cloud: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 17:02:48,136 Timer-8 TRACE cloudsafe.WatchDir - ExecuteUpdate Called
+2016-01-08 17:02:53,146 Timer-8 TRACE cloudsafe.WatchDir - ExecuteSync Called
+2016-01-08 17:02:53,146 Timer-8 TRACE cloudsafe.VaultClient - Starting Sync
+2016-01-08 17:03:01,351 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Local Files DB: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 17:03:01,351 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Files DB on cloud: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 17:03:01,357 Timer-8 TRACE cloudsafe.WatchDir - ExecuteUpdate Called
+2016-01-08 17:03:06,367 Timer-8 TRACE cloudsafe.WatchDir - ExecuteSync Called
+2016-01-08 17:03:06,367 Timer-8 TRACE cloudsafe.VaultClient - Starting Sync
+2016-01-08 17:03:09,526 Timer-4 TRACE cloudsafe.CloudsHandler - starting periodic upload for cloud0
+2016-01-08 17:03:09,526 Timer-6 TRACE cloudsafe.CloudsHandler - starting periodic upload for cloud2
+2016-01-08 17:03:09,526 Timer-7 TRACE cloudsafe.CloudsHandler - starting periodic upload for cloud3
+2016-01-08 17:03:09,526 Timer-5 TRACE cloudsafe.CloudsHandler - starting periodic upload for cloud1
+2016-01-08 17:03:11,888 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Local Files DB: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 17:03:11,888 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Files DB on cloud: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 17:03:11,893 Timer-8 TRACE cloudsafe.WatchDir - ExecuteUpdate Called
+2016-01-08 17:03:16,894 Timer-8 TRACE cloudsafe.WatchDir - ExecuteSync Called
+2016-01-08 17:03:16,894 Timer-8 TRACE cloudsafe.VaultClient - Starting Sync
+2016-01-08 17:03:19,896 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Local Files DB: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 17:03:19,896 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Files DB on cloud: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 17:03:21,909 Timer-8 TRACE cloudsafe.WatchDir - ExecuteUpdate Called
+2016-01-08 17:03:22,193 Timer-1 TRACE cloudsafe.CloudsHandler - starting periodic upload for cloud1
+2016-01-08 17:03:22,193 Timer-0 TRACE cloudsafe.CloudsHandler - starting periodic upload for cloud0
+2016-01-08 17:03:22,208 Timer-3 TRACE cloudsafe.CloudsHandler - starting periodic upload for cloud3
+2016-01-08 17:03:22,208 Timer-2 TRACE cloudsafe.CloudsHandler - starting periodic upload for cloud2
+2016-01-08 17:03:26,911 Timer-8 TRACE cloudsafe.WatchDir - ExecuteSync Called
+2016-01-08 17:03:26,911 Timer-8 TRACE cloudsafe.VaultClient - Starting Sync
+2016-01-08 17:03:29,226 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Local Files DB: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 17:03:29,226 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Files DB on cloud: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 17:03:31,926 Timer-8 TRACE cloudsafe.WatchDir - ExecuteUpdate Called
+2016-01-08 17:03:36,930 Timer-8 TRACE cloudsafe.WatchDir - ExecuteSync Called
+2016-01-08 17:03:36,930 Timer-8 TRACE cloudsafe.VaultClient - Starting Sync
+2016-01-08 17:03:39,167 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Local Files DB: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 17:03:39,167 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Files DB on cloud: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 17:03:41,942 Timer-8 TRACE cloudsafe.WatchDir - ExecuteUpdate Called
+2016-01-08 17:03:46,944 Timer-8 TRACE cloudsafe.WatchDir - ExecuteSync Called
+2016-01-08 17:03:46,944 Timer-8 TRACE cloudsafe.VaultClient - Starting Sync
+2016-01-08 17:03:49,073 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Local Files DB: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 17:03:49,073 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Files DB on cloud: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 17:03:51,953 Timer-8 TRACE cloudsafe.WatchDir - ExecuteUpdate Called
+2016-01-08 17:03:56,955 Timer-8 TRACE cloudsafe.WatchDir - ExecuteSync Called
+2016-01-08 17:03:56,955 Timer-8 TRACE cloudsafe.VaultClient - Starting Sync
+2016-01-08 17:04:03,671 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Local Files DB: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 17:04:03,687 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Files DB on cloud: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 17:04:03,687 Timer-8 TRACE cloudsafe.WatchDir - ExecuteUpdate Called
+2016-01-08 17:04:08,702 Timer-8 TRACE cloudsafe.WatchDir - ExecuteSync Called
+2016-01-08 17:04:08,702 Timer-8 TRACE cloudsafe.VaultClient - Starting Sync
+2016-01-08 17:04:09,533 Timer-7 TRACE cloudsafe.CloudsHandler - starting periodic upload for cloud3
+2016-01-08 17:04:09,533 Timer-6 TRACE cloudsafe.CloudsHandler - starting periodic upload for cloud2
+2016-01-08 17:04:09,533 Timer-5 TRACE cloudsafe.CloudsHandler - starting periodic upload for cloud1
+2016-01-08 17:04:09,533 Timer-4 TRACE cloudsafe.CloudsHandler - starting periodic upload for cloud0
+2016-01-08 17:04:13,727 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Local Files DB: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 17:04:13,727 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Files DB on cloud: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 17:04:13,727 Timer-8 TRACE cloudsafe.WatchDir - ExecuteUpdate Called
+2016-01-08 17:04:18,730 Timer-8 TRACE cloudsafe.WatchDir - ExecuteSync Called
+2016-01-08 17:04:18,730 Timer-8 TRACE cloudsafe.VaultClient - Starting Sync
+2016-01-08 17:04:22,198 Timer-0 TRACE cloudsafe.CloudsHandler - starting periodic upload for cloud0
+2016-01-08 17:04:22,198 Timer-1 TRACE cloudsafe.CloudsHandler - starting periodic upload for cloud1
+2016-01-08 17:04:22,216 Timer-3 TRACE cloudsafe.CloudsHandler - starting periodic upload for cloud3
+2016-01-08 17:04:22,216 Timer-2 TRACE cloudsafe.CloudsHandler - starting periodic upload for cloud2
+2016-01-08 17:04:22,607 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Local Files DB: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 17:04:22,607 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Files DB on cloud: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 17:04:23,732 Timer-8 TRACE cloudsafe.WatchDir - ExecuteUpdate Called
+2016-01-08 17:04:28,736 Timer-8 TRACE cloudsafe.WatchDir - ExecuteSync Called
+2016-01-08 17:04:28,736 Timer-8 TRACE cloudsafe.VaultClient - Starting Sync
+2016-01-08 17:04:31,212 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Local Files DB: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 17:04:31,212 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Files DB on cloud: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 17:04:33,738 Timer-8 TRACE cloudsafe.WatchDir - ExecuteUpdate Called
+2016-01-08 17:04:38,747 Timer-8 TRACE cloudsafe.WatchDir - ExecuteSync Called
+2016-01-08 17:04:38,747 Timer-8 TRACE cloudsafe.VaultClient - Starting Sync
+2016-01-08 17:04:40,989 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Local Files DB: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 17:04:40,989 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Files DB on cloud: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 17:04:43,760 Timer-8 TRACE cloudsafe.WatchDir - ExecuteUpdate Called
+2016-01-08 17:04:48,763 Timer-8 TRACE cloudsafe.WatchDir - ExecuteSync Called
+2016-01-08 17:04:48,763 Timer-8 TRACE cloudsafe.VaultClient - Starting Sync
+2016-01-08 17:04:51,016 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Local Files DB: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 17:04:51,016 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Files DB on cloud: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 17:04:53,779 Timer-8 TRACE cloudsafe.WatchDir - ExecuteUpdate Called
+2016-01-08 17:04:58,781 Timer-8 TRACE cloudsafe.WatchDir - ExecuteSync Called
+2016-01-08 17:04:58,781 Timer-8 TRACE cloudsafe.VaultClient - Starting Sync
+2016-01-08 17:05:01,009 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Local Files DB: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 17:05:01,009 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Files DB on cloud: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 17:05:03,784 Timer-8 TRACE cloudsafe.WatchDir - ExecuteUpdate Called
+2016-01-08 17:05:08,792 Timer-8 TRACE cloudsafe.WatchDir - ExecuteSync Called
+2016-01-08 17:05:08,792 Timer-8 TRACE cloudsafe.VaultClient - Starting Sync
+2016-01-08 17:05:09,547 Timer-4 TRACE cloudsafe.CloudsHandler - starting periodic upload for cloud0
+2016-01-08 17:05:09,547 Timer-7 TRACE cloudsafe.CloudsHandler - starting periodic upload for cloud3
+2016-01-08 17:05:09,547 Timer-6 TRACE cloudsafe.CloudsHandler - starting periodic upload for cloud2
+2016-01-08 17:05:09,547 Timer-5 TRACE cloudsafe.CloudsHandler - starting periodic upload for cloud1
+2016-01-08 17:05:10,782 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Local Files DB: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 17:05:10,782 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Files DB on cloud: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 17:05:13,807 Timer-8 TRACE cloudsafe.WatchDir - ExecuteUpdate Called
+2016-01-08 17:05:18,822 Timer-8 TRACE cloudsafe.WatchDir - ExecuteSync Called
+2016-01-08 17:05:18,853 Timer-8 TRACE cloudsafe.VaultClient - Starting Sync
+2016-01-08 17:05:20,704 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Local Files DB: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 17:05:20,704 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Files DB on cloud: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 17:05:22,211 Timer-0 TRACE cloudsafe.CloudsHandler - starting periodic upload for cloud0
+2016-01-08 17:05:22,211 Timer-1 TRACE cloudsafe.CloudsHandler - starting periodic upload for cloud1
+2016-01-08 17:05:22,229 Timer-2 TRACE cloudsafe.CloudsHandler - starting periodic upload for cloud2
+2016-01-08 17:05:22,229 Timer-3 TRACE cloudsafe.CloudsHandler - starting periodic upload for cloud3
+2016-01-08 17:05:23,831 Timer-8 TRACE cloudsafe.WatchDir - ExecuteUpdate Called
+2016-01-08 17:05:28,844 Timer-8 TRACE cloudsafe.WatchDir - ExecuteSync Called
+2016-01-08 17:05:28,844 Timer-8 TRACE cloudsafe.VaultClient - Starting Sync
+2016-01-08 17:05:31,072 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Local Files DB: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 17:05:31,072 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Files DB on cloud: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 17:05:33,850 Timer-8 TRACE cloudsafe.WatchDir - ExecuteUpdate Called
+2016-01-08 17:05:38,853 Timer-8 TRACE cloudsafe.WatchDir - ExecuteSync Called
+2016-01-08 17:05:38,853 Timer-8 TRACE cloudsafe.VaultClient - Starting Sync
+2016-01-08 17:05:40,816 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Local Files DB: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 17:05:40,816 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Files DB on cloud: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 17:05:43,864 Timer-8 TRACE cloudsafe.WatchDir - ExecuteUpdate Called
+2016-01-08 17:05:48,866 Timer-8 TRACE cloudsafe.WatchDir - ExecuteSync Called
+2016-01-08 17:05:48,866 Timer-8 TRACE cloudsafe.VaultClient - Starting Sync
+2016-01-08 17:05:51,306 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Local Files DB: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 17:05:51,306 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Files DB on cloud: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 17:05:53,870 Timer-8 TRACE cloudsafe.WatchDir - ExecuteUpdate Called
+2016-01-08 17:05:58,874 Timer-8 TRACE cloudsafe.WatchDir - ExecuteSync Called
+2016-01-08 17:05:58,874 Timer-8 TRACE cloudsafe.VaultClient - Starting Sync
+2016-01-08 17:06:01,002 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Local Files DB: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 17:06:01,002 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Files DB on cloud: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 17:06:03,875 Timer-8 TRACE cloudsafe.WatchDir - ExecuteUpdate Called
+2016-01-08 17:06:08,876 Timer-8 TRACE cloudsafe.WatchDir - ExecuteSync Called
+2016-01-08 17:06:08,876 Timer-8 TRACE cloudsafe.VaultClient - Starting Sync
+2016-01-08 17:06:09,550 Timer-7 TRACE cloudsafe.CloudsHandler - starting periodic upload for cloud3
+2016-01-08 17:06:09,550 Timer-6 TRACE cloudsafe.CloudsHandler - starting periodic upload for cloud2
+2016-01-08 17:06:09,550 Timer-4 TRACE cloudsafe.CloudsHandler - starting periodic upload for cloud0
+2016-01-08 17:06:09,550 Timer-5 TRACE cloudsafe.CloudsHandler - starting periodic upload for cloud1
+2016-01-08 17:06:11,099 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Local Files DB: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 17:06:11,099 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Files DB on cloud: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 17:06:13,889 Timer-8 TRACE cloudsafe.WatchDir - ExecuteUpdate Called
+2016-01-08 17:06:18,892 Timer-8 TRACE cloudsafe.WatchDir - ExecuteSync Called
+2016-01-08 17:06:18,892 Timer-8 TRACE cloudsafe.VaultClient - Starting Sync
+2016-01-08 17:06:21,004 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Local Files DB: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 17:06:21,004 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Files DB on cloud: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 17:06:22,214 Timer-0 TRACE cloudsafe.CloudsHandler - starting periodic upload for cloud0
+2016-01-08 17:06:22,214 Timer-1 TRACE cloudsafe.CloudsHandler - starting periodic upload for cloud1
+2016-01-08 17:06:22,233 Timer-2 TRACE cloudsafe.CloudsHandler - starting periodic upload for cloud2
+2016-01-08 17:06:22,233 Timer-3 TRACE cloudsafe.CloudsHandler - starting periodic upload for cloud3
+2016-01-08 17:06:23,908 Timer-8 TRACE cloudsafe.WatchDir - ExecuteUpdate Called
+2016-01-08 17:06:28,911 Timer-8 TRACE cloudsafe.WatchDir - ExecuteSync Called
+2016-01-08 17:06:28,911 Timer-8 TRACE cloudsafe.VaultClient - Starting Sync
+2016-01-08 17:06:30,883 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Local Files DB: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 17:06:30,883 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Files DB on cloud: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 17:06:33,911 Timer-8 TRACE cloudsafe.WatchDir - ExecuteUpdate Called
+2016-01-08 17:06:38,913 Timer-8 TRACE cloudsafe.WatchDir - ExecuteSync Called
+2016-01-08 17:06:38,913 Timer-8 TRACE cloudsafe.VaultClient - Starting Sync
+2016-01-08 17:06:40,930 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Local Files DB: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 17:06:40,930 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Files DB on cloud: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 17:06:43,924 Timer-8 TRACE cloudsafe.WatchDir - ExecuteUpdate Called
+2016-01-08 17:06:48,927 Timer-8 TRACE cloudsafe.WatchDir - ExecuteSync Called
+2016-01-08 17:06:48,927 Timer-8 TRACE cloudsafe.VaultClient - Starting Sync
+2016-01-08 17:06:50,867 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Local Files DB: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 17:06:50,867 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Files DB on cloud: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 17:06:53,937 Timer-8 TRACE cloudsafe.WatchDir - ExecuteUpdate Called
+2016-01-08 17:06:58,944 Timer-8 TRACE cloudsafe.WatchDir - ExecuteSync Called
+2016-01-08 17:06:58,944 Timer-8 TRACE cloudsafe.VaultClient - Starting Sync
+2016-01-08 17:07:00,902 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Local Files DB: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 17:07:00,902 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Files DB on cloud: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 17:07:03,946 Timer-8 TRACE cloudsafe.WatchDir - ExecuteUpdate Called
+2016-01-08 17:07:08,948 Timer-8 TRACE cloudsafe.WatchDir - ExecuteSync Called
+2016-01-08 17:07:08,948 Timer-8 TRACE cloudsafe.VaultClient - Starting Sync
+2016-01-08 17:07:09,559 Timer-7 TRACE cloudsafe.CloudsHandler - starting periodic upload for cloud3
+2016-01-08 17:07:09,559 Timer-6 TRACE cloudsafe.CloudsHandler - starting periodic upload for cloud2
+2016-01-08 17:07:09,559 Timer-4 TRACE cloudsafe.CloudsHandler - starting periodic upload for cloud0
+2016-01-08 17:07:09,559 Timer-5 TRACE cloudsafe.CloudsHandler - starting periodic upload for cloud1
+2016-01-08 17:07:11,168 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Local Files DB: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 17:07:11,184 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Files DB on cloud: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 17:07:13,961 Timer-8 TRACE cloudsafe.WatchDir - ExecuteUpdate Called
+2016-01-08 17:07:18,962 Timer-8 TRACE cloudsafe.WatchDir - ExecuteSync Called
+2016-01-08 17:07:18,962 Timer-8 TRACE cloudsafe.VaultClient - Starting Sync
+2016-01-08 17:07:21,266 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Local Files DB: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 17:07:21,266 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Files DB on cloud: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 17:07:22,225 Timer-1 TRACE cloudsafe.CloudsHandler - starting periodic upload for cloud1
+2016-01-08 17:07:22,225 Timer-0 TRACE cloudsafe.CloudsHandler - starting periodic upload for cloud0
+2016-01-08 17:07:22,241 Timer-2 TRACE cloudsafe.CloudsHandler - starting periodic upload for cloud2
+2016-01-08 17:07:22,241 Timer-3 TRACE cloudsafe.CloudsHandler - starting periodic upload for cloud3
+2016-01-08 17:07:23,975 Timer-8 TRACE cloudsafe.WatchDir - ExecuteUpdate Called
+2016-01-08 17:07:28,978 Timer-8 TRACE cloudsafe.WatchDir - ExecuteSync Called
+2016-01-08 17:07:28,978 Timer-8 TRACE cloudsafe.VaultClient - Starting Sync
+2016-01-08 17:07:34,838 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Local Files DB: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 17:07:34,838 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Files DB on cloud: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 17:07:34,854 Timer-8 TRACE cloudsafe.WatchDir - ExecuteUpdate Called
+2016-01-08 17:07:39,855 Timer-8 TRACE cloudsafe.WatchDir - ExecuteSync Called
+2016-01-08 17:07:39,855 Timer-8 TRACE cloudsafe.VaultClient - Starting Sync
+2016-01-08 17:07:43,077 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Local Files DB: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 17:07:43,077 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Files DB on cloud: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 17:07:44,859 Timer-8 TRACE cloudsafe.WatchDir - ExecuteUpdate Called
+2016-01-08 17:07:49,863 Timer-8 TRACE cloudsafe.WatchDir - ExecuteSync Called
+2016-01-08 17:07:49,863 Timer-8 TRACE cloudsafe.VaultClient - Starting Sync
+2016-01-08 17:07:54,045 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Local Files DB: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 17:07:54,045 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Files DB on cloud: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 17:07:54,865 Timer-8 TRACE cloudsafe.WatchDir - ExecuteUpdate Called
+2016-01-08 17:07:59,871 Timer-8 TRACE cloudsafe.WatchDir - ExecuteSync Called
+2016-01-08 17:07:59,871 Timer-8 TRACE cloudsafe.VaultClient - Starting Sync
+2016-01-08 17:08:07,089 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Local Files DB: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 17:08:07,089 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Files DB on cloud: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 17:08:07,103 Timer-8 TRACE cloudsafe.WatchDir - ExecuteUpdate Called
+2016-01-08 17:08:09,573 Timer-6 TRACE cloudsafe.CloudsHandler - starting periodic upload for cloud2
+2016-01-08 17:08:09,573 Timer-7 TRACE cloudsafe.CloudsHandler - starting periodic upload for cloud3
+2016-01-08 17:08:09,573 Timer-5 TRACE cloudsafe.CloudsHandler - starting periodic upload for cloud1
+2016-01-08 17:08:09,573 Timer-4 TRACE cloudsafe.CloudsHandler - starting periodic upload for cloud0
+2016-01-08 17:08:12,108 Timer-8 TRACE cloudsafe.WatchDir - ExecuteSync Called
+2016-01-08 17:08:12,108 Timer-8 TRACE cloudsafe.VaultClient - Starting Sync
+2016-01-08 17:08:18,959 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Local Files DB: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 17:08:18,959 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Files DB on cloud: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 17:08:18,972 Timer-8 TRACE cloudsafe.WatchDir - ExecuteUpdate Called
+2016-01-08 17:08:22,239 Timer-0 TRACE cloudsafe.CloudsHandler - starting periodic upload for cloud0
+2016-01-08 17:08:22,239 Timer-1 TRACE cloudsafe.CloudsHandler - starting periodic upload for cloud1
+2016-01-08 17:08:22,241 Timer-3 TRACE cloudsafe.CloudsHandler - starting periodic upload for cloud3
+2016-01-08 17:08:22,241 Timer-2 TRACE cloudsafe.CloudsHandler - starting periodic upload for cloud2
+2016-01-08 17:08:23,976 Timer-8 TRACE cloudsafe.WatchDir - ExecuteSync Called
+2016-01-08 17:08:23,976 Timer-8 TRACE cloudsafe.VaultClient - Starting Sync
+2016-01-08 17:08:28,077 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Local Files DB: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 17:08:28,077 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Files DB on cloud: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 17:08:28,990 Timer-8 TRACE cloudsafe.WatchDir - ExecuteUpdate Called
+2016-01-08 17:08:33,991 Timer-8 TRACE cloudsafe.WatchDir - ExecuteSync Called
+2016-01-08 17:08:33,991 Timer-8 TRACE cloudsafe.VaultClient - Starting Sync
+2016-01-08 17:08:39,511 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Local Files DB: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 17:08:39,511 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Files DB on cloud: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 17:08:39,511 Timer-8 TRACE cloudsafe.WatchDir - ExecuteUpdate Called
+2016-01-08 17:08:44,525 Timer-8 TRACE cloudsafe.WatchDir - ExecuteSync Called
+2016-01-08 17:08:44,525 Timer-8 TRACE cloudsafe.VaultClient - Starting Sync
+2016-01-08 17:08:50,932 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Local Files DB: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 17:08:50,932 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Files DB on cloud: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 17:08:50,932 Timer-8 TRACE cloudsafe.WatchDir - ExecuteUpdate Called
+2016-01-08 17:08:55,945 Timer-8 TRACE cloudsafe.WatchDir - ExecuteSync Called
+2016-01-08 17:08:55,945 Timer-8 TRACE cloudsafe.VaultClient - Starting Sync
+2016-01-08 17:09:01,095 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Local Files DB: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 17:09:01,095 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Files DB on cloud: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 17:09:01,103 Timer-8 TRACE cloudsafe.WatchDir - ExecuteUpdate Called
+2016-01-08 17:09:06,103 Timer-8 TRACE cloudsafe.WatchDir - ExecuteSync Called
+2016-01-08 17:09:06,103 Timer-8 TRACE cloudsafe.VaultClient - Starting Sync
+2016-01-08 17:09:09,581 Timer-5 TRACE cloudsafe.CloudsHandler - starting periodic upload for cloud1
+2016-01-08 17:09:09,581 Timer-7 TRACE cloudsafe.CloudsHandler - starting periodic upload for cloud3
+2016-01-08 17:09:09,581 Timer-6 TRACE cloudsafe.CloudsHandler - starting periodic upload for cloud2
+2016-01-08 17:09:09,581 Timer-4 TRACE cloudsafe.CloudsHandler - starting periodic upload for cloud0
+2016-01-08 17:09:11,553 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Local Files DB: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 17:09:11,553 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Files DB on cloud: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 17:09:11,557 Timer-8 TRACE cloudsafe.WatchDir - ExecuteUpdate Called
+2016-01-08 17:09:16,559 Timer-8 TRACE cloudsafe.WatchDir - ExecuteSync Called
+2016-01-08 17:09:16,559 Timer-8 TRACE cloudsafe.VaultClient - Starting Sync
+2016-01-08 17:09:22,248 Timer-0 TRACE cloudsafe.CloudsHandler - starting periodic upload for cloud0
+2016-01-08 17:09:22,248 Timer-3 TRACE cloudsafe.CloudsHandler - starting periodic upload for cloud3
+2016-01-08 17:09:22,248 Timer-1 TRACE cloudsafe.CloudsHandler - starting periodic upload for cloud1
+2016-01-08 17:09:22,248 Timer-2 TRACE cloudsafe.CloudsHandler - starting periodic upload for cloud2
+2016-01-08 17:09:22,891 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Local Files DB: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 17:09:22,891 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Files DB on cloud: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 17:09:22,891 Timer-8 TRACE cloudsafe.WatchDir - ExecuteUpdate Called
+2016-01-08 17:09:27,903 Timer-8 TRACE cloudsafe.WatchDir - ExecuteSync Called
+2016-01-08 17:09:27,903 Timer-8 TRACE cloudsafe.VaultClient - Starting Sync
+2016-01-08 17:09:33,930 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Local Files DB: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 17:09:33,930 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Files DB on cloud: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 17:09:33,930 Timer-8 TRACE cloudsafe.WatchDir - ExecuteUpdate Called
+2016-01-08 17:09:38,944 Timer-8 TRACE cloudsafe.WatchDir - ExecuteSync Called
+2016-01-08 17:09:38,944 Timer-8 TRACE cloudsafe.VaultClient - Starting Sync
+2016-01-08 17:09:45,510 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Local Files DB: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 17:09:45,510 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Files DB on cloud: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 17:09:45,526 Timer-8 TRACE cloudsafe.WatchDir - ExecuteUpdate Called
+2016-01-08 17:09:50,532 Timer-8 TRACE cloudsafe.WatchDir - ExecuteSync Called
+2016-01-08 17:09:50,532 Timer-8 TRACE cloudsafe.VaultClient - Starting Sync
+2016-01-08 17:09:56,471 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Local Files DB: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 17:09:56,471 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Files DB on cloud: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 17:09:56,471 Timer-8 TRACE cloudsafe.WatchDir - ExecuteUpdate Called
+2016-01-08 17:10:01,478 Timer-8 TRACE cloudsafe.WatchDir - ExecuteSync Called
+2016-01-08 17:10:01,478 Timer-8 TRACE cloudsafe.VaultClient - Starting Sync
+2016-01-08 17:10:09,128 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Local Files DB: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 17:10:09,128 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Files DB on cloud: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 17:10:09,134 Timer-8 TRACE cloudsafe.WatchDir - ExecuteUpdate Called
+2016-01-08 17:10:09,589 Timer-5 TRACE cloudsafe.CloudsHandler - starting periodic upload for cloud1
+2016-01-08 17:10:09,589 Timer-4 TRACE cloudsafe.CloudsHandler - starting periodic upload for cloud0
+2016-01-08 17:10:09,589 Timer-6 TRACE cloudsafe.CloudsHandler - starting periodic upload for cloud2
+2016-01-08 17:10:09,589 Timer-7 TRACE cloudsafe.CloudsHandler - starting periodic upload for cloud3
+2016-01-08 17:10:14,136 Timer-8 TRACE cloudsafe.WatchDir - ExecuteSync Called
+2016-01-08 17:10:14,136 Timer-8 TRACE cloudsafe.VaultClient - Starting Sync
+2016-01-08 17:10:17,248 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Local Files DB: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 17:10:17,248 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Files DB on cloud: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 17:10:19,149 Timer-8 TRACE cloudsafe.WatchDir - ExecuteUpdate Called
+2016-01-08 17:10:22,252 Timer-0 TRACE cloudsafe.CloudsHandler - starting periodic upload for cloud0
+2016-01-08 17:10:22,252 Timer-2 TRACE cloudsafe.CloudsHandler - starting periodic upload for cloud2
+2016-01-08 17:10:22,252 Timer-3 TRACE cloudsafe.CloudsHandler - starting periodic upload for cloud3
+2016-01-08 17:10:22,252 Timer-1 TRACE cloudsafe.CloudsHandler - starting periodic upload for cloud1
+2016-01-08 17:10:24,161 Timer-8 TRACE cloudsafe.WatchDir - ExecuteSync Called
+2016-01-08 17:10:24,161 Timer-8 TRACE cloudsafe.VaultClient - Starting Sync
+2016-01-08 17:10:29,725 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Local Files DB: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 17:10:29,725 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Files DB on cloud: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 17:10:29,725 Timer-8 TRACE cloudsafe.WatchDir - ExecuteUpdate Called
+2016-01-08 17:10:34,728 Timer-8 TRACE cloudsafe.WatchDir - ExecuteSync Called
+2016-01-08 17:10:34,728 Timer-8 TRACE cloudsafe.VaultClient - Starting Sync
+2016-01-08 17:10:41,341 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Local Files DB: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 17:10:41,341 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Files DB on cloud: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 17:10:41,355 Timer-8 TRACE cloudsafe.WatchDir - ExecuteUpdate Called
+2016-01-08 17:10:46,357 Timer-8 TRACE cloudsafe.WatchDir - ExecuteSync Called
+2016-01-08 17:10:46,357 Timer-8 TRACE cloudsafe.VaultClient - Starting Sync
+2016-01-08 17:10:52,720 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Local Files DB: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 17:10:52,720 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Files DB on cloud: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 17:10:52,720 Timer-8 TRACE cloudsafe.WatchDir - ExecuteUpdate Called
+2016-01-08 17:10:57,726 Timer-8 TRACE cloudsafe.WatchDir - ExecuteSync Called
+2016-01-08 17:10:57,726 Timer-8 TRACE cloudsafe.VaultClient - Starting Sync
+2016-01-08 17:11:02,907 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Local Files DB: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 17:11:02,907 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Files DB on cloud: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 17:11:02,907 Timer-8 TRACE cloudsafe.WatchDir - ExecuteUpdate Called
+2016-01-08 17:11:07,917 Timer-8 TRACE cloudsafe.WatchDir - ExecuteSync Called
+2016-01-08 17:11:07,917 Timer-8 TRACE cloudsafe.VaultClient - Starting Sync
+2016-01-08 17:11:09,601 Timer-4 TRACE cloudsafe.CloudsHandler - starting periodic upload for cloud0
+2016-01-08 17:11:09,601 Timer-6 TRACE cloudsafe.CloudsHandler - starting periodic upload for cloud2
+2016-01-08 17:11:09,601 Timer-7 TRACE cloudsafe.CloudsHandler - starting periodic upload for cloud3
+2016-01-08 17:11:09,601 Timer-5 TRACE cloudsafe.CloudsHandler - starting periodic upload for cloud1
+2016-01-08 17:11:11,480 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Local Files DB: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 17:11:11,480 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Files DB on cloud: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 17:11:12,923 Timer-8 TRACE cloudsafe.WatchDir - ExecuteUpdate Called
+2016-01-08 17:11:17,927 Timer-8 TRACE cloudsafe.WatchDir - ExecuteSync Called
+2016-01-08 17:11:17,927 Timer-8 TRACE cloudsafe.VaultClient - Starting Sync
+2016-01-08 17:11:22,258 Timer-2 TRACE cloudsafe.CloudsHandler - starting periodic upload for cloud2
+2016-01-08 17:11:22,258 Timer-1 TRACE cloudsafe.CloudsHandler - starting periodic upload for cloud1
+2016-01-08 17:11:22,258 Timer-3 TRACE cloudsafe.CloudsHandler - starting periodic upload for cloud3
+2016-01-08 17:11:22,258 Timer-0 TRACE cloudsafe.CloudsHandler - starting periodic upload for cloud0
+2016-01-08 17:11:23,171 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Local Files DB: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 17:11:23,171 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Files DB on cloud: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 17:11:23,171 Timer-8 TRACE cloudsafe.WatchDir - ExecuteUpdate Called
+2016-01-08 17:11:28,171 Timer-8 TRACE cloudsafe.WatchDir - ExecuteSync Called
+2016-01-08 17:11:28,171 Timer-8 TRACE cloudsafe.VaultClient - Starting Sync
+2016-01-08 17:11:35,139 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Local Files DB: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 17:11:35,139 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Files DB on cloud: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 17:11:35,153 Timer-8 TRACE cloudsafe.WatchDir - ExecuteUpdate Called
+2016-01-08 17:11:40,155 Timer-8 TRACE cloudsafe.WatchDir - ExecuteSync Called
+2016-01-08 17:11:40,155 Timer-8 TRACE cloudsafe.VaultClient - Starting Sync
+2016-01-08 17:11:47,251 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Local Files DB: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 17:11:47,251 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Files DB on cloud: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 17:11:47,251 Timer-8 TRACE cloudsafe.WatchDir - ExecuteUpdate Called
+2016-01-08 17:11:52,261 Timer-8 TRACE cloudsafe.WatchDir - ExecuteSync Called
+2016-01-08 17:11:52,261 Timer-8 TRACE cloudsafe.VaultClient - Starting Sync
+2016-01-08 17:12:00,635 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Local Files DB: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 17:12:00,635 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Files DB on cloud: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 17:12:00,635 Timer-8 TRACE cloudsafe.WatchDir - ExecuteUpdate Called
+2016-01-08 17:12:05,643 Timer-8 TRACE cloudsafe.WatchDir - ExecuteSync Called
+2016-01-08 17:12:05,643 Timer-8 TRACE cloudsafe.VaultClient - Starting Sync
+2016-01-08 17:12:07,444 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Local Files DB: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 17:12:07,444 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Files DB on cloud: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 17:12:09,609 Timer-6 TRACE cloudsafe.CloudsHandler - starting periodic upload for cloud2
+2016-01-08 17:12:09,609 Timer-7 TRACE cloudsafe.CloudsHandler - starting periodic upload for cloud3
+2016-01-08 17:12:09,609 Timer-4 TRACE cloudsafe.CloudsHandler - starting periodic upload for cloud0
+2016-01-08 17:12:09,609 Timer-5 TRACE cloudsafe.CloudsHandler - starting periodic upload for cloud1
+2016-01-08 17:12:10,646 Timer-8 TRACE cloudsafe.WatchDir - ExecuteUpdate Called
+2016-01-08 17:12:15,648 Timer-8 TRACE cloudsafe.WatchDir - ExecuteSync Called
+2016-01-08 17:12:15,648 Timer-8 TRACE cloudsafe.VaultClient - Starting Sync
+2016-01-08 17:12:19,761 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Local Files DB: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 17:12:19,761 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Files DB on cloud: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 17:12:20,663 Timer-8 TRACE cloudsafe.WatchDir - ExecuteUpdate Called
+2016-01-08 17:12:22,272 Timer-0 TRACE cloudsafe.CloudsHandler - starting periodic upload for cloud0
+2016-01-08 17:12:22,272 Timer-3 TRACE cloudsafe.CloudsHandler - starting periodic upload for cloud3
+2016-01-08 17:12:22,272 Timer-1 TRACE cloudsafe.CloudsHandler - starting periodic upload for cloud1
+2016-01-08 17:12:22,272 Timer-2 TRACE cloudsafe.CloudsHandler - starting periodic upload for cloud2
+2016-01-08 17:12:25,675 Timer-8 TRACE cloudsafe.WatchDir - ExecuteSync Called
+2016-01-08 17:12:25,675 Timer-8 TRACE cloudsafe.VaultClient - Starting Sync
+2016-01-08 17:12:30,040 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Local Files DB: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 17:12:30,040 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Files DB on cloud: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 17:12:30,681 Timer-8 TRACE cloudsafe.WatchDir - ExecuteUpdate Called
+2016-01-08 17:12:35,696 Timer-8 TRACE cloudsafe.WatchDir - ExecuteSync Called
+2016-01-08 17:12:35,696 Timer-8 TRACE cloudsafe.VaultClient - Starting Sync
+2016-01-08 17:12:41,339 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Local Files DB: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 17:12:41,339 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Files DB on cloud: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 17:12:41,351 Timer-8 TRACE cloudsafe.WatchDir - ExecuteUpdate Called
+2016-01-08 17:12:46,355 Timer-8 TRACE cloudsafe.WatchDir - ExecuteSync Called
+2016-01-08 17:12:46,355 Timer-8 TRACE cloudsafe.VaultClient - Starting Sync
+2016-01-08 17:12:51,916 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Local Files DB: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 17:12:51,916 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Files DB on cloud: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 17:12:51,916 Timer-8 TRACE cloudsafe.WatchDir - ExecuteUpdate Called
+2016-01-08 17:12:56,931 Timer-8 TRACE cloudsafe.WatchDir - ExecuteSync Called
+2016-01-08 17:12:56,931 Timer-8 TRACE cloudsafe.VaultClient - Starting Sync
+2016-01-08 17:13:03,748 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Local Files DB: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 17:13:03,748 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Files DB on cloud: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 17:13:03,760 Timer-8 TRACE cloudsafe.WatchDir - ExecuteUpdate Called
+2016-01-08 17:13:08,762 Timer-8 TRACE cloudsafe.WatchDir - ExecuteSync Called
+2016-01-08 17:13:08,762 Timer-8 TRACE cloudsafe.VaultClient - Starting Sync
+2016-01-08 17:13:09,611 Timer-6 TRACE cloudsafe.CloudsHandler - starting periodic upload for cloud2
+2016-01-08 17:13:09,611 Timer-7 TRACE cloudsafe.CloudsHandler - starting periodic upload for cloud3
+2016-01-08 17:13:09,611 Timer-5 TRACE cloudsafe.CloudsHandler - starting periodic upload for cloud1
+2016-01-08 17:13:09,611 Timer-4 TRACE cloudsafe.CloudsHandler - starting periodic upload for cloud0
+2016-01-08 17:13:13,374 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Local Files DB: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 17:13:13,390 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Files DB on cloud: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 17:13:13,767 Timer-8 TRACE cloudsafe.WatchDir - ExecuteUpdate Called
+2016-01-08 17:13:18,769 Timer-8 TRACE cloudsafe.WatchDir - ExecuteSync Called
+2016-01-08 17:13:18,769 Timer-8 TRACE cloudsafe.VaultClient - Starting Sync
+2016-01-08 17:13:22,275 Timer-0 TRACE cloudsafe.CloudsHandler - starting periodic upload for cloud0
+2016-01-08 17:13:22,275 Timer-3 TRACE cloudsafe.CloudsHandler - starting periodic upload for cloud3
+2016-01-08 17:13:22,275 Timer-1 TRACE cloudsafe.CloudsHandler - starting periodic upload for cloud1
+2016-01-08 17:13:22,275 Timer-2 TRACE cloudsafe.CloudsHandler - starting periodic upload for cloud2
+2016-01-08 17:13:26,185 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Local Files DB: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 17:13:26,185 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Files DB on cloud: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 17:13:26,185 Timer-8 TRACE cloudsafe.WatchDir - ExecuteUpdate Called
+2016-01-08 17:13:31,185 Timer-8 TRACE cloudsafe.WatchDir - ExecuteSync Called
+2016-01-08 17:13:31,185 Timer-8 TRACE cloudsafe.VaultClient - Starting Sync
+2016-01-08 17:13:34,971 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Local Files DB: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 17:13:34,971 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Files DB on cloud: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 17:13:36,190 Timer-8 TRACE cloudsafe.WatchDir - ExecuteUpdate Called
+2016-01-08 17:13:41,192 Timer-8 TRACE cloudsafe.WatchDir - ExecuteSync Called
+2016-01-08 17:13:41,192 Timer-8 TRACE cloudsafe.VaultClient - Starting Sync
+2016-01-08 17:13:44,534 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Local Files DB: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 17:13:44,534 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Files DB on cloud: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 17:13:46,195 Timer-8 TRACE cloudsafe.WatchDir - ExecuteUpdate Called
+2016-01-08 17:13:51,197 Timer-8 TRACE cloudsafe.WatchDir - ExecuteSync Called
+2016-01-08 17:13:51,197 Timer-8 TRACE cloudsafe.VaultClient - Starting Sync
+2016-01-08 17:13:55,177 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Local Files DB: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 17:13:55,177 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Files DB on cloud: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 17:13:56,206 Timer-8 TRACE cloudsafe.WatchDir - ExecuteUpdate Called
+2016-01-08 17:14:01,218 Timer-8 TRACE cloudsafe.WatchDir - ExecuteSync Called
+2016-01-08 17:14:01,218 Timer-8 TRACE cloudsafe.VaultClient - Starting Sync
+2016-01-08 17:14:03,267 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Local Files DB: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 17:14:03,267 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Files DB on cloud: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 17:14:06,224 Timer-8 TRACE cloudsafe.WatchDir - ExecuteUpdate Called
+2016-01-08 17:14:09,617 Timer-7 TRACE cloudsafe.CloudsHandler - starting periodic upload for cloud3
+2016-01-08 17:14:09,617 Timer-4 TRACE cloudsafe.CloudsHandler - starting periodic upload for cloud0
+2016-01-08 17:14:09,617 Timer-5 TRACE cloudsafe.CloudsHandler - starting periodic upload for cloud1
+2016-01-08 17:14:09,617 Timer-6 TRACE cloudsafe.CloudsHandler - starting periodic upload for cloud2
+2016-01-08 17:14:11,228 Timer-8 TRACE cloudsafe.WatchDir - ExecuteSync Called
+2016-01-08 17:14:11,228 Timer-8 TRACE cloudsafe.VaultClient - Starting Sync
+2016-01-08 17:14:17,801 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Local Files DB: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 17:14:17,801 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Files DB on cloud: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 17:14:17,801 Timer-8 TRACE cloudsafe.WatchDir - ExecuteUpdate Called
+2016-01-08 17:14:22,283 Timer-0 TRACE cloudsafe.CloudsHandler - starting periodic upload for cloud0
+2016-01-08 17:14:22,283 Timer-3 TRACE cloudsafe.CloudsHandler - starting periodic upload for cloud3
+2016-01-08 17:14:22,283 Timer-1 TRACE cloudsafe.CloudsHandler - starting periodic upload for cloud1
+2016-01-08 17:14:22,283 Timer-2 TRACE cloudsafe.CloudsHandler - starting periodic upload for cloud2
+2016-01-08 17:14:22,804 Timer-8 TRACE cloudsafe.WatchDir - ExecuteSync Called
+2016-01-08 17:14:22,804 Timer-8 TRACE cloudsafe.VaultClient - Starting Sync
+2016-01-08 17:14:24,882 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Local Files DB: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 17:14:24,882 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Files DB on cloud: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 17:14:27,805 Timer-8 TRACE cloudsafe.WatchDir - ExecuteUpdate Called
+2016-01-08 17:14:32,811 Timer-8 TRACE cloudsafe.WatchDir - ExecuteSync Called
+2016-01-08 17:14:32,811 Timer-8 TRACE cloudsafe.VaultClient - Starting Sync
+2016-01-08 17:14:40,616 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Local Files DB: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 17:14:40,616 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Files DB on cloud: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 17:14:40,616 Timer-8 TRACE cloudsafe.WatchDir - ExecuteUpdate Called
+2016-01-08 17:14:45,629 Timer-8 TRACE cloudsafe.WatchDir - ExecuteSync Called
+2016-01-08 17:14:45,629 Timer-8 TRACE cloudsafe.VaultClient - Starting Sync
+2016-01-08 17:14:52,321 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Local Files DB: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 17:14:52,321 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Files DB on cloud: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 17:14:52,321 Timer-8 TRACE cloudsafe.WatchDir - ExecuteUpdate Called
+2016-01-08 17:14:57,328 Timer-8 TRACE cloudsafe.WatchDir - ExecuteSync Called
+2016-01-08 17:14:57,328 Timer-8 TRACE cloudsafe.VaultClient - Starting Sync
+2016-01-08 17:15:04,668 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Local Files DB: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 17:15:04,668 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Files DB on cloud: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 17:15:04,668 Timer-8 TRACE cloudsafe.WatchDir - ExecuteUpdate Called
+2016-01-08 17:15:09,618 Timer-4 TRACE cloudsafe.CloudsHandler - starting periodic upload for cloud0
+2016-01-08 17:15:09,618 Timer-5 TRACE cloudsafe.CloudsHandler - starting periodic upload for cloud1
+2016-01-08 17:15:09,618 Timer-7 TRACE cloudsafe.CloudsHandler - starting periodic upload for cloud3
+2016-01-08 17:15:09,618 Timer-6 TRACE cloudsafe.CloudsHandler - starting periodic upload for cloud2
+2016-01-08 17:15:09,669 Timer-8 TRACE cloudsafe.WatchDir - ExecuteSync Called
+2016-01-08 17:15:09,669 Timer-8 TRACE cloudsafe.VaultClient - Starting Sync
+2016-01-08 17:15:16,425 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Local Files DB: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 17:15:16,425 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Files DB on cloud: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 17:15:16,431 Timer-8 TRACE cloudsafe.WatchDir - ExecuteUpdate Called
+2016-01-08 17:15:21,433 Timer-8 TRACE cloudsafe.WatchDir - ExecuteSync Called
+2016-01-08 17:15:21,433 Timer-8 TRACE cloudsafe.VaultClient - Starting Sync
+2016-01-08 17:15:22,298 Timer-3 TRACE cloudsafe.CloudsHandler - starting periodic upload for cloud3
+2016-01-08 17:15:22,298 Timer-1 TRACE cloudsafe.CloudsHandler - starting periodic upload for cloud1
+2016-01-08 17:15:22,298 Timer-2 TRACE cloudsafe.CloudsHandler - starting periodic upload for cloud2
+2016-01-08 17:15:22,298 Timer-0 TRACE cloudsafe.CloudsHandler - starting periodic upload for cloud0
+2016-01-08 17:15:28,876 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Local Files DB: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 17:15:28,892 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Files DB on cloud: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 17:15:28,892 Timer-8 TRACE cloudsafe.WatchDir - ExecuteUpdate Called
+2016-01-08 17:15:33,893 Timer-8 TRACE cloudsafe.WatchDir - ExecuteSync Called
+2016-01-08 17:15:33,893 Timer-8 TRACE cloudsafe.VaultClient - Starting Sync
+2016-01-08 17:16:03,559 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Local Files DB: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 17:16:03,559 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Files DB on cloud: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 17:16:03,559 Timer-8 TRACE cloudsafe.WatchDir - ExecuteUpdate Called
+2016-01-08 17:16:08,566 Timer-8 TRACE cloudsafe.WatchDir - ExecuteSync Called
+2016-01-08 17:16:08,566 Timer-8 TRACE cloudsafe.VaultClient - Starting Sync
+2016-01-08 17:16:09,630 Timer-5 TRACE cloudsafe.CloudsHandler - starting periodic upload for cloud1
+2016-01-08 17:16:09,630 Timer-6 TRACE cloudsafe.CloudsHandler - starting periodic upload for cloud2
+2016-01-08 17:16:09,630 Timer-7 TRACE cloudsafe.CloudsHandler - starting periodic upload for cloud3
+2016-01-08 17:16:09,630 Timer-4 TRACE cloudsafe.CloudsHandler - starting periodic upload for cloud0
+2016-01-08 17:16:12,838 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Local Files DB: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 17:16:12,838 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Files DB on cloud: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 17:16:13,577 Timer-8 TRACE cloudsafe.WatchDir - ExecuteUpdate Called
+2016-01-08 17:16:18,592 Timer-8 TRACE cloudsafe.WatchDir - ExecuteSync Called
+2016-01-08 17:16:18,592 Timer-8 TRACE cloudsafe.VaultClient - Starting Sync
+2016-01-08 17:16:22,300 Timer-0 TRACE cloudsafe.CloudsHandler - starting periodic upload for cloud0
+2016-01-08 17:16:22,300 Timer-2 TRACE cloudsafe.CloudsHandler - starting periodic upload for cloud2
+2016-01-08 17:16:22,300 Timer-1 TRACE cloudsafe.CloudsHandler - starting periodic upload for cloud1
+2016-01-08 17:16:22,300 Timer-3 TRACE cloudsafe.CloudsHandler - starting periodic upload for cloud3
+2016-01-08 17:16:24,268 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Local Files DB: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 17:16:24,268 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Files DB on cloud: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 17:16:24,268 Timer-8 TRACE cloudsafe.WatchDir - ExecuteUpdate Called
+2016-01-08 17:16:29,274 Timer-8 TRACE cloudsafe.WatchDir - ExecuteSync Called
+2016-01-08 17:16:29,274 Timer-8 TRACE cloudsafe.VaultClient - Starting Sync
+2016-01-08 17:16:37,325 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Local Files DB: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 17:16:37,325 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Files DB on cloud: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 17:16:37,332 Timer-8 TRACE cloudsafe.WatchDir - ExecuteUpdate Called
+2016-01-08 17:16:42,343 Timer-8 TRACE cloudsafe.WatchDir - ExecuteSync Called
+2016-01-08 17:16:42,343 Timer-8 TRACE cloudsafe.VaultClient - Starting Sync
+2016-01-08 17:16:53,056 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Local Files DB: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 17:16:53,056 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Files DB on cloud: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 17:16:53,056 Timer-8 TRACE cloudsafe.WatchDir - ExecuteUpdate Called
+2016-01-08 17:16:58,070 Timer-8 TRACE cloudsafe.WatchDir - ExecuteSync Called
+2016-01-08 17:16:58,070 Timer-8 TRACE cloudsafe.VaultClient - Starting Sync
+2016-01-08 17:17:05,815 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Local Files DB: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 17:17:05,815 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Files DB on cloud: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 17:17:05,815 Timer-8 TRACE cloudsafe.WatchDir - ExecuteUpdate Called
+2016-01-08 17:17:09,634 Timer-7 TRACE cloudsafe.CloudsHandler - starting periodic upload for cloud3
+2016-01-08 17:17:09,634 Timer-5 TRACE cloudsafe.CloudsHandler - starting periodic upload for cloud1
+2016-01-08 17:17:09,634 Timer-4 TRACE cloudsafe.CloudsHandler - starting periodic upload for cloud0
+2016-01-08 17:17:09,634 Timer-6 TRACE cloudsafe.CloudsHandler - starting periodic upload for cloud2
+2016-01-08 17:17:10,819 Timer-8 TRACE cloudsafe.WatchDir - ExecuteSync Called
+2016-01-08 17:17:10,819 Timer-8 TRACE cloudsafe.VaultClient - Starting Sync
+2016-01-08 17:17:17,632 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Local Files DB: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 17:17:17,632 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Files DB on cloud: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 17:17:17,633 Timer-8 TRACE cloudsafe.WatchDir - ExecuteUpdate Called
+2016-01-08 17:17:22,300 Timer-0 TRACE cloudsafe.CloudsHandler - starting periodic upload for cloud0
+2016-01-08 17:17:22,300 Timer-3 TRACE cloudsafe.CloudsHandler - starting periodic upload for cloud3
+2016-01-08 17:17:22,300 Timer-1 TRACE cloudsafe.CloudsHandler - starting periodic upload for cloud1
+2016-01-08 17:17:22,300 Timer-2 TRACE cloudsafe.CloudsHandler - starting periodic upload for cloud2
+2016-01-08 17:17:22,647 Timer-8 TRACE cloudsafe.WatchDir - ExecuteSync Called
+2016-01-08 17:17:22,647 Timer-8 TRACE cloudsafe.VaultClient - Starting Sync
+2016-01-08 17:17:29,897 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Local Files DB: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 17:17:29,897 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Files DB on cloud: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 17:17:29,897 Timer-8 TRACE cloudsafe.WatchDir - ExecuteUpdate Called
+2016-01-08 17:17:34,899 Timer-8 TRACE cloudsafe.WatchDir - ExecuteSync Called
+2016-01-08 17:17:34,899 Timer-8 TRACE cloudsafe.VaultClient - Starting Sync
+2016-01-08 17:17:41,153 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Local Files DB: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 17:17:41,153 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Files DB on cloud: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 17:17:41,155 Timer-8 TRACE cloudsafe.WatchDir - ExecuteUpdate Called
+2016-01-08 17:17:46,168 Timer-8 TRACE cloudsafe.WatchDir - ExecuteSync Called
+2016-01-08 17:17:46,168 Timer-8 TRACE cloudsafe.VaultClient - Starting Sync
+2016-01-08 17:17:52,355 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Local Files DB: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 17:17:52,355 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Files DB on cloud: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 17:17:52,355 Timer-8 TRACE cloudsafe.WatchDir - ExecuteUpdate Called
+2016-01-08 17:17:57,357 Timer-8 TRACE cloudsafe.WatchDir - ExecuteSync Called
+2016-01-08 17:17:57,357 Timer-8 TRACE cloudsafe.VaultClient - Starting Sync
+2016-01-08 17:18:03,613 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Local Files DB: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 17:18:03,613 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Files DB on cloud: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 17:18:03,627 Timer-8 TRACE cloudsafe.WatchDir - ExecuteUpdate Called
+2016-01-08 17:18:08,629 Timer-8 TRACE cloudsafe.WatchDir - ExecuteSync Called
+2016-01-08 17:18:08,629 Timer-8 TRACE cloudsafe.VaultClient - Starting Sync
+2016-01-08 17:18:09,648 Timer-7 TRACE cloudsafe.CloudsHandler - starting periodic upload for cloud3
+2016-01-08 17:18:09,648 Timer-5 TRACE cloudsafe.CloudsHandler - starting periodic upload for cloud1
+2016-01-08 17:18:09,648 Timer-6 TRACE cloudsafe.CloudsHandler - starting periodic upload for cloud2
+2016-01-08 17:18:09,648 Timer-4 TRACE cloudsafe.CloudsHandler - starting periodic upload for cloud0
+2016-01-08 17:18:15,297 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Local Files DB: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 17:18:15,297 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Files DB on cloud: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 17:18:15,297 Timer-8 TRACE cloudsafe.WatchDir - ExecuteUpdate Called
+2016-01-08 17:18:20,304 Timer-8 TRACE cloudsafe.WatchDir - ExecuteSync Called
+2016-01-08 17:18:20,304 Timer-8 TRACE cloudsafe.VaultClient - Starting Sync
+2016-01-08 17:18:22,310 Timer-2 TRACE cloudsafe.CloudsHandler - starting periodic upload for cloud2
+2016-01-08 17:18:22,310 Timer-3 TRACE cloudsafe.CloudsHandler - starting periodic upload for cloud3
+2016-01-08 17:18:22,310 Timer-0 TRACE cloudsafe.CloudsHandler - starting periodic upload for cloud0
+2016-01-08 17:18:22,310 Timer-1 TRACE cloudsafe.CloudsHandler - starting periodic upload for cloud1
+2016-01-08 17:18:26,613 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Local Files DB: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 17:18:26,613 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Files DB on cloud: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 17:18:26,627 Timer-8 TRACE cloudsafe.WatchDir - ExecuteUpdate Called
+2016-01-08 17:18:31,629 Timer-8 TRACE cloudsafe.WatchDir - ExecuteSync Called
+2016-01-08 17:18:31,629 Timer-8 TRACE cloudsafe.VaultClient - Starting Sync
+2016-01-08 17:18:38,398 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Local Files DB: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 17:18:38,398 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Files DB on cloud: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 17:18:38,398 Timer-8 TRACE cloudsafe.WatchDir - ExecuteUpdate Called
+2016-01-08 17:18:43,408 Timer-8 TRACE cloudsafe.WatchDir - ExecuteSync Called
+2016-01-08 17:18:43,408 Timer-8 TRACE cloudsafe.VaultClient - Starting Sync
+2016-01-08 17:18:50,478 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Local Files DB: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 17:18:50,478 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Files DB on cloud: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 17:18:50,480 Timer-8 TRACE cloudsafe.WatchDir - ExecuteUpdate Called
+2016-01-08 17:18:55,494 Timer-8 TRACE cloudsafe.WatchDir - ExecuteSync Called
+2016-01-08 17:18:55,494 Timer-8 TRACE cloudsafe.VaultClient - Starting Sync
+2016-01-08 17:19:01,902 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Local Files DB: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 17:19:01,902 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Files DB on cloud: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 17:19:01,902 Timer-8 TRACE cloudsafe.WatchDir - ExecuteUpdate Called
+2016-01-08 17:19:06,907 Timer-8 TRACE cloudsafe.WatchDir - ExecuteSync Called
+2016-01-08 17:19:06,907 Timer-8 TRACE cloudsafe.VaultClient - Starting Sync
+2016-01-08 17:19:09,663 Timer-7 TRACE cloudsafe.CloudsHandler - starting periodic upload for cloud3
+2016-01-08 17:19:09,663 Timer-5 TRACE cloudsafe.CloudsHandler - starting periodic upload for cloud1
+2016-01-08 17:19:09,663 Timer-6 TRACE cloudsafe.CloudsHandler - starting periodic upload for cloud2
+2016-01-08 17:19:09,663 Timer-4 TRACE cloudsafe.CloudsHandler - starting periodic upload for cloud0
+2016-01-08 17:19:11,353 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Local Files DB: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 17:19:11,369 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Files DB on cloud: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 17:19:11,919 Timer-8 TRACE cloudsafe.WatchDir - ExecuteUpdate Called
+2016-01-08 17:19:16,929 Timer-8 TRACE cloudsafe.WatchDir - ExecuteSync Called
+2016-01-08 17:19:16,929 Timer-8 TRACE cloudsafe.VaultClient - Starting Sync
+2016-01-08 17:19:22,316 Timer-1 TRACE cloudsafe.CloudsHandler - starting periodic upload for cloud1
+2016-01-08 17:19:22,316 Timer-0 TRACE cloudsafe.CloudsHandler - starting periodic upload for cloud0
+2016-01-08 17:19:22,316 Timer-3 TRACE cloudsafe.CloudsHandler - starting periodic upload for cloud3
+2016-01-08 17:19:22,316 Timer-2 TRACE cloudsafe.CloudsHandler - starting periodic upload for cloud2
+2016-01-08 17:19:23,773 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Local Files DB: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 17:19:23,773 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Files DB on cloud: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 17:19:23,773 Timer-8 TRACE cloudsafe.WatchDir - ExecuteUpdate Called
+2016-01-08 17:19:28,784 Timer-8 TRACE cloudsafe.WatchDir - ExecuteSync Called
+2016-01-08 17:19:28,784 Timer-8 TRACE cloudsafe.VaultClient - Starting Sync
+2016-01-08 17:19:30,600 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Local Files DB: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 17:19:30,600 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Files DB on cloud: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 17:19:33,797 Timer-8 TRACE cloudsafe.WatchDir - ExecuteUpdate Called
+2016-01-08 17:19:38,801 Timer-8 TRACE cloudsafe.WatchDir - ExecuteSync Called
+2016-01-08 17:19:38,801 Timer-8 TRACE cloudsafe.VaultClient - Starting Sync
+2016-01-08 17:19:45,275 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Local Files DB: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 17:19:45,275 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Files DB on cloud: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 17:19:45,283 Timer-8 TRACE cloudsafe.WatchDir - ExecuteUpdate Called
+2016-01-08 17:19:50,293 Timer-8 TRACE cloudsafe.WatchDir - ExecuteSync Called
+2016-01-08 17:19:50,293 Timer-8 TRACE cloudsafe.VaultClient - Starting Sync
+2016-01-08 17:19:59,002 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Local Files DB: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 17:19:59,002 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Files DB on cloud: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 17:19:59,011 Timer-8 TRACE cloudsafe.WatchDir - ExecuteUpdate Called
+2016-01-08 17:20:04,014 Timer-8 TRACE cloudsafe.WatchDir - ExecuteSync Called
+2016-01-08 17:20:04,014 Timer-8 TRACE cloudsafe.VaultClient - Starting Sync
+2016-01-08 17:20:09,675 Timer-6 TRACE cloudsafe.CloudsHandler - starting periodic upload for cloud2
+2016-01-08 17:20:09,675 Timer-4 TRACE cloudsafe.CloudsHandler - starting periodic upload for cloud0
+2016-01-08 17:20:09,675 Timer-5 TRACE cloudsafe.CloudsHandler - starting periodic upload for cloud1
+2016-01-08 17:20:09,675 Timer-7 TRACE cloudsafe.CloudsHandler - starting periodic upload for cloud3
+2016-01-08 17:20:13,981 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Local Files DB: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 17:20:13,981 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Files DB on cloud: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 17:20:13,986 Timer-8 TRACE cloudsafe.WatchDir - ExecuteUpdate Called
+2016-01-08 17:20:19,000 Timer-8 TRACE cloudsafe.WatchDir - ExecuteSync Called
+2016-01-08 17:20:19,000 Timer-8 TRACE cloudsafe.VaultClient - Starting Sync
+2016-01-08 17:20:22,331 Timer-3 TRACE cloudsafe.CloudsHandler - starting periodic upload for cloud3
+2016-01-08 17:20:22,331 Timer-1 TRACE cloudsafe.CloudsHandler - starting periodic upload for cloud1
+2016-01-08 17:20:22,331 Timer-0 TRACE cloudsafe.CloudsHandler - starting periodic upload for cloud0
+2016-01-08 17:20:22,331 Timer-2 TRACE cloudsafe.CloudsHandler - starting periodic upload for cloud2
+2016-01-08 17:20:27,020 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Local Files DB: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 17:20:27,020 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Files DB on cloud: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 17:20:27,020 Timer-8 TRACE cloudsafe.WatchDir - ExecuteUpdate Called
+2016-01-08 17:20:32,020 Timer-8 TRACE cloudsafe.WatchDir - ExecuteSync Called
+2016-01-08 17:20:32,020 Timer-8 TRACE cloudsafe.VaultClient - Starting Sync
+2016-01-08 17:20:38,190 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Local Files DB: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 17:20:38,205 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Files DB on cloud: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 17:20:38,205 Timer-8 TRACE cloudsafe.WatchDir - ExecuteUpdate Called
+2016-01-08 17:20:43,216 Timer-8 TRACE cloudsafe.WatchDir - ExecuteSync Called
+2016-01-08 17:20:43,216 Timer-8 TRACE cloudsafe.VaultClient - Starting Sync
+2016-01-08 17:20:50,502 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Local Files DB: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 17:20:50,502 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Files DB on cloud: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 17:20:50,511 Timer-8 TRACE cloudsafe.WatchDir - ExecuteUpdate Called
+2016-01-08 17:20:55,506 Timer-8 TRACE cloudsafe.WatchDir - ExecuteSync Called
+2016-01-08 17:20:55,506 Timer-8 TRACE cloudsafe.VaultClient - Starting Sync
+2016-01-08 17:20:59,442 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Local Files DB: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 17:20:59,442 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Files DB on cloud: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 17:21:00,506 Timer-8 TRACE cloudsafe.WatchDir - ExecuteUpdate Called
+2016-01-08 17:21:05,509 Timer-8 TRACE cloudsafe.WatchDir - ExecuteSync Called
+2016-01-08 17:21:05,509 Timer-8 TRACE cloudsafe.VaultClient - Starting Sync
+2016-01-08 17:21:09,683 Timer-6 TRACE cloudsafe.CloudsHandler - starting periodic upload for cloud2
+2016-01-08 17:21:09,683 Timer-5 TRACE cloudsafe.CloudsHandler - starting periodic upload for cloud1
+2016-01-08 17:21:09,683 Timer-7 TRACE cloudsafe.CloudsHandler - starting periodic upload for cloud3
+2016-01-08 17:21:09,683 Timer-4 TRACE cloudsafe.CloudsHandler - starting periodic upload for cloud0
+2016-01-08 17:21:12,097 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Local Files DB: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 17:21:12,097 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Files DB on cloud: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 17:21:12,097 Timer-8 TRACE cloudsafe.WatchDir - ExecuteUpdate Called
+2016-01-08 17:21:17,110 Timer-8 TRACE cloudsafe.WatchDir - ExecuteSync Called
+2016-01-08 17:21:17,110 Timer-8 TRACE cloudsafe.VaultClient - Starting Sync
+2016-01-08 17:21:21,112 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Local Files DB: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 17:21:21,112 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Files DB on cloud: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 17:21:22,121 Timer-8 TRACE cloudsafe.WatchDir - ExecuteUpdate Called
+2016-01-08 17:21:22,342 Timer-1 TRACE cloudsafe.CloudsHandler - starting periodic upload for cloud1
+2016-01-08 17:21:22,342 Timer-3 TRACE cloudsafe.CloudsHandler - starting periodic upload for cloud3
+2016-01-08 17:21:22,342 Timer-2 TRACE cloudsafe.CloudsHandler - starting periodic upload for cloud2
+2016-01-08 17:21:22,342 Timer-0 TRACE cloudsafe.CloudsHandler - starting periodic upload for cloud0
+2016-01-08 17:21:27,134 Timer-8 TRACE cloudsafe.WatchDir - ExecuteSync Called
+2016-01-08 17:21:27,134 Timer-8 TRACE cloudsafe.VaultClient - Starting Sync
+2016-01-08 17:21:29,403 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Local Files DB: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 17:21:29,403 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Files DB on cloud: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 17:21:32,145 Timer-8 TRACE cloudsafe.WatchDir - ExecuteUpdate Called
+2016-01-08 17:21:37,148 Timer-8 TRACE cloudsafe.WatchDir - ExecuteSync Called
+2016-01-08 17:21:37,148 Timer-8 TRACE cloudsafe.VaultClient - Starting Sync
+2016-01-08 17:21:42,980 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Local Files DB: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 17:21:42,980 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Files DB on cloud: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 17:21:42,983 Timer-8 TRACE cloudsafe.WatchDir - ExecuteUpdate Called
+2016-01-08 17:21:47,985 Timer-8 TRACE cloudsafe.WatchDir - ExecuteSync Called
+2016-01-08 17:21:47,985 Timer-8 TRACE cloudsafe.VaultClient - Starting Sync
+2016-01-08 17:21:56,247 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Local Files DB: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 17:21:56,247 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Files DB on cloud: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 17:21:56,247 Timer-8 TRACE cloudsafe.WatchDir - ExecuteUpdate Called
+2016-01-08 17:22:01,258 Timer-8 TRACE cloudsafe.WatchDir - ExecuteSync Called
+2016-01-08 17:22:01,258 Timer-8 TRACE cloudsafe.VaultClient - Starting Sync
+2016-01-08 17:22:07,705 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Local Files DB: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 17:22:07,705 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Files DB on cloud: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 17:22:07,705 Timer-8 TRACE cloudsafe.WatchDir - ExecuteUpdate Called
+2016-01-08 17:22:09,693 Timer-4 TRACE cloudsafe.CloudsHandler - starting periodic upload for cloud0
+2016-01-08 17:22:09,693 Timer-5 TRACE cloudsafe.CloudsHandler - starting periodic upload for cloud1
+2016-01-08 17:22:09,693 Timer-6 TRACE cloudsafe.CloudsHandler - starting periodic upload for cloud2
+2016-01-08 17:22:09,693 Timer-7 TRACE cloudsafe.CloudsHandler - starting periodic upload for cloud3
+2016-01-08 17:22:12,711 Timer-8 TRACE cloudsafe.WatchDir - ExecuteSync Called
+2016-01-08 17:22:12,711 Timer-8 TRACE cloudsafe.VaultClient - Starting Sync
+2016-01-08 17:22:19,494 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Local Files DB: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 17:22:19,494 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Files DB on cloud: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 17:22:19,505 Timer-8 TRACE cloudsafe.WatchDir - ExecuteUpdate Called
+2016-01-08 17:22:22,351 Timer-3 TRACE cloudsafe.CloudsHandler - starting periodic upload for cloud3
+2016-01-08 17:22:22,351 Timer-0 TRACE cloudsafe.CloudsHandler - starting periodic upload for cloud0
+2016-01-08 17:22:22,351 Timer-2 TRACE cloudsafe.CloudsHandler - starting periodic upload for cloud2
+2016-01-08 17:22:22,351 Timer-1 TRACE cloudsafe.CloudsHandler - starting periodic upload for cloud1
+2016-01-08 17:22:24,516 Timer-8 TRACE cloudsafe.WatchDir - ExecuteSync Called
+2016-01-08 17:22:24,516 Timer-8 TRACE cloudsafe.VaultClient - Starting Sync
+2016-01-08 17:22:31,302 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Local Files DB: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 17:22:31,302 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Files DB on cloud: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 17:22:31,302 Timer-8 TRACE cloudsafe.WatchDir - ExecuteUpdate Called
+2016-01-08 17:22:36,310 Timer-8 TRACE cloudsafe.WatchDir - ExecuteSync Called
+2016-01-08 17:22:36,310 Timer-8 TRACE cloudsafe.VaultClient - Starting Sync
+2016-01-08 17:22:46,922 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Local Files DB: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 17:22:46,922 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Files DB on cloud: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 17:22:46,922 Timer-8 TRACE cloudsafe.WatchDir - ExecuteUpdate Called
+2016-01-08 17:22:51,923 Timer-8 TRACE cloudsafe.WatchDir - ExecuteSync Called
+2016-01-08 17:22:51,923 Timer-8 TRACE cloudsafe.VaultClient - Starting Sync
+2016-01-08 17:22:57,964 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Local Files DB: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 17:22:57,964 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Files DB on cloud: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 17:22:57,970 Timer-8 TRACE cloudsafe.WatchDir - ExecuteUpdate Called
+2016-01-08 17:23:02,985 Timer-8 TRACE cloudsafe.WatchDir - ExecuteSync Called
+2016-01-08 17:23:02,985 Timer-8 TRACE cloudsafe.VaultClient - Starting Sync
+2016-01-08 17:23:09,707 Timer-7 TRACE cloudsafe.CloudsHandler - starting periodic upload for cloud3
+2016-01-08 17:23:09,707 Timer-6 TRACE cloudsafe.CloudsHandler - starting periodic upload for cloud2
+2016-01-08 17:23:09,707 Timer-4 TRACE cloudsafe.CloudsHandler - starting periodic upload for cloud0
+2016-01-08 17:23:09,707 Timer-5 TRACE cloudsafe.CloudsHandler - starting periodic upload for cloud1
+2016-01-08 17:23:12,475 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Local Files DB: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 17:23:12,475 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Files DB on cloud: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 17:23:12,481 Timer-8 TRACE cloudsafe.WatchDir - ExecuteUpdate Called
+2016-01-08 17:23:17,483 Timer-8 TRACE cloudsafe.WatchDir - ExecuteSync Called
+2016-01-08 17:23:17,483 Timer-8 TRACE cloudsafe.VaultClient - Starting Sync
+2016-01-08 17:23:22,360 Timer-2 TRACE cloudsafe.CloudsHandler - starting periodic upload for cloud2
+2016-01-08 17:23:22,360 Timer-1 TRACE cloudsafe.CloudsHandler - starting periodic upload for cloud1
+2016-01-08 17:23:22,360 Timer-0 TRACE cloudsafe.CloudsHandler - starting periodic upload for cloud0
+2016-01-08 17:23:22,360 Timer-3 TRACE cloudsafe.CloudsHandler - starting periodic upload for cloud3
+2016-01-08 17:23:25,317 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Local Files DB: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 17:23:25,317 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Files DB on cloud: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 17:23:25,329 Timer-8 TRACE cloudsafe.WatchDir - ExecuteUpdate Called
+2016-01-08 17:23:30,321 Timer-8 TRACE cloudsafe.WatchDir - ExecuteSync Called
+2016-01-08 17:23:30,321 Timer-8 TRACE cloudsafe.VaultClient - Starting Sync
+2016-01-08 17:23:35,023 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Local Files DB: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 17:23:35,023 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Files DB on cloud: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 17:23:35,321 Timer-8 TRACE cloudsafe.WatchDir - ExecuteUpdate Called
+2016-01-08 17:23:40,334 Timer-8 TRACE cloudsafe.WatchDir - ExecuteSync Called
+2016-01-08 17:23:40,334 Timer-8 TRACE cloudsafe.VaultClient - Starting Sync
+2016-01-08 17:23:45,594 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Local Files DB: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 17:23:45,595 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Files DB on cloud: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 17:23:45,595 Timer-8 TRACE cloudsafe.WatchDir - ExecuteUpdate Called
+2016-01-08 17:23:50,606 Timer-8 TRACE cloudsafe.WatchDir - ExecuteSync Called
+2016-01-08 17:23:50,606 Timer-8 TRACE cloudsafe.VaultClient - Starting Sync
+2016-01-08 17:23:56,055 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Local Files DB: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 17:23:56,055 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Files DB on cloud: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 17:23:56,055 Timer-8 TRACE cloudsafe.WatchDir - ExecuteUpdate Called
+2016-01-08 17:24:01,066 Timer-8 TRACE cloudsafe.WatchDir - ExecuteSync Called
+2016-01-08 17:24:01,066 Timer-8 TRACE cloudsafe.VaultClient - Starting Sync
+2016-01-08 17:24:06,783 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Local Files DB: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 17:24:06,783 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Files DB on cloud: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 17:24:06,783 Timer-8 TRACE cloudsafe.WatchDir - ExecuteUpdate Called
+2016-01-08 17:24:09,712 Timer-6 TRACE cloudsafe.CloudsHandler - starting periodic upload for cloud2
+2016-01-08 17:24:09,712 Timer-5 TRACE cloudsafe.CloudsHandler - starting periodic upload for cloud1
+2016-01-08 17:24:09,712 Timer-7 TRACE cloudsafe.CloudsHandler - starting periodic upload for cloud3
+2016-01-08 17:24:09,712 Timer-4 TRACE cloudsafe.CloudsHandler - starting periodic upload for cloud0
+2016-01-08 17:24:11,792 Timer-8 TRACE cloudsafe.WatchDir - ExecuteSync Called
+2016-01-08 17:24:11,792 Timer-8 TRACE cloudsafe.VaultClient - Starting Sync
+2016-01-08 17:24:16,469 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Local Files DB: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 17:24:16,469 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Files DB on cloud: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 17:24:16,800 Timer-8 TRACE cloudsafe.WatchDir - ExecuteUpdate Called
+2016-01-08 17:24:21,804 Timer-8 TRACE cloudsafe.WatchDir - ExecuteSync Called
+2016-01-08 17:24:21,804 Timer-8 TRACE cloudsafe.VaultClient - Starting Sync
+2016-01-08 17:24:22,361 Timer-3 TRACE cloudsafe.CloudsHandler - starting periodic upload for cloud3
+2016-01-08 17:24:22,361 Timer-0 TRACE cloudsafe.CloudsHandler - starting periodic upload for cloud0
+2016-01-08 17:24:22,361 Timer-2 TRACE cloudsafe.CloudsHandler - starting periodic upload for cloud2
+2016-01-08 17:24:22,361 Timer-1 TRACE cloudsafe.CloudsHandler - starting periodic upload for cloud1
+2016-01-08 17:24:24,001 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Local Files DB: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 17:24:24,001 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Files DB on cloud: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 17:24:26,809 Timer-8 TRACE cloudsafe.WatchDir - ExecuteUpdate Called
+2016-01-08 17:24:31,824 Timer-8 TRACE cloudsafe.WatchDir - ExecuteSync Called
+2016-01-08 17:24:31,824 Timer-8 TRACE cloudsafe.VaultClient - Starting Sync
+2016-01-08 17:24:38,021 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Local Files DB: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 17:24:38,021 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Files DB on cloud: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 17:24:38,021 Timer-8 TRACE cloudsafe.WatchDir - ExecuteUpdate Called
+2016-01-08 17:24:43,034 Timer-8 TRACE cloudsafe.WatchDir - ExecuteSync Called
+2016-01-08 17:24:43,034 Timer-8 TRACE cloudsafe.VaultClient - Starting Sync
+2016-01-08 17:24:44,802 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Local Files DB: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 17:24:44,802 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Files DB on cloud: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 17:24:48,035 Timer-8 TRACE cloudsafe.WatchDir - ExecuteUpdate Called
+2016-01-08 17:24:53,044 Timer-8 TRACE cloudsafe.WatchDir - ExecuteSync Called
+2016-01-08 17:24:53,044 Timer-8 TRACE cloudsafe.VaultClient - Starting Sync
+2016-01-08 17:24:56,243 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Local Files DB: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 17:24:56,243 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Files DB on cloud: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 17:24:58,056 Timer-8 TRACE cloudsafe.WatchDir - ExecuteUpdate Called
+2016-01-08 17:25:03,063 Timer-8 TRACE cloudsafe.WatchDir - ExecuteSync Called
+2016-01-08 17:25:03,063 Timer-8 TRACE cloudsafe.VaultClient - Starting Sync
+2016-01-08 17:25:07,426 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Local Files DB: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 17:25:07,426 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Files DB on cloud: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 17:25:08,064 Timer-8 TRACE cloudsafe.WatchDir - ExecuteUpdate Called
+2016-01-08 17:25:09,725 Timer-5 TRACE cloudsafe.CloudsHandler - starting periodic upload for cloud1
+2016-01-08 17:25:09,725 Timer-7 TRACE cloudsafe.CloudsHandler - starting periodic upload for cloud3
+2016-01-08 17:25:09,725 Timer-6 TRACE cloudsafe.CloudsHandler - starting periodic upload for cloud2
+2016-01-08 17:25:09,725 Timer-4 TRACE cloudsafe.CloudsHandler - starting periodic upload for cloud0
+2016-01-08 17:25:13,065 Timer-8 TRACE cloudsafe.WatchDir - ExecuteSync Called
+2016-01-08 17:25:13,065 Timer-8 TRACE cloudsafe.VaultClient - Starting Sync
+2016-01-08 17:25:18,327 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Local Files DB: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 17:25:18,327 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Files DB on cloud: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 17:25:18,340 Timer-8 TRACE cloudsafe.WatchDir - ExecuteUpdate Called
+2016-01-08 17:25:22,361 Timer-3 TRACE cloudsafe.CloudsHandler - starting periodic upload for cloud3
+2016-01-08 17:25:22,361 Timer-2 TRACE cloudsafe.CloudsHandler - starting periodic upload for cloud2
+2016-01-08 17:25:22,361 Timer-1 TRACE cloudsafe.CloudsHandler - starting periodic upload for cloud1
+2016-01-08 17:25:22,362 Timer-0 TRACE cloudsafe.CloudsHandler - starting periodic upload for cloud0
+2016-01-08 17:25:23,331 Timer-8 TRACE cloudsafe.WatchDir - ExecuteSync Called
+2016-01-08 17:25:23,331 Timer-8 TRACE cloudsafe.VaultClient - Starting Sync
+2016-01-08 17:25:28,330 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Local Files DB: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 17:25:28,330 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Files DB on cloud: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 17:25:28,346 Timer-8 TRACE cloudsafe.WatchDir - ExecuteUpdate Called
+2016-01-08 17:25:33,352 Timer-8 TRACE cloudsafe.WatchDir - ExecuteSync Called
+2016-01-08 17:25:33,352 Timer-8 TRACE cloudsafe.VaultClient - Starting Sync
+2016-01-08 17:25:38,750 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Local Files DB: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 17:25:38,750 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Files DB on cloud: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 17:25:38,750 Timer-8 TRACE cloudsafe.WatchDir - ExecuteUpdate Called
+2016-01-08 17:25:43,765 Timer-8 TRACE cloudsafe.WatchDir - ExecuteSync Called
+2016-01-08 17:25:43,765 Timer-8 TRACE cloudsafe.VaultClient - Starting Sync
+2016-01-08 17:25:50,918 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Local Files DB: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 17:25:50,918 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Files DB on cloud: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 17:25:50,918 Timer-8 TRACE cloudsafe.WatchDir - ExecuteUpdate Called
+2016-01-08 17:25:55,928 Timer-8 TRACE cloudsafe.WatchDir - ExecuteSync Called
+2016-01-08 17:25:55,928 Timer-8 TRACE cloudsafe.VaultClient - Starting Sync
+2016-01-08 17:26:02,639 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Local Files DB: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 17:26:02,639 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Files DB on cloud: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 17:26:02,639 Timer-8 TRACE cloudsafe.WatchDir - ExecuteUpdate Called
+2016-01-08 17:26:07,642 Timer-8 TRACE cloudsafe.WatchDir - ExecuteSync Called
+2016-01-08 17:26:07,642 Timer-8 TRACE cloudsafe.VaultClient - Starting Sync
+2016-01-08 17:26:09,726 Timer-4 TRACE cloudsafe.CloudsHandler - starting periodic upload for cloud0
+2016-01-08 17:26:09,726 Timer-7 TRACE cloudsafe.CloudsHandler - starting periodic upload for cloud3
+2016-01-08 17:26:09,726 Timer-6 TRACE cloudsafe.CloudsHandler - starting periodic upload for cloud2
+2016-01-08 17:26:09,726 Timer-5 TRACE cloudsafe.CloudsHandler - starting periodic upload for cloud1
+2016-01-08 17:26:13,007 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Local Files DB: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 17:26:13,007 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Files DB on cloud: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 17:26:13,007 Timer-8 TRACE cloudsafe.WatchDir - ExecuteUpdate Called
+2016-01-08 17:26:18,011 Timer-8 TRACE cloudsafe.WatchDir - ExecuteSync Called
+2016-01-08 17:26:18,011 Timer-8 TRACE cloudsafe.VaultClient - Starting Sync
+2016-01-08 17:26:22,373 Timer-1 TRACE cloudsafe.CloudsHandler - starting periodic upload for cloud1
+2016-01-08 17:26:22,373 Timer-2 TRACE cloudsafe.CloudsHandler - starting periodic upload for cloud2
+2016-01-08 17:26:22,373 Timer-0 TRACE cloudsafe.CloudsHandler - starting periodic upload for cloud0
+2016-01-08 17:26:22,373 Timer-3 TRACE cloudsafe.CloudsHandler - starting periodic upload for cloud3
+2016-01-08 17:26:24,582 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Local Files DB: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 17:26:24,582 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Files DB on cloud: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 17:26:24,582 Timer-8 TRACE cloudsafe.WatchDir - ExecuteUpdate Called
+2016-01-08 17:26:29,587 Timer-8 TRACE cloudsafe.WatchDir - ExecuteSync Called
+2016-01-08 17:26:29,587 Timer-8 TRACE cloudsafe.VaultClient - Starting Sync
+2016-01-08 17:26:34,334 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Local Files DB: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 17:26:34,334 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Files DB on cloud: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 17:26:34,594 Timer-8 TRACE cloudsafe.WatchDir - ExecuteUpdate Called
+2016-01-08 17:26:39,604 Timer-8 TRACE cloudsafe.WatchDir - ExecuteSync Called
+2016-01-08 17:26:39,604 Timer-8 TRACE cloudsafe.VaultClient - Starting Sync
+2016-01-08 17:26:45,487 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Local Files DB: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 17:26:45,487 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Files DB on cloud: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 17:26:45,499 Timer-8 TRACE cloudsafe.WatchDir - ExecuteUpdate Called
+2016-01-08 17:26:50,514 Timer-8 TRACE cloudsafe.WatchDir - ExecuteSync Called
+2016-01-08 17:26:50,514 Timer-8 TRACE cloudsafe.VaultClient - Starting Sync
+2016-01-08 17:26:55,802 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Local Files DB: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 17:26:55,802 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Files DB on cloud: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 17:26:55,802 Timer-8 TRACE cloudsafe.WatchDir - ExecuteUpdate Called
+2016-01-08 17:27:00,815 Timer-8 TRACE cloudsafe.WatchDir - ExecuteSync Called
+2016-01-08 17:27:00,815 Timer-8 TRACE cloudsafe.VaultClient - Starting Sync
+2016-01-08 17:27:07,164 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Local Files DB: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 17:27:07,164 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Files DB on cloud: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 17:27:07,164 Timer-8 TRACE cloudsafe.WatchDir - ExecuteUpdate Called
+2016-01-08 17:27:09,738 Timer-4 TRACE cloudsafe.CloudsHandler - starting periodic upload for cloud0
+2016-01-08 17:27:09,738 Timer-5 TRACE cloudsafe.CloudsHandler - starting periodic upload for cloud1
+2016-01-08 17:27:09,738 Timer-6 TRACE cloudsafe.CloudsHandler - starting periodic upload for cloud2
+2016-01-08 17:27:09,738 Timer-7 TRACE cloudsafe.CloudsHandler - starting periodic upload for cloud3
+2016-01-08 17:27:12,164 Timer-8 TRACE cloudsafe.WatchDir - ExecuteSync Called
+2016-01-08 17:27:12,164 Timer-8 TRACE cloudsafe.VaultClient - Starting Sync
+2016-01-08 17:27:18,303 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Local Files DB: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 17:27:18,303 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Files DB on cloud: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 17:27:18,319 Timer-8 TRACE cloudsafe.WatchDir - ExecuteUpdate Called
+2016-01-08 17:27:22,385 Timer-3 TRACE cloudsafe.CloudsHandler - starting periodic upload for cloud3
+2016-01-08 17:27:22,385 Timer-0 TRACE cloudsafe.CloudsHandler - starting periodic upload for cloud0
+2016-01-08 17:27:22,385 Timer-2 TRACE cloudsafe.CloudsHandler - starting periodic upload for cloud2
+2016-01-08 17:27:22,385 Timer-1 TRACE cloudsafe.CloudsHandler - starting periodic upload for cloud1
+2016-01-08 17:27:23,329 Timer-8 TRACE cloudsafe.WatchDir - ExecuteSync Called
+2016-01-08 17:27:23,329 Timer-8 TRACE cloudsafe.VaultClient - Starting Sync
+2016-01-08 17:27:29,794 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Local Files DB: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 17:27:29,794 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Files DB on cloud: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 17:27:29,801 Timer-8 TRACE cloudsafe.WatchDir - ExecuteUpdate Called
+2016-01-08 17:27:34,815 Timer-8 TRACE cloudsafe.WatchDir - ExecuteSync Called
+2016-01-08 17:27:34,815 Timer-8 TRACE cloudsafe.VaultClient - Starting Sync
+2016-01-08 17:27:40,527 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Local Files DB: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 17:27:40,527 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Files DB on cloud: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 17:27:40,527 Timer-8 TRACE cloudsafe.WatchDir - ExecuteUpdate Called
+2016-01-08 17:27:45,538 Timer-8 TRACE cloudsafe.WatchDir - ExecuteSync Called
+2016-01-08 17:27:45,538 Timer-8 TRACE cloudsafe.VaultClient - Starting Sync
+2016-01-08 17:27:52,079 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Local Files DB: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 17:27:52,079 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Files DB on cloud: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 17:27:52,088 Timer-8 TRACE cloudsafe.WatchDir - ExecuteUpdate Called
+2016-01-08 17:27:57,098 Timer-8 TRACE cloudsafe.WatchDir - ExecuteSync Called
+2016-01-08 17:27:57,098 Timer-8 TRACE cloudsafe.VaultClient - Starting Sync
+2016-01-08 17:28:02,841 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Local Files DB: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 17:28:02,841 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Files DB on cloud: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 17:28:02,841 Timer-8 TRACE cloudsafe.WatchDir - ExecuteUpdate Called
+2016-01-08 17:28:07,852 Timer-8 TRACE cloudsafe.WatchDir - ExecuteSync Called
+2016-01-08 17:28:07,852 Timer-8 TRACE cloudsafe.VaultClient - Starting Sync
+2016-01-08 17:28:09,746 Timer-5 TRACE cloudsafe.CloudsHandler - starting periodic upload for cloud1
+2016-01-08 17:28:09,746 Timer-6 TRACE cloudsafe.CloudsHandler - starting periodic upload for cloud2
+2016-01-08 17:28:09,746 Timer-4 TRACE cloudsafe.CloudsHandler - starting periodic upload for cloud0
+2016-01-08 17:28:09,746 Timer-7 TRACE cloudsafe.CloudsHandler - starting periodic upload for cloud3
+2016-01-08 17:28:14,445 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Local Files DB: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 17:28:14,445 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Files DB on cloud: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 17:28:14,446 Timer-8 TRACE cloudsafe.WatchDir - ExecuteUpdate Called
+2016-01-08 17:28:19,447 Timer-8 TRACE cloudsafe.WatchDir - ExecuteSync Called
+2016-01-08 17:28:19,447 Timer-8 TRACE cloudsafe.VaultClient - Starting Sync
+2016-01-08 17:28:22,391 Timer-3 TRACE cloudsafe.CloudsHandler - starting periodic upload for cloud3
+2016-01-08 17:28:22,391 Timer-0 TRACE cloudsafe.CloudsHandler - starting periodic upload for cloud0
+2016-01-08 17:28:22,391 Timer-1 TRACE cloudsafe.CloudsHandler - starting periodic upload for cloud1
+2016-01-08 17:28:22,391 Timer-2 TRACE cloudsafe.CloudsHandler - starting periodic upload for cloud2
+2016-01-08 17:28:24,906 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Local Files DB: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 17:28:24,906 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Files DB on cloud: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 17:28:24,906 Timer-8 TRACE cloudsafe.WatchDir - ExecuteUpdate Called
+2016-01-08 17:28:29,922 Timer-8 TRACE cloudsafe.WatchDir - ExecuteSync Called
+2016-01-08 17:28:29,922 Timer-8 TRACE cloudsafe.VaultClient - Starting Sync
+2016-01-08 17:28:38,582 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Local Files DB: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 17:28:38,582 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Files DB on cloud: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 17:28:38,582 Timer-8 TRACE cloudsafe.WatchDir - ExecuteUpdate Called
+2016-01-08 17:28:43,591 Timer-8 TRACE cloudsafe.WatchDir - ExecuteSync Called
+2016-01-08 17:28:43,591 Timer-8 TRACE cloudsafe.VaultClient - Starting Sync
+2016-01-08 17:28:50,055 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Local Files DB: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 17:28:50,055 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Files DB on cloud: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 17:28:50,061 Timer-8 TRACE cloudsafe.WatchDir - ExecuteUpdate Called
+2016-01-08 17:28:55,064 Timer-8 TRACE cloudsafe.WatchDir - ExecuteSync Called
+2016-01-08 17:28:55,064 Timer-8 TRACE cloudsafe.VaultClient - Starting Sync
+2016-01-08 17:28:56,973 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Local Files DB: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 17:28:56,973 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Files DB on cloud: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 17:28:58,857 main TRACE cloudsafe.Main - entry params(Application Starting!)
+2016-01-08 17:29:00,076 Timer-8 TRACE cloudsafe.WatchDir - ExecuteUpdate Called
+2016-01-08 17:29:05,086 Timer-8 TRACE cloudsafe.WatchDir - ExecuteSync Called
+2016-01-08 17:29:05,086 Timer-8 TRACE cloudsafe.VaultClient - Starting Sync
+2016-01-08 17:29:09,761 Timer-4 TRACE cloudsafe.CloudsHandler - starting periodic upload for cloud0
+2016-01-08 17:29:09,761 Timer-6 TRACE cloudsafe.CloudsHandler - starting periodic upload for cloud2
+2016-01-08 17:29:09,761 Timer-5 TRACE cloudsafe.CloudsHandler - starting periodic upload for cloud1
+2016-01-08 17:29:09,761 Timer-7 TRACE cloudsafe.CloudsHandler - starting periodic upload for cloud3
+2016-01-08 17:29:10,655 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Local Files DB: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 17:29:10,655 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Files DB on cloud: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 17:29:10,655 Timer-8 TRACE cloudsafe.WatchDir - ExecuteUpdate Called
+2016-01-08 17:29:15,106 main ERROR cloudsafe.Main - Exception Occurred!
+java.lang.NullPointerException
+	at cloudsafe.Main.getDevicePath(Main.java:132) ~[bin/:?]
+	at cloudsafe.Main.run(Main.java:45) [bin/:?]
+	at cloudsafe.Main.main(Main.java:36) [bin/:?]
+2016-01-08 17:29:15,664 Timer-8 TRACE cloudsafe.WatchDir - ExecuteSync Called
+2016-01-08 17:29:15,664 Timer-8 TRACE cloudsafe.VaultClient - Starting Sync
+2016-01-08 17:29:22,349 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Local Files DB: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 17:29:22,349 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Files DB on cloud: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 17:29:22,349 Timer-8 TRACE cloudsafe.WatchDir - ExecuteUpdate Called
+2016-01-08 17:29:22,406 Timer-1 TRACE cloudsafe.CloudsHandler - starting periodic upload for cloud1
+2016-01-08 17:29:22,406 Timer-3 TRACE cloudsafe.CloudsHandler - starting periodic upload for cloud3
+2016-01-08 17:29:22,406 Timer-2 TRACE cloudsafe.CloudsHandler - starting periodic upload for cloud2
+2016-01-08 17:29:22,406 Timer-0 TRACE cloudsafe.CloudsHandler - starting periodic upload for cloud0
+2016-01-08 17:29:27,360 Timer-8 TRACE cloudsafe.WatchDir - ExecuteSync Called
+2016-01-08 17:29:27,360 Timer-8 TRACE cloudsafe.VaultClient - Starting Sync
+2016-01-08 17:29:29,550 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Local Files DB: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 17:29:29,550 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Files DB on cloud: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 17:29:32,371 Timer-8 TRACE cloudsafe.WatchDir - ExecuteUpdate Called
+2016-01-08 17:29:37,386 Timer-8 TRACE cloudsafe.WatchDir - ExecuteSync Called
+2016-01-08 17:29:37,386 Timer-8 TRACE cloudsafe.VaultClient - Starting Sync
+2016-01-08 17:29:42,717 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Local Files DB: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 17:29:42,717 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Files DB on cloud: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 17:29:42,717 Timer-8 TRACE cloudsafe.WatchDir - ExecuteUpdate Called
+2016-01-08 17:29:47,729 Timer-8 TRACE cloudsafe.WatchDir - ExecuteSync Called
+2016-01-08 17:29:47,729 Timer-8 TRACE cloudsafe.VaultClient - Starting Sync
+2016-01-08 17:29:51,646 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Local Files DB: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 17:29:51,646 Timer-8 INFO  cloudsafe.VaultClient - VaultClient : sync : Files DB on cloud: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 17:29:52,731 Timer-8 TRACE cloudsafe.WatchDir - ExecuteUpdate Called
+2016-01-08 17:29:54,031 main TRACE cloudsafe.VaultClient - entry params(Setting up VaultClient)
+2016-01-08 17:29:54,033 main DEBUG database.Database - Connecting to database: trials\Cloud Vault\Cloud Vault\config\vault.db
+2016-01-08 17:29:54,034 main INFO  cloudsafe.VaultClient - databasePath: C:\Users\Noman Sheikh\Documents\workspace\gitTemp\cloud-vault\trials\Cloud Vault\Cloud Vault/config/vault.db
+2016-01-08 17:29:54,035 main INFO  cloudsafe.VaultClient - databaseMetaPath: C:\Users\Noman Sheikh\Documents\workspace\gitTemp\cloud-vault\trials\Cloud Vault\Cloud Vault/config/dbmeta.txt
+2016-01-08 17:29:54,035 main INFO  cloudsafe.VaultClient - adding cloud 0 of type: GOOGLEDRIVE
+2016-01-08 17:29:54,613 main INFO  cloudsafe.VaultClient - adding cloud 1 of type: FOLDERCLOUD
+2016-01-08 17:29:54,613 main ERROR cloudsafe.VaultClient - couldn't add cloud 1 of type: FOLDERCLOUD
+2016-01-08 17:29:54,613 main INFO  cloudsafe.VaultClient - adding cloud 2 of type: GOOGLEDRIVE
+2016-01-08 17:29:55,129 main INFO  cloudsafe.VaultClient - adding cloud 3 of type: FOLDERCLOUD
+2016-01-08 17:29:55,129 main ERROR cloudsafe.VaultClient - couldn't add cloud 3 of type: FOLDERCLOUD
+2016-01-08 17:29:55,136 main INFO  cloudsafe.VaultClient - adding cloud 4 of type: GOOGLEDRIVE
+2016-01-08 17:29:55,868 main INFO  cloudsafe.VaultClient - adding cloud 5 of type: BOX
+2016-01-08 17:30:22,409 Timer-2 TRACE cloudsafe.CloudsHandler - starting periodic upload for cloud2
+2016-01-08 17:30:22,409 Timer-1 TRACE cloudsafe.CloudsHandler - starting periodic upload for cloud1
+2016-01-08 17:30:22,409 Timer-0 TRACE cloudsafe.CloudsHandler - starting periodic upload for cloud0
+2016-01-08 17:30:22,409 Timer-3 TRACE cloudsafe.CloudsHandler - starting periodic upload for cloud3
+2016-01-08 17:31:22,411 Timer-2 TRACE cloudsafe.CloudsHandler - starting periodic upload for cloud2
+2016-01-08 17:31:22,411 Timer-0 TRACE cloudsafe.CloudsHandler - starting periodic upload for cloud0
+2016-01-08 17:31:22,411 Timer-1 TRACE cloudsafe.CloudsHandler - starting periodic upload for cloud1
+2016-01-08 17:31:22,411 Timer-3 TRACE cloudsafe.CloudsHandler - starting periodic upload for cloud3
+2016-01-08 17:32:22,416 Timer-0 TRACE cloudsafe.CloudsHandler - starting periodic upload for cloud0
+2016-01-08 17:32:22,416 Timer-2 TRACE cloudsafe.CloudsHandler - starting periodic upload for cloud2
+2016-01-08 17:32:22,416 Timer-1 TRACE cloudsafe.CloudsHandler - starting periodic upload for cloud1
+2016-01-08 17:32:22,416 Timer-3 TRACE cloudsafe.CloudsHandler - starting periodic upload for cloud3
+2016-01-08 17:33:22,418 Timer-3 TRACE cloudsafe.CloudsHandler - starting periodic upload for cloud3
+2016-01-08 17:33:22,418 Timer-2 TRACE cloudsafe.CloudsHandler - starting periodic upload for cloud2
+2016-01-08 17:33:22,418 Timer-1 TRACE cloudsafe.CloudsHandler - starting periodic upload for cloud1
+2016-01-08 17:33:22,418 Timer-0 TRACE cloudsafe.CloudsHandler - starting periodic upload for cloud0
+2016-01-08 17:34:22,423 Timer-0 TRACE cloudsafe.CloudsHandler - starting periodic upload for cloud0
+2016-01-08 17:34:22,423 Timer-2 TRACE cloudsafe.CloudsHandler - starting periodic upload for cloud2
+2016-01-08 17:34:22,423 Timer-1 TRACE cloudsafe.CloudsHandler - starting periodic upload for cloud1
+2016-01-08 17:34:22,423 Timer-3 TRACE cloudsafe.CloudsHandler - starting periodic upload for cloud3
+2016-01-08 17:34:37,421 main TRACE cloudsafe.Main - entry params(Application Starting!)
+2016-01-08 17:34:44,661 main INFO  cloudsafe.Main - devicePath: C:\Users\Noman Sheikh\Documents\workspace\gitTemp\cloud-vault\trials\Cloud Vault
+2016-01-08 17:34:44,662 main INFO  cloudsafe.Main - vaultPath: C:\Users\Noman Sheikh\Documents\workspace\gitTemp\cloud-vault\trials\Cloud Vault/Cloud Vault
+2016-01-08 17:34:44,663 main INFO  cloudsafe.Main - configPath: C:\Users\Noman Sheikh\Documents\workspace\gitTemp\cloud-vault\trials\Cloud Vault/config
+2016-01-08 17:34:44,760 main TRACE cloudsafe.VaultClient - entry params(Setting up VaultClient)
+2016-01-08 17:34:44,792 main DEBUG database.Database - Connecting to database: trials\Cloud Vault\config\vault.db
+2016-01-08 17:34:46,190 main INFO  database.Database - Opened Database Successfully
+2016-01-08 17:34:46,207 main INFO  cloudsafe.VaultClient - databasePath: C:\Users\Noman Sheikh\Documents\workspace\gitTemp\cloud-vault\trials\Cloud Vault/config/vault.db
+2016-01-08 17:34:46,207 main INFO  cloudsafe.VaultClient - databaseMetaPath: C:\Users\Noman Sheikh\Documents\workspace\gitTemp\cloud-vault\trials\Cloud Vault/config/dbmeta.txt
+2016-01-08 17:34:46,520 main INFO  cloudsafe.VaultClient - adding cloud 0 of type: GOOGLEDRIVE
+2016-01-08 17:34:51,697 main INFO  cloudsafe.VaultClient - adding cloud 1 of type: FOLDERCLOUD
+2016-01-08 17:34:51,732 main ERROR cloudsafe.VaultClient - couldn't add cloud 1 of type: FOLDERCLOUD
+2016-01-08 17:34:51,732 main INFO  cloudsafe.VaultClient - adding cloud 2 of type: FOLDERCLOUD
+2016-01-08 17:34:51,732 main INFO  cloudsafe.VaultClient - adding cloud 3 of type: FOLDERCLOUD
+2016-01-08 17:34:51,732 main INFO  cloudsafe.VaultClient - adding cloud 4 of type: FOLDERCLOUD
+2016-01-08 17:34:51,810 Timer-0 TRACE cloudsafe.CloudsHandler - starting periodic upload for cloud0
+2016-01-08 17:34:51,810 Timer-1 TRACE cloudsafe.CloudsHandler - starting periodic upload for cloud1
+2016-01-08 17:34:51,826 Timer-2 TRACE cloudsafe.CloudsHandler - starting periodic upload for cloud2
+2016-01-08 17:34:51,826 Timer-3 TRACE cloudsafe.CloudsHandler - starting periodic upload for cloud3
+2016-01-08 17:34:51,951 main INFO  cloudsafe.WatchDir - Scanning C:\Users\Noman Sheikh\Documents\workspace\gitTemp\cloud-vault\trials\Cloud Vault\Cloud Vault ...
+
+2016-01-08 17:34:51,967 main INFO  cloudsafe.WatchDir - Done.
+2016-01-08 17:34:51,998 Timer-4 TRACE cloudsafe.WatchDir - ExecuteUpdate Called
+2016-01-08 17:34:57,011 Timer-4 TRACE cloudsafe.WatchDir - ExecuteSync Called
+2016-01-08 17:34:57,011 Timer-4 TRACE cloudsafe.VaultClient - Starting Sync
+2016-01-08 17:34:57,013 Timer-4 WARN  cloudsafe.VaultClient - sync : could not open existing dbMeta.txt: C:\Users\Noman Sheikh\Documents\workspace\gitTemp\cloud-vault\trials\Cloud Vault\config\dbmeta.txt (The system cannot find the file specified)
+2016-01-08 17:35:04,137 Timer-4 INFO  cloudsafe.VaultClient - VaultClient : sync : Local Files DB: Size=-1 Hash=[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+2016-01-08 17:35:04,137 Timer-4 INFO  cloudsafe.VaultClient - VaultClient : sync : Files DB on cloud: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 17:35:04,152 Timer-4 TRACE cloudsafe.VaultClient - table hash mismatch: downloading database
+2016-01-08 17:35:04,152 Timer-4 TRACE cloudsafe.VaultClient - entry params(DownloadFile)
+2016-01-08 17:35:04,152 Timer-4 INFO  cloudsafe.VaultClient - Downloading: vault.db
+2016-01-08 17:35:04,869 pool-4-thread-1 TRACE cloudsafe.CloudsHandler - Downloading from cloud0
+2016-01-08 17:35:06,608 Timer-4 TRACE cloudsafe.VaultClient - packets have been downloaded!
+2016-01-08 17:35:06,650 Timer-4 TRACE cloudsafe.VaultClient - exit with(DownloadFile)
+2016-01-08 17:35:06,681 Timer-4 DEBUG cloudsafe.Setup - Connecting to database: trials\Cloud Vault\config\downloaded.db
+2016-01-08 17:35:06,681 Timer-4 INFO  cloudsafe.Setup - Opened Files Database Successfully
+2016-01-08 17:35:06,707 Timer-4 TRACE cloudsafe.VaultClient - Syncing local and downloaded table.
+2016-01-08 17:35:06,708 Timer-4 ERROR cloudsafe.VaultClient - Unable to get files list from databases
+java.sql.SQLException: [SQLITE_NOTADB]  File opened that is not a database file (file is encrypted or is not a database)
+	at org.sqlite.core.DB.newSQLException(DB.java:890) ~[sqlite-jdbc-3.8.11.2.jar:?]
+	at org.sqlite.core.DB.newSQLException(DB.java:901) ~[sqlite-jdbc-3.8.11.2.jar:?]
+	at org.sqlite.core.DB.throwex(DB.java:868) ~[sqlite-jdbc-3.8.11.2.jar:?]
+	at org.sqlite.core.NativeDB.prepare(Native Method) ~[sqlite-jdbc-3.8.11.2.jar:?]
+	at org.sqlite.core.DB.prepare(DB.java:211) ~[sqlite-jdbc-3.8.11.2.jar:?]
+	at org.sqlite.jdbc3.JDBC3Statement.executeQuery(JDBC3Statement.java:81) ~[sqlite-jdbc-3.8.11.2.jar:?]
+	at cloudsafe.database.TempDatabase.getTableContents(TempDatabase.java:248) ~[bin/:?]
+	at cloudsafe.VaultClient.sync(VaultClient.java:786) [bin/:?]
+	at cloudsafe.VaultClient.sync(VaultClient.java:967) [bin/:?]
+	at cloudsafe.WatchDir.executeSync(WatchDir.java:405) [bin/:?]
+	at cloudsafe.WatchDir$Execution.run(WatchDir.java:154) [bin/:?]
+	at java.util.TimerThread.mainLoop(Unknown Source) [?:1.8.0_40]
+	at java.util.TimerThread.run(Unknown Source) [?:1.8.0_40]
+2016-01-08 17:35:06,911 Timer-4 INFO  cloudsafe.VaultClient - Uploading Table: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 17:35:06,911 Timer-4 TRACE cloudsafe.VaultClient - entry params(Update Table Meta)
+2016-01-08 17:35:06,911 Timer-4 INFO  cloudsafe.VaultClient - Table Size:3072 Hash:[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 17:35:06,927 Timer-4 TRACE cloudsafe.VaultClient - exit with(Update Table Meta)
+2016-01-08 17:35:06,927 Timer-4 DEBUG database.Database - Connecting to database: trials\Cloud Vault\config\vault.db
+2016-01-08 17:35:06,927 Timer-4 TRACE cloudsafe.WatchDir - ExecuteUpdate Called
+2016-01-08 17:35:11,927 Timer-4 TRACE cloudsafe.WatchDir - ExecuteSync Called
+2016-01-08 17:35:11,927 Timer-4 TRACE cloudsafe.VaultClient - Starting Sync
+2016-01-08 17:35:14,164 Timer-4 INFO  cloudsafe.VaultClient - VaultClient : sync : Local Files DB: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 17:35:14,164 Timer-4 INFO  cloudsafe.VaultClient - VaultClient : sync : Files DB on cloud: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 17:35:16,929 Timer-4 TRACE cloudsafe.WatchDir - ExecuteUpdate Called
+2016-01-08 17:35:21,941 Timer-4 TRACE cloudsafe.WatchDir - ExecuteSync Called
+2016-01-08 17:35:21,941 Timer-4 TRACE cloudsafe.VaultClient - Starting Sync
+2016-01-08 17:35:23,271 main TRACE cloudsafe.VaultClient - entry params(Setting up VaultClient)
+2016-01-08 17:35:23,287 main DEBUG database.Database - Connecting to database: trials\Cloud Vault\config\vault.db
+2016-01-08 17:35:23,289 main INFO  cloudsafe.VaultClient - databasePath: C:\Users\Noman Sheikh\Documents\workspace\gitTemp\cloud-vault\trials\Cloud Vault/config/vault.db
+2016-01-08 17:35:23,289 main INFO  cloudsafe.VaultClient - databaseMetaPath: C:\Users\Noman Sheikh\Documents\workspace\gitTemp\cloud-vault\trials\Cloud Vault/config/dbmeta.txt
+2016-01-08 17:35:23,289 main INFO  cloudsafe.VaultClient - adding cloud 0 of type: GOOGLEDRIVE
+2016-01-08 17:35:24,099 main INFO  cloudsafe.VaultClient - adding cloud 1 of type: FOLDERCLOUD
+2016-01-08 17:35:24,099 main ERROR cloudsafe.VaultClient - couldn't add cloud 1 of type: FOLDERCLOUD
+2016-01-08 17:35:24,099 main INFO  cloudsafe.VaultClient - adding cloud 2 of type: FOLDERCLOUD
+2016-01-08 17:35:24,099 main INFO  cloudsafe.VaultClient - adding cloud 3 of type: FOLDERCLOUD
+2016-01-08 17:35:24,099 main INFO  cloudsafe.VaultClient - adding cloud 4 of type: FOLDERCLOUD
+2016-01-08 17:35:24,099 main INFO  cloudsafe.VaultClient - adding cloud 5 of type: FOLDERCLOUD
+2016-01-08 17:35:24,115 Timer-5 TRACE cloudsafe.CloudsHandler - starting periodic upload for cloud0
+2016-01-08 17:35:24,115 main INFO  cloudsafe.WatchDir - Scanning C:\Users\Noman Sheikh\Documents\workspace\gitTemp\cloud-vault\trials\Cloud Vault\Cloud Vault ...
+
+2016-01-08 17:35:24,115 Timer-6 TRACE cloudsafe.CloudsHandler - starting periodic upload for cloud1
+2016-01-08 17:35:24,115 Timer-9 TRACE cloudsafe.CloudsHandler - starting periodic upload for cloud4
+2016-01-08 17:35:24,115 Timer-8 TRACE cloudsafe.CloudsHandler - starting periodic upload for cloud3
+2016-01-08 17:35:24,115 Timer-7 TRACE cloudsafe.CloudsHandler - starting periodic upload for cloud2
+2016-01-08 17:35:24,115 main INFO  cloudsafe.WatchDir - Done.
+2016-01-08 17:35:24,131 Timer-10 TRACE cloudsafe.WatchDir - ExecuteUpdate Called
+2016-01-08 17:35:24,209 Timer-4 INFO  cloudsafe.VaultClient - VaultClient : sync : Local Files DB: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 17:35:24,209 Timer-4 INFO  cloudsafe.VaultClient - VaultClient : sync : Files DB on cloud: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 17:35:29,137 Timer-10 TRACE cloudsafe.WatchDir - ExecuteSync Called
+2016-01-08 17:35:29,137 Timer-10 TRACE cloudsafe.VaultClient - Starting Sync
+2016-01-08 17:35:31,511 Timer-10 INFO  cloudsafe.VaultClient - VaultClient : sync : Local Files DB: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 17:35:31,511 Timer-10 INFO  cloudsafe.VaultClient - VaultClient : sync : Files DB on cloud: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 17:35:34,145 Timer-10 TRACE cloudsafe.WatchDir - ExecuteUpdate Called
+2016-01-08 17:35:39,155 Timer-10 TRACE cloudsafe.WatchDir - ExecuteSync Called
+2016-01-08 17:35:39,155 Timer-10 TRACE cloudsafe.VaultClient - Starting Sync
+2016-01-08 17:35:44,314 Timer-10 INFO  cloudsafe.VaultClient - VaultClient : sync : Local Files DB: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 17:35:44,314 Timer-10 INFO  cloudsafe.VaultClient - VaultClient : sync : Files DB on cloud: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 17:35:44,319 Timer-10 TRACE cloudsafe.WatchDir - ExecuteUpdate Called
+2016-01-08 17:35:49,321 Timer-10 TRACE cloudsafe.WatchDir - ExecuteSync Called
+2016-01-08 17:35:49,321 Timer-10 TRACE cloudsafe.VaultClient - Starting Sync
+2016-01-08 17:35:54,972 Timer-10 INFO  cloudsafe.VaultClient - VaultClient : sync : Local Files DB: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 17:35:54,972 Timer-10 INFO  cloudsafe.VaultClient - VaultClient : sync : Files DB on cloud: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 17:35:54,972 Timer-10 TRACE cloudsafe.WatchDir - ExecuteUpdate Called
+2016-01-08 17:35:59,982 Timer-10 TRACE cloudsafe.WatchDir - ExecuteSync Called
+2016-01-08 17:35:59,982 Timer-10 TRACE cloudsafe.VaultClient - Starting Sync
+2016-01-08 17:36:06,236 Timer-10 INFO  cloudsafe.VaultClient - VaultClient : sync : Local Files DB: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 17:36:06,236 Timer-10 INFO  cloudsafe.VaultClient - VaultClient : sync : Files DB on cloud: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 17:36:06,241 Timer-10 TRACE cloudsafe.WatchDir - ExecuteUpdate Called
+2016-01-08 17:36:11,247 Timer-10 TRACE cloudsafe.WatchDir - ExecuteSync Called
+2016-01-08 17:36:11,247 Timer-10 TRACE cloudsafe.VaultClient - Starting Sync
+2016-01-08 17:36:15,973 Timer-10 INFO  cloudsafe.VaultClient - VaultClient : sync : Local Files DB: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 17:36:15,973 Timer-10 INFO  cloudsafe.VaultClient - VaultClient : sync : Files DB on cloud: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 17:36:16,255 Timer-10 TRACE cloudsafe.WatchDir - ExecuteUpdate Called
+2016-01-08 17:36:21,258 Timer-10 TRACE cloudsafe.WatchDir - ExecuteSync Called
+2016-01-08 17:36:21,258 Timer-10 TRACE cloudsafe.VaultClient - Starting Sync
+2016-01-08 17:36:24,111 Timer-5 TRACE cloudsafe.CloudsHandler - starting periodic upload for cloud0
+2016-01-08 17:36:24,130 Timer-7 TRACE cloudsafe.CloudsHandler - starting periodic upload for cloud2
+2016-01-08 17:36:24,130 Timer-8 TRACE cloudsafe.CloudsHandler - starting periodic upload for cloud3
+2016-01-08 17:36:24,130 Timer-9 TRACE cloudsafe.CloudsHandler - starting periodic upload for cloud4
+2016-01-08 17:36:24,130 Timer-6 TRACE cloudsafe.CloudsHandler - starting periodic upload for cloud1
+2016-01-08 17:36:26,943 Timer-10 INFO  cloudsafe.VaultClient - VaultClient : sync : Local Files DB: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 17:36:26,943 Timer-10 INFO  cloudsafe.VaultClient - VaultClient : sync : Files DB on cloud: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 17:36:26,956 Timer-10 TRACE cloudsafe.WatchDir - ExecuteUpdate Called
+2016-01-08 17:36:31,968 Timer-10 TRACE cloudsafe.WatchDir - ExecuteSync Called
+2016-01-08 17:36:31,968 Timer-10 TRACE cloudsafe.VaultClient - Starting Sync
+2016-01-08 17:36:38,931 Timer-10 INFO  cloudsafe.VaultClient - VaultClient : sync : Local Files DB: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 17:36:38,932 Timer-10 INFO  cloudsafe.VaultClient - VaultClient : sync : Files DB on cloud: Size=3072 Hash=[49, -63, -111, 47, 93, 41, -28, -118, -65, -62, -9, -115, -103, -114, 45, 110]
+2016-01-08 17:36:38,933 Timer-10 TRACE cloudsafe.WatchDir - ExecuteUpdate Called
+2016-01-08 17:36:43,933 Timer-10 TRACE cloudsafe.WatchDir - ExecuteSync Called
+2016-01-08 17:36:43,933 Timer-10 TRACE cloudsafe.VaultClient - Starting Sync

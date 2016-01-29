@@ -10,17 +10,17 @@ public final class FileMetadata implements Serializable {
 	long fileSize;
 	String cloudList;
 	int minClouds;
-	Timestamp timestamp;
+	String timestamp;
 
 	public FileMetadata(String fileName, long fileSize, String cloudList, int minClouds) {
 		this.fileName = fileName;
 		this.fileSize = fileSize;
 		this.cloudList = cloudList;
 		this.minClouds = minClouds;
-		this.timestamp = new Timestamp(System.currentTimeMillis());
+		this.timestamp = (new Timestamp(System.currentTimeMillis())).toString();
 	}
 	
-	public FileMetadata(String fileName, long fileSize, String cloudList, int minClouds, Timestamp timestamp) {
+	public FileMetadata(String fileName, long fileSize, String cloudList, int minClouds, String timestamp) {
 		this.fileName = fileName;
 		this.fileSize = fileSize;
 		this.cloudList = cloudList;
@@ -44,7 +44,7 @@ public final class FileMetadata implements Serializable {
 		return minClouds;
 	}
 
-	public Timestamp timestamp() {
+	public String timestamp() {
 		return timestamp;
 	}
 
@@ -94,6 +94,6 @@ public final class FileMetadata implements Serializable {
 
 	@Override
 	public String toString() {
-		return String.format("%-50s%-10d%-40s", fileName, fileSize, timestamp.toString());
+		return String.format("%-50s%-10d%-40s", fileName, fileSize, timestamp);
 	}
 }

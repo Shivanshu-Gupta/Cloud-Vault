@@ -7,7 +7,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.HashSet;
 
@@ -46,7 +45,7 @@ public class Database {
 			String createTable = "CREATE TABLE IF NOT EXISTS " + FILES_TABLE
 					+ " (" + FILENAME + " TEXT NOT NULL, " + SIZE
 					+ " BIGINT NOT NULL, " + CLOUDLIST + " TEXT NOT NULL, "
-					+ MINCLOUDS + " INT NOT NULL, " + TIMESTAMP + " TIMESTAMP)";
+					+ MINCLOUDS + " INT NOT NULL, " + TIMESTAMP + " TEXT)";
 			stmt.executeUpdate(createTable);
 			stmt.close();
 		} catch (ClassNotFoundException e) {
@@ -116,7 +115,7 @@ public class Database {
 	}
 
 	public void insertFileRecord(String fileName, long fileSize,
-			String cloudList, int minClouds, Timestamp timestamp)
+			String cloudList, int minClouds, String timestamp)
 			throws SQLException {
 		FileMetadata file = new FileMetadata(fileName, fileSize, cloudList,
 				minClouds, timestamp);
@@ -134,7 +133,7 @@ public class Database {
 			prep.setLong(2, file.fileSize);
 			prep.setString(3, file.cloudList);
 			prep.setInt(4, file.minClouds);
-			prep.setTimestamp(5, file.timestamp);
+			prep.setString(5, file.timestamp);
 			prep.executeUpdate();
 			c.commit();
 			prep.close();
@@ -162,7 +161,7 @@ public class Database {
 			prep.setLong(1, file.fileSize);
 			prep.setString(2, file.cloudList);
 			prep.setInt(3, file.minClouds);
-			prep.setTimestamp(4, file.timestamp);
+			prep.setString(4, file.timestamp);
 			prep.executeUpdate();
 			c.commit();
 			prep.close();
@@ -196,7 +195,7 @@ public class Database {
 				prep.setLong(2, file.fileSize);
 				prep.setString(3, file.cloudList);
 				prep.setInt(4, file.minClouds);
-				prep.setTimestamp(5, file.timestamp);
+				prep.setString(5, file.timestamp);
 				prep.executeUpdate();
 				c.commit();
 			} catch (SQLException e) {
@@ -245,7 +244,7 @@ public class Database {
 		while (rs.next()) {
 			files.add(new FileMetadata(rs.getString(FILENAME),
 					rs.getLong(SIZE), rs.getString(CLOUDLIST), rs
-							.getInt(MINCLOUDS), rs.getTimestamp(TIMESTAMP)));
+							.getInt(MINCLOUDS), rs.getString(TIMESTAMP)));
 		}
 		stmt.close();
 		return files;
@@ -258,7 +257,7 @@ public class Database {
 		while (rs.next()) {
 			files.add(new FileMetadata(rs.getString(FILENAME),
 					rs.getLong(SIZE), rs.getString(CLOUDLIST), rs
-							.getInt(MINCLOUDS), rs.getTimestamp(TIMESTAMP)));
+							.getInt(MINCLOUDS), rs.getString(TIMESTAMP)));
 		}
 		stmt.close();
 		return files;

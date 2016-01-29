@@ -7,7 +7,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.HashSet;
 
@@ -117,7 +116,7 @@ public class TempDatabase {
 	}
 	
 	public void insertFileRecord(String fileName, long fileSize,
-			String cloudList, int minClouds, Timestamp timestamp) throws SQLException {
+			String cloudList, int minClouds, String timestamp) throws SQLException {
 		FileMetadata file = new FileMetadata(fileName, fileSize, cloudList, minClouds, timestamp);
 		insertFileRecord(file);
 	}
@@ -132,7 +131,7 @@ public class TempDatabase {
 			prep.setLong(2, file.fileSize);
 			prep.setString(3, file.cloudList);
 			prep.setInt(4, file.minClouds);
-			prep.setTimestamp(5, file.timestamp);
+			prep.setString(5, file.timestamp);
 			prep.executeUpdate();
 			c.commit();
 			prep.close();
@@ -160,7 +159,7 @@ public class TempDatabase {
 			prep.setLong(1, file.fileSize);
 			prep.setString(2, file.cloudList);
 			prep.setInt(3, file.minClouds);
-			prep.setTimestamp(4, file.timestamp);
+			prep.setString(4, file.timestamp);
 			prep.executeUpdate();
 			c.commit();
 			prep.close();
@@ -192,7 +191,7 @@ public class TempDatabase {
 				prep.setLong(2, file.fileSize);
 				prep.setString(3, file.cloudList);
 				prep.setInt(4, file.minClouds);
-				prep.setTimestamp(5, file.timestamp);
+				prep.setString(5, file.timestamp);
 				prep.executeUpdate();
 				c.commit();
 			} catch (SQLException e) {
@@ -237,7 +236,7 @@ public class TempDatabase {
 		while (rs.next()) {
 			files.add(new FileMetadata(rs.getString(FILENAME),
 					rs.getLong(SIZE), rs.getString(CLOUDLIST), rs
-							.getInt(MINCLOUDS), rs.getTimestamp(TIMESTAMP)));
+							.getInt(MINCLOUDS), rs.getString(TIMESTAMP)));
 		}
 		stmt.close();
 		return files;
@@ -250,7 +249,7 @@ public class TempDatabase {
 		while (rs.next()) {
 			files.add(new FileMetadata(rs.getString(FILENAME),
 					rs.getLong(SIZE), rs.getString(CLOUDLIST), rs
-							.getInt(MINCLOUDS), rs.getTimestamp(TIMESTAMP)));
+							.getInt(MINCLOUDS), rs.getString(TIMESTAMP)));
 		}
 		stmt.close();
 		return files;

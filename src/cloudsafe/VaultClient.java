@@ -820,14 +820,14 @@ public class VaultClient {
 				downloadReq = true;
 				String fileName = file1.fileName();
 				long fileSize = file1.fileSize();
-				Timestamp t1 = file1.timestamp();
+				Timestamp t1 = Timestamp.valueOf(file1.timestamp());
 				logger.trace("sync : downloaded table : filename : " + fileName);
 				logger.trace("sync : downloaded table : filesize : " + fileSize);
 				logger.trace("sync : downloaded table : timestamp : " + t1.toString());
 				if (!currentFiles.contains(fileName)) {
 					HashSet<FileMetadata> files = db.getFileRecords(fileName);
 					if (!files.isEmpty()) {
-						Timestamp t2 = (files.toArray(new FileMetadata[0])[0]).timestamp();
+						Timestamp t2 = Timestamp.valueOf((files.toArray(new FileMetadata[0])[0]).timestamp());
 						logger.trace("sync : local table : timestamp : " + t2.toString());
 						if (t2.getTime() >= t1.getTime()) {
 							downloadReq = false;
@@ -841,7 +841,7 @@ public class VaultClient {
 						downloads.add(filePath.toString());
 						FileMetadata file = new FileMetadata(fileName, fileSize,
 								file1.cloudList(),
-								file1.minClouds(), t1);
+								file1.minClouds(), t1.toString());
 						HashSet<FileMetadata> prevRecords = db.getFileRecords(fileName);
 						if(prevRecords.isEmpty()){
 							db.insertFileRecord(file);

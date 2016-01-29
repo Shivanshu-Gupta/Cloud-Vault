@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
-	<classpathentry kind="src" path="src"/>
+	<classpathentry excluding="test/resources/" kind="src" path="src"/>
+	<classpathentry kind="src" path="src/test/resources"/>
 	<classpathentry kind="lib" path="lib/openrq-3.3.2.jar"/>
 	<classpathentry kind="lib" path="lib/jackson-core-2.2.4.jar"/>
 	<classpathentry kind="lib" path="lib/dropbox-core-sdk-1.7.7.jar"/>
@@ -28,6 +29,11 @@
 	<classpathentry kind="lib" path="lib/httpmime-4.3.jar"/>
 	<classpathentry kind="lib" path="lib/jackson-annotations-2.1.2.jar"/>
 	<classpathentry kind="lib" path="lib/org.apache.commons.io.jar"/>
+	<classpathentry kind="lib" path="lib/logging/apache-log4j-2.3-bin/log4j-api-2.3.jar"/>
+	<classpathentry kind="lib" path="lib/logging/apache-log4j-2.3-bin/log4j-core-2.3.jar"/>
+	<classpathentry kind="lib" path="lib/commons-lang3-3.4.jar"/>
+	<classpathentry kind="lib" path="lib/sqlite-jdbc-3.8.11.2.jar"/>
+	<classpathentry kind="lib" path="lib/gson-2.2.3.jar"/>
 	<classpathentry kind="con" path="com.google.gdt.eclipse.managedapis.MANAGED_API_CONTAINER/drive-v2r171lv1.18.0-rc"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.8"/>
 	<classpathentry kind="output" path="bin"/>

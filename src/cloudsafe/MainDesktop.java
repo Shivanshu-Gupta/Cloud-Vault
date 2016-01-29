@@ -1,197 +1,137 @@
 package cloudsafe;
 
-import java.awt.Dialog;
-import java.io.FileNotFoundException;
-import java.nio.file.Paths;
+import java.io.File;
+import java.io.IOException;
 import java.nio.file.Files;
-import java.util.ArrayList;
-import java.util.Scanner;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.concurrent.CountDownLatch;
 
-import javax.swing.JDialog;
+import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
+import javax.swing.JTabbedPane;
 
-import org.apache.commons.io.input.CloseShieldInputStream;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
-import cloudsafe.util.Pair;
-import cloudsafe.cloud.Cloud;
+import cloudsafe.exceptions.DatabaseException;
 
 /**
  * The entry point for the CloudVault Application.
  */
 public class MainDesktop {
-	VaultClientDesktop client;
-	static String vaultPath = "trials/Cloud Vault";
-	static String localConfigPath = "trials/config";
+	private final static Logger logger = LogManager.getLogger(MainDesktop.class
+			.getName());
 
-	String cloudMetadataPath = localConfigPath + "/cloudmetadata.ser";
-	static ArrayList<Cloud> clouds = new ArrayList<Cloud>();
-	static ArrayList<Pair<String, String>> cloudMetaData = new ArrayList<Pair<String, String>>();
-
-	static int cloudNum = 4; // Co
-	static int cloudDanger = 1; // Cd
-	final static int overHead = 4; // epsilon
-
-	private void handleUpload() throws Exception {
-		System.out.println("Enter the path of the file/folder to upload");
-		Scanner in = new Scanner(new CloseShieldInputStream(System.in));
-		String filePath = in.nextLine();
-		System.out.println("in MainDesktop");
-		in.close();
-		if (!Files.exists(Paths.get(filePath))) {
-			System.out.println("File/Folder not found");
-			return;
-		}
-		client.upload(filePath);
-	}
-
-	private void handleDownload() {
-		Scanner in = new Scanner(new CloseShieldInputStream(System.in));
-		System.out.println("Enter the name of the file/folder to download");
-		String fileName;
-		fileName = in.nextLine();
-		in.close();
-		try{
-			client.download(fileName);
-		} catch (FileNotFoundException e) {
-			System.out.println("File Not Found.");
-//			e.printStackTrace();
-		}
-	}
-	
-	private void handleDelete() throws Exception {
-		Scanner in = new Scanner(new CloseShieldInputStream(System.in));
-		System.out.println("Enter the name of the file/folder to delete");
-		String fileName;
-		fileName = in.nextLine();
-		in.close();
-		try{
-			client.delete(fileName);
-		} catch (FileNotFoundException e) {
-			System.out.println("File Not Found.");
-//			e.printStackTrace();
-		}
-	}
-	
-	private void sync() {
-
-	}
-
-	private static int showMenu() {
-		System.out.println("1. Upload File");
-		System.out.println("2. Download File");
-		System.out.println("3. Delete File");
-		System.out.println("4. Sync with Vault");
-		System.out.println("5. Show Files in Vault");
-//		System.out.println("6. Show File History");
-		System.out.println("6. Changes Settings");
-		System.out.println("7. Exit");
-		System.out.println("What do you want to do? ");
-
-		System.out.println("Enter the number corresponding to your choice: ");
-		Scanner in = new Scanner(new CloseShieldInputStream(System.in));
-		int choice = in.nextInt();
-		if (choice < 1 || 7 < choice) {
-			System.out.println("Invalid choice.");
-			System.out.println("You have the following options: ");
-			choice = showMenu();
-		}
-		in.close();
-		return choice;
-	}
-
+	VaultClient client;
+	private static String vaultPath = "trials/Cloud Vault";
+	private static String configPath = "trials/config";
+	private WatchDir watchdir = null;
+	private static CountDownLatch restart = null; 
 	public static void main(String[] args) {
 		try {
 			System.out.println("Welcome to your Cloud Vault!");
-			Main prog = new Main();
+			logger.trace("Application Starting!");
+			MainDesktop prog = new MainDesktop();
 			prog.run();
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-
 	}
 
 	public void run() {
-		Scanner in = new Scanner(System.in);
-		String s;
 		try {
-			if (!Files.exists(Paths.get(vaultPath))) {
-				System.out
-						.println("It seems this is the first time you are using Cloud Vault on this device.");
-				System.out
-						.println("We will now setup access to your Cloud Vault.");
-				
-				Setup cloudVaultSetup = new Setup();
-				cloudVaultSetup.configureCloudAccess();
-			}
-			client = new VaultClientDesktop(vaultPath);
+			String devicePath = getDevicePath();
 
-			
-			//--------My work starts here--------------
-			
-//	    	String targetdir = "test";
-//	        // parse arguments
-//	        boolean recursive = true;
-//	        // register directory and process its events
-//	        Path dir = Paths.get(targetdir);
-//	        new WatchDir(dir, recursive, client).processEvents();
-//			
-			//--------My work ends here----------------
-			
-			int choice;
-			do {
-				choice = showMenu();
-				switch (choice) {
-				case 1:
-					handleUpload();
-					break;
-				case 2:
-					handleDownload();
-					break;
-				case 3:
-					handleDelete();
-					break;
-				case 4:
-					sync();
-					break;
-				case 5:
-					Object[] fileNames = client.getFileList();
-					for (Object fileName : fileNames) {
-						System.out.println((String) fileName);
-					}
-					break;
-//				case 6:
-//					System.out.println("Enter the name of the file: ");
-//					s = in.nextLine();
-//					try{
-//						ArrayList<FileMetadata> fileVersions = client.getFileHistory(s);
-//						System.out.format("\t%-50s%-10s%-10s%-40s\n", "Name", "Version",
-//								"Size", "Last Modified");
-//						for (int i = 0; i < fileVersions.size(); i++) {
-//							System.out.println((i + 1) + ".\t"
-//									+ fileVersions.get(i).toString());
-//						}
-//					} catch(FileNotFoundException e) {
-//						System.out.println("File Not Found");
-//					}
-//					break;
-				case 6:
-					Settings proxySettings = new Settings(localConfigPath);
-					JDialog settings = new JDialog(null, "Proxy Settings", Dialog.ModalityType.APPLICATION_MODAL);
-					settings.add(proxySettings);
-			        settings.pack();
-					settings.setVisible(true);
-					break;
-				case 7:
+			vaultPath = devicePath + "/Cloud Vault";
+			configPath = devicePath + "/config";
+			// vaultPath = getDevicePath() + "/Cloud Vault";
+			// configPath = "config";
+			logger.info("vaultPath: " + vaultPath);
+			logger.info("configPath: " + configPath);
+			if (!Files.exists(Paths.get(vaultPath))) {
+				logger.entry("New Setup");
+				Setup cloudVaultSetup = new Setup(vaultPath, configPath);
+				JTabbedPane settings = new JTabbedPane();
+				ProxyConfig proxySettings = new ProxyConfig();
+				settings.addTab("Proxy Settings", null, proxySettings,
+						"Proxy Settings");
+				JOptionPane.showMessageDialog(null, settings, "Settings",
+						JOptionPane.PLAIN_MESSAGE);
+				
+				// create the required directories
+				try {
+					cloudVaultSetup.createDirectories();
+				} catch (Exception e) {
+					logger.error("Unable to create directories!", e);
 					System.exit(0);
 				}
-				System.out.println("Continue (Yes/No)? ");
-				s = in.nextLine();
-			} while (s.equals("Yes") || s.equals("yes"));
-
+				cloudVaultSetup.configureCloudAccess();
+				client = new VaultClient(vaultPath, configPath);
+				client.uploadTable();
+				client.releaseLock();			
+				logger.exit("Setup complete!");
+			}
+			while(true) {
+				launch();
+				new TrayWindows(configPath, vaultPath, restart);
+				restart.await();
+				watchdir.shutdown();
+				client.shutdown();
+			}
 		} catch (Exception e) {
-			System.out.println(e);
-			e.printStackTrace();
-		} finally {
-			in.close();
+			logger.error("Exception Occurred!", e);
 		}
+	}
+	
+	public void launch() {
+		restart = new CountDownLatch(1);
+		try {
+			client = new VaultClient(vaultPath, configPath);
+		} catch (DatabaseException e) {
+			logger.error(e);
+			//TODO : Inform user
+			System.exit(0);
+		}
+
+		// --------Watchdir starts here--------------
+		String targetdir = vaultPath;
+		boolean recursive = true;
+		// register directory and process its events
+		Path dir = Paths.get(targetdir);
+		try {
+			watchdir = new WatchDir(dir, recursive, client);
+			Thread t = new Thread(new Runnable(){
+//				WatchDir watch = watchdir;
+				@Override
+				public void run() {
+					watchdir.processEvents();
+				}
+				
+			});
+			t.start();
+		} catch (IOException e) {
+			logger.error("Error in WatchDir!", e);
+		}
+
+		// --------Watchdir ends here----------------
+	}
+
+	// temporary for testing syncing
+	private String getDevicePath() {
+		File yourFolder = null;
+		JFileChooser fc = new JFileChooser();
+		fc.setCurrentDirectory(new java.io.File(".")); // start at application
+														// current directory
+		fc.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+		int returnVal = fc.showSaveDialog(fc);
+		if (returnVal == JFileChooser.APPROVE_OPTION) {
+			yourFolder = fc.getSelectedFile();
+		}
+		String devicePath = Paths.get(yourFolder.getPath()).toAbsolutePath()
+				.toString();
+		logger.info("devicePath: " + devicePath);
+		return devicePath;
 	}
 }

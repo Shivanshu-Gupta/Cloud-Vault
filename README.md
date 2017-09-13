@@ -15,5 +15,5 @@ The desktop application implements the framework as a service that can read/writ
 3. Adds security features like Confidentiality and Data Availability.
 4. Doesn't require a central server hence the user data is never visible to a 3rd party.
 
-# Usage
-Use the installer: launchApp/CloudVault.exe.
+# Installation
+Use the installer - launchApp/CloudVault.exe. It will guide through the configuration of cloud accounts.
